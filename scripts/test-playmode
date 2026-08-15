@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "${SCRIPT_DIR}/lib/common.sh"
+prepare_artifacts
+RAW_RESULT="${ARTIFACTS_DIR}/test-results/.playmode-nunit.raw.xml"
+RESULT="${ARTIFACTS_DIR}/test-results/playmode-nunit.xml"
+run_unity test-playmode -runTests -testPlatform PlayMode -testResults "${RAW_RESULT}"
+sanitize_log "${RAW_RESULT}" "${RESULT}"
+rm -f "${RAW_RESULT}"
+ruby "${SCRIPT_DIR}/tools/nunit_to_junit.rb" "${RESULT}" "${ARTIFACTS_DIR}/test-results/playmode-junit.xml"

@@ -26,41 +26,22 @@ git diff --cached --check
 git lfs fsck
 ```
 
-Para inventario pueden usarse `rg --files`, `find` y `rg`; registrar el patrón relevante. Desde Fase 03 existen comandos Unity verificados en macOS:
+Para inventario pueden usarse `rg --files`, `find` y `rg`; registrar el patrón relevante. Desde Fase 05 el comando local canónico, portable entre macOS/Linux, es:
 
 ```sh
-UNITY_EDITOR="/Applications/Unity/Hub/Editor/6000.3.22f1/Unity.app/Contents/MacOS/Unity"
+scripts/validate
 
-"$UNITY_EDITOR" -batchmode -nographics -quit \
-  -projectPath "$(pwd)" \
-  -logFile /tmp/pequeno-explorador-compile.log
-
-"$UNITY_EDITOR" -batchmode -nographics \
-  -projectPath "$(pwd)" \
-  -runTests -testPlatform EditMode \
-  -testResults /tmp/pequeno-explorador-editmode.xml \
-  -logFile /tmp/pequeno-explorador-editmode.log
-
-"$UNITY_EDITOR" -batchmode -nographics -quit \
-  -projectPath "$(pwd)" \
-  -executeMethod PequenoExplorador.Editor.AssemblyBoundaryValidationCli.Validate \
-  -logFile /tmp/pequeno-explorador-boundaries.log
-
-"$UNITY_EDITOR" -batchmode -nographics \
-  -projectPath "$(pwd)" \
-  -runTests -testPlatform PlayMode \
-  -testResults /tmp/pequeno-explorador-playmode.xml \
-  -logFile /tmp/pequeno-explorador-playmode.log
-
-"$UNITY_EDITOR" -batchmode -nographics \
-  -projectPath "$(pwd)" \
-  -executeMethod PequenoExplorador.Editor.AndroidSmokeBuild.Build \
-  -peProfile Development \
-  -buildPath /tmp/pequeno-explorador-builds/PequenoExplorador-smoke.apk \
-  -logFile /tmp/pequeno-explorador-android.log
+# Ejecuciones acotadas
+scripts/check-repository
+scripts/compile
+scripts/validate-content
+scripts/test-editmode
+scripts/test-playmode
+scripts/build-android-development
+scripts/build-android-release  # fallo esperado: signing externo requerido
 ```
 
-Reemplazar el Editor solo tras ADR. Los paths de logs/build permanecen fuera de Git. El validador termina con excepción/código no cero ante frontera inválida y registra `PE_ASSEMBLY_BOUNDARIES_OK` solo en éxito. Android requiere el módulo bundled; el método devuelve `2` ante fallo. El build Release usa `-peProfile Release` y path `.aab`, pero no es `PASS` hasta ejecutarse e inspeccionarse.
+`scripts/validate` ejecuta checks estáticos, compile con fronteras/contenido, EditMode, PlayMode y APK Development. Localiza el Editor fijado o respeta `UNITY_EDITOR`; toda salida queda en `artifacts/` ignorado y los logs sustituyen rutas de máquina. Cada subcomando devuelve código no cero al fallar. Release devuelve `3` deliberadamente y permanece `BLOCKED`, no `PASS`. Formatos, archivos y recuperación detallados: [`18_TESTING.md`](18_TESTING.md) y [`20_ANDROID_RELEASE.md`](20_ANDROID_RELEASE.md).
 
 ## Secuencia mínima por cambio
 

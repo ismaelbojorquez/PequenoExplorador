@@ -22,14 +22,14 @@ El roadmap conserva el MVP Selva. Una fase no está aprobada por existir en esta
 | 02 | Contrato operativo de agentes, planes vivos, estándares, review, validación y status; sin Unity. | A |
 | 03 | Foundation Unity reproducible: Editor/módulos, proyecto URP, estructura/asmdefs mínimos, Bootstrap futuro, tests y smoke Android APK/AAB vacío; capas de gameplay se crean con casos reales. | A |
 | 04 | Fronteras físicas de Domain/Application/adaptadores/Bootstrap, Editor y tests; grafo validado, sin gameplay. | B |
-| 05 | Shell landscape, navegación uGUI/TMP, safe areas y estados vacío/error. | B |
-| 06 | Dominio puro del loop, actividad, resultado y progreso, con tests. | B |
-| 07 | Prototipos/playtests seguros 4–9 y posterior input táctil/mouse: tap-to-move vs alternativa, prelectura, guías, selección y tolerancia motriz. | B |
-| 08 | Persistencia local versionada, reset adulto y recuperación de corrupción. | B |
-| 09 | Sistema de audio, mezcla, voz/SFX y controles locales. | B |
-| 10 | Pipeline ScriptableObject de authoring y validación de contenido. | B |
-| 11 | Pipeline Android AAB ARM64/IL2CPP y primera inspección 16 KB. | B |
-| 12 | Budgets medidos de frame, memoria, tamaño, carga, batería y térmicas. | B |
+| 05 | Pipeline reproducible local/CI: import, compile, validadores, JUnit, smoke Android y Release bloqueado sin signing. | B |
+| 06 | Shell landscape, navegación uGUI/TMP, safe areas y estados vacío/error. | B |
+| 07 | Dominio puro del loop, actividad, resultado y progreso, con tests. | B |
+| 08 | Prototipos/playtests seguros 4–9 y posterior input táctil/mouse: tap-to-move vs alternativa, prelectura, guías, selección y tolerancia motriz. | B |
+| 09 | Persistencia local versionada, reset adulto y recuperación de corrupción. | B |
+| 10 | Sistema de audio, mezcla, voz/SFX y controles locales. | B |
+| 11 | Pipeline ScriptableObject de authoring y validación de contenido. | B |
+| 12 | Pipeline Android AAB ARM64/IL2CPP, inspección 16 KB y budgets medidos de frame, memoria, tamaño, carga, batería y térmicas. | B |
 | 13 | Vertical Slice canónico Selva end-to-end en dispositivo; gate explícito antes de escalar contenido. | B |
 | 14 | Pipeline de arte, naming, import presets, provenance y validadores. | C |
 | 15 | Pipeline de audio, masters, compresión, loudness, licencias y validadores. | C |

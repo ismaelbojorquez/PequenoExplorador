@@ -40,7 +40,7 @@ La dirección es `Domain` C# puro → `Application` → adaptadores `Infrastruct
 
 Layout actual: raíz para controles y proyecto Unity; `Assets/_Game/` contiene Domain/Application/Content/Infrastructure/Presentation/Bootstrap, tooling Editor, tests y carpetas de producción aún vacías; `docs/` contiene fuentes canónicas y `.agent/` planes. Nueve asmdefs fijan el grafo de [`docs/02_TECHNICAL_ARCHITECTURE.md`](docs/02_TECHNICAL_ARCHITECTURE.md); no subdividir sin evidencia. Código usa namespaces `PequenoExplorador.<Layer>`, serialización privada explícita, suscripciones/cancelación ligadas al lifecycle y tests deterministas según frontera.
 
-El pin es Unity `6000.3.22f1`; import, fronteras, EditMode, PlayMode y Android build CLI conocidos están en [`docs/VALIDATION_PLAYBOOK.md`](docs/VALIDATION_PLAYBOOK.md). No usar otro Editor ni inventar targets/perfiles.
+El pin es Unity `6000.3.22f1`. Desde la raíz, `scripts/validate` ejecuta checks de repositorio, compile/validadores, EditMode, PlayMode y APK Development; los comandos individuales están en [`docs/VALIDATION_PLAYBOOK.md`](docs/VALIDATION_PLAYBOOK.md). Los fallos devuelven código no cero y dejan evidencia ignorada en `artifacts/`. No usar otro Editor ni inventar targets/perfiles.
 
 ## Dependencias y no-go
 
@@ -48,6 +48,7 @@ El pin es Unity `6000.3.22f1`; import, fronteras, EditMode, PlayMode y Android b
 - La allowlist actual está en [`docs/DEPENDENCY_REGISTER.md`](docs/DEPENDENCY_REGISTER.md); cualquier cambio requiere intake. Terceros parten bloqueados.
 - No añadir ads, IAP, analytics remota, login, red, contenido remoto, permisos sensibles, secretos o rutas personales sin ADR y aprobaciones requeridas.
 - No publicar, hacer push, crear cuentas, firmar artefactos, subir a stores ni aceptar contratos salvo petición explícita.
+- `scripts/build-android-release` debe permanecer bloqueado hasta signing externo autorizado; no convertir el placeholder en un bypass ni registrar credenciales en archivos/logs.
 - No destruir cambios ajenos, usar comandos Git destructivos ni ampliar más allá de Selva/Vertical Slice.
 - Placeholders usan prefijo `PH_` y metadata obligatoria; permanecen bloqueados para Release según los estándares.
 

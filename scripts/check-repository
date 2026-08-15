@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ruby "${SCRIPT_DIR}/tools/repository_checks.rb"
+find "${SCRIPT_DIR}" -maxdepth 1 -type f -print0 | xargs -0 -n1 bash -n
+bash -n "${SCRIPT_DIR}/lib/common.sh"
+printf 'PE_SHELL_SYNTAX_OK\n'

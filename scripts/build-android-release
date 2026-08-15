@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "${SCRIPT_DIR}/lib/common.sh"
+printf 'Release build is expected to remain blocked without externally authorized signing.\n'
+run_unity build-android-release \
+  -executeMethod PequenoExplorador.Editor.BuildTools.BuildToolsCli.BuildAndroidRelease

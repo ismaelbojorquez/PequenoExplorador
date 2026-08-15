@@ -1,0 +1,47 @@
+# Testing y comandos reproducibles
+
+Este documento es la guía operativa del pipeline local. La política de evidencia y la matriz por tipo de cambio permanecen en [`VALIDATION_PLAYBOOK.md`](VALIDATION_PLAYBOOK.md).
+
+## Requisitos
+
+- macOS o Linux con Bash, Ruby estándar, Git y Unity `6000.3.22f1` activado;
+- Android Build Support bundled para el paso APK;
+- raíz del repositorio como directorio actual.
+
+El localizador usa la instalación de Unity Hub para la revisión fijada. En otra disposición, definir `UNITY_EDITOR` únicamente en el entorno local; ningún path de máquina se guarda en el repo.
+
+## Comando completo
+
+```sh
+scripts/validate
+```
+
+Ejecuta en orden y se detiene al primer fallo: `check-repository`, `compile`, EditMode, PlayMode y APK Android Development. Un éxito total imprime `PE_FULL_VALIDATION_OK`. Los outputs quedan en `artifacts/logs`, `artifacts/reports`, `artifacts/test-results` y `artifacts/builds`.
+
+## Comandos individuales
+
+| Comando | Responsabilidad | Salida principal |
+|---|---|---|
+| `scripts/check-repository` | Markdown, enlaces relativos, JSON/asmdefs, package pins, YAML/Actions, secretos básicos y Bash. | stdout y código de salida. |
+| `scripts/compile` | Import/compile Unity, fronteras, placeholders y reporte de entorno. | `artifacts/logs/compile.log`, `artifacts/reports/environment.json`. |
+| `scripts/validate-content` | Metadata de placeholders presentes; base extensible para contenido futuro. | `artifacts/logs/validate-content.log`. |
+| `scripts/test-editmode` | Suite EditMode. | XML NUnit y JUnit en `artifacts/test-results/`. |
+| `scripts/test-playmode` | Suite PlayMode/escena. | XML NUnit y JUnit en `artifacts/test-results/`. |
+| `scripts/build-android-development` | APK Development IL2CPP/ARM64 API 26/36. | APK, log y manifest JSON con tamaño/hash. |
+| `scripts/build-android-release` | Guard rail de Release. | Código no cero y `android-release-blocked.json`; nunca construye/firma. |
+
+Los wrappers son orquestadores: configuración, validación y build viven bajo `Assets/_Game/Editor/BuildTools`. Los logs sustituyen la raíz del proyecto, home y ejecutable del Editor por marcadores antes de conservarse.
+
+## Diagnóstico y recuperación
+
+1. conservar `artifacts/` y abrir el log del primer comando fallido;
+2. buscar `error CS`, `Exception`, `FAILED`, `PE_` o el código indicado;
+3. corregir implementación/configuración, no editar `Library` ni artefactos generados;
+4. reejecutar primero el comando individual y después `scripts/validate`;
+5. si falta Unity/módulo/activación, reportar `NOT RUN` o `BLOCKED` con ese motivo, no `PASS`.
+
+El escaneo de secretos es preventivo y deliberadamente básico; no reemplaza revisión humana ni una herramienta dedicada. `shellcheck` y `actionlint` son útiles cuando estén disponibles, pero no son dependencias del repositorio.
+
+## CI
+
+`.github/workflows/checks.yml` fija Actions oficiales por SHA, usa `contents: read`, desactiva credenciales persistentes y no usa `pull_request_target`. El job estático puede correr en GitHub-hosted; el job Unity solo aparece en `workflow_dispatch`, con variable `UNITY_CI_ENABLED=true` y runner self-hosted etiquetado. Configuración humana: [`GITHUB_SETUP.md`](GITHUB_SETUP.md).

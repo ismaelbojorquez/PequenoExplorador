@@ -1,6 +1,6 @@
 # Índice documental
 
-Estado: Fases 00–04 completadas el 2026-08-14. Existe una foundation Unity, fronteras modulares verificadas y smoke Android; todavía no existe gameplay ni contenido final. Empezar siempre por [`../AGENTS.md`](../AGENTS.md) y [`STATUS.md`](STATUS.md).
+Estado: Fases 00–05 completadas el 2026-08-14. Existe una foundation Unity, fronteras modulares y pipeline local verificable; todavía no existe gameplay ni contenido final. Empezar siempre por [`../AGENTS.md`](../AGENTS.md) y [`STATUS.md`](STATUS.md).
 
 ## Fuentes de verdad
 
@@ -39,11 +39,14 @@ Los saltos numéricos reservan espacio para documentos técnicos futuros; no imp
 - [`ENGINEERING_STANDARDS.md`](ENGINEERING_STANDARDS.md): capas, C#/Unity, eventos, save, plataforma, dependencias y placeholders.
 - [`CODE_REVIEW_RULES.md`](CODE_REVIEW_RULES.md): bloqueantes y checklists técnicos/infantiles.
 - [`VALIDATION_PLAYBOOK.md`](VALIDATION_PLAYBOOK.md): comandos conocidos, evidencia y prueba de reanudación.
+- [`18_TESTING.md`](18_TESTING.md): wrappers, outputs JUnit, diagnóstico y CI.
 - [`VERSION_MATRIX.md`](VERSION_MATRIX.md): Editor y toolchain verificados.
 - [`02_TECHNICAL_ARCHITECTURE.md`](02_TECHNICAL_ARCHITECTURE.md): grafo real de nueve assemblies, límites y enforcement.
 - [`TECHNICAL_ARCHITECTURE.md`](TECHNICAL_ARCHITECTURE.md): alias histórico hacia la arquitectura canónica.
 - [`DEPENDENCY_REGISTER.md`](DEPENDENCY_REGISTER.md): intake y pins de paquetes directos/transitivos.
-- [`ANDROID_RELEASE.md`](ANDROID_RELEASE.md): perfiles CLI, toolchain y evidencia del smoke.
+- [`20_ANDROID_RELEASE.md`](20_ANDROID_RELEASE.md): build Android actual y bloqueo de Release.
+- [`ANDROID_RELEASE.md`](ANDROID_RELEASE.md): evidencia histórica de smoke F03/F04.
+- [`GITHUB_SETUP.md`](GITHUB_SETUP.md): remoto, protección, runner/licencia y secrets como pasos humanos.
 - [`POLICY_SOURCE_REGISTER.md`](POLICY_SOURCE_REGISTER.md): políticas oficiales y revalidación.
 - [`RISK_REGISTER.md`](RISK_REGISTER.md): riesgos, owners y mitigaciones.
 - [`ART_ASSET_REQUIREMENTS.md`](ART_ASSET_REQUIREMENTS.md): contrato técnico de assets.
@@ -57,9 +60,10 @@ Los saltos numéricos reservan espacio para documentos técnicos futuros; no imp
 - [`PHASE_02_PREFLIGHT.md`](PHASE_02_PREFLIGHT.md)
 - [`PHASE_03_PREFLIGHT.md`](PHASE_03_PREFLIGHT.md)
 - [`PHASE_04_PREFLIGHT.md`](PHASE_04_PREFLIGHT.md)
+- [`PHASE_05_PREFLIGHT.md`](PHASE_05_PREFLIGHT.md)
 
-## Lectura obligatoria para Fase 05
+## Lectura obligatoria para Fase 06
 
-Seguir el orden exacto de [`STATUS.md`](STATUS.md). Contrastar import, validador, EditMode, PlayMode y build; leer la arquitectura canónica antes de tocar UI/escenas. El shell y safe area de F05 no autorizan producir catálogo MVP; input candidato se valida en F07 y no se escala contenido antes del Vertical Slice.
+Seguir el orden exacto de [`STATUS.md`](STATUS.md) y reejecutar `scripts/validate`. Leer la arquitectura canónica antes de tocar UI/escenas. El shell y safe area de F06 no autorizan producir catálogo MVP; input candidato se valida en F08 y no se escala contenido antes del Vertical Slice.
 
 Las notas regulatorias son baseline de ingeniería, no asesoría legal definitiva. Las políticas deben revalidarse en la fase indicada y antes de cada envío.

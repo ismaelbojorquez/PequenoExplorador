@@ -1,4 +1,6 @@
-# Android — apertura, perfiles y smoke
+# Android — evidencia histórica F03/F04
+
+La guía operativa canónica desde F05 es [`20_ANDROID_RELEASE.md`](20_ANDROID_RELEASE.md). Este archivo conserva evidencia histórica; no define el comando actual ni habilita Release.
 
 Fecha de evidencia: 2026-08-14. Esta baseline no firma ni publica un release.
 
@@ -55,7 +57,7 @@ Incidencia no ocultada: la primera ejecución del emulador mostró un ANR de **S
 
 ## Manifest y release pendientes
 
-El permiso `INTERNET` del APK Development no prueba el manifest Release. En Fase 11 se generará AAB Release, se verificará si desaparece ese permiso, se inspeccionará el manifest merged, se ejecutará bundletool y se documentará firma de desarrollo. AAB Release, Play App Signing, keystore, upload y publicación están `NOT RUN`.
+El permiso `INTERNET` del APK Development no prueba el manifest Release. En Fase 12 se generará AAB Release, se verificará si desaparece ese permiso, se inspeccionará el manifest merged, se ejecutará bundletool y se documentará firma de desarrollo. AAB Release, Play App Signing, keystore, upload y publicación están `NOT RUN`.
 
 ## Revalidación tras fronteras de Fase 04
 

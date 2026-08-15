@@ -1,0 +1,49 @@
+name: Repository and Unity checks
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: checks-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  repository:
+    name: Repository checks
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
+      - name: Validate repository
+        run: scripts/check-repository
+
+  unity:
+    name: Unity validation (manual self-hosted)
+    if: github.event_name == 'workflow_dispatch' && vars.UNITY_CI_ENABLED == 'true'
+    runs-on: [self-hosted, macOS, ARM64, unity-6000.3.22f1]
+    timeout-minutes: 90
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
+      - name: Run full local-equivalent validation
+        run: scripts/validate
+      - name: Upload diagnostic artifacts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: unity-validation-${{ github.run_id }}
+          path: artifacts/
+          if-no-files-found: warn
+          retention-days: 7

@@ -2,6 +2,31 @@
 
 Todos los cambios notables de ingeniería se registran aquí. La versión técnica de desarrollo es `0.1.0-dev`; no representa un release comercial.
 
+## Fase 05 — 2026-08-14
+
+### Added
+
+- BuildTools Editor para compile/fronteras/contenido, APK Development y Release fail-closed, con reportes de entorno/build y SHA-256.
+- Wrappers Bash macOS/Linux, XML NUnit/JUnit, logs sanitizados y un comando completo `scripts/validate`.
+- Checks sin dependencias para Markdown/enlaces, JSON/asmdefs, package pins, YAML/Actions, secretos básicos y shell.
+- Workflow GitHub con Actions oficiales fijadas por SHA, permisos read-only y job Unity manual/self-hosted; guía humana de GitHub.
+
+### Changed
+
+- Outputs convergen en `artifacts/` ignorado; el smoke legado delega al BuildTools actual.
+- Roadmap asigna pipeline a F05, mueve shell/input/contenido y combina AAB con budgets en F12, sin alterar 00–57 ni el alcance Selva.
+- README, playbook, Android, decisiones, riesgos, índice y status enlazan comandos reales y distinguen CI `NOT RUN`.
+
+### Verified
+
+- `scripts/validate`: código `0`, checks, compile, EditMode `5/5`, PlayMode `1/1` y APK Development en 2:05.16.
+- APK: `57,046,302 bytes`, SHA-256 `3d0a7385023e3c7d4f9772303027de2e448935bacfea73966ef71824f014b479`, min/target/compile 26/36/36, ARM64 y zipalign 16 KB.
+- `scripts/build-android-release`: fallo controlado esperado, código `3`, sin signing; CI remota `NOT RUN` por ausencia de remoto/runner.
+
+### Not added
+
+- Gameplay, signing, AAB Release, secretos, remote/push, publicación, SDKs/Actions de terceros o dependencias nuevas.
+
 ## Fase 04 — 2026-08-14
 
 ### Added

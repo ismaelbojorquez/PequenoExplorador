@@ -21,7 +21,7 @@ Fecha de corte: 2026-08-14. `Verificado local` describe este equipo; `Verificado
 | Android Gradle Plugin | 9.0.0 | Verificado oficial | Manual anterior para `6000.3.17f1+`, 2026-08-14 | Compatible con Gradle 9.1.0; verificar Gradle exportado. |
 | CMake | 3.22.1 | Verificado local y oficial | Módulo bundled + manual de dependencias Unity 6.3, 2026-08-14 | Usado por AndroidPlayer; no personalizar. |
 | Formato Play | AAB + Play App Signing | Verificado oficial; pendiente cuenta | [Android App Bundle](https://developer.android.com/guide/app-bundle), 2026-08-14 | Release no será APK; claves/cuenta son pendientes humanos. |
-| ABI/Scripting backend | ARM64 + IL2CPP | Verificado en APK/emulador | Build log, `aapt2`, ELF y emulador 16 KB, 2026-08-14 | Smoke Development pasó; repetir sobre AAB Release en F11/F47. |
+| ABI/Scripting backend | ARM64 + IL2CPP | Verificado en APK/emulador | Build log, `aapt2`, ELF y emulador 16 KB, 2026-08-14 | Smoke Development pasó; repetir sobre AAB Release en F12/F47. |
 | iOS Build Support Unity | No instalado | No disponible localmente | Inventario `PlaybackEngines`, 2026-08-14 | Instalar solo al iniciar trabajo iOS autorizado. |
 | Xcode | No disponible; solo Command Line Tools activos | No disponible localmente | `xcodebuild -version`, 2026-08-14 | Bloquea build iOS, no la arquitectura iOS-ready. |
 | Git | 2.50.1 (Apple Git-155) | Verificado local | `git --version`, 2026-08-14 | Suficiente para baseline. |
@@ -32,7 +32,7 @@ Fecha de corte: 2026-08-14. `Verificado local` describe este equipo; `Verificado
 1. En Fase 03, la revisión sigue siendo el último parche de 6.3 LTS, o se documenta el cambio.
 2. Editor activado abre un proyecto limpio sin migración.
 3. Android module usa el toolchain incluido y resuelve target API 36.
-4. Smoke APK Development ARM64/IL2CPP terminó; el AAB Release corresponde a F11.
+4. Smoke APK Development ARM64/IL2CPP terminó; el AAB Release corresponde a F12.
 5. `zipalign -P 16`, ELF `LOAD align 0x4000` y ejecución en emulador page-size 16384 pasaron.
 6. No se introdujeron rutas personales, SDKs globales ni paquetes no aprobados.
 
@@ -41,7 +41,7 @@ Resultado: ADR-0001 **Aceptada** el 2026-08-14. Una actualización de parche exi
 ## Revalidación
 
 - F03: Editor latest-patch, licencia, módulos, target API y smoke build.
-- F11: Gradle/AGP, AAB, firma de desarrollo y pipeline Android.
+- F12: Gradle/AGP, AAB, firma de desarrollo y pipeline Android.
 - F38: matriz de dispositivos y `minSdk` comercial.
 - F47: 16 KB sobre artefacto release y dispositivo/emulador compatible.
 - F48: toolchain iOS/Xcode y privacy manifest.
