@@ -5,10 +5,10 @@ Estados: **Provisional** requiere validación de fase; **Aceptada** gobierna el 
 ## ADR-0001 — Selección provisional de Unity
 
 - Estado: **Provisional**, 2026-08-14.
-- Decisión: usar `Unity 6000.3.22f1` como pin candidato para crear el proyecto en Fase 02.
+- Decisión: usar `Unity 6000.3.22f1` como pin candidato para crear el proyecto en Fase 03.
 - Contexto: es Unity 6.3 LTS, la última revisión que devolvió la API oficial de releases el 2026-08-14; se publicó el 2026-08-13 y está instalada localmente con módulos Android. Unity anuncia dos años de soporte para 6.3 LTS.
 - Criterios: rama LTS; parche vigente; soporte de API 35/36; toolchain incluido por Unity; Apple silicon; capacidad de AAB/IL2CPP; correcciones Android y compatibilidad de paquetes a validar.
-- Consecuencias: no se instalan otras revisiones; Fase 02 debe revalidar latest-patch, activación, creación limpia y smoke build Android. El pin solo pasa a **Aceptada** con esa evidencia.
+- Consecuencias: no se instalan otras revisiones; Fase 03 debe revalidar latest-patch, activación, creación limpia y smoke build Android. El pin solo pasa a **Aceptada** con esa evidencia.
 - Alternativa: si hay bloqueo reproducible, evaluar explícitamente otra revisión parcheada de 6.3 LTS; solo después, una LTS soportada alternativa. No instalar ni migrar silenciosamente.
 - Rollback: antes de contenido, recrear el proyecto vacío con la revisión aprobada; después de contenido, exigir plan de migración y backup/branch.
 - Fuentes: [release 6000.3.22f1](https://unity.com/releases/editor/whats-new/6000.3.22f1), [anuncio 6.3 LTS](https://unity.com/blog/unity-6-3-lts-is-now-available), verificadas 2026-08-14.
@@ -26,6 +26,9 @@ Estados: **Provisional** requiere validación de fase; **Aceptada** gobierna el 
 | T-007 | Addressables local-first; catálogo/contenido remoto deshabilitado en MVP. | Organización y memoria sin dependencia de red. | Si tamaño o live content lo exige. |
 | T-008 | Puertos con implementaciones mock/null para analytics, ads e IAP. | No integrar SDKs ni transmitir datos por accidente. | Tras aprobación comercial/legal. |
 | T-009 | AAB, ARM64 e IL2CPP como objetivo de release Android. | Alineación con Play y native libraries; debe validarse 16 KB. | Build pipeline Android. |
+| T-010 | ExecPlan vivo solo para trabajo complejo, transversal, riesgoso o multisesión. | Conserva contexto/recovery donde aporta; evitarlo en cambios triviales reduce duplicación y planes obsoletos. | Si la reanudación o trazabilidad resultan insuficientes. |
+| T-011 | Evidencia con estados `PASS`, `FAIL`, `BLOCKED` y `NOT RUN`. | Impide convertir intención, documentación o bloqueo externo en resultado ejecutado. | No se relaja; puede ampliarse el playbook. |
+| T-012 | Placeholders `PH_` con metadata y bloqueo de Release. | Permite prototipar sin confundir material temporal con contenido aprobado. | Tras implementar validador de contenido. |
 
 ## Decisiones de producto aceptadas
 

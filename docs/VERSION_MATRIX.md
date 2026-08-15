@@ -10,7 +10,7 @@ Fecha de corte: 2026-08-14. `Verificado local` describe este equipo; `Verificado
 | Unity Editor | 6000.3.22f1, Apple silicon | Verificado local y oficial | Hub CLI + [release oficial](https://unity.com/releases/editor/whats-new/6000.3.22f1), 2026-08-14 | Candidato ADR-0001; release 2026-08-13 y último resultado 6.3 LTS de API oficial al corte. |
 | Rama | Unity 6.3 LTS | Verificado oficial | [anuncio Unity 6.3 LTS](https://unity.com/blog/unity-6-3-lts-is-now-available), 2026-08-14 | Dos años de soporte publicados por Unity; preferible a stream no LTS. |
 | Android min API | API 25 (Android 7.1), por validar con mercado | Verificado oficial | [requisitos Unity 6.3 Android](https://docs.unity3d.com/6000.3/Documentation/Manual/android-requirements-and-compatibility.html), 2026-08-14 | Unity soporta API 25+; el `minSdk` comercial se decidirá con matriz de dispositivos. |
-| Android target/compile | API 36 | Verificado oficial; pendiente build | Unity soporta API 35/36; [Play exige API 36 desde 2026-08-31](https://support.google.com/googleplay/android-developer/answer/11926878?hl=es-419), 2026-08-14 | Configurar target 36 en Fase 02 para evitar deuda inmediata. |
+| Android target/compile | API 36 | Verificado oficial; pendiente build | Unity soporta API 35/36; [Play exige API 36 desde 2026-08-31](https://support.google.com/googleplay/android-developer/answer/11926878?hl=es-419), 2026-08-14 | Configurar target 36 en Fase 03 para evitar deuda inmediata. |
 | SDK Build Tools | 36.0.0 | Verificado local y oficial | Archivos del módulo + [dependencias Unity 6.3](https://docs.unity3d.com/6000.3/Documentation/Manual/android-supported-dependency-versions.html), 2026-08-14 | Usar el SDK incluido por Unity. |
 | SDK Command-line Tools | 16.0 | Verificado local y oficial | `source.properties` + manual anterior, 2026-08-14 | Usar módulo de Unity. |
 | SDK Platform Tools | 36.0.0 | Verificado local y oficial | `source.properties` + manual anterior, 2026-08-14 | `adb` incluido; también existe uno global, no seleccionado. |
@@ -27,9 +27,9 @@ Fecha de corte: 2026-08-14. `Verificado local` describe este equipo; `Verificado
 | Git | 2.50.1 (Apple Git-155) | Verificado local | `git --version`, 2026-08-14 | Suficiente para baseline. |
 | Git LFS | 3.7.1 | Verificado local | `git lfs version`, 2026-08-14 | Reglas preparadas; no hay objetos LFS aún. |
 
-## Criterios para cerrar ADR-0001 en Fase 02
+## Criterios para cerrar ADR-0001 en Fase 03
 
-1. En Fase 02, la revisión sigue siendo el último parche de 6.3 LTS, o se documenta el cambio.
+1. En Fase 03, la revisión sigue siendo el último parche de 6.3 LTS, o se documenta el cambio.
 2. Editor activado abre un proyecto limpio sin migración.
 3. Android module usa el toolchain incluido y resuelve target API 36.
 4. Smoke build AAB ARM64/IL2CPP termina y se inspecciona; si todavía no hay gameplay, basta player vacío.
@@ -38,7 +38,7 @@ Fecha de corte: 2026-08-14. `Verificado local` describe este equipo; `Verificado
 
 ## Revalidación
 
-- F02: Editor latest-patch, licencia, módulos, target API y smoke build.
+- F03: Editor latest-patch, licencia, módulos, target API y smoke build.
 - F11: Gradle/AGP, AAB, firma de desarrollo y pipeline Android.
 - F38: matriz de dispositivos y `minSdk` comercial.
 - F47: 16 KB sobre artefacto release y dispositivo/emulador compatible.

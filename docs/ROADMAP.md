@@ -19,8 +19,8 @@ El roadmap conserva el MVP Selva. Una fase no está aprobada por existir en esta
 |---:|---|:---:|
 | 00 | Inicialización Git, investigación oficial y baseline documental; sin proyecto Unity. | A |
 | 01 | Visión, GDD, loops, educación, UX, contratos data-driven y alcance canónico de Vertical Slice/MVP; sin Unity. | A |
-| 02 | Crear proyecto con revisión Unity aprobada; pin, módulos y smoke AAB Android vacío. | A |
-| 03 | Scaffolding de capas/asmdefs/composition root, test baseline y automatización mínima; evolucionar `AGENTS.md`. | A |
+| 02 | Contrato operativo de agentes, planes vivos, estándares, review, validación y status; sin Unity. | A |
+| 03 | Foundation Unity reproducible: Editor/módulos, proyecto, capas/asmdefs/composition root, tests mínimos y smoke AAB vacío. | A |
 | 04 | Prototipos de interacción y playtests seguros 4–9: tap-to-move, prelectura, guías y accesibilidad. | B |
 | 05 | Shell landscape, navegación uGUI/TMP, safe areas y estados vacío/error. | B |
 | 06 | Dominio puro del loop, actividad, resultado y progreso, con tests. | B |

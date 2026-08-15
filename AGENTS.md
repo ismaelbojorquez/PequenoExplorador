@@ -1,16 +1,62 @@
-# AGENTS.md
+# Contrato operativo para agentes
 
-## Preflight obligatorio
+Este archivo es la entrada obligatoria para toda sesión. **Pequeño Explorador: Aprende Jugando** es un juego infantil 4–9, landscape, Android-first, iOS-ready, offline-first y sin backend en el MVP. El único mundo MVP es Selva y su pilar es `acción → descubrimiento → aprendizaje → recompensa`.
 
-Antes de modificar archivos: leer este archivo completo; leer los documentos relevantes de `docs/`; ejecutar `git status --short --branch`, `git branch --show-current` y `git log -1 --format=fuller`; inspeccionar implementación, configuración, pruebas y diff del alcance. Desde Fase 01, la ausencia de este archivo bloquea el trabajo.
+## Empezar o reanudar
 
-## Reglas
+Antes de editar:
 
-- Preservar cambios ajenos y detenerse ante colisiones no aislables.
-- Mantener Android-first, iOS-ready, landscape, offline-first y sin backend para el MVP Selva.
-- No añadir SDKs de ads, IAP o analítica ni secretos sin decisión aprobada.
-- No afirmar cumplimiento de tienda sin evidencia de build y revisión humana.
-- Actualizar decisiones, riesgos, roadmap, changelog e índice con cada fase.
-- Hacer commits de una sola fase y validar el diff completo.
+1. leer este archivo completo y [`docs/STATUS.md`](docs/STATUS.md);
+2. seguir el orden de lectura que `STATUS` indique y consultar [`docs/README.md`](docs/README.md) para las fuentes canónicas;
+3. ejecutar `git status --short --branch`, `git branch --show-current` y `git log -1 --format=fuller`;
+4. inventariar e inspeccionar implementación, configuración, pruebas, diff staged/unstaged y artefactos relacionados;
+5. contrastar fases previas con archivos y comandos: sus reportes no son evidencia heredable;
+6. preservar cambios ajenos y detenerse si una colisión no puede aislarse.
 
-Este archivo es intencionalmente conciso y evolucionará en Fase 02.
+La ausencia de este archivo o de `docs/STATUS.md` bloquea el trabajo. Un estado sucio no autoriza limpiar, sobrescribir ni incorporar cambios ajenos.
+
+## Jerarquía de fuentes de verdad
+
+1. solicitud humana actual y políticas aplicables;
+2. este contrato y [`docs/STATUS.md`](docs/STATUS.md);
+3. documentos canónicos listados en [`docs/README.md`](docs/README.md);
+4. ExecPlan activo, si existe;
+5. implementación, tests, configuración y evidencia Git observada.
+
+Una contradicción se resuelve en la fuente canónica y sus referencias, no duplicando reglas. Decisiones humanas/comerciales no pueden cerrarse por inferencia técnica.
+Esta jerarquía gobierna intención y alcance; la realidad observable gobierna afirmaciones de estado. Si implementación, tests o Git contradicen un reporte, registrar la desviación y corregir el documento antes de continuar.
+
+## Trabajo incremental y planes
+
+- Limitar cada fase a un resultado revisable, conservar el alcance y revisar el diff completo.
+- Crear y mantener un ExecPlan según [`.agent/PLANS.md`](.agent/PLANS.md) para features/refactors complejos, riesgos altos o trabajo de varias sesiones. No usarlo para un cambio trivial y autocontenido.
+- Actualizar `docs/STATUS.md` al cambiar fase, siguiente acción, capacidad verificada o bloqueo.
+- No depender de memoria del chat: decisiones, comandos, hallazgos y recovery deben quedar en archivos.
+- Commits cubren una sola fase/propósito y se hacen tras validar; no push, amend o reescritura de historia sin autorización explícita.
+
+## Arquitectura y convenciones
+
+La dirección es `Domain` C# puro → `Application` → adaptadores `Infrastructure`/`Presentation`/`Content`, unidos por un composition root explícito. `Domain` no referencia `UnityEngine`; `MonoBehaviour` adapta ciclo de vida/entrada/vista y no contiene reglas complejas. Las reglas completas están en [`docs/ENGINEERING_STANDARDS.md`](docs/ENGINEERING_STANDARDS.md).
+
+Layout actual: raíz para controles del repo, `docs/` para fuentes canónicas y `.agent/` para planes. Fase 03 creará el layout Unity por capas y asmdefs; no precrear `Assets/`, `Packages/` o `ProjectSettings/`. Código futuro usa namespaces `PequenoExplorador.<Layer>`, serialización privada explícita, suscripciones/cancelación ligadas al lifecycle y tests deterministas de Domain/Application más EditMode/PlayMode según frontera.
+
+No hay proyecto Unity todavía. Los únicos comandos conocidos son los de repositorio/documentación en [`docs/VALIDATION_PLAYBOOK.md`](docs/VALIDATION_PLAYBOOK.md); no inventar comandos de Editor, tests o build hasta que existan pin y configuración reproducibles.
+
+## Dependencias y no-go
+
+- No instalar paquete, SDK o herramienta ni aceptar términos sin autorización y revisión de fuente oficial, licencia, versión exacta, mantenimiento, soporte Android/iOS, 16 KB, datos recolectados y aptitud infantil.
+- En Fase 02 no se permite ninguna dependencia nueva. Después solo se permiten módulos/paquetes fijados y aprobados mediante el intake de estándares; terceros parten bloqueados.
+- No añadir ads, IAP, analytics remota, login, red, contenido remoto, permisos sensibles, secretos o rutas personales sin ADR y aprobaciones requeridas.
+- No publicar, hacer push, crear cuentas, firmar artefactos, subir a stores ni aceptar contratos salvo petición explícita.
+- No destruir cambios ajenos, usar comandos Git destructivos ni ampliar más allá de Selva/Vertical Slice.
+- Placeholders usan prefijo `PH_` y metadata obligatoria; permanecen bloqueados para Release según los estándares.
+
+## Seguridad infantil
+
+Aplicar privacidad/minimización por defecto, experiencia inicial ad-free, dos guías sin pedir edad, feedback no punitivo, descansos neutrales y ausencia de rachas, energía, gacha, loot boxes o FOMO. Hechos educativos requieren el proceso de [`docs/CONTENT_SOURCES.md`](docs/CONTENT_SOURCES.md). Las políticas son controles de ingeniería, no asesoría legal.
+
+## Validación y definición de terminado
+
+Seguir [`docs/VALIDATION_PLAYBOOK.md`](docs/VALIDATION_PLAYBOOK.md) y revisar con [`docs/CODE_REVIEW_RULES.md`](docs/CODE_REVIEW_RULES.md). Solo afirmar “compila”, “pasa”, “cumple” o “listo” con evidencia ejecutada sobre el estado reportado. Si un comando no se ejecutó, registrar `NOT RUN` y motivo; nunca convertirlo en `PASS`.
+
+Una tarea termina únicamente cuando: alcance implementado o documentado; tests pertinentes ejecutados; build requerido ejecutado; documentación canónica aplicable (`STATUS`, decisiones, riesgos, roadmap, changelog e índice) actualizada; diff revisado; Git contiene solo cambios intencionales; y reporte final distingue `PASS`, `FAIL`, `BLOCKED` y `NOT RUN`. Un bloqueo externo permanece bloqueo.

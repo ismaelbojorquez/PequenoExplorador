@@ -18,14 +18,15 @@ Este repositorio aún **no contiene un proyecto Unity**. No existen escenas, có
 
 El índice y el orden de lectura están en [`docs/README.md`](docs/README.md). Las fuentes temporales fueron verificadas el 2026-08-14; no constituyen asesoría legal.
 
-## Continuar con Fase 02
+## Continuar con Fase 03
 
-1. Ejecutar el preflight de [`AGENTS.md`](AGENTS.md), leer completos los documentos marcados para Fase 02 y comprobar que Git esté limpio en `main`.
+1. Ejecutar el preflight de [`AGENTS.md`](AGENTS.md), empezar por [`docs/STATUS.md`](docs/STATUS.md) y comprobar que Git esté limpio en `main`.
 2. Leer el paquete de producto de Fase 01 y usar [`docs/MVP_SCOPE.md`](docs/MVP_SCOPE.md) como fuente de verdad; la implementación inicial se limita al Vertical Slice.
 3. Revalidar en fuentes oficiales que `6000.3.22f1` siga siendo la última revisión parcheada de Unity 6.3 LTS; si cambió, abrir una decisión explícita antes de actualizar el pin.
 4. Confirmar licencia activa del Editor y módulos Android/iOS. No usar rutas locales persistentes ni SDK externos cuando los módulos soportados de Unity sean suficientes.
-5. Crear el proyecto Unity en la raíz, fijar la versión exacta y ejecutar un smoke build Android vacío. Esa acción está fuera de las Fases 00–01.
-6. Configurar localmente UnityYAMLMerge apuntando al Editor instalado; no versionar su ruta absoluta.
+5. Evaluar y mantener un ExecPlan de foundation conforme a [`.agent/PLANS.md`](.agent/PLANS.md).
+6. Crear el proyecto Unity en la raíz, fijar versión, capas/asmdefs/composition root y tests mínimos, y ejecutar un smoke AAB Android vacío. Esa acción está fuera de las Fases 00–02.
+7. Configurar localmente UnityYAMLMerge apuntando al Editor instalado; no versionar su ruta absoluta.
 
 ## Licencia
 

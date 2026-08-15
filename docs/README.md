@@ -1,6 +1,6 @@
 # Índice documental
 
-Estado: Fases 00–01 documentadas el 2026-08-14. Todavía no existe proyecto Unity, gameplay, assets ni build.
+Estado: Fases 00–02 documentadas el 2026-08-14. Todavía no existe proyecto Unity, gameplay, assets ni build. Empezar siempre por [`../AGENTS.md`](../AGENTS.md) y [`STATUS.md`](STATUS.md).
 
 ## Fuentes de verdad
 
@@ -12,6 +12,8 @@ Estado: Fases 00–01 documentadas el 2026-08-14. Todavía no existe proyecto Un
 | Secuencia de trabajo | [`ROADMAP.md`](ROADMAP.md) | Único orden de Gates A–F y Fases 00–57. |
 | Hechos educativos | [`CONTENT_SOURCES.md`](CONTENT_SOURCES.md) | Ningún claim llega a Release sin trazabilidad y aprobación humana. |
 | Decisiones | [`DECISIONS.md`](DECISIONS.md) | Separa decisiones técnicas/producto de pendientes humanos. |
+| Estado operativo | [`STATUS.md`](STATUS.md) | Fase/Gate, capacidades, plan activo, bloqueos y siguiente acción. |
+| Ejecución | [`../.agent/PLANS.md`](../.agent/PLANS.md) | Decide cuándo y cómo mantener un ExecPlan vivo. |
 
 ## Especificación de producto
 
@@ -34,6 +36,9 @@ Los saltos numéricos reservan espacio para documentos técnicos futuros; no imp
 
 ## Ingeniería, políticas y producción
 
+- [`ENGINEERING_STANDARDS.md`](ENGINEERING_STANDARDS.md): capas, C#/Unity, eventos, save, plataforma, dependencias y placeholders.
+- [`CODE_REVIEW_RULES.md`](CODE_REVIEW_RULES.md): bloqueantes y checklists técnicos/infantiles.
+- [`VALIDATION_PLAYBOOK.md`](VALIDATION_PLAYBOOK.md): comandos conocidos, evidencia y prueba de reanudación.
 - [`VERSION_MATRIX.md`](VERSION_MATRIX.md): Editor y toolchain verificados.
 - [`POLICY_SOURCE_REGISTER.md`](POLICY_SOURCE_REGISTER.md): políticas oficiales y revalidación.
 - [`RISK_REGISTER.md`](RISK_REGISTER.md): riesgos, owners y mitigaciones.
@@ -45,9 +50,10 @@ Los saltos numéricos reservan espacio para documentos técnicos futuros; no imp
 
 - [`PHASE_00_PREFLIGHT.md`](PHASE_00_PREFLIGHT.md)
 - [`PHASE_01_PREFLIGHT.md`](PHASE_01_PREFLIGHT.md)
+- [`PHASE_02_PREFLIGHT.md`](PHASE_02_PREFLIGHT.md)
 
-## Lectura obligatoria para Fase 02
+## Lectura obligatoria para Fase 03
 
-Leer completo `AGENTS.md`, este índice, visión, GDD, MVP scope, roadmap, decisiones, matrices de versión/políticas y riesgos. Revalidar ADR-0001 y R-001/R-002/R-003/R-006/R-009 antes de crear el proyecto. La implementación inicial no produce el catálogo MVP: prepara la base técnica y luego solo el Vertical Slice.
+Seguir el orden exacto de [`STATUS.md`](STATUS.md). Revalidar ADR-0001 y R-001/R-002/R-003/R-006/R-009 antes de crear el proyecto; evaluar un ExecPlan real. La foundation no autoriza producir el catálogo MVP: después se implementa solo el Vertical Slice.
 
 Las notas regulatorias son baseline de ingeniería, no asesoría legal definitiva. Las políticas deben revalidarse en la fase indicada y antes de cada envío.
