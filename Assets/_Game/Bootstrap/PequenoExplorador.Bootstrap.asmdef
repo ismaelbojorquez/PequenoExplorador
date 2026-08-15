@@ -1,0 +1,19 @@
+{
+  "name": "PequenoExplorador.Bootstrap",
+  "rootNamespace": "PequenoExplorador.Bootstrap",
+  "references": [
+    "PequenoExplorador.Application",
+    "PequenoExplorador.Content",
+    "PequenoExplorador.Infrastructure",
+    "PequenoExplorador.Presentation"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": false,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

@@ -24,7 +24,7 @@ No se pregunta edad/fecha de nacimiento, no se recomienda modo según comportami
 - Tap-to-move con indicador de destino, camino válido y cancelar mediante nuevo toque.
 - Interacción contextual con toque; mantener pulsado no es requisito principal.
 - Viewfinder de fotografía con zona de éxito generosa y captura asistida opcional.
-- F04 compara tap-to-move contra control directo simplificado; el resultado debe registrarse antes de implementación definitiva.
+- F07 compara tap-to-move contra control directo simplificado; el resultado debe registrarse antes de implementación definitiva.
 
 ## Jerarquía de pantallas
 

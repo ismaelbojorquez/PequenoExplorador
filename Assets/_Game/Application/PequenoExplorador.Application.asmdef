@@ -1,0 +1,16 @@
+{
+  "name": "PequenoExplorador.Application",
+  "rootNamespace": "PequenoExplorador.Application",
+  "references": [
+    "PequenoExplorador.Domain"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": false,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": true
+}

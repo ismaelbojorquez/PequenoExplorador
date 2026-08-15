@@ -12,7 +12,7 @@ Baseline de producto, ingeniería y cumplimiento para un juego educativo Unity 2
 - Experiencia inicial recomendada: sin publicidad. Ads, IAP y analítica remota permanecen detrás de interfaces nulas y de decisiones humanas futuras.
 - Privacidad por defecto: sin cuenta, chat, ubicación, cámara del dispositivo, micrófono, identificadores publicitarios ni transmisión de datos en el MVP.
 
-El repositorio contiene una foundation Unity mínima: URP, escena temporal `Bootstrap`, configuración móvil, build CLI y dos tests EditMode. No contiene gameplay, save, Addressables, IAP, ads, backend ni arte final.
+El repositorio contiene una foundation Unity mínima: URP, escena temporal `Bootstrap`, nueve assemblies con fronteras verificables, build CLI, tests EditMode/PlayMode y smoke Android. No contiene gameplay, save, Addressables, IAP, ads, backend ni arte final.
 
 ## Documentación
 
@@ -36,16 +36,27 @@ UNITY_EDITOR="/Applications/Unity/Hub/Editor/6000.3.22f1/Unity.app/Contents/MacO
   -runTests -testPlatform EditMode \
   -testResults /tmp/pequeno-explorador-editmode.xml \
   -logFile /tmp/pequeno-explorador-editmode.log
+
+"$UNITY_EDITOR" -batchmode -nographics -quit \
+  -projectPath "$(pwd)" \
+  -executeMethod PequenoExplorador.Editor.AssemblyBoundaryValidationCli.Validate \
+  -logFile /tmp/pequeno-explorador-boundaries.log
+
+"$UNITY_EDITOR" -batchmode -nographics \
+  -projectPath "$(pwd)" \
+  -runTests -testPlatform PlayMode \
+  -testResults /tmp/pequeno-explorador-playmode.xml \
+  -logFile /tmp/pequeno-explorador-playmode.log
 ```
 
 El smoke Android y sus perfiles están en [`docs/ANDROID_RELEASE.md`](docs/ANDROID_RELEASE.md). No se versionan `Library`, `Logs`, `.utmp`, builds ni credenciales.
 
-## Continuar con Fase 04
+## Continuar con Fase 05
 
 1. Ejecutar el preflight de [`AGENTS.md`](AGENTS.md), empezar por [`docs/STATUS.md`](docs/STATUS.md) y contrastar Git, Editor, import y tests.
-2. Leer [`docs/MVP_SCOPE.md`](docs/MVP_SCOPE.md), [`docs/TECHNICAL_ARCHITECTURE.md`](docs/TECHNICAL_ARCHITECTURE.md) y el alcance de Fase 04 en [`docs/ROADMAP.md`](docs/ROADMAP.md).
-3. Crear un ExecPlan si el prototipo de interacción cruza input, escena, UX y playtest; no escalar contenido ni implementar sistemas fuera del Vertical Slice.
-4. Comparar tap-to-move con una alternativa simplificada para prelectores y ambos modos de guía. Safe area y shell UI pertenecen a Fase 05.
+2. Leer [`docs/MVP_SCOPE.md`](docs/MVP_SCOPE.md), [`docs/02_TECHNICAL_ARCHITECTURE.md`](docs/02_TECHNICAL_ARCHITECTURE.md) y el alcance de Fase 05 en [`docs/ROADMAP.md`](docs/ROADMAP.md).
+3. Mantener el shell landscape, navegación y safe areas detrás de Presentation/Application; Bootstrap solo compone.
+4. No añadir una referencia al grafo sin actualizar validador, tests, decisión y arquitectura. La comparación tap-to-move queda en F07 antes de fijar input.
 5. Mantener placeholder/metadata, evidencia y revisión infantil; no instalar SDKs, publicar ni aceptar términos.
 
 ## Licencia

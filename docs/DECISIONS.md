@@ -31,6 +31,7 @@ Estados: **Provisional** requiere validación de fase; **Aceptada** gobierna el 
 | T-012 | Placeholders `PH_` con metadata y bloqueo de Release. | Permite prototipar sin confundir material temporal con contenido aprobado. | Tras implementar validador de contenido. |
 | T-013 | Paquetes directos F03: Input System `1.20.0`, URP `17.3.0`, Test Framework `1.6.0`, uGUI `2.0.0`. | Es la baseline oficial mínima que compila y construye; Addressables/Localization no tienen necesidad todavía. | Intake y evidencia completa antes de cualquier cambio. |
 | T-014 | Bundle ID técnico `com.placeholder.pequenoexplorador` y company `Placeholder Studio`. | Permiten builds reproducibles sin asumir titularidad comercial. | Obligatorio reemplazar mediante decisión humana antes de crear registros en stores. |
+| T-015 | Nueve assemblies con allowlist ejecutable: Domain, Application, Content, Infrastructure, Presentation, Bootstrap, Editor y dos Tests. | Hace físicas las fronteras sin fragmentar por features inexistentes; Bootstrap es el único composition root. | Solo con evidencia medida y actualización de validador, tests, arquitectura y riesgo. |
 
 ## Decisiones de producto aceptadas
 
@@ -41,7 +42,7 @@ Estados: **Provisional** requiere validación de fase; **Aceptada** gobierna el 
 | P-003 | Sesiones breves y feedback positivo, sin castigo ni dark patterns. | No rachas coercitivas, loot boxes, chat ni presión de compra. |
 | P-004 | Experiencia inicial sin publicidad. | Ads es una decisión posterior condicionada, no un backlog implícito. |
 | P-005 | Dos modos manuales: `Más guía` y `Guía estándar`. | No se pide edad/fecha; mismo contenido, progreso y recompensa. |
-| P-006 | Tap-to-move es candidato, no control fijado. | Comparar con alternativa simplificada en F04 antes de implementar definitivamente. |
+| P-006 | Tap-to-move es candidato, no control fijado. | Comparar con alternativa simplificada en F07 antes de implementar definitivamente. |
 | P-007 | Economía blanda determinista para campamento. | Sin pérdida, compra, azar, caducidad, rachas o ventaja. |
 | P-008 | Vertical Slice bloquea escalado de contenido. | No producir catálogo MVP hasta pasar Gate B y aprobación factual. |
 

@@ -2,6 +2,30 @@
 
 Todos los cambios notables de ingeniería se registran aquí. La versión técnica de desarrollo es `0.1.0-dev`; no representa un release comercial.
 
+## Fase 04 — 2026-08-14
+
+### Added
+
+- Nueve assemblies físicos para Domain, Application, Content, Infrastructure, Presentation, Bootstrap, Editor y tests EditMode/PlayMode.
+- Markers mínimos de prueba, validador Editor/CLI con allowlist y detección de ciclos, y fixtures inválidas sin romper asmdefs reales.
+- Test PlayMode del diagnóstico temporal y arquitectura canónica `02_TECHNICAL_ARCHITECTURE.md`.
+
+### Changed
+
+- Retirado el runtime asmdef monolítico; Editor y tests ahora referencian solo fronteras necesarias, sin `overrideReferences`.
+- Roadmap concentra prototipos/playtests de interacción en F07 junto con input; F04 queda limitada a modularidad sin gameplay.
+- Estándares, playbook, decisiones, riesgos, README, índice y estado reflejan el grafo ejecutable.
+
+### Verified
+
+- Compile batch código `0`; validador `assemblies=9 cycles=0`; EditMode `5/5`; PlayMode `1/1`.
+- APK Development API 26/36 IL2CPP/ARM64: `57,046,302 bytes`, SHA-256 `a4572df93cbcda6aaa07369f5edd0a0e77ca51e3ed1f6dc50fef463b52a4903b`.
+- `zipalign -P 16`, instalación/launch en emulador page-size 16384, diagnóstico landscape visible y ausencia de fatal en logcat.
+
+### Not added
+
+- Gameplay, scene flow, save, UI de producto, servicios concretos, SDKs, paquetes, permisos sensibles, assets finales o publicación.
+
 ## Fase 03 — 2026-08-14
 
 ### Added

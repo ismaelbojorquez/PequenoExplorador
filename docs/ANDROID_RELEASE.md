@@ -56,3 +56,15 @@ Incidencia no ocultada: la primera ejecución del emulador mostró un ANR de **S
 ## Manifest y release pendientes
 
 El permiso `INTERNET` del APK Development no prueba el manifest Release. En Fase 11 se generará AAB Release, se verificará si desaparece ese permiso, se inspeccionará el manifest merged, se ejecutará bundletool y se documentará firma de desarrollo. AAB Release, Play App Signing, keystore, upload y publicación están `NOT RUN`.
+
+## Revalidación tras fronteras de Fase 04
+
+- Build Development: `PASS`, código `0`.
+- Path temporal: `/tmp/pequeno-explorador-builds/PequenoExplorador-boundaries-smoke.apk`.
+- Tamaño: `57,046,302 bytes`.
+- SHA-256: `a4572df93cbcda6aaa07369f5edd0a0e77ca51e3ed1f6dc50fef463b52a4903b`.
+- Configuración inspeccionada: min 26, target/compile 36, IL2CPP, `arm64-v8a`; `zipalign -P 16` PASS.
+- Permisos: solo `INTERNET` de Development/player connection y el permiso interno no exportado; sin cámara, micrófono, ubicación, contactos ni `AD_ID`.
+- Runtime: instalado y lanzado en `sdk_gphone16k_arm64`, page size `16384`, proceso activo, sin fatal en logcat y captura landscape con el mismo diagnóstico temporal/sin gameplay.
+
+Este segundo APK demuestra que separar assemblies no rompió el player. No reemplaza el AAB Release ni las pruebas físicas pendientes.

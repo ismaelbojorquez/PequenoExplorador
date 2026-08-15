@@ -1,13 +1,10 @@
 {
-  "name": "PequenoExplorador.Editor",
-  "rootNamespace": "PequenoExplorador.Editor",
+  "name": "PequenoExplorador.Presentation",
+  "rootNamespace": "PequenoExplorador.Presentation",
   "references": [
-    "PequenoExplorador.Bootstrap",
-    "Unity.RenderPipelines.Universal.Runtime"
+    "PequenoExplorador.Application"
   ],
-  "includePlatforms": [
-    "Editor"
-  ],
+  "includePlatforms": [],
   "excludePlatforms": [],
   "allowUnsafeCode": false,
   "overrideReferences": false,

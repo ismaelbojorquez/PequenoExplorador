@@ -41,6 +41,17 @@ UNITY_EDITOR="/Applications/Unity/Hub/Editor/6000.3.22f1/Unity.app/Contents/MacO
   -testResults /tmp/pequeno-explorador-editmode.xml \
   -logFile /tmp/pequeno-explorador-editmode.log
 
+"$UNITY_EDITOR" -batchmode -nographics -quit \
+  -projectPath "$(pwd)" \
+  -executeMethod PequenoExplorador.Editor.AssemblyBoundaryValidationCli.Validate \
+  -logFile /tmp/pequeno-explorador-boundaries.log
+
+"$UNITY_EDITOR" -batchmode -nographics \
+  -projectPath "$(pwd)" \
+  -runTests -testPlatform PlayMode \
+  -testResults /tmp/pequeno-explorador-playmode.xml \
+  -logFile /tmp/pequeno-explorador-playmode.log
+
 "$UNITY_EDITOR" -batchmode -nographics \
   -projectPath "$(pwd)" \
   -executeMethod PequenoExplorador.Editor.AndroidSmokeBuild.Build \
@@ -49,7 +60,7 @@ UNITY_EDITOR="/Applications/Unity/Hub/Editor/6000.3.22f1/Unity.app/Contents/MacO
   -logFile /tmp/pequeno-explorador-android.log
 ```
 
-Reemplazar el Editor solo tras ADR. Los paths de logs/build permanecen fuera de Git. Android requiere el módulo bundled; el método devuelve `2` ante fallo. El build Release usa `-peProfile Release` y path `.aab`, pero no es `PASS` hasta ejecutarse e inspeccionarse.
+Reemplazar el Editor solo tras ADR. Los paths de logs/build permanecen fuera de Git. El validador termina con excepción/código no cero ante frontera inválida y registra `PE_ASSEMBLY_BOUNDARIES_OK` solo en éxito. Android requiere el módulo bundled; el método devuelve `2` ante fallo. El build Release usa `-peProfile Release` y path `.aab`, pero no es `PASS` hasta ejecutarse e inspeccionarse.
 
 ## Secuencia mínima por cambio
 

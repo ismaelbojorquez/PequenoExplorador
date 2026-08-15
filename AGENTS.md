@@ -38,9 +38,9 @@ Esta jerarquía gobierna intención y alcance; la realidad observable gobierna a
 
 La dirección es `Domain` C# puro → `Application` → adaptadores `Infrastructure`/`Presentation`/`Content`, unidos por un composition root explícito. `Domain` no referencia `UnityEngine`; `MonoBehaviour` adapta ciclo de vida/entrada/vista y no contiene reglas complejas. Las reglas completas están en [`docs/ENGINEERING_STANDARDS.md`](docs/ENGINEERING_STANDARDS.md).
 
-Layout actual: raíz para controles y proyecto Unity; `Assets/_Game/` para Bootstrap/Shared/Features/Worlds/Content/UI/Audio/VFX/Editor/Tests; `docs/` para fuentes canónicas y `.agent/` para planes. La foundation tiene tres asmdefs mínimos; crear capas/asmdefs solo con casos de uso reales. Código futuro usa namespaces `PequenoExplorador.<Layer>`, serialización privada explícita, suscripciones/cancelación ligadas al lifecycle y tests deterministas según frontera.
+Layout actual: raíz para controles y proyecto Unity; `Assets/_Game/` contiene Domain/Application/Content/Infrastructure/Presentation/Bootstrap, tooling Editor, tests y carpetas de producción aún vacías; `docs/` contiene fuentes canónicas y `.agent/` planes. Nueve asmdefs fijan el grafo de [`docs/02_TECHNICAL_ARCHITECTURE.md`](docs/02_TECHNICAL_ARCHITECTURE.md); no subdividir sin evidencia. Código usa namespaces `PequenoExplorador.<Layer>`, serialización privada explícita, suscripciones/cancelación ligadas al lifecycle y tests deterministas según frontera.
 
-El pin es Unity `6000.3.22f1`; import, EditMode y Android build CLI conocidos están en [`docs/VALIDATION_PLAYBOOK.md`](docs/VALIDATION_PLAYBOOK.md). No usar otro Editor ni inventar targets/perfiles.
+El pin es Unity `6000.3.22f1`; import, fronteras, EditMode, PlayMode y Android build CLI conocidos están en [`docs/VALIDATION_PLAYBOOK.md`](docs/VALIDATION_PLAYBOOK.md). No usar otro Editor ni inventar targets/perfiles.
 
 ## Dependencias y no-go
 

@@ -21,10 +21,10 @@ El roadmap conserva el MVP Selva. Una fase no está aprobada por existir en esta
 | 01 | Visión, GDD, loops, educación, UX, contratos data-driven y alcance canónico de Vertical Slice/MVP; sin Unity. | A |
 | 02 | Contrato operativo de agentes, planes vivos, estándares, review, validación y status; sin Unity. | A |
 | 03 | Foundation Unity reproducible: Editor/módulos, proyecto URP, estructura/asmdefs mínimos, Bootstrap futuro, tests y smoke Android APK/AAB vacío; capas de gameplay se crean con casos reales. | A |
-| 04 | Prototipos de interacción y playtests seguros 4–9: tap-to-move, prelectura, guías y accesibilidad. | B |
+| 04 | Fronteras físicas de Domain/Application/adaptadores/Bootstrap, Editor y tests; grafo validado, sin gameplay. | B |
 | 05 | Shell landscape, navegación uGUI/TMP, safe areas y estados vacío/error. | B |
 | 06 | Dominio puro del loop, actividad, resultado y progreso, con tests. | B |
-| 07 | Input táctil/mouse, selección, feedback inmediato y tolerancia motriz. | B |
+| 07 | Prototipos/playtests seguros 4–9 y posterior input táctil/mouse: tap-to-move vs alternativa, prelectura, guías, selección y tolerancia motriz. | B |
 | 08 | Persistencia local versionada, reset adulto y recuperación de corrupción. | B |
 | 09 | Sistema de audio, mezcla, voz/SFX y controles locales. | B |
 | 10 | Pipeline ScriptableObject de authoring y validación de contenido. | B |
