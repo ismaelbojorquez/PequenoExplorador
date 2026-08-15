@@ -7,10 +7,10 @@ Fecha de corte: 2026-08-14. `Verificado local` describe este equipo; `Verificado
 | Componente | Versión/objetivo | Estado | Fuente o evidencia | Conclusión |
 |---|---|---|---|---|
 | Unity Hub | 3.20.1 | Verificado local | `Info.plist`, 2026-08-14 | Disponible; no es parte del pin reproducible del proyecto. |
-| Unity Editor | 6000.3.22f1, Apple silicon | Verificado local y oficial | Hub CLI + [release oficial](https://unity.com/releases/editor/whats-new/6000.3.22f1), 2026-08-14 | Candidato ADR-0001; release 2026-08-13 y último resultado 6.3 LTS de API oficial al corte. |
+| Unity Editor | 6000.3.22f1 (`1c726e1fb402`), Apple silicon | Verificado local/oficial; pin aceptado | Editor batch + Release API oficial, 2026-08-14 | ADR-0001 cerrada tras import, tests, build y ejecución Android. |
 | Rama | Unity 6.3 LTS | Verificado oficial | [anuncio Unity 6.3 LTS](https://unity.com/blog/unity-6-3-lts-is-now-available), 2026-08-14 | Dos años de soporte publicados por Unity; preferible a stream no LTS. |
-| Android min API | API 25 (Android 7.1), por validar con mercado | Verificado oficial | [requisitos Unity 6.3 Android](https://docs.unity3d.com/6000.3/Documentation/Manual/android-requirements-and-compatibility.html), 2026-08-14 | Unity soporta API 25+; el `minSdk` comercial se decidirá con matriz de dispositivos. |
-| Android target/compile | API 36 | Verificado oficial; pendiente build | Unity soporta API 35/36; [Play exige API 36 desde 2026-08-31](https://support.google.com/googleplay/android-developer/answer/11926878?hl=es-419), 2026-08-14 | Configurar target 36 en Fase 03 para evitar deuda inmediata. |
+| Android min API | API 26 (Android 8), provisional | Verificado en proyecto/APK | `ProjectSettings` + `aapt2`, 2026-08-14 | Decisión técnica provisional solicitada; validar mercado/dispositivos en F38. |
+| Android target/compile | API 36 | Verificado oficial y en APK | `aapt2`; [Play exige API 36 desde 2026-08-31](https://support.google.com/googleplay/android-developer/answer/11926878?hl=es-419), 2026-08-14 | APK smoke reporta target/compile 36. |
 | SDK Build Tools | 36.0.0 | Verificado local y oficial | Archivos del módulo + [dependencias Unity 6.3](https://docs.unity3d.com/6000.3/Documentation/Manual/android-supported-dependency-versions.html), 2026-08-14 | Usar el SDK incluido por Unity. |
 | SDK Command-line Tools | 16.0 | Verificado local y oficial | `source.properties` + manual anterior, 2026-08-14 | Usar módulo de Unity. |
 | SDK Platform Tools | 36.0.0 | Verificado local y oficial | `source.properties` + manual anterior, 2026-08-14 | `adb` incluido; también existe uno global, no seleccionado. |
@@ -19,22 +19,24 @@ Fecha de corte: 2026-08-14. `Verificado local` describe este equipo; `Verificado
 | OpenJDK | Temurin 17.0.18+8 | Verificado local; major oficial | Binario incluido + manual anterior, 2026-08-14 | Usar JDK de Unity, no el Homebrew global. |
 | Gradle | 9.1.0 | Verificado local y oficial | JAR incluido + [compatibilidad Gradle](https://docs.unity3d.com/6000.3/Documentation/Manual/android-gradle-version-compatibility.html), 2026-08-14 | No personalizar wrapper en MVP. |
 | Android Gradle Plugin | 9.0.0 | Verificado oficial | Manual anterior para `6000.3.17f1+`, 2026-08-14 | Compatible con Gradle 9.1.0; verificar Gradle exportado. |
-| CMake | 3.22.1 soportado | Verificado oficial; presencia no auditada | Manual de dependencias Unity 6.3, 2026-08-14 | No es dependencia directa en Fase 00. |
+| CMake | 3.22.1 | Verificado local y oficial | Módulo bundled + manual de dependencias Unity 6.3, 2026-08-14 | Usado por AndroidPlayer; no personalizar. |
 | Formato Play | AAB + Play App Signing | Verificado oficial; pendiente cuenta | [Android App Bundle](https://developer.android.com/guide/app-bundle), 2026-08-14 | Release no será APK; claves/cuenta son pendientes humanos. |
-| ABI/Scripting backend | ARM64 + IL2CPP | Decisión técnica; pendiente build | ADR T-009, 2026-08-14 | Probar 16 KB y dispositivos reales antes de Gate E. |
+| ABI/Scripting backend | ARM64 + IL2CPP | Verificado en APK/emulador | Build log, `aapt2`, ELF y emulador 16 KB, 2026-08-14 | Smoke Development pasó; repetir sobre AAB Release en F11/F47. |
 | iOS Build Support Unity | No instalado | No disponible localmente | Inventario `PlaybackEngines`, 2026-08-14 | Instalar solo al iniciar trabajo iOS autorizado. |
 | Xcode | No disponible; solo Command Line Tools activos | No disponible localmente | `xcodebuild -version`, 2026-08-14 | Bloquea build iOS, no la arquitectura iOS-ready. |
 | Git | 2.50.1 (Apple Git-155) | Verificado local | `git --version`, 2026-08-14 | Suficiente para baseline. |
 | Git LFS | 3.7.1 | Verificado local | `git lfs version`, 2026-08-14 | Reglas preparadas; no hay objetos LFS aún. |
 
-## Criterios para cerrar ADR-0001 en Fase 03
+## Evidencia de cierre ADR-0001 en Fase 03
 
 1. En Fase 03, la revisión sigue siendo el último parche de 6.3 LTS, o se documenta el cambio.
 2. Editor activado abre un proyecto limpio sin migración.
 3. Android module usa el toolchain incluido y resuelve target API 36.
-4. Smoke build AAB ARM64/IL2CPP termina y se inspecciona; si todavía no hay gameplay, basta player vacío.
-5. Dependencias nativas del artefacto soportan 16 KB o el fallo queda registrado como bloqueo real.
-6. No se introducen rutas absolutas, SDKs globales ni paquetes no aprobados.
+4. Smoke APK Development ARM64/IL2CPP terminó; el AAB Release corresponde a F11.
+5. `zipalign -P 16`, ELF `LOAD align 0x4000` y ejecución en emulador page-size 16384 pasaron.
+6. No se introdujeron rutas personales, SDKs globales ni paquetes no aprobados.
+
+Resultado: ADR-0001 **Aceptada** el 2026-08-14. Una actualización de parche exige repetir import, tests y Android smoke; no se migra silenciosamente.
 
 ## Revalidación
 

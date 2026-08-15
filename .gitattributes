@@ -5,14 +5,14 @@
 *.ps1 text eol=crlf
 
 # Unity serialized YAML: stable text diffs and prepared merge driver.
-*.unity text eol=lf merge=unityyamlmerge
-*.prefab text eol=lf merge=unityyamlmerge
-*.asset text eol=lf merge=unityyamlmerge
-*.mat text eol=lf merge=unityyamlmerge
-*.anim text eol=lf merge=unityyamlmerge
-*.controller text eol=lf merge=unityyamlmerge
-*.overrideController text eol=lf merge=unityyamlmerge
-*.meta text eol=lf
+*.unity text eol=lf merge=unityyamlmerge whitespace=-trailing-space
+*.prefab text eol=lf merge=unityyamlmerge whitespace=-trailing-space
+*.asset text eol=lf merge=unityyamlmerge whitespace=-trailing-space
+*.mat text eol=lf merge=unityyamlmerge whitespace=-trailing-space
+*.anim text eol=lf merge=unityyamlmerge whitespace=-trailing-space
+*.controller text eol=lf merge=unityyamlmerge whitespace=-trailing-space
+*.overrideController text eol=lf merge=unityyamlmerge whitespace=-trailing-space
+*.meta text eol=lf whitespace=-trailing-space
 
 # Large binary asset types are ready for Git LFS. No binary is added in Phase 00.
 *.psd filter=lfs diff=lfs merge=lfs -text

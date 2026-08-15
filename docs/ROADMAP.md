@@ -6,7 +6,7 @@ El roadmap conserva el MVP Selva. Una fase no está aprobada por existir en esta
 
 | Gate | Fases | Criterio de salida |
 |---|---|---|
-| **A — Foundation ready** | 00–03 | Producto/Vertical Slice especificados; repo y proyecto reproducibles; ADR Editor cerrada; arquitectura y calidad mínima compilando; Android smoke AAB vacío. |
+| **A — Foundation ready** | 00–03 | Producto/Vertical Slice especificados; repo y proyecto reproducibles; ADR Editor cerrada; fronteras/entry point y calidad mínima compilando; Android smoke APK o AAB vacío. |
 | **B — Vertical slice playable** | 04–13 | Un loop Selva representativo es jugable offline en Android objetivo, con progreso local, audio/UI provisional y budgets medidos. |
 | **C — MVP content complete** | 14–30 | Todo el contenido Selva acordado está integrado, revisado y accesible para 4–9; no hay otros biomas ni features fuera de alcance. |
 | **D — Feature complete / beta ready** | 31–43 | Tests, dispositivos, privacidad y UX infantil respaldan beta; modelo comercial y Apple Kids tienen decisión humana explícita. |
@@ -20,7 +20,7 @@ El roadmap conserva el MVP Selva. Una fase no está aprobada por existir en esta
 | 00 | Inicialización Git, investigación oficial y baseline documental; sin proyecto Unity. | A |
 | 01 | Visión, GDD, loops, educación, UX, contratos data-driven y alcance canónico de Vertical Slice/MVP; sin Unity. | A |
 | 02 | Contrato operativo de agentes, planes vivos, estándares, review, validación y status; sin Unity. | A |
-| 03 | Foundation Unity reproducible: Editor/módulos, proyecto, capas/asmdefs/composition root, tests mínimos y smoke AAB vacío. | A |
+| 03 | Foundation Unity reproducible: Editor/módulos, proyecto URP, estructura/asmdefs mínimos, Bootstrap futuro, tests y smoke Android APK/AAB vacío; capas de gameplay se crean con casos reales. | A |
 | 04 | Prototipos de interacción y playtests seguros 4–9: tap-to-move, prelectura, guías y accesibilidad. | B |
 | 05 | Shell landscape, navegación uGUI/TMP, safe areas y estados vacío/error. | B |
 | 06 | Dominio puro del loop, actividad, resultado y progreso, con tests. | B |

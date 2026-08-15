@@ -13,7 +13,7 @@ Este documento define cómo probar y cómo hablar de resultados. Ninguna sesión
 
 “Compila” exige compilación real sin errores en target/configuración identificados. “Tests pasan” exige comando, suites y resultado. “Cumple” exige controles técnicos y revisión humana/política aplicables. “Listo” exige Definition of Done completa, no solo documentos.
 
-## Comandos conocidos antes de Unity
+## Comandos conocidos
 
 Ejecutar desde la raíz del repositorio según alcance:
 
@@ -26,7 +26,30 @@ git diff --cached --check
 git lfs fsck
 ```
 
-Para inventario pueden usarse `rg --files`, `find` y `rg`; registrar el patrón relevante. No existe todavía comando válido de Unity, C# tests o build. Cuando Fase 03 cree proyecto/configuración reproducible, documentará comandos realmente ejecutados aquí y en README; hasta entonces todo build/test Unity es `NOT RUN — proyecto inexistente`.
+Para inventario pueden usarse `rg --files`, `find` y `rg`; registrar el patrón relevante. Desde Fase 03 existen comandos Unity verificados en macOS:
+
+```sh
+UNITY_EDITOR="/Applications/Unity/Hub/Editor/6000.3.22f1/Unity.app/Contents/MacOS/Unity"
+
+"$UNITY_EDITOR" -batchmode -nographics -quit \
+  -projectPath "$(pwd)" \
+  -logFile /tmp/pequeno-explorador-compile.log
+
+"$UNITY_EDITOR" -batchmode -nographics \
+  -projectPath "$(pwd)" \
+  -runTests -testPlatform EditMode \
+  -testResults /tmp/pequeno-explorador-editmode.xml \
+  -logFile /tmp/pequeno-explorador-editmode.log
+
+"$UNITY_EDITOR" -batchmode -nographics \
+  -projectPath "$(pwd)" \
+  -executeMethod PequenoExplorador.Editor.AndroidSmokeBuild.Build \
+  -peProfile Development \
+  -buildPath /tmp/pequeno-explorador-builds/PequenoExplorador-smoke.apk \
+  -logFile /tmp/pequeno-explorador-android.log
+```
+
+Reemplazar el Editor solo tras ADR. Los paths de logs/build permanecen fuera de Git. Android requiere el módulo bundled; el método devuelve `2` ante fallo. El build Release usa `-peProfile Release` y path `.aab`, pero no es `PASS` hasta ejecutarse e inspeccionarse.
 
 ## Secuencia mínima por cambio
 

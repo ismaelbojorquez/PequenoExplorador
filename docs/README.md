@@ -1,6 +1,6 @@
 # Índice documental
 
-Estado: Fases 00–02 documentadas el 2026-08-14. Todavía no existe proyecto Unity, gameplay, assets ni build. Empezar siempre por [`../AGENTS.md`](../AGENTS.md) y [`STATUS.md`](STATUS.md).
+Estado: Fases 00–03 completadas el 2026-08-14. Existe una foundation Unity y un smoke Android; todavía no existe gameplay ni contenido final. Empezar siempre por [`../AGENTS.md`](../AGENTS.md) y [`STATUS.md`](STATUS.md).
 
 ## Fuentes de verdad
 
@@ -40,6 +40,9 @@ Los saltos numéricos reservan espacio para documentos técnicos futuros; no imp
 - [`CODE_REVIEW_RULES.md`](CODE_REVIEW_RULES.md): bloqueantes y checklists técnicos/infantiles.
 - [`VALIDATION_PLAYBOOK.md`](VALIDATION_PLAYBOOK.md): comandos conocidos, evidencia y prueba de reanudación.
 - [`VERSION_MATRIX.md`](VERSION_MATRIX.md): Editor y toolchain verificados.
+- [`TECHNICAL_ARCHITECTURE.md`](TECHNICAL_ARCHITECTURE.md): foundation implementada y dirección futura de capas.
+- [`DEPENDENCY_REGISTER.md`](DEPENDENCY_REGISTER.md): intake y pins de paquetes directos/transitivos.
+- [`ANDROID_RELEASE.md`](ANDROID_RELEASE.md): perfiles CLI, toolchain y evidencia del smoke.
 - [`POLICY_SOURCE_REGISTER.md`](POLICY_SOURCE_REGISTER.md): políticas oficiales y revalidación.
 - [`RISK_REGISTER.md`](RISK_REGISTER.md): riesgos, owners y mitigaciones.
 - [`ART_ASSET_REQUIREMENTS.md`](ART_ASSET_REQUIREMENTS.md): contrato técnico de assets.
@@ -51,9 +54,10 @@ Los saltos numéricos reservan espacio para documentos técnicos futuros; no imp
 - [`PHASE_00_PREFLIGHT.md`](PHASE_00_PREFLIGHT.md)
 - [`PHASE_01_PREFLIGHT.md`](PHASE_01_PREFLIGHT.md)
 - [`PHASE_02_PREFLIGHT.md`](PHASE_02_PREFLIGHT.md)
+- [`PHASE_03_PREFLIGHT.md`](PHASE_03_PREFLIGHT.md)
 
-## Lectura obligatoria para Fase 03
+## Lectura obligatoria para Fase 04
 
-Seguir el orden exacto de [`STATUS.md`](STATUS.md). Revalidar ADR-0001 y R-001/R-002/R-003/R-006/R-009 antes de crear el proyecto; evaluar un ExecPlan real. La foundation no autoriza producir el catálogo MVP: después se implementa solo el Vertical Slice.
+Seguir el orden exacto de [`STATUS.md`](STATUS.md). Contrastar import/tests/build, leer arquitectura y alcance, y evaluar un ExecPlan real para el prototipo transversal de interacción. Gate A no autoriza producir el catálogo MVP: se valida solo la interacción del Vertical Slice y no se escala contenido antes de Gate B.
 
 Las notas regulatorias son baseline de ingeniería, no asesoría legal definitiva. Las políticas deben revalidarse en la fase indicada y antes de cada envío.

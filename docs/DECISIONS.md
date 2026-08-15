@@ -2,13 +2,13 @@
 
 Estados: **Provisional** requiere validación de fase; **Aceptada** gobierna el alcance; **Humana pendiente** no puede resolverse solo con ingeniería.
 
-## ADR-0001 — Selección provisional de Unity
+## ADR-0001 — Selección de Unity 6.3 LTS
 
-- Estado: **Provisional**, 2026-08-14.
-- Decisión: usar `Unity 6000.3.22f1` como pin candidato para crear el proyecto en Fase 03.
+- Estado: **Aceptada**, 2026-08-14.
+- Decisión: fijar `Unity 6000.3.22f1 (1c726e1fb402)` para el proyecto.
 - Contexto: es Unity 6.3 LTS, la última revisión que devolvió la API oficial de releases el 2026-08-14; se publicó el 2026-08-13 y está instalada localmente con módulos Android. Unity anuncia dos años de soporte para 6.3 LTS.
-- Criterios: rama LTS; parche vigente; soporte de API 35/36; toolchain incluido por Unity; Apple silicon; capacidad de AAB/IL2CPP; correcciones Android y compatibilidad de paquetes a validar.
-- Consecuencias: no se instalan otras revisiones; Fase 03 debe revalidar latest-patch, activación, creación limpia y smoke build Android. El pin solo pasa a **Aceptada** con esa evidencia.
+- Evidencia: Release API revalidada; licencia batch; creación/import sin errores; paquetes exactos; EditMode `2/2`; APK Development API 36, IL2CPP/ARM64; inspección de manifest/ELF/zipalign; ejecución visual en emulador 16 KB. El AAB Release sigue diferido a F11.
+- Consecuencias: `ProjectVersion.txt` gobierna; no se usan otras revisiones ni se migra silenciosamente. Cada cambio de Editor requiere ADR/plan, backup y repetición de import, tests y smoke.
 - Alternativa: si hay bloqueo reproducible, evaluar explícitamente otra revisión parcheada de 6.3 LTS; solo después, una LTS soportada alternativa. No instalar ni migrar silenciosamente.
 - Rollback: antes de contenido, recrear el proyecto vacío con la revisión aprobada; después de contenido, exigir plan de migración y backup/branch.
 - Fuentes: [release 6000.3.22f1](https://unity.com/releases/editor/whats-new/6000.3.22f1), [anuncio 6.3 LTS](https://unity.com/blog/unity-6-3-lts-is-now-available), verificadas 2026-08-14.
@@ -29,6 +29,8 @@ Estados: **Provisional** requiere validación de fase; **Aceptada** gobierna el 
 | T-010 | ExecPlan vivo solo para trabajo complejo, transversal, riesgoso o multisesión. | Conserva contexto/recovery donde aporta; evitarlo en cambios triviales reduce duplicación y planes obsoletos. | Si la reanudación o trazabilidad resultan insuficientes. |
 | T-011 | Evidencia con estados `PASS`, `FAIL`, `BLOCKED` y `NOT RUN`. | Impide convertir intención, documentación o bloqueo externo en resultado ejecutado. | No se relaja; puede ampliarse el playbook. |
 | T-012 | Placeholders `PH_` con metadata y bloqueo de Release. | Permite prototipar sin confundir material temporal con contenido aprobado. | Tras implementar validador de contenido. |
+| T-013 | Paquetes directos F03: Input System `1.20.0`, URP `17.3.0`, Test Framework `1.6.0`, uGUI `2.0.0`. | Es la baseline oficial mínima que compila y construye; Addressables/Localization no tienen necesidad todavía. | Intake y evidencia completa antes de cualquier cambio. |
+| T-014 | Bundle ID técnico `com.placeholder.pequenoexplorador` y company `Placeholder Studio`. | Permiten builds reproducibles sin asumir titularidad comercial. | Obligatorio reemplazar mediante decisión humana antes de crear registros en stores. |
 
 ## Decisiones de producto aceptadas
 

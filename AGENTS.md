@@ -38,14 +38,14 @@ Esta jerarquía gobierna intención y alcance; la realidad observable gobierna a
 
 La dirección es `Domain` C# puro → `Application` → adaptadores `Infrastructure`/`Presentation`/`Content`, unidos por un composition root explícito. `Domain` no referencia `UnityEngine`; `MonoBehaviour` adapta ciclo de vida/entrada/vista y no contiene reglas complejas. Las reglas completas están en [`docs/ENGINEERING_STANDARDS.md`](docs/ENGINEERING_STANDARDS.md).
 
-Layout actual: raíz para controles del repo, `docs/` para fuentes canónicas y `.agent/` para planes. Fase 03 creará el layout Unity por capas y asmdefs; no precrear `Assets/`, `Packages/` o `ProjectSettings/`. Código futuro usa namespaces `PequenoExplorador.<Layer>`, serialización privada explícita, suscripciones/cancelación ligadas al lifecycle y tests deterministas de Domain/Application más EditMode/PlayMode según frontera.
+Layout actual: raíz para controles y proyecto Unity; `Assets/_Game/` para Bootstrap/Shared/Features/Worlds/Content/UI/Audio/VFX/Editor/Tests; `docs/` para fuentes canónicas y `.agent/` para planes. La foundation tiene tres asmdefs mínimos; crear capas/asmdefs solo con casos de uso reales. Código futuro usa namespaces `PequenoExplorador.<Layer>`, serialización privada explícita, suscripciones/cancelación ligadas al lifecycle y tests deterministas según frontera.
 
-No hay proyecto Unity todavía. Los únicos comandos conocidos son los de repositorio/documentación en [`docs/VALIDATION_PLAYBOOK.md`](docs/VALIDATION_PLAYBOOK.md); no inventar comandos de Editor, tests o build hasta que existan pin y configuración reproducibles.
+El pin es Unity `6000.3.22f1`; import, EditMode y Android build CLI conocidos están en [`docs/VALIDATION_PLAYBOOK.md`](docs/VALIDATION_PLAYBOOK.md). No usar otro Editor ni inventar targets/perfiles.
 
 ## Dependencias y no-go
 
 - No instalar paquete, SDK o herramienta ni aceptar términos sin autorización y revisión de fuente oficial, licencia, versión exacta, mantenimiento, soporte Android/iOS, 16 KB, datos recolectados y aptitud infantil.
-- En Fase 02 no se permite ninguna dependencia nueva. Después solo se permiten módulos/paquetes fijados y aprobados mediante el intake de estándares; terceros parten bloqueados.
+- La allowlist actual está en [`docs/DEPENDENCY_REGISTER.md`](docs/DEPENDENCY_REGISTER.md); cualquier cambio requiere intake. Terceros parten bloqueados.
 - No añadir ads, IAP, analytics remota, login, red, contenido remoto, permisos sensibles, secretos o rutas personales sin ADR y aprobaciones requeridas.
 - No publicar, hacer push, crear cuentas, firmar artefactos, subir a stores ni aceptar contratos salvo petición explícita.
 - No destruir cambios ajenos, usar comandos Git destructivos ni ampliar más allá de Selva/Vertical Slice.

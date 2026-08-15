@@ -1,6 +1,6 @@
 # Estándares de ingeniería
 
-Reglas verificables para la implementación futura. Hasta que exista el proyecto Unity, describen el contrato y no prueban compilación.
+Reglas verificables para la implementación incremental. La foundation de Fase 03 prueba Editor/build, pero no prueba todavía las capas de gameplay descritas aquí.
 
 ## Layout y dirección de dependencias
 
@@ -19,7 +19,7 @@ Tests -> assembly bajo prueba
 - **Content:** authoring/validación y mapeo de datos aprobados a definiciones de aplicación/dominio; no contiene estado mutable de sesión.
 - **Bootstrap:** único composition root explícito. Construye y conecta dependencias; no existe service locator global ni búsqueda implícita como arquitectura.
 
-Cada capa de runtime tendrá asmdef propio cuando exista el proyecto. Las referencias siguen las flechas, sin ciclos; tests Editor/PlayMode usan asmdefs separados y solo referencias necesarias.
+Cada capa de runtime obtiene asmdef cuando exista un caso de uso real; Fase 03 conserva solo runtime foundation, Editor y EditMode. Las referencias siguen las flechas, sin ciclos; tests Editor/PlayMode usan asmdefs separados y solo referencias necesarias.
 
 ## Convenciones C#
 
@@ -101,4 +101,4 @@ Un placeholder no entra en Release. Para liberarlo debe reemplazarse por materia
 - Infrastructure: round-trip, migraciones, corrupción, escrituras interrumpidas y adapters null/mock.
 - Presentation/PlayMode: wiring, lifecycle, escenas, input, accesibilidad y estados de interrupción que requieran Unity.
 - Cada bug corregido añade regresión cuando sea razonable. Tests no usan red/reloj/azar real y no dependen del orden.
-- La matriz concreta de comandos se añadirá solo después de crear el proyecto reproducible.
+- Los comandos concretos de import, EditMode y Android están en [`VALIDATION_PLAYBOOK.md`](VALIDATION_PLAYBOOK.md); ampliar al crear cada suite/target, nunca inventarlos.

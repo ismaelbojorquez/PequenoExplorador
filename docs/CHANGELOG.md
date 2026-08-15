@@ -1,6 +1,25 @@
 # Changelog
 
-Todos los cambios notables de ingeniería se registran aquí. El proyecto aún no tiene una versión de aplicación.
+Todos los cambios notables de ingeniería se registran aquí. La versión técnica de desarrollo es `0.1.0-dev`; no representa un release comercial.
+
+## Fase 03 — 2026-08-14
+
+### Added
+
+- Proyecto Unity `6000.3.22f1` URP mínimo en la raíz, escena temporal `Bootstrap` y estructura `_Game` sin gameplay.
+- Paquetes oficiales exactos, lock reproducible, URP móvil, landscape, Input System only y PlayerSettings Android/iOS-ready.
+- Build CLI Android con perfiles Debug/Development/Release y código de salida explícito.
+- Dos tests EditMode, documentación técnica/release/dependencias y metadata `PH_UI_DIAGNOSTIC`.
+
+### Verified
+
+- Import/compile headless y EditMode `2/2`.
+- APK Development API 36, min 26, IL2CPP/ARM64: 57,042,975 bytes y SHA-256 documentado.
+- Manifest sin cámara, micrófono, ubicación, contactos o `AD_ID`; 16 KB por zipalign/ELF/emulador y diagnóstico visible en landscape.
+
+### Not added
+
+- Gameplay, save, Addressables, Localization, IAP, ads, analytics, backend, arte/audio final, custom manifest/Gradle, firma, AAB Release o build iOS.
 
 ## Fase 02 — 2026-08-14
 

@@ -12,21 +12,41 @@ Baseline de producto, ingeniería y cumplimiento para un juego educativo Unity 2
 - Experiencia inicial recomendada: sin publicidad. Ads, IAP y analítica remota permanecen detrás de interfaces nulas y de decisiones humanas futuras.
 - Privacidad por defecto: sin cuenta, chat, ubicación, cámara del dispositivo, micrófono, identificadores publicitarios ni transmisión de datos en el MVP.
 
-Este repositorio aún **no contiene un proyecto Unity**. No existen escenas, código C#, assets, paquetes ni artefactos de build.
+El repositorio contiene una foundation Unity mínima: URP, escena temporal `Bootstrap`, configuración móvil, build CLI y dos tests EditMode. No contiene gameplay, save, Addressables, IAP, ads, backend ni arte final.
 
 ## Documentación
 
 El índice y el orden de lectura están en [`docs/README.md`](docs/README.md). Las fuentes temporales fueron verificadas el 2026-08-14; no constituyen asesoría legal.
 
-## Continuar con Fase 03
+## Abrir el proyecto
 
-1. Ejecutar el preflight de [`AGENTS.md`](AGENTS.md), empezar por [`docs/STATUS.md`](docs/STATUS.md) y comprobar que Git esté limpio en `main`.
-2. Leer el paquete de producto de Fase 01 y usar [`docs/MVP_SCOPE.md`](docs/MVP_SCOPE.md) como fuente de verdad; la implementación inicial se limita al Vertical Slice.
-3. Revalidar en fuentes oficiales que `6000.3.22f1` siga siendo la última revisión parcheada de Unity 6.3 LTS; si cambió, abrir una decisión explícita antes de actualizar el pin.
-4. Confirmar licencia activa del Editor y módulos Android/iOS. No usar rutas locales persistentes ni SDK externos cuando los módulos soportados de Unity sean suficientes.
-5. Evaluar y mantener un ExecPlan de foundation conforme a [`.agent/PLANS.md`](.agent/PLANS.md).
-6. Crear el proyecto Unity en la raíz, fijar versión, capas/asmdefs/composition root y tests mínimos, y ejecutar un smoke AAB Android vacío. Esa acción está fuera de las Fases 00–02.
-7. Configurar localmente UnityYAMLMerge apuntando al Editor instalado; no versionar su ruta absoluta.
+Usar exactamente Unity `6000.3.22f1 (1c726e1fb402)`. Abrir esta raíz desde Unity Hub; no crear un proyecto anidado ni aceptar una migración silenciosa. El Editor y paquetes exactos están en [`ProjectSettings/ProjectVersion.txt`](ProjectSettings/ProjectVersion.txt) y [`Packages/manifest.json`](Packages/manifest.json).
+
+Para validar en batch desde macOS:
+
+```sh
+UNITY_EDITOR="/Applications/Unity/Hub/Editor/6000.3.22f1/Unity.app/Contents/MacOS/Unity"
+
+"$UNITY_EDITOR" -batchmode -nographics -quit \
+  -projectPath "$(pwd)" \
+  -logFile /tmp/pequeno-explorador-compile.log
+
+"$UNITY_EDITOR" -batchmode -nographics \
+  -projectPath "$(pwd)" \
+  -runTests -testPlatform EditMode \
+  -testResults /tmp/pequeno-explorador-editmode.xml \
+  -logFile /tmp/pequeno-explorador-editmode.log
+```
+
+El smoke Android y sus perfiles están en [`docs/ANDROID_RELEASE.md`](docs/ANDROID_RELEASE.md). No se versionan `Library`, `Logs`, `.utmp`, builds ni credenciales.
+
+## Continuar con Fase 04
+
+1. Ejecutar el preflight de [`AGENTS.md`](AGENTS.md), empezar por [`docs/STATUS.md`](docs/STATUS.md) y contrastar Git, Editor, import y tests.
+2. Leer [`docs/MVP_SCOPE.md`](docs/MVP_SCOPE.md), [`docs/TECHNICAL_ARCHITECTURE.md`](docs/TECHNICAL_ARCHITECTURE.md) y el alcance de Fase 04 en [`docs/ROADMAP.md`](docs/ROADMAP.md).
+3. Crear un ExecPlan si el prototipo de interacción cruza input, escena, UX y playtest; no escalar contenido ni implementar sistemas fuera del Vertical Slice.
+4. Comparar tap-to-move con una alternativa simplificada para prelectores y ambos modos de guía. Safe area y shell UI pertenecen a Fase 05.
+5. Mantener placeholder/metadata, evidencia y revisión infantil; no instalar SDKs, publicar ni aceptar términos.
 
 ## Licencia
 

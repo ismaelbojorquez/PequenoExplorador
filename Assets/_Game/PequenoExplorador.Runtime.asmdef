@@ -1,0 +1,14 @@
+{
+  "name": "PequenoExplorador.Runtime",
+  "rootNamespace": "PequenoExplorador",
+  "references": [],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}
