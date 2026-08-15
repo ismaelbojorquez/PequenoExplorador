@@ -79,7 +79,8 @@ namespace PequenoExplorador.Tests.EditMode
                 first.Context.Messages,
                 first.Context.Analytics,
                 first.Context.Ads,
-                first.Context.Purchases);
+                first.Context.Purchases,
+                first.Context.SceneFlow);
 
             Assert.That(context.Clock.UtcNow, Is.EqualTo(expected));
             Assert.That(first.Context.Random.Next(10000), Is.EqualTo(second.Context.Random.Next(10000)));

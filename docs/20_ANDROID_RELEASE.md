@@ -14,7 +14,7 @@ Fecha de baseline: 2026-08-14. Este pipeline no firma, sube ni publica.
 | backend / ABI | IL2CPP / ARM64 (`arm64-v8a`) |
 | formato | APK Development; sin firma externa |
 
-`scripts/build-android-development` reafirma esos settings, usa la escena habilitada y escribe exclusivamente bajo `artifacts/`. `artifacts/reports/android-development.json` registra UTC, Editor, commit de entrada, path relativo, bytes, SHA-256, duración, APIs, backend, ABI y estado de firma. BuildTools inyecta `PE_DEVELOPMENT_SERVICES` únicamente en `BuildPlayerOptions.extraScriptingDefines` de este perfil; no lo persiste en PlayerSettings.
+`scripts/build-android-development` reafirma esos settings, construye primero Addressables con `LocalDevelopment`, usa la escena Bootstrap habilitada y escribe exclusivamente bajo `artifacts/`. `artifacts/reports/android-development.json` registra UTC, Editor, commit de entrada, path relativo, bytes, SHA-256, duración, APIs, backend, ABI y estado de firma. BuildTools inyecta `PE_DEVELOPMENT_SERVICES` únicamente en `BuildPlayerOptions.extraScriptingDefines` de este perfil; no lo persiste en PlayerSettings. El catálogo y bundles locales deben existir en `assets/aa/`; no se configura remote catalog.
 
 ## Release
 

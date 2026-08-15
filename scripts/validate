@@ -3,6 +3,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 "${SCRIPT_DIR}/check-repository"
 "${SCRIPT_DIR}/compile"
+"${SCRIPT_DIR}/build-addressables-local"
 "${SCRIPT_DIR}/test-editmode"
 "${SCRIPT_DIR}/test-playmode"
 "${SCRIPT_DIR}/build-android-development"

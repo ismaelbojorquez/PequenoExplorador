@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: SharedLocal
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
+  m_GroupName: SharedLocal
+  m_GUID: 3bd42d644b873463d8253280ec266651
+  m_SerializeEntries:
+  - m_GUID: 822004d7ba45248d78ed71c2207a5abb
+    m_Address: scene/camp
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - scene
+    - shared-local
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 0c56d24c3b29b4b1f9fc656e9af54177, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 35783307c46444890bf859a9f9b16dd4, type: 2}
+    - {fileID: 11400000, guid: c69480b198b3744efb214d12c3f6d497, type: 2}
+    m_SchemaDisplayOrder:
+    - SharedLocal_ContentUpdateGroupSchema
+    - SharedLocal_BundledAssetGroupSchema
+  m_IncludeInBuild: 1
+  m_IncludeInBuildMigrated: 1

@@ -1,6 +1,7 @@
 using System;
 using PequenoExplorador.Application.Logging;
 using PequenoExplorador.Application.Messaging;
+using PequenoExplorador.Application.SceneFlow;
 using PequenoExplorador.Application.Services;
 
 namespace PequenoExplorador.Application
@@ -15,7 +16,8 @@ namespace PequenoExplorador.Application
             IMessageBus messages,
             IAnalyticsService analytics,
             IAdsService ads,
-            IPurchaseService purchases)
+            IPurchaseService purchases,
+            ISceneFlowService sceneFlow)
         {
             Environment = environment;
             Clock = clock ?? throw new ArgumentNullException(nameof(clock));
@@ -25,6 +27,7 @@ namespace PequenoExplorador.Application
             Analytics = analytics ?? throw new ArgumentNullException(nameof(analytics));
             Ads = ads ?? throw new ArgumentNullException(nameof(ads));
             Purchases = purchases ?? throw new ArgumentNullException(nameof(purchases));
+            SceneFlow = sceneFlow ?? throw new ArgumentNullException(nameof(sceneFlow));
         }
 
         public ApplicationEnvironment Environment { get; }
@@ -35,5 +38,6 @@ namespace PequenoExplorador.Application
         public IAnalyticsService Analytics { get; }
         public IAdsService Ads { get; }
         public IPurchaseService Purchases { get; }
+        public ISceneFlowService SceneFlow { get; }
     }
 }

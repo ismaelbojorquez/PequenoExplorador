@@ -40,9 +40,11 @@ La dirección es `Domain` C# puro → `Application` → adaptadores `Infrastruct
 
 Layout actual: raíz para controles y proyecto Unity; `Assets/_Game/` contiene Domain/Application/Content/Infrastructure/Presentation/Bootstrap, tooling Editor, tests y carpetas de producción aún vacías; `docs/` contiene fuentes canónicas y `.agent/` planes. Nueve asmdefs fijan el grafo de [`docs/02_TECHNICAL_ARCHITECTURE.md`](docs/02_TECHNICAL_ARCHITECTURE.md); no subdividir sin evidencia. Código usa namespaces `PequenoExplorador.<Layer>`, serialización privada explícita, suscripciones/cancelación ligadas al lifecycle y tests deterministas según frontera.
 
-El pin es Unity `6000.3.22f1`. Desde la raíz, `scripts/validate` ejecuta checks de repositorio, compile/validadores, EditMode, PlayMode y APK Development; los comandos individuales están en [`docs/VALIDATION_PLAYBOOK.md`](docs/VALIDATION_PLAYBOOK.md). Los fallos devuelven código no cero y dejan evidencia ignorada en `artifacts/`. No usar otro Editor ni inventar targets/perfiles.
+El pin es Unity `6000.3.22f1`. Desde la raíz, `scripts/validate` ejecuta checks, compile/validadores, build Addressables local, EditMode, PlayMode y APK Development; `scripts/build-addressables-local` permite el paso aislado. Los comandos individuales están en [`docs/VALIDATION_PLAYBOOK.md`](docs/VALIDATION_PLAYBOOK.md). Los fallos devuelven código no cero y dejan evidencia ignorada en `artifacts/`. No usar otro Editor ni inventar targets/perfiles.
 
 Servicios transversales se declaran como puertos en Application, se implementan en Infrastructure y solo se ensamblan en Bootstrap. `AppContext` se entrega explícitamente y nunca es global; `ServiceRegistry` permanece interno y tipado, sin lookup genérico. El orden canónico es MessageBus → Analytics → Ads → Purchases, con shutdown inverso. Development puede compilar mocks locales mediante el define exclusivo de build; Release usa NullAnalytics, NoAds y UnavailablePurchase y no contiene selección de simuladores.
+
+`ISceneFlowService` serializa `Boot → Camp ↔ Expedition`; Infrastructure es el único owner de handles Addressables y Bootstrap conserva la escena persistente. No cargar escenas por strings dispersos, liberar handles fuera del adapter, referenciar Jungle desde Shared ni activar remote catalogs/endpoints. Todo cambio de grupo/perfil pasa el validador local y tres ciclos PlayMode.
 
 ## Dependencias y no-go
 

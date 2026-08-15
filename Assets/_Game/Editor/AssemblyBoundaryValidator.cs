@@ -68,7 +68,9 @@ namespace PequenoExplorador.Editor
                 },
                 ["PequenoExplorador.Infrastructure"] = new[]
                 {
-                    "PequenoExplorador.Application"
+                    "PequenoExplorador.Application",
+                    "Unity.Addressables",
+                    "Unity.ResourceManager"
                 },
                 ["PequenoExplorador.Presentation"] = new[]
                 {
@@ -84,6 +86,10 @@ namespace PequenoExplorador.Editor
                 ["PequenoExplorador.Editor"] = new[]
                 {
                     "PequenoExplorador.Bootstrap",
+                    "PequenoExplorador.Infrastructure",
+                    "PequenoExplorador.Presentation",
+                    "Unity.Addressables.Editor",
+                    "Unity.InputSystem",
                     "Unity.RenderPipelines.Universal.Runtime"
                 },
                 ["PequenoExplorador.Tests.EditMode"] = new[]

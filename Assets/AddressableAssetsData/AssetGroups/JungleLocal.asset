@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: JungleLocal
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
+  m_GroupName: JungleLocal
+  m_GUID: f6e769023d48c4c8f9fdad343f4db326
+  m_SerializeEntries:
+  - m_GUID: 7325e775975994e9585d77af44b8b5e0
+    m_Address: scene/jungle
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - scene
+    - world-jungle
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 0c56d24c3b29b4b1f9fc656e9af54177, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: e5bf2248c63e7485d94f1b481017f8a7, type: 2}
+    - {fileID: 11400000, guid: 956c4371662234681914f279a958aeb4, type: 2}
+    m_SchemaDisplayOrder:
+    - JungleLocal_ContentUpdateGroupSchema
+    - JungleLocal_BundledAssetGroupSchema
+  m_IncludeInBuild: 1
+  m_IncludeInBuildMigrated: 1

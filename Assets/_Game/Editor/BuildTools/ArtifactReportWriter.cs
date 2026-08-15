@@ -65,6 +65,33 @@ namespace PequenoExplorador.Editor.BuildTools
             });
         }
 
+        public static void WriteAddressablesManifest(
+            string profile,
+            string outputPath,
+            double durationSeconds,
+            int locationCount)
+        {
+            string path = Path.Combine(BuildArtifactPaths.ArtifactsRoot, "reports", "addressables-local.json");
+            string outputDirectory = Path.GetDirectoryName(outputPath);
+            FileInfo[] files = Directory.Exists(outputDirectory)
+                ? new DirectoryInfo(outputDirectory).GetFiles("*", SearchOption.AllDirectories)
+                : Array.Empty<FileInfo>();
+            WriteJson(path, new AddressablesBuildManifest
+            {
+                generatedUtc = DateTime.UtcNow.ToString("O"),
+                unityVersion = Application.unityVersion,
+                packageVersion = "4.0.1",
+                profile = profile,
+                target = EditorUserBuildSettings.activeBuildTarget.ToString(),
+                output = BuildArtifactPaths.RelativeToProject(outputPath),
+                locationCount = locationCount,
+                fileCount = files.Length,
+                bytes = files.Sum(file => file.Length),
+                durationSeconds = durationSeconds,
+                remoteCatalog = false
+            });
+        }
+
         private static void WriteJson(string path, object value)
         {
             Directory.CreateDirectory(Path.GetDirectoryName(path));
@@ -116,6 +143,22 @@ namespace PequenoExplorador.Editor.BuildTools
             public string status;
             public string reason;
             public bool signingMaterialLoaded;
+        }
+
+        [Serializable]
+        private sealed class AddressablesBuildManifest
+        {
+            public string generatedUtc;
+            public string unityVersion;
+            public string packageVersion;
+            public string profile;
+            public string target;
+            public string output;
+            public int locationCount;
+            public int fileCount;
+            public long bytes;
+            public double durationSeconds;
+            public bool remoteCatalog;
         }
     }
 }

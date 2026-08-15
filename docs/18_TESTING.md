@@ -16,7 +16,7 @@ El localizador usa la instalación de Unity Hub para la revisión fijada. En otr
 scripts/validate
 ```
 
-Ejecuta en orden y se detiene al primer fallo: `check-repository`, `compile`, EditMode, PlayMode y APK Android Development. Un éxito total imprime `PE_FULL_VALIDATION_OK`. Los outputs quedan en `artifacts/logs`, `artifacts/reports`, `artifacts/test-results` y `artifacts/builds`.
+Ejecuta en orden y se detiene al primer fallo: `check-repository`, `compile`, build Addressables local, EditMode, PlayMode y APK Android Development. Un éxito total imprime `PE_FULL_VALIDATION_OK`. Los outputs quedan en `artifacts/logs`, `artifacts/reports`, `artifacts/test-results` y `artifacts/builds`.
 
 ## Comandos individuales
 
@@ -25,6 +25,7 @@ Ejecuta en orden y se detiene al primer fallo: `check-repository`, `compile`, Ed
 | `scripts/check-repository` | Markdown, enlaces relativos, JSON/asmdefs, package pins, YAML/Actions, secretos básicos y Bash. | stdout y código de salida. |
 | `scripts/compile` | Import/compile Unity, fronteras, placeholders y reporte de entorno. | `artifacts/logs/compile.log`, `artifacts/reports/environment.json`. |
 | `scripts/validate-content` | Metadata de placeholders presentes; base extensible para contenido futuro. | `artifacts/logs/validate-content.log`. |
+| `scripts/build-addressables-local` | Valida perfiles/grupos/labels/dependencias y construye catálogo Android local. | Log + `artifacts/reports/addressables-local.json`; runtime data ignorada bajo `Library`. |
 | `scripts/test-editmode` | Suite EditMode. | XML NUnit y JUnit en `artifacts/test-results/`. |
 | `scripts/test-playmode` | Suite PlayMode/escena. | XML NUnit y JUnit en `artifacts/test-results/`. |
 | `scripts/build-android-development` | APK Development IL2CPP/ARM64 API 26/36. | APK, log y manifest JSON con tamaño/hash. |
@@ -35,6 +36,8 @@ Ejecuta en orden y se detiene al primer fallo: `check-repository`, `compile`, Ed
 EditMode cubre orden y shutdown inverso, idempotencia secuencial/concurrente, fallo recuperable, cleanup del servicio que falla, cancelación externa, shutdown durante inicialización sin retorno a `Ready`, dispose, IDs duplicados, clock manual, random seeded, perfiles Development/Release, resultados Mock/NoAds/Unavailable, define no persistido y cleanup de listeners. PlayMode carga/reload de `Bootstrap`, exige un solo root y espera `Ready` visible.
 
 La tabla de perfiles y orden de servicios es canónica en [`02_TECHNICAL_ARCHITECTURE.md`](02_TECHNICAL_ARCHITECTURE.md). Un adapter nuevo no está validado solo porque compile: debe ampliar estas suites sin reloj/azar/red reales.
+
+Scene flow EditMode cubre estados, exclusión mutua, error/retry, cancelación, timeout, unload y shutdown. PlayMode exige un único Bootstrap, `Boot→Camp`, tres ciclos `Camp→Jungle→Camp`, un solo handle para la escena actual, cero tras shutdown y recuperación del fallo Development. El stub documental incluido por Addressables se distingue del conteo de tests del proyecto.
 
 Los wrappers son orquestadores: configuración, validación y build viven bajo `Assets/_Game/Editor/BuildTools`. Los logs sustituyen la raíz del proyecto, home y ejecutable del Editor por marcadores antes de conservarse.
 

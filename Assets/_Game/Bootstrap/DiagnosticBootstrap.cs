@@ -3,7 +3,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using PequenoExplorador.Application;
 using PequenoExplorador.Application.Lifecycle;
+using PequenoExplorador.Application.SceneFlow;
 using PequenoExplorador.Presentation.Bootstrap;
+using PequenoExplorador.Presentation.SceneFlow;
 using UnityEngine;
 
 namespace PequenoExplorador.Bootstrap
@@ -19,10 +21,13 @@ namespace PequenoExplorador.Bootstrap
         public const string PlaceholderObjectName = "PH_UI_DIAGNOSTIC";
 
         [SerializeField] private BootstrapStatusView _statusView;
+        [SerializeField] private SceneTransitionView _sceneFlowView;
 
         private CancellationTokenSource _lifetimeCancellation;
         private BootstrapConfiguration _configuration;
         private ServiceRegistry _services;
+        private Task _sceneShutdownTask;
+        private bool _destroying;
 
         public ApplicationState State => _services == null
             ? ApplicationState.Created
@@ -34,6 +39,10 @@ namespace PequenoExplorador.Bootstrap
 
         public string StatusText => _statusView == null ? string.Empty : _statusView.CurrentStatus;
 
+        public SceneFlowSnapshot SceneFlow => _services == null
+            ? null
+            : _services.Context.SceneFlow.Snapshot;
+
         private void Awake()
         {
             if (_statusView == null)
@@ -41,11 +50,21 @@ namespace PequenoExplorador.Bootstrap
                 throw new InvalidOperationException("BootstrapStatusView must be wired in the Bootstrap scene.");
             }
 
+            if (_sceneFlowView == null)
+            {
+                throw new InvalidOperationException("SceneTransitionView must be wired in the Bootstrap scene.");
+            }
+
             _configuration = BuildProfileConfiguration.Resolve();
             _services = new ServiceRegistry(_configuration);
             _lifetimeCancellation = new CancellationTokenSource();
             _statusView.SetDevelopmentDiagnosticsVisible(_configuration.DevelopmentDiagnosticsEnabled);
             _statusView.ShowInitializing();
+            _sceneFlowView.Bind(_services.Context.SceneFlow, _configuration.DevelopmentDiagnosticsEnabled);
+            _sceneFlowView.EnterJungleRequested += EnterJungle;
+            _sceneFlowView.ReturnCampRequested += ReturnCamp;
+            _sceneFlowView.RetryRequested += RetrySceneTransition;
+            _sceneFlowView.SimulateFailureRequested += SimulateNextSceneFailure;
         }
 
         private async void Start()
@@ -81,6 +100,7 @@ namespace PequenoExplorador.Bootstrap
             }
 
             _lifetimeCancellation?.Cancel();
+            _sceneShutdownTask = _sceneShutdownTask ?? _services.Context.SceneFlow.ShutdownAsync();
             _services.Host.Shutdown();
             _statusView?.ShowShutdown();
         }
@@ -90,20 +110,90 @@ namespace PequenoExplorador.Bootstrap
             try
             {
                 await InitializeAsync(cancellationToken);
-                _statusView.ShowReady();
+                SceneTransitionResult transition = await _services.Context.SceneFlow.GoToCampAsync(cancellationToken);
+                if (!transition.IsSuccess)
+                {
+                    throw new InvalidOperationException(transition.ErrorCode);
+                }
+
+                if (!_destroying)
+                {
+                    _statusView.ShowReady();
+                }
             }
             catch (OperationCanceledException)
             {
-                _statusView.ShowShutdown();
+                if (!_destroying)
+                {
+                    _statusView.ShowShutdown();
+                }
             }
             catch (Exception)
             {
-                _statusView.ShowRecoverableFailure();
+                if (!_destroying)
+                {
+                    _statusView.ShowRecoverableFailure();
+                }
             }
         }
 
+        public Task<SceneTransitionResult> GoToCampAsync(CancellationToken cancellationToken)
+        {
+            return _services.Context.SceneFlow.GoToCampAsync(cancellationToken);
+        }
+
+        public Task<SceneTransitionResult> GoToExpeditionAsync(CancellationToken cancellationToken)
+        {
+            return _services.Context.SceneFlow.GoToExpeditionAsync(cancellationToken);
+        }
+
+        public Task ShutdownSceneFlowAsync()
+        {
+            _sceneShutdownTask = _sceneShutdownTask ?? _services.Context.SceneFlow.ShutdownAsync();
+            return _sceneShutdownTask;
+        }
+
+        private async void EnterJungle()
+        {
+            await GoToExpeditionAsync(_lifetimeCancellation.Token);
+        }
+
+        private async void ReturnCamp()
+        {
+            await GoToCampAsync(_lifetimeCancellation.Token);
+        }
+
+        private async void RetrySceneTransition()
+        {
+            await _services.Context.SceneFlow.RetryAsync(_lifetimeCancellation.Token);
+        }
+
+        private void SimulateNextSceneFailure()
+        {
+#if UNITY_EDITOR || PE_DEVELOPMENT_SERVICES
+            SimulateNextSceneFailureForDevelopment();
+#endif
+        }
+
+#if UNITY_EDITOR || PE_DEVELOPMENT_SERVICES
+        public void SimulateNextSceneFailureForDevelopment()
+        {
+            _services.SceneFailure.FailNextLoad();
+        }
+#endif
+
         private void OnDestroy()
         {
+            _destroying = true;
+            if (_sceneFlowView != null)
+            {
+                _sceneFlowView.EnterJungleRequested -= EnterJungle;
+                _sceneFlowView.ReturnCampRequested -= ReturnCamp;
+                _sceneFlowView.RetryRequested -= RetrySceneTransition;
+                _sceneFlowView.SimulateFailureRequested -= SimulateNextSceneFailure;
+                _sceneFlowView.Unbind();
+            }
+
             Shutdown();
             _services?.Dispose();
             _services = null;

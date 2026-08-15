@@ -1,6 +1,6 @@
 # Índice documental
 
-Estado: Fases 00–06 completadas el 2026-08-15. Existe foundation Unity, composition root, servicios seguros, fronteras modulares y pipeline local; todavía no existe gameplay ni contenido final. Empezar siempre por [`../AGENTS.md`](../AGENTS.md) y [`STATUS.md`](STATUS.md).
+Estado: Fases 00–06 y el incremento scene-flow de F07 completados el 2026-08-15. Existe foundation Unity, composition root, servicios seguros, Addressables local y pipeline; todavía no existe gameplay ni contenido final. Empezar siempre por [`../AGENTS.md`](../AGENTS.md) y [`STATUS.md`](STATUS.md).
 
 ## Fuentes de verdad
 
@@ -11,6 +11,7 @@ Estado: Fases 00–06 completadas el 2026-08-15. Existe foundation Unity, compos
 | Cantidades/prioridad | [`MVP_SCOPE.md`](MVP_SCOPE.md) | Única fuente para Vertical Slice, MVP, post-MVP y MoSCoW. |
 | Secuencia de trabajo | [`ROADMAP.md`](ROADMAP.md) | Único orden de Gates A–F y Fases 00–57. |
 | Hechos educativos | [`CONTENT_SOURCES.md`](CONTENT_SOURCES.md) | Ningún claim llega a Release sin trazabilidad y aprobación humana. |
+| Contenido runtime | [`CONTENT_PIPELINE.md`](CONTENT_PIPELINE.md) | Define grupos/perfiles locales, ownership y prohibición de remoto. |
 | Decisiones | [`DECISIONS.md`](DECISIONS.md) | Separa decisiones técnicas/producto de pendientes humanos. |
 | Estado operativo | [`STATUS.md`](STATUS.md) | Fase/Gate, capacidades, plan activo, bloqueos y siguiente acción. |
 | Ejecución | [`../.agent/PLANS.md`](../.agent/PLANS.md) | Decide cuándo y cómo mantener un ExecPlan vivo. |
@@ -44,6 +45,7 @@ Los saltos numéricos reservan espacio para documentos técnicos futuros; no imp
 - [`02_TECHNICAL_ARCHITECTURE.md`](02_TECHNICAL_ARCHITECTURE.md): grafo real de nueve assemblies, límites y enforcement.
 - [`TECHNICAL_ARCHITECTURE.md`](TECHNICAL_ARCHITECTURE.md): alias histórico hacia la arquitectura canónica.
 - [`DEPENDENCY_REGISTER.md`](DEPENDENCY_REGISTER.md): intake y pins de paquetes directos/transitivos.
+- [`CONTENT_PIPELINE.md`](CONTENT_PIPELINE.md): Addressables local, addresses/labels, ownership, build y evolución.
 - [`20_ANDROID_RELEASE.md`](20_ANDROID_RELEASE.md): build Android actual y bloqueo de Release.
 - [`ANDROID_RELEASE.md`](ANDROID_RELEASE.md): evidencia histórica de smoke F03/F04.
 - [`GITHUB_SETUP.md`](GITHUB_SETUP.md): remoto, protección, runner/licencia y secrets como pasos humanos.
@@ -63,6 +65,7 @@ Los saltos numéricos reservan espacio para documentos técnicos futuros; no imp
 - [`PHASE_04_PREFLIGHT.md`](PHASE_04_PREFLIGHT.md)
 - [`PHASE_05_PREFLIGHT.md`](PHASE_05_PREFLIGHT.md)
 - [`PHASE_06_PREFLIGHT.md`](PHASE_06_PREFLIGHT.md)
+- [`PHASE_07_PREFLIGHT.md`](PHASE_07_PREFLIGHT.md)
 
 ## Lectura obligatoria para Fase 07
 

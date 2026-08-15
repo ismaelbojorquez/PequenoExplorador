@@ -2,6 +2,26 @@
 
 Todos los cambios notables de ingeniería se registran aquí. La versión técnica de desarrollo es `0.1.0-dev`; no representa un release comercial.
 
+## Fase 07 — incremento scene flow local — 2026-08-15
+
+### Added
+
+- Máquina Application explícita `Boot → Camp ↔ Expedition`, exclusión mutua, progreso, retry, cancelación, timeout y resultados técnicos sin gameplay.
+- Adapter Addressables con owner único/idempotente de handles, escenas placeholder `Camp`/`Jungle`, transición uGUI Development y fallo simulado recuperable.
+- Addressables `4.0.1` fijado con perfiles `LocalDevelopment`/`LocalRelease`, grupos `SharedLocal`/`JungleLocal`, labels y catálogo exclusivamente local.
+- Validador de perfiles/grupos/paths/labels/no endpoint/no `Shared → Jungle`, build local reproducible y tests EditMode/PlayMode de lifecycle.
+
+### Verified
+
+- Import/compile y Addressables Android local: 6 locations, 8 archivos, 181,040 bytes en runtime output, sin remote catalog.
+- `scripts/validate` final, código `0`: checks, compile, Addressables, EditMode `29/29` (28 del proyecto + stub documental del paquete) y PlayMode `4/4`; incluidos tres ciclos y cero handles tras shutdown.
+- APK Development offline en emulador 16 KB: 41,722,038 bytes, SHA-256 `789d8342fd9af78151e10b55c566c7778e752d6bbadc07badbe9f473a6d3c29c`; catálogo/bundles locales incluidos, API 26/36, ARM64/IL2CPP, `Boot→Camp` sin red.
+- Un primer pipeline final devolvió código `2`: el tercer ciclo PlayMode agotó un límite de frames no representativo en batchmode. El test se corrigió a deadline monotónico de 20 s; ejecución aislada y pipeline completo posteriores pasaron. No se ocultó ni contabilizó aquel intento como `PASS`.
+
+### Not added
+
+- Gameplay, save, remote catalog, CDN, descarga, backend, SDK comercial, permiso sensible nuevo, signing, push o publicación.
+
 ## Gate A — 2026-08-15
 
 ### Added

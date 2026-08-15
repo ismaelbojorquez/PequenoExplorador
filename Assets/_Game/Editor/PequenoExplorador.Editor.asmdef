@@ -3,6 +3,10 @@
   "rootNamespace": "PequenoExplorador.Editor",
   "references": [
     "PequenoExplorador.Bootstrap",
+    "PequenoExplorador.Infrastructure",
+    "PequenoExplorador.Presentation",
+    "Unity.Addressables.Editor",
+    "Unity.InputSystem",
     "Unity.RenderPipelines.Universal.Runtime"
   ],
   "includePlatforms": [

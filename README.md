@@ -12,7 +12,7 @@ Baseline de producto, ingeniería y cumplimiento para un juego educativo Unity 2
 - Experiencia inicial recomendada: sin publicidad. Ads, IAP y analítica remota permanecen detrás de interfaces nulas y de decisiones humanas futuras.
 - Privacidad por defecto: sin cuenta, chat, ubicación, cámara del dispositivo, micrófono, identificadores publicitarios ni transmisión de datos en el MVP.
 
-El repositorio contiene una foundation Unity mínima: URP, composition root explícito, servicios locales Null/Mock seguros, nueve assemblies con fronteras verificables, BuildTools, tests EditMode/PlayMode, smoke Android y checks CI opt-in. No contiene gameplay, save, Addressables, SDKs de IAP/ads/analytics, backend ni arte final.
+El repositorio contiene una foundation Unity mínima: URP, composition root explícito, servicios locales Null/Mock seguros, nueve assemblies, flujo aditivo `Boot → Camp ↔ Jungle`, Addressables solo locales, BuildTools, tests y smoke Android. No contiene gameplay, save, contenido remoto, SDKs de IAP/ads/analytics, backend ni arte final.
 
 ## Documentación
 
@@ -30,6 +30,8 @@ scripts/validate
 
 El wrapper localiza la revisión fijada de Unity Hub o usa `UNITY_EDITOR` si se proporciona. Comandos parciales, reportes JUnit y recovery están en [`docs/18_TESTING.md`](docs/18_TESTING.md); Android está en [`docs/20_ANDROID_RELEASE.md`](docs/20_ANDROID_RELEASE.md). Todos los outputs van a `artifacts/`, que Git ignora. No se versionan `Library`, `Logs`, `.utmp`, builds ni credenciales.
 
+`scripts/build-addressables-local` valida perfiles/grupos/labels y construye el catálogo Android local. `Bootstrap` es la única escena de Build Settings; `Camp` y `Jungle` son placeholders Addressable aditivos. Remote catalogs, CDN y URLs permanecen deshabilitados.
+
 El workflow GitHub ejecuta checks estáticos sin secretos. La validación Unity remota es manual y requiere un runner propio explícitamente habilitado; no se ha ejecutado en GitHub porque todavía no existe remoto. Véase [`docs/GITHUB_SETUP.md`](docs/GITHUB_SETUP.md).
 
 ## Continuar con Fase 07
@@ -37,7 +39,7 @@ El workflow GitHub ejecuta checks estáticos sin secretos. La validación Unity 
 1. Ejecutar el preflight de [`AGENTS.md`](AGENTS.md), empezar por [`docs/STATUS.md`](docs/STATUS.md) y contrastar Git, Editor, import y tests.
 2. Leer [`docs/MVP_SCOPE.md`](docs/MVP_SCOPE.md), [`docs/02_TECHNICAL_ARCHITECTURE.md`](docs/02_TECHNICAL_ARCHITECTURE.md) y el alcance de Fase 07 en [`docs/ROADMAP.md`](docs/ROADMAP.md).
 3. Reejecutar `scripts/validate`; no heredar el PASS de esta fase.
-4. Mantener shell landscape, navegación, safe areas e interacción candidata detrás de Presentation/Application; Bootstrap solo compone. Comparar tap-to-move con alternativa antes de fijar input.
+4. Mantener el scene flow existente detrás de Application/Infrastructure y completar shell landscape, safe areas e interacción candidata en Presentation; Bootstrap solo compone. Comparar tap-to-move con alternativa antes de fijar input.
 5. Mantener placeholder/metadata, evidencia y revisión infantil; no instalar SDKs, publicar ni aceptar términos.
 
 ## Licencia

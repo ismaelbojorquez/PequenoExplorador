@@ -1,6 +1,6 @@
 # Arquitectura técnica — fronteras modulares
 
-Estado: fronteras implementadas en F04 y composition root/lifecycle completado en F06 el 2026-08-15. No define APIs de gameplay. La escena `Bootstrap` muestra estado técnico `Ready` y conserva el placeholder temporal.
+Estado: fronteras F04, composition root F06 y scene flow Addressables local F07 implementados el 2026-08-15. No define APIs de gameplay. `Bootstrap` persiste y entra a Camp placeholder.
 
 ## Grafo real de assemblies
 
@@ -15,7 +15,9 @@ PequenoExplorador.Content
 └─ Application
 
 PequenoExplorador.Infrastructure
-└─ Application
+├─ Application
+├─ Unity.Addressables
+└─ Unity.ResourceManager
 
 PequenoExplorador.Presentation
 └─ Application
@@ -28,6 +30,8 @@ PequenoExplorador.Bootstrap
 
 PequenoExplorador.Editor [Editor only]
 ├─ Bootstrap
+├─ Infrastructure / Presentation
+├─ Unity.Addressables.Editor / Unity.InputSystem
 └─ Unity.RenderPipelines.Universal.Runtime
 
 PequenoExplorador.Tests.EditMode [Editor only]
@@ -53,8 +57,8 @@ El player Android inspeccionado contiene únicamente los seis assemblies runtime
 | Domain | Reglas y estado C# puro cuando existan casos reales. | `UnityEngine`, plataforma, filesystem, UI, SDKs. |
 | Application | Lifecycle, contexto inmutable y puertos sobre Domain/BCL. | Unity, concretos de Infrastructure/Presentation/Content. |
 | Content | Authoring y mapeo de contenido aprobado. | Infrastructure y Presentation; estado mutable de sesión. |
-| Infrastructure | Reloj/random/logger/bus y adapters Null/Mock/seguros; SDK/save solo tras fase y ADR. | Presentation, Content y Bootstrap. |
-| Presentation | Vista de estado Bootstrap y futuros adaptadores Unity de UI/input/cámara/audio. | Infrastructure, filesystem, ads, IAP y concretos de plataforma. |
+| Infrastructure | Reloj/random/logger/bus, adapters Null/Mock/seguros y ownership Addressables de escenas; SDK/save solo tras fase y ADR. | Presentation, Content y Bootstrap. |
+| Presentation | Vistas Bootstrap/transición y futuros adaptadores Unity de UI/input/cámara/audio; consume `ISceneFlowService`. | Infrastructure, filesystem, ads, IAP y concretos de plataforma. |
 | Bootstrap | Único composition root; configura perfil y ensambla puertos/concretos explícitamente. | Reglas de producto, lookup genérico, service locator o singleton global. |
 | Editor | Build/setup/validación que nunca entra en player. | Gameplay y estado runtime. |
 | Tests | Evidencia por frontera y escena; fixtures controladas. | Dependencias innecesarias, red/reloj/azar real. |
@@ -71,13 +75,32 @@ DiagnosticBootstrap (Unity lifecycle)
       │   ├─ IMessageBus
       │   ├─ IAnalyticsService
       │   ├─ IAdsService
-      │   └─ IPurchaseService
+      │   ├─ IPurchaseService
+      │   └─ ISceneFlowService → ISceneContentLoader
       └─ ApplicationHost
           initialize: MessageBus → Analytics → Ads → Purchases
           shutdown:  Purchases → Ads → Analytics → MessageBus
 ```
 
 `ApplicationHost.InitializeAsync` es secuencial, comparte la misma tarea ante llamadas concurrentes, acepta `CancellationToken`, permite retry después de fallo recuperable y hace cleanup inverso. `Shutdown`/`Dispose` son idempotentes; si llegan durante inicialización solicitan cancelación del host, impiden volver a `Ready` y limpian también el servicio que estaba inicializando. `AppContext` no es estático y no ofrece lookup; Bootstrap lo retiene para inyección explícita en futuras fachadas.
+
+## Scene flow y contenido local
+
+```text
+Presentation.SceneTransitionView
+             ↓ ISceneFlowService
+Application.SceneFlowService ── estado / exclusión / retry / timeout
+             ↓ ISceneContentLoader
+Infrastructure.AddressableSceneContentLoader ── owner único de handles
+             ↓
+Addressables local: SharedLocal(Camp) / JungleLocal(Jungle)
+
+Bootstrap.unity persiste; Camp/Jungle son aditivas.
+```
+
+La máquina permite `Boot→Camp`, `Camp→Expedition` y `Expedition→Camp`. Un segundo intento recibe `Busy`; error/cancel/timeout conserva el origen y un target de retry. Cancelar no abandona la operación Unity: el adapter espera un punto seguro y descarga cualquier escena resultante. Cada handle se consume una vez; volver a Camp conserva solo Camp y shutdown deja cero. Presentation nunca conoce Addressables y Bootstrap solo cablea eventos/puertos.
+
+Addressables `4.0.1` queda local-only: perfiles `LocalDevelopment`/`LocalRelease`, grupos `SharedLocal`/`JungleLocal`, labels `scene`/`shared-local`/`world-jungle`, actualización y remote catalog deshabilitados. No hay endpoint. El validador bloquea paths no locales, labels/addresses incorrectos y dependencias Shared→Jungle. Contrato completo: [`CONTENT_PIPELINE.md`](CONTENT_PIPELINE.md).
 
 El bus en memoria solo cubre fan-out acotado. `Subscribe<T>` devuelve `IDisposable`; dispose y shutdown eliminan listeners. No sustituye llamadas directas, no es global y no convierte mensajes en analytics.
 
@@ -122,7 +145,7 @@ Subdividir un assembly requiere evidencia de tiempos de compilación, ownership,
 
 ## Foundation móvil conservada
 
-- Unity `6000.3.22f1`, URP `17.3.0`, Input System `1.20.0`, Test Framework `1.6.0`, uGUI `2.0.0`.
-- Bootstrap es la única escena habilitada; Development muestra nombre/versión y estado `Ready`, Release solo estado seguro.
+- Unity `6000.3.22f1`, Addressables `4.0.1`, URP `17.3.0`, Input System `1.20.0`, Test Framework `1.6.0`, uGUI `2.0.0`.
+- Bootstrap es la única escena habilitada en Build Settings; Camp/Jungle son locales Addressable. Development muestra navegación/fallo simulado; Release oculta controles Development.
 - Android sigue min API 26, target/compile 36, IL2CPP y ARM64; sin manifest/Gradle custom ni permiso sensible nuevo.
-- No existen gameplay, scene flow, save, UI de producto, Addressables ni SDKs. Ads/IAP/analytics son únicamente Null/Mock/Unavailable locales sin red/cuentas.
+- No existen gameplay, save, UI final, contenido remoto ni SDKs comerciales. Ads/IAP/analytics son únicamente Null/Mock/Unavailable locales sin red/cuentas.

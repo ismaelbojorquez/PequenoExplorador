@@ -29,6 +29,10 @@ namespace PequenoExplorador.Tests.EditMode
                 serializedBootstrap.FindProperty("_statusView").objectReferenceValue,
                 Is.Not.Null,
                 "BootstrapStatusView must be explicitly wired, not found globally.");
+            Assert.That(
+                serializedBootstrap.FindProperty("_sceneFlowView").objectReferenceValue,
+                Is.Not.Null,
+                "SceneTransitionView must be explicitly wired by the composition root scene.");
         }
 
         [Test]

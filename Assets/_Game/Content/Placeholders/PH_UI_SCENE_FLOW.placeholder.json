@@ -1,0 +1,12 @@
+{
+  "id": "PH_UI_SCENE_FLOW",
+  "isPlaceholder": true,
+  "owner": "Runtime/UI",
+  "purpose": "Temporary Development navigation and recoverable transition feedback for local scene-flow validation.",
+  "provenance": "Generated in-project from Unity uGUI primitives; no third-party asset.",
+  "license": "Project-authored placeholder; product license remains unselected.",
+  "created": "2026-08-15",
+  "replaceByPhase": "F07 shell and safe-area implementation",
+  "releaseStatus": "Blocked",
+  "releaseApproved": false
+}

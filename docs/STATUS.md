@@ -1,16 +1,16 @@
 # Estado vivo del proyecto
 
-Actualizado: 2026-08-15 00:48 (`America/Mexico_City`). Git y archivos observados prevalecen si contradicen este resumen y obligan a actualizarlo.
+Actualizado: 2026-08-15 02:10 (`America/Mexico_City`). Git y archivos observados prevalecen si contradicen este resumen y obligan a actualizarlo.
 Las evidencias `PHASE_00/01_PREFLIGHT.md` conservan referencias históricas al roadmap vigente cuando se escribieron; este archivo y `ROADMAP.md` contienen la asignación actual.
 
 ## Fase y Gate
 
-- **Fase actual:** 06 — composition root y servicios transversales seguros, sin gameplay.
-- **Estado de fase:** completada; auditoría independiente Gate A `PASS`.
+- **Fase actual:** 07 — incremento de flujo aditivo y Addressables locales, sin gameplay.
+- **Estado de fase:** incremento scene-flow/Addressables completado y validado. F07 sigue abierta por shell/safe area/input.
 - **Auditoría Gate A:** [`audits/GATE_A_2026-08-15.md`](audits/GATE_A_2026-08-15.md) — `PASS`, sin Critical/Major abierto.
-- **Gate actual:** B — Vertical slice playable, iniciado; F06 establece lifecycle/puertos y no implementa el slice.
-- **Siguiente fase:** 07 — shell landscape, safe areas y prototipo/playtest de interacción candidata.
-- **ExecPlan activo:** ninguno; el plan cerrado se conserva en [`.agent/execplans/06-application-bootstrap-services.md`](../.agent/execplans/06-application-bootstrap-services.md).
+- **Gate actual:** B — Vertical slice playable, iniciado; el flujo actual es placeholder y no gameplay.
+- **Siguiente fase:** completar los entregables restantes de F07 — shell landscape, safe areas y prototipo/playtest de interacción candidata— después de cerrar este incremento.
+- **ExecPlan cerrado:** [`.agent/execplans/07-local-scene-flow-addressables.md`](../.agent/execplans/07-local-scene-flow-addressables.md).
 
 ## Capacidades verificadas
 
@@ -20,13 +20,14 @@ Las evidencias `PHASE_00/01_PREFLIGHT.md` conservan referencias históricas al r
 | Producto/Vertical Slice/MVP | Especificado | Fuentes canónicas en visión, GDD y `MVP_SCOPE.md`; no implementado. |
 | Contrato de agentes | Especificado | `AGENTS`, planes, estándares, review y playbook de F02. |
 | Proyecto Unity | Verificado | `6000.3.22f1`, URP, Bootstrap y estructura mínima en raíz. |
-| Pipeline local | `PASS` | Gate A: `scripts/validate`, código `0` en 9:11.06 con recompilación IL2CPP: checks, compile/contenido/fronteras, EditMode `21/21`, PlayMode `2/2` y APK Development. JUnit/logs/manifests en `artifacts/`. |
+| Pipeline local | `PASS` F07 | `scripts/validate` código `0`: checks, compile, catálogo local, EditMode, PlayMode y APK. JUnit/logs/manifests en `artifacts/`. |
 | Fronteras/compilación | `PASS` | Nueve asmdefs, allowlist/cycles y placeholder validados; Domain/Application sin engine. |
 | Lifecycle y servicios | `PASS` | Inicio secuencial, cierre inverso, idempotencia, retry, cancelación propia del host, cleanup del servicio en curso, perfiles fail-closed y limpieza de listeners cubiertos por tests. |
-| Tests Unity | `PASS` | EditMode `21/21`; PlayMode `2/2`; dispose explícito, estado `Ready`, reload sin duplicados, fallo recuperable y shutdown durante init cubiertos. |
-| Build Android/iOS | Android Development `PASS`; Release `BLOCKED`; iOS `NOT RUN` | APK Gate A `57,079,091 bytes`, IL2CPP/ARM64 API 26/36; zipalign/ELF 16 KB y ejecución con backcompat `fatal`. Release exige signing externo y el módulo iOS no está instalado. |
+| Scene flow / Addressables | `PASS` | `4.0.1`; Boot→Camp↔Jungle local, exclusión/error/cancel/timeout, tres ciclos, un handle actual y cero tras shutdown; perfiles/grupos/labels validados, sin remoto. |
+| Tests Unity | `PASS` | EditMode `29/29` (28 del proyecto + 1 stub documental del paquete); PlayMode `4/4`, incluido reload, tres ciclos, fallo/retry y cero handles tras shutdown. |
+| Build Android/iOS | Android Development `PASS`; Release `BLOCKED`; iOS `NOT RUN` | APK F07 `41,722,038 bytes`, SHA-256 `789d8342fd9af78151e10b55c566c7778e752d6bbadc07badbe9f473a6d3c29c`, IL2CPP/ARM64 API 26/36; arranque offline en emulador 16 KB llegó a Camp. Release/iOS no cambiaron. |
 | CI GitHub | `NOT RUN` | Workflow estático + Unity manual/self-hosted definidos; no hay remoto, runner ni activación CI. |
-| Paquetes | Verificado | Cuatro pins directos oficiales; lock y intake documentados; sin preview/SDK comercial. |
+| Paquetes | Verificado | Cinco pins directos oficiales; Addressables `4.0.1` y transitivos exactos, sin preview/SDK comercial/binario nativo nuevo. |
 | Gameplay/assets finales | No existen | Prohibido escalar contenido antes del Vertical Slice. |
 
 ## Fuentes necesarias durante Fase 07
@@ -35,7 +36,7 @@ Las evidencias `PHASE_00/01_PREFLIGHT.md` conservan referencias históricas al r
 2. [`ROADMAP.md`](ROADMAP.md), [`DECISIONS.md`](DECISIONS.md) y [`RISK_REGISTER.md`](RISK_REGISTER.md).
 3. [`02_TECHNICAL_ARCHITECTURE.md`](02_TECHNICAL_ARCHITECTURE.md), [`VERSION_MATRIX.md`](VERSION_MATRIX.md) y [`DEPENDENCY_REGISTER.md`](DEPENDENCY_REGISTER.md).
 4. [`ENGINEERING_STANDARDS.md`](ENGINEERING_STANDARDS.md), [`VALIDATION_PLAYBOOK.md`](VALIDATION_PLAYBOOK.md) y [`.agent/PLANS.md`](../.agent/PLANS.md).
-5. [`18_TESTING.md`](18_TESTING.md) para reejecutar `scripts/validate` antes/después del shell.
+5. [`18_TESTING.md`](18_TESTING.md) y [`CONTENT_PIPELINE.md`](CONTENT_PIPELINE.md) para reejecutar `scripts/validate` y conservar local-only.
 6. [`MVP_SCOPE.md`](MVP_SCOPE.md), [`14_UI_UX.md`](14_UI_UX.md) y [`PLAYTEST_PLAN.md`](PLAYTEST_PLAN.md) para acotar el prototipo y su evidencia.
 
 ## Bloqueos y decisiones humanas
@@ -50,4 +51,4 @@ Las evidencias `PHASE_00/01_PREFLIGHT.md` conservan referencias históricas al r
 
 ## Reanudación inmediata
 
-Tras aceptar Gate A, ejecutar el preflight de F07 y crear ExecPlan solo si el trabajo real cumple los criterios de `.agent/PLANS.md`. Construir el shell/safe area y comparar interacción candidata sin escalar contenido. Consumir `AppContext` mediante fachadas/casos de uso; no convertirlo en global ni mover reglas a `MonoBehaviour`. Mantener Release sin mocks/debug y no crear remoto, push, signing, secretos, publicación ni SDKs.
+Ejecutar preflight y confirmar árbol limpio. Continuar los entregables restantes de F07: shell/safe area y comparación de interacción candidata, consumiendo `ISceneFlowService` sin tocar handles/Addressables desde Presentation. No escalar contenido, activar remoto, crear push/signing/publicación ni instalar SDKs.

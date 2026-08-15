@@ -35,6 +35,7 @@ scripts/validate
 scripts/check-repository
 scripts/compile
 scripts/validate-content
+scripts/build-addressables-local
 scripts/test-editmode
 scripts/test-playmode
 scripts/build-android-development

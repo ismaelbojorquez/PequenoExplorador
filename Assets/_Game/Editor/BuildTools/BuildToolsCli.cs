@@ -13,6 +13,7 @@ namespace PequenoExplorador.Editor.BuildTools
             {
                 ValidateBoundaries();
                 ValidateContentInternal();
+                ValidateAddressablesInternal();
                 ArtifactReportWriter.WriteEnvironmentReport();
                 Debug.Log("PE_COMPILE_OK");
             });
@@ -23,12 +24,25 @@ namespace PequenoExplorador.Editor.BuildTools
             Run(ValidateContentInternal);
         }
 
+        public static void BuildAddressablesLocal()
+        {
+            Run(() =>
+            {
+                ValidateBoundaries();
+                ValidateContentInternal();
+                ValidateAddressablesInternal();
+                LocalAddressablesBuildService.BuildDevelopment();
+            });
+        }
+
         public static void BuildAndroidDevelopment()
         {
             Run(() =>
             {
                 ValidateBoundaries();
                 ValidateContentInternal();
+                ValidateAddressablesInternal();
+                LocalAddressablesBuildService.BuildDevelopment();
                 AndroidBuildService.BuildDevelopment();
             });
         }
@@ -65,6 +79,18 @@ namespace PequenoExplorador.Editor.BuildTools
             }
 
             Debug.Log("PE_CONTENT_VALIDATION_OK");
+        }
+
+        private static void ValidateAddressablesInternal()
+        {
+            IReadOnlyList<string> violations = LocalAddressablesValidationService.Validate();
+            if (violations.Count > 0)
+            {
+                throw new InvalidOperationException(
+                    "Local Addressables validation failed:\n" + string.Join("\n", violations));
+            }
+
+            Debug.Log("PE_LOCAL_ADDRESSABLES_OK profiles=2 groups=2 remote=false");
         }
 
         private static void Run(Action action)

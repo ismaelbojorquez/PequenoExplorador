@@ -40,6 +40,12 @@ El campamento representa progreso sin convertirse en city builder.
 
 Cada sector define puntos de entrada/salida, descubrimientos disponibles, interacciones, requisitos de misión, feedback ambiental, navegación y fallback si un objetivo no carga. El mundo consulta progreso; no decide recompensas, hechos educativos ni persistencia física.
 
+## Baseline runtime F07
+
+`Bootstrap` representa Boot y conserva servicios. `Camp` y `Jungle` son escenas placeholder aditivas, no contenido del Vertical Slice: prueban `Boot → Camp ↔ Expedition`, error/retry y descarga. Al volver a Camp se descarga Jungle y sus bundles sin destruir servicios. Addresses, grupos y la prohibición `SharedLocal → JungleLocal` viven en [`CONTENT_PIPELINE.md`](CONTENT_PIPELINE.md).
+
+La pantalla temporal y los controles Development no fijan navegación final, layout, safe area ni input infantil. Siguen bloqueados para Release mediante metadata `PH_`; no cuentan para cantidades MVP ni autorizan producir sectores/animales.
+
 ## Post-MVP explícito
 
 Otros biomas, ciclo día/noche, clima dinámico, encuentros procedurales y mundo conectado a servicios remotos son post-MVP sin cantidad comprometida.

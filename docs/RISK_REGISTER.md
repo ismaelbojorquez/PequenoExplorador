@@ -33,6 +33,7 @@ Escala: probabilidad (P) e impacto (I) de 1–5; severidad = P×I. `Owner humano
 | R-027 | CI aparenta cobertura Unity aunque falten remoto, runner o activación. | 3 | 4 | 12 | Job Unity manual, condicionado por variable y self-hosted; requerir solo check estático hasta tener evidencia remota. | Release Eng | Al crear remoto/runner |
 | R-028 | Action o script CI filtra credenciales o cambia supply chain. | 2 | 5 | 10 | Actions oficiales fijadas por SHA/licencia, `contents: read`, checkout sin credenciales, artifacts breves y secret scan básico; intake para cambios. | DevSecOps | Cada cambio de workflow |
 | R-029 | Perfil Release activa por error mocks/diagnóstico o lifecycle deja servicios/listeners vivos. | 2 | 5 | 10 | Mocks bajo define exclusivo de Development, registry Release fail-closed y bus sin listeners; Gate A añadió cancelación propia del host, cleanup del servicio en curso y tests contra retorno a `Ready` tras shutdown. | Principal Eng | Cada cambio de servicios/build |
+| R-030 | Transición cancelada/fallida duplica escenas o pierde/libera dos veces un handle Addressables. | 2 | 5 | 10 | Owner único en Infrastructure, exclusión mutua Application, cleanup post-cancel, unload idempotente, validador local y PlayMode Camp↔Jungle x3 con conteo 1→0. | Runtime Architect | Cada escena/grupo y profiling F12/F33 |
 
 ## Riesgo residual tras Gate A
 

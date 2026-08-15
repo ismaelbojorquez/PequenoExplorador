@@ -8,6 +8,7 @@ Fecha de corte original: 2026-08-14; revisión independiente Gate A: 2026-08-15.
 |---|---|---|---|---|
 | Unity Hub | 3.20.1 | Verificado local | `Info.plist`, 2026-08-14 | Disponible; no es parte del pin reproducible del proyecto. |
 | Unity Editor | 6000.3.22f1 (`1c726e1fb402`), Apple silicon | Verificado local/oficial; pin aceptado | Editor batch + Release API oficial, 2026-08-14 | ADR-0001 cerrada tras import, tests, build y ejecución Android. |
+| Addressables | `4.0.1` + Scriptable Build Pipeline `4.0.0` | Verificado oficial/local | Unity Registry/tarball, import, catálogo y APK, 2026-08-15 | Estable para Unity `6000.0+`; pin exacto, Unity Companion License, local-only y sin binarios nativos. |
 | Rama | Unity 6.3 LTS | Verificado oficial | [anuncio Unity 6.3 LTS](https://unity.com/blog/unity-6-3-lts-is-now-available), 2026-08-14 | Dos años de soporte publicados por Unity; preferible a stream no LTS. |
 | Android min API | API 26 (Android 8), provisional | Verificado en proyecto/APK | `ProjectSettings` + `aapt2`, 2026-08-14 | Decisión técnica provisional solicitada; validar mercado/dispositivos en F38. |
 | Android target/compile | API 36 | Verificado oficial y en APK | `aapt2`; [Play exige API 36 desde 2026-08-31](https://support.google.com/googleplay/android-developer/answer/11926878?hl=es-419), 2026-08-14 | APK smoke reporta target/compile 36. |
@@ -40,7 +41,9 @@ Resultado: ADR-0001 **Aceptada** el 2026-08-14. Una actualización de parche exi
 
 ## Revalidación
 
-Gate A, 2026-08-15: la Release API oficial siguió devolviendo `6000.3.22f1` (`1c726e1fb402`, LTS, publicada 2026-08-13) como último release; el Editor y el módulo Android local conservaron JDK 17.0.18, SDK Build/Platform Tools 36.0.0, NDK r27c y Gradle 9.1.0. Google Play mantuvo API 36 desde 2026-08-31. No hubo migración, descarga ni cambio de pin.
+Gate A, 2026-08-15: la Release API oficial siguió devolviendo `6000.3.22f1` (`1c726e1fb402`, LTS, publicada 2026-08-13) como último release; el Editor y el módulo Android local conservaron JDK 17.0.18, SDK Build/Platform Tools 36.0.0, NDK r27c y Gradle 9.1.0. Google Play mantuvo API 36 desde 2026-08-31. No hubo migración del Editor.
+
+F07, 2026-08-15: Unity Registry publicó Addressables `4.0.1` como `latest` estable para Unity `6000.0+`; el manual general de Unity 6.0 todavía indexaba `2.7.6`. Se eligió el registro/tarball oficial más reciente con pin exacto y se condicionó la aceptación a import, suites, catálogo, APK y arranque offline reales. Tarball SHA-1 `37a0b4bd16b0a191e1e08e9b62908ca4284b0f76`.
 
 - F03: Editor latest-patch, licencia, módulos, target API y smoke build.
 - F12: Gradle/AGP, AAB, firma de desarrollo y pipeline Android.

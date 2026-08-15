@@ -2,7 +2,9 @@
   "name": "PequenoExplorador.Infrastructure",
   "rootNamespace": "PequenoExplorador.Infrastructure",
   "references": [
-    "PequenoExplorador.Application"
+    "PequenoExplorador.Application",
+    "Unity.Addressables",
+    "Unity.ResourceManager"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],
