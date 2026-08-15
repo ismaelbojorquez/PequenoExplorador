@@ -5,10 +5,10 @@ Estados: **Provisional** requiere validación de fase; **Aceptada** gobierna el 
 ## ADR-0001 — Selección provisional de Unity
 
 - Estado: **Provisional**, 2026-08-14.
-- Decisión: usar `Unity 6000.3.22f1` como pin candidato para crear el proyecto en Fase 01.
+- Decisión: usar `Unity 6000.3.22f1` como pin candidato para crear el proyecto en Fase 02.
 - Contexto: es Unity 6.3 LTS, la última revisión que devolvió la API oficial de releases el 2026-08-14; se publicó el 2026-08-13 y está instalada localmente con módulos Android. Unity anuncia dos años de soporte para 6.3 LTS.
 - Criterios: rama LTS; parche vigente; soporte de API 35/36; toolchain incluido por Unity; Apple silicon; capacidad de AAB/IL2CPP; correcciones Android y compatibilidad de paquetes a validar.
-- Consecuencias: no se instalan otras revisiones; Fase 01 debe revalidar latest-patch, activación, creación limpia y smoke build Android. El pin solo pasa a **Aceptada** con esa evidencia.
+- Consecuencias: no se instalan otras revisiones; Fase 02 debe revalidar latest-patch, activación, creación limpia y smoke build Android. El pin solo pasa a **Aceptada** con esa evidencia.
 - Alternativa: si hay bloqueo reproducible, evaluar explícitamente otra revisión parcheada de 6.3 LTS; solo después, una LTS soportada alternativa. No instalar ni migrar silenciosamente.
 - Rollback: antes de contenido, recrear el proyecto vacío con la revisión aprobada; después de contenido, exigir plan de migración y backup/branch.
 - Fuentes: [release 6000.3.22f1](https://unity.com/releases/editor/whats-new/6000.3.22f1), [anuncio 6.3 LTS](https://unity.com/blog/unity-6-3-lts-is-now-available), verificadas 2026-08-14.
@@ -19,8 +19,8 @@ Estados: **Provisional** requiere validación de fase; **Aceptada** gobierna el 
 |---|---|---|---|
 | T-001 | Android-first, landscape; iOS-ready. | Prioriza el MVP sin acoplar dominio a plataforma. | Si cambia mercado objetivo. |
 | T-002 | Offline-first, sin backend en MVP. | Reduce datos infantiles, operación y riesgo. | Solo con caso de uso, DPIA/privacidad y presupuesto aprobados. |
-| T-003 | Capas `Domain` C# puro → `Application` → `Infrastructure`/`Presentation`/`Content`. | Testabilidad y fronteras claras con Unity/SDKs. | En revisión de arquitectura Fase 02. |
-| T-004 | Composition root explícito; sin service locator global. | Dependencias visibles y reemplazables. | Fase 02. |
+| T-003 | Capas `Domain` C# puro → `Application` → `Infrastructure`/`Presentation`/`Content`. | Testabilidad y fronteras claras con Unity/SDKs. | En revisión de arquitectura Fase 03. |
+| T-004 | Composition root explícito; sin service locator global. | Dependencias visibles y reemplazables. | Fase 03. |
 | T-005 | ScriptableObjects para authoring, no como estado mutable de sesión. | Flujo de contenido amigable sin contaminar dominio. | Tras prueba del pipeline de contenido. |
 | T-006 | uGUI + TextMeshPro para runtime del MVP. | Madurez en UI móvil Unity y texto localizado. | Prototipo de UI Fase 05. |
 | T-007 | Addressables local-first; catálogo/contenido remoto deshabilitado en MVP. | Organización y memoria sin dependencia de red. | Si tamaño o live content lo exige. |
@@ -35,6 +35,10 @@ Estados: **Provisional** requiere validación de fase; **Aceptada** gobierna el 
 | P-002 | MVP limitado al mundo Selva. | Otros biomas, multiplayer, cuentas y contenido remoto quedan fuera. |
 | P-003 | Sesiones breves y feedback positivo, sin castigo ni dark patterns. | No rachas coercitivas, loot boxes, chat ni presión de compra. |
 | P-004 | Experiencia inicial sin publicidad. | Ads es una decisión posterior condicionada, no un backlog implícito. |
+| P-005 | Dos modos manuales: `Más guía` y `Guía estándar`. | No se pide edad/fecha; mismo contenido, progreso y recompensa. |
+| P-006 | Tap-to-move es candidato, no control fijado. | Comparar con alternativa simplificada en F04 antes de implementar definitivamente. |
+| P-007 | Economía blanda determinista para campamento. | Sin pérdida, compra, azar, caducidad, rachas o ventaja. |
+| P-008 | Vertical Slice bloquea escalado de contenido. | No producir catálogo MVP hasta pasar Gate B y aprobación factual. |
 
 ## Decisiones humanas/comerciales pendientes
 
@@ -46,3 +50,5 @@ Estados: **Provisional** requiere validación de fase; **Aceptada** gobierna el 
 | H-004 | Países de lanzamiento y revisión COPPA/GDPR/leyes locales. | Negocio + privacidad/legal | Antes de pruebas externas con menores. |
 | H-005 | Política de privacidad pública y datos de contacto. | Titular + legal | Antes de fichas de tienda. |
 | H-006 | Si alguna vez habrá ads/analytics/IAP y proveedores aprobados. | Producto + legal + ingeniería | ADR separada; no antes de Gate D. |
+| H-007 | Especialista factual y responsables de aprobación de contenido. | Producto + educación | Antes de producir contenido del slice. |
+| H-008 | Protocolo, consentimiento y reclutamiento de playtests con menores. | Research + legal/privacidad | Antes de playtest con participantes. |

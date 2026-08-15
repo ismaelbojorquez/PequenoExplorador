@@ -27,7 +27,7 @@ Fecha de ejecución: 2026-08-14 (`America/Mexico_City`). Alcance: inspección y 
 | Gradle de Unity | Verificado | 9.1.0; AGP 9.0.0 confirmado por manual Unity 6.3. |
 | SDK/NDK global adicional | Disponible, no seleccionado | SDK Android de usuario tiene plataformas 37.x y NDK 27.1/28.2; no se modificó ni se adoptó. |
 | Xcode completo | No disponible localmente | `xcodebuild` apunta a Command Line Tools y rechaza builds Xcode. iOS queda pendiente. |
-| Licencia/activación Unity | Pendiente humano/Fase 01 | La enumeración del Editor no prueba activación para batch build. |
+| Licencia/activación Unity | Pendiente humano/Fase 02 según roadmap vigente | La enumeración del Editor no prueba activación para batch build. |
 
 ## Investigación oficial
 

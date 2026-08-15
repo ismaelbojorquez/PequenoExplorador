@@ -6,7 +6,7 @@ El roadmap conserva el MVP Selva. Una fase no está aprobada por existir en esta
 
 | Gate | Fases | Criterio de salida |
 |---|---|---|
-| **A — Foundation ready** | 00–03 | Repo y proyecto reproducibles; ADR Editor cerrada; arquitectura y calidad mínima compilando; Android smoke AAB vacío. |
+| **A — Foundation ready** | 00–03 | Producto/Vertical Slice especificados; repo y proyecto reproducibles; ADR Editor cerrada; arquitectura y calidad mínima compilando; Android smoke AAB vacío. |
 | **B — Vertical slice playable** | 04–13 | Un loop Selva representativo es jugable offline en Android objetivo, con progreso local, audio/UI provisional y budgets medidos. |
 | **C — MVP content complete** | 14–30 | Todo el contenido Selva acordado está integrado, revisado y accesible para 4–9; no hay otros biomas ni features fuera de alcance. |
 | **D — Feature complete / beta ready** | 31–43 | Tests, dispositivos, privacidad y UX infantil respaldan beta; modelo comercial y Apple Kids tienen decisión humana explícita. |
@@ -18,10 +18,10 @@ El roadmap conserva el MVP Selva. Una fase no está aprobada por existir en esta
 | Fase | Entregable acotado | Gate |
 |---:|---|:---:|
 | 00 | Inicialización Git, investigación oficial y baseline documental; sin proyecto Unity. | A |
-| 01 | Crear proyecto con revisión Unity aprobada; pin, módulos y smoke AAB Android vacío. | A |
-| 02 | Scaffolding de capas/asmdefs/composition root; evolucionar `AGENTS.md`; sin gameplay final. | A |
-| 03 | Test runners, lint/format, validación de assets y automatización local/CI mínima. | A |
-| 04 | Principios UX 4–9, prelectura, accesibilidad y protocolo de prueba segura. | B |
+| 01 | Visión, GDD, loops, educación, UX, contratos data-driven y alcance canónico de Vertical Slice/MVP; sin Unity. | A |
+| 02 | Crear proyecto con revisión Unity aprobada; pin, módulos y smoke AAB Android vacío. | A |
+| 03 | Scaffolding de capas/asmdefs/composition root, test baseline y automatización mínima; evolucionar `AGENTS.md`. | A |
+| 04 | Prototipos de interacción y playtests seguros 4–9: tap-to-move, prelectura, guías y accesibilidad. | B |
 | 05 | Shell landscape, navegación uGUI/TMP, safe areas y estados vacío/error. | B |
 | 06 | Dominio puro del loop, actividad, resultado y progreso, con tests. | B |
 | 07 | Input táctil/mouse, selección, feedback inmediato y tolerancia motriz. | B |
@@ -30,7 +30,7 @@ El roadmap conserva el MVP Selva. Una fase no está aprobada por existir en esta
 | 10 | Pipeline ScriptableObject de authoring y validación de contenido. | B |
 | 11 | Pipeline Android AAB ARM64/IL2CPP y primera inspección 16 KB. | B |
 | 12 | Budgets medidos de frame, memoria, tamaño, carga, batería y térmicas. | B |
-| 13 | Vertical slice Selva end-to-end en dispositivo, con retroalimentación documentada. | B |
+| 13 | Vertical Slice canónico Selva end-to-end en dispositivo; gate explícito antes de escalar contenido. | B |
 | 14 | Pipeline de arte, naming, import presets, provenance y validadores. | C |
 | 15 | Pipeline de audio, masters, compresión, loudness, licencias y validadores. | C |
 | 16 | Localización base, fallback, fuentes/glifos y expansión de layouts. | C |
