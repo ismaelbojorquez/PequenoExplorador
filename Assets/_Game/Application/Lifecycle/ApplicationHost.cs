@@ -13,6 +13,7 @@ namespace PequenoExplorador.Application.Lifecycle
         private readonly List<IApplicationService> _initializedServices = new List<IApplicationService>();
         private readonly IAppLogger _logger;
         private Task _initializationTask;
+        private CancellationTokenSource _initializationCancellation;
         private bool _disposed;
 
         public ApplicationHost(IEnumerable<IApplicationService> services, IAppLogger logger)
@@ -55,10 +56,12 @@ namespace PequenoExplorador.Application.Lifecycle
             }
 
             FailureCode = string.Empty;
+            var initializationCancellation = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
             var completion = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            _initializationCancellation = initializationCancellation;
             _initializationTask = completion.Task;
             SetState(ApplicationState.Initializing);
-            _ = CompleteInitializationAsync(completion, cancellationToken);
+            _ = CompleteInitializationAsync(completion, initializationCancellation);
             return _initializationTask;
         }
 
@@ -66,6 +69,13 @@ namespace PequenoExplorador.Application.Lifecycle
         {
             if (_disposed || State == ApplicationState.Shutdown)
             {
+                return;
+            }
+
+            if (State == ApplicationState.Initializing || State == ApplicationState.ShuttingDown)
+            {
+                SetState(ApplicationState.ShuttingDown);
+                _initializationCancellation?.Cancel();
                 return;
             }
 
@@ -87,13 +97,17 @@ namespace PequenoExplorador.Application.Lifecycle
 
         private async Task InitializeCoreAsync(CancellationToken cancellationToken)
         {
+            IApplicationService initializingService = null;
             try
             {
                 foreach (IApplicationService service in _services)
                 {
                     cancellationToken.ThrowIfCancellationRequested();
+                    initializingService = service;
                     await service.InitializeAsync(cancellationToken);
+                    cancellationToken.ThrowIfCancellationRequested();
                     _initializedServices.Add(service);
+                    initializingService = null;
                     _logger.Write(new AppLogEntry(
                         AppLogLevel.Info,
                         "Bootstrap",
@@ -106,15 +120,23 @@ namespace PequenoExplorador.Application.Lifecycle
             }
             catch (OperationCanceledException)
             {
+                ShutdownService(initializingService);
                 ShutdownInitializedServices();
                 SetState(ApplicationState.Shutdown);
                 throw;
             }
             catch (Exception exception)
             {
+                ShutdownService(initializingService);
+                ShutdownInitializedServices();
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    SetState(ApplicationState.Shutdown);
+                    throw new OperationCanceledException(cancellationToken);
+                }
+
                 FailureCode = exception.GetType().Name;
                 _logger.Write(new AppLogEntry(AppLogLevel.Error, "Bootstrap", "InitializationFailed", FailureCode));
-                ShutdownInitializedServices();
                 SetState(ApplicationState.Failed);
                 throw;
             }
@@ -122,11 +144,11 @@ namespace PequenoExplorador.Application.Lifecycle
 
         private async Task CompleteInitializationAsync(
             TaskCompletionSource<bool> completion,
-            CancellationToken cancellationToken)
+            CancellationTokenSource initializationCancellation)
         {
             try
             {
-                await InitializeCoreAsync(cancellationToken);
+                await InitializeCoreAsync(initializationCancellation.Token);
                 completion.TrySetResult(true);
             }
             catch (OperationCanceledException)
@@ -137,33 +159,51 @@ namespace PequenoExplorador.Application.Lifecycle
             {
                 completion.TrySetException(exception);
             }
+            finally
+            {
+                if (ReferenceEquals(_initializationCancellation, initializationCancellation))
+                {
+                    _initializationCancellation = null;
+                }
+
+                initializationCancellation.Dispose();
+            }
         }
 
         private void ShutdownInitializedServices()
         {
             for (int index = _initializedServices.Count - 1; index >= 0; index--)
             {
-                IApplicationService service = _initializedServices[index];
-                try
-                {
-                    service.Shutdown();
-                    _logger.Write(new AppLogEntry(
-                        AppLogLevel.Info,
-                        "Bootstrap",
-                        "ServiceShutdown",
-                        service.ServiceId));
-                }
-                catch (Exception exception)
-                {
-                    _logger.Write(new AppLogEntry(
-                        AppLogLevel.Error,
-                        "Bootstrap",
-                        "ServiceShutdownFailed",
-                        exception.GetType().Name));
-                }
+                ShutdownService(_initializedServices[index]);
             }
 
             _initializedServices.Clear();
+        }
+
+        private void ShutdownService(IApplicationService service)
+        {
+            if (service == null)
+            {
+                return;
+            }
+
+            try
+            {
+                service.Shutdown();
+                _logger.Write(new AppLogEntry(
+                    AppLogLevel.Info,
+                    "Bootstrap",
+                    "ServiceShutdown",
+                    service.ServiceId));
+            }
+            catch (Exception exception)
+            {
+                _logger.Write(new AppLogEntry(
+                    AppLogLevel.Error,
+                    "Bootstrap",
+                    "ServiceShutdownFailed",
+                    exception.GetType().Name));
+            }
         }
 
         private void SetState(ApplicationState state)

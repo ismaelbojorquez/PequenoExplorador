@@ -2,6 +2,30 @@
 
 Todos los cambios notables de ingeniería se registran aquí. La versión técnica de desarrollo es `0.1.0-dev`; no representa un release comercial.
 
+## Gate A — 2026-08-15
+
+### Added
+
+- Auditoría independiente de foundation con matriz de severidad, comandos, artefactos, permisos, licencias y riesgo infantil.
+- Dos tests EditMode para shutdown durante inicialización y cleanup del servicio que falla antes de un retry recuperable.
+
+### Changed
+
+- `ApplicationHost` posee la cancelación de inicialización: shutdown ya no puede volver a `Ready` y el servicio en curso recibe cleanup aun si falla o ignora temporalmente el token.
+- Registro de política 16 KB alineado con la fuente oficial actualizada 2026-08-05 y deadline de updates 2027-02-01.
+- Arquitectura, testing, riesgos, matriz de versiones, índice y status reflejan evidencia Gate A; no cambió ninguna decisión ADR.
+
+### Verified
+
+- `scripts/validate`: código `0` en 9:11.06 con recompilación IL2CPP; EditMode `21/21`, PlayMode `2/2` y APK Development.
+- APK final: `57,079,091 bytes`, SHA-256 `8710f8ccf27489fa72ec9b9130014e0ec0f79fdadea621edf670189c582fb22f`, min/target/compile 26/36/36 y ARM64/IL2CPP.
+- Manifest sin permiso sensible/`AD_ID`; `zipalign -P 16` y siete ELF `0x4000`; instalación y `Ready` en emulador `PAGE_SIZE=16384` con backcompat `fatal`.
+- Guard Release: código esperado `3` sin build/firma. CI remota, AAB firmado e iOS continúan `NOT RUN`.
+
+### Not added
+
+- Gameplay, features, save, SDKs, paquetes, permisos, signing, AAB, secretos, remoto, push o publicación.
+
 ## Fase 06 — 2026-08-15
 
 ### Added

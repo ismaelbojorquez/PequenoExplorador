@@ -32,7 +32,7 @@ Ejecuta en orden y se detiene al primer fallo: `check-repository`, `compile`, Ed
 
 ## Suites de lifecycle y servicios
 
-EditMode cubre orden y shutdown inverso, idempotencia secuencial/concurrente, fallo recuperable, cancelación, dispose, IDs duplicados, clock manual, random seeded, perfiles Development/Release, resultados Mock/NoAds/Unavailable, define no persistido y cleanup de listeners. PlayMode carga/reload de `Bootstrap`, exige un solo root y espera `Ready` visible.
+EditMode cubre orden y shutdown inverso, idempotencia secuencial/concurrente, fallo recuperable, cleanup del servicio que falla, cancelación externa, shutdown durante inicialización sin retorno a `Ready`, dispose, IDs duplicados, clock manual, random seeded, perfiles Development/Release, resultados Mock/NoAds/Unavailable, define no persistido y cleanup de listeners. PlayMode carga/reload de `Bootstrap`, exige un solo root y espera `Ready` visible.
 
 La tabla de perfiles y orden de servicios es canónica en [`02_TECHNICAL_ARCHITECTURE.md`](02_TECHNICAL_ARCHITECTURE.md). Un adapter nuevo no está validado solo porque compile: debe ampliar estas suites sin reloj/azar/red reales.
 

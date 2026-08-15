@@ -1,6 +1,6 @@
 # Matriz de versiones y toolchain
 
-Fecha de corte: 2026-08-14. `Verificado local` describe este equipo; `Verificado oficial` describe documentación vigente; `Pendiente` exige evidencia posterior. No se instaló ni actualizó software.
+Fecha de corte original: 2026-08-14; revisión independiente Gate A: 2026-08-15. `Verificado local` describe este equipo; `Verificado oficial` describe documentación vigente; `Pendiente` exige evidencia posterior. No se instaló ni actualizó software.
 
 ## Baseline candidata
 
@@ -39,6 +39,8 @@ Fecha de corte: 2026-08-14. `Verificado local` describe este equipo; `Verificado
 Resultado: ADR-0001 **Aceptada** el 2026-08-14. Una actualización de parche exige repetir import, tests y Android smoke; no se migra silenciosamente.
 
 ## Revalidación
+
+Gate A, 2026-08-15: la Release API oficial siguió devolviendo `6000.3.22f1` (`1c726e1fb402`, LTS, publicada 2026-08-13) como último release; el Editor y el módulo Android local conservaron JDK 17.0.18, SDK Build/Platform Tools 36.0.0, NDK r27c y Gradle 9.1.0. Google Play mantuvo API 36 desde 2026-08-31. No hubo migración, descarga ni cambio de pin.
 
 - F03: Editor latest-patch, licencia, módulos, target API y smoke build.
 - F12: Gradle/AGP, AAB, firma de desarrollo y pipeline Android.

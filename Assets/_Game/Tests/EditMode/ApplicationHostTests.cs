@@ -132,6 +132,49 @@ namespace PequenoExplorador.Tests.EditMode
         }
 
         [Test]
+        public async Task ShutdownDuringInitializationCancelsAndCannotReturnToReady()
+        {
+            var gate = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            var service = new RecordingApplicationService("Blocking", new List<string>())
+            {
+                InitializeBehavior = async cancellationToken => await gate.Task
+            };
+            using var host = new ApplicationHost(new[] { service }, new RecordingLogger());
+
+            Task initialization = host.InitializeAsync(CancellationToken.None);
+            host.Shutdown();
+            gate.SetResult(true);
+
+            try
+            {
+                await initialization;
+                Assert.Fail("Initialization must be canceled after shutdown is requested.");
+            }
+            catch (OperationCanceledException)
+            {
+            }
+
+            Assert.That(host.State, Is.EqualTo(ApplicationState.Shutdown));
+            Assert.That(service.ShutdownCount, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void FailingServiceReceivesCleanupBeforeRecoverableRetry()
+        {
+            var failing = new RecordingApplicationService("Failing", new List<string>())
+            {
+                InitializeBehavior = cancellationToken => throw new InvalidOperationException("controlled fixture")
+            };
+            using var host = new ApplicationHost(new[] { failing }, new RecordingLogger());
+
+            Assert.ThrowsAsync<InvalidOperationException>(
+                async () => await host.InitializeAsync(CancellationToken.None));
+
+            Assert.That(host.State, Is.EqualTo(ApplicationState.Failed));
+            Assert.That(failing.ShutdownCount, Is.EqualTo(1));
+        }
+
+        [Test]
         public void DuplicateServiceIdsAreRejected()
         {
             var trace = new List<string>();

@@ -52,6 +52,7 @@ Los saltos numéricos reservan espacio para documentos técnicos futuros; no imp
 - [`ART_ASSET_REQUIREMENTS.md`](ART_ASSET_REQUIREMENTS.md): contrato técnico de assets.
 - [`AUDIO_REQUIREMENTS.md`](AUDIO_REQUIREMENTS.md): contrato técnico de audio.
 - [`CHANGELOG.md`](CHANGELOG.md): cambios por fase.
+- [`audits/GATE_A_2026-08-15.md`](audits/GATE_A_2026-08-15.md): auditoría independiente de foundation, hallazgos y evidencia ejecutada.
 
 ## Evidencia de preflight
 
