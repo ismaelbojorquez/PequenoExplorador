@@ -88,11 +88,15 @@ namespace PequenoExplorador.Editor
                 },
                 ["PequenoExplorador.Tests.EditMode"] = new[]
                 {
+                    "PequenoExplorador.Application",
                     "PequenoExplorador.Bootstrap",
-                    "PequenoExplorador.Editor"
+                    "PequenoExplorador.Editor",
+                    "PequenoExplorador.Infrastructure",
+                    "PequenoExplorador.Presentation"
                 },
                 ["PequenoExplorador.Tests.PlayMode"] = new[]
                 {
+                    "PequenoExplorador.Application",
                     "PequenoExplorador.Bootstrap"
                 }
             };

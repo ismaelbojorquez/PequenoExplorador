@@ -2,8 +2,11 @@
   "name": "PequenoExplorador.Tests.EditMode",
   "rootNamespace": "PequenoExplorador.Tests.EditMode",
   "references": [
+    "PequenoExplorador.Application",
     "PequenoExplorador.Bootstrap",
-    "PequenoExplorador.Editor"
+    "PequenoExplorador.Editor",
+    "PequenoExplorador.Infrastructure",
+    "PequenoExplorador.Presentation"
   ],
   "includePlatforms": [
     "Editor"

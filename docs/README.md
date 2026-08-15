@@ -1,6 +1,6 @@
 # Índice documental
 
-Estado: Fases 00–05 completadas el 2026-08-14. Existe una foundation Unity, fronteras modulares y pipeline local verificable; todavía no existe gameplay ni contenido final. Empezar siempre por [`../AGENTS.md`](../AGENTS.md) y [`STATUS.md`](STATUS.md).
+Estado: Fases 00–06 completadas el 2026-08-15. Existe foundation Unity, composition root, servicios seguros, fronteras modulares y pipeline local; todavía no existe gameplay ni contenido final. Empezar siempre por [`../AGENTS.md`](../AGENTS.md) y [`STATUS.md`](STATUS.md).
 
 ## Fuentes de verdad
 
@@ -61,9 +61,10 @@ Los saltos numéricos reservan espacio para documentos técnicos futuros; no imp
 - [`PHASE_03_PREFLIGHT.md`](PHASE_03_PREFLIGHT.md)
 - [`PHASE_04_PREFLIGHT.md`](PHASE_04_PREFLIGHT.md)
 - [`PHASE_05_PREFLIGHT.md`](PHASE_05_PREFLIGHT.md)
+- [`PHASE_06_PREFLIGHT.md`](PHASE_06_PREFLIGHT.md)
 
-## Lectura obligatoria para Fase 06
+## Lectura obligatoria para Fase 07
 
-Seguir el orden exacto de [`STATUS.md`](STATUS.md) y reejecutar `scripts/validate`. Leer la arquitectura canónica antes de tocar UI/escenas. El shell y safe area de F06 no autorizan producir catálogo MVP; input candidato se valida en F08 y no se escala contenido antes del Vertical Slice.
+Seguir el orden exacto de [`STATUS.md`](STATUS.md) y reejecutar `scripts/validate`. Leer la arquitectura canónica antes de tocar UI/escenas. El shell, safe area y prototipo de input de F07 no autorizan producir catálogo MVP; tap-to-move sigue candidato hasta playtest y no se escala contenido antes del Vertical Slice.
 
 Las notas regulatorias son baseline de ingeniería, no asesoría legal definitiva. Las políticas deben revalidarse en la fase indicada y antes de cada envío.

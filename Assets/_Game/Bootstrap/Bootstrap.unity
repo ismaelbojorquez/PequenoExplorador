@@ -325,6 +325,7 @@ GameObject:
   - component: {fileID: 547690721}
   - component: {fileID: 547690720}
   - component: {fileID: 547690719}
+  - component: {fileID: 547690722}
   m_Layer: 0
   m_Name: PH_UI_DIAGNOSTIC
   m_TagString: Untagged
@@ -366,6 +367,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04fd141f020f543efad6d30bf0838e2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.Runtime::PequenoExplorador.Bootstrap.DiagnosticBootstrap
+  _statusView: {fileID: 547690722}
+--- !u!114 &547690722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 547690717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 586ebc9a34bca45b1a26e27c73d90ad2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PequenoExplorador.Presentation::PequenoExplorador.Presentation.Bootstrap.BootstrapStatusView
+  _statusText: {fileID: 1332547661}
+  _developmentOnlyObjects:
+  - {fileID: 1595221542}
+  - {fileID: 2017206364}
 --- !u!114 &547690720
 MonoBehaviour:
   m_ObjectHideFlags: 0

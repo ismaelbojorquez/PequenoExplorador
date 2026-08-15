@@ -20,9 +20,9 @@ Estados: **Provisional** requiere validación de fase; **Aceptada** gobierna el 
 | T-001 | Android-first, landscape; iOS-ready. | Prioriza el MVP sin acoplar dominio a plataforma. | Si cambia mercado objetivo. |
 | T-002 | Offline-first, sin backend en MVP. | Reduce datos infantiles, operación y riesgo. | Solo con caso de uso, DPIA/privacidad y presupuesto aprobados. |
 | T-003 | Capas `Domain` C# puro → `Application` → `Infrastructure`/`Presentation`/`Content`. | Testabilidad y fronteras claras con Unity/SDKs. | En revisión de arquitectura Fase 03. |
-| T-004 | Composition root explícito; sin service locator global. | Dependencias visibles y reemplazables. | Fase 03. |
+| T-004 | Composition root explícito; sin service locator global. | Dependencias visibles y reemplazables. | Solo si una feature demuestra que la inyección explícita no escala. |
 | T-005 | ScriptableObjects para authoring, no como estado mutable de sesión. | Flujo de contenido amigable sin contaminar dominio. | Tras prueba del pipeline de contenido. |
-| T-006 | uGUI + TextMeshPro para runtime del MVP. | Madurez en UI móvil Unity y texto localizado. | Prototipo de UI Fase 06. |
+| T-006 | uGUI + TextMeshPro para runtime del MVP. | Madurez en UI móvil Unity y texto localizado. | Prototipo de UI Fase 07. |
 | T-007 | Addressables local-first; catálogo/contenido remoto deshabilitado en MVP. | Organización y memoria sin dependencia de red. | Si tamaño o live content lo exige. |
 | T-008 | Puertos con implementaciones mock/null para analytics, ads e IAP. | No integrar SDKs ni transmitir datos por accidente. | Tras aprobación comercial/legal. |
 | T-009 | AAB, ARM64 e IL2CPP como objetivo de release Android. | Alineación con Play y native libraries; debe validarse 16 KB. | Build pipeline Android. |
@@ -33,6 +33,7 @@ Estados: **Provisional** requiere validación de fase; **Aceptada** gobierna el 
 | T-014 | Bundle ID técnico `com.placeholder.pequenoexplorador` y company `Placeholder Studio`. | Permiten builds reproducibles sin asumir titularidad comercial. | Obligatorio reemplazar mediante decisión humana antes de crear registros en stores. |
 | T-015 | Nueve assemblies con allowlist ejecutable: Domain, Application, Content, Infrastructure, Presentation, Bootstrap, Editor y dos Tests. | Hace físicas las fronteras sin fragmentar por features inexistentes; Bootstrap es el único composition root. | Solo con evidencia medida y actualización de validador, tests, arquitectura y riesgo. |
 | T-016 | Pipeline local canónico en `scripts/validate`; lógica de Unity en Editor, CI manual/self-hosted y Release fail-closed. | Un comando conserva paridad local/CI sin entregar licencia/signing a una Action de terceros ni fingir disponibilidad remota. | Cuando exista remoto/runner/licencia aprobados o se diseñe signing externo. |
+| T-017 | `ApplicationHost` inicializa MessageBus → Analytics → Ads → Purchases y apaga en orden inverso; `AppContext` es inmutable y el registro tipado es interno a Bootstrap. | Lifecycle determinista sin singleton/service locator y defaults offline seguros. Development usa mocks compilados solo con define de build; Release usa NullAnalytics/NoAds/UnavailablePurchase. | Si un servicio real recibe ADR/aprobación o el orden tiene una dependencia medida. |
 
 ## Decisiones de producto aceptadas
 
@@ -43,7 +44,7 @@ Estados: **Provisional** requiere validación de fase; **Aceptada** gobierna el 
 | P-003 | Sesiones breves y feedback positivo, sin castigo ni dark patterns. | No rachas coercitivas, loot boxes, chat ni presión de compra. |
 | P-004 | Experiencia inicial sin publicidad. | Ads es una decisión posterior condicionada, no un backlog implícito. |
 | P-005 | Dos modos manuales: `Más guía` y `Guía estándar`. | No se pide edad/fecha; mismo contenido, progreso y recompensa. |
-| P-006 | Tap-to-move es candidato, no control fijado. | Comparar con alternativa simplificada en F08 antes de implementar definitivamente. |
+| P-006 | Tap-to-move es candidato, no control fijado. | Comparar con alternativa simplificada en F07 antes de implementar definitivamente. |
 | P-007 | Economía blanda determinista para campamento. | Sin pérdida, compra, azar, caducidad, rachas o ventaja. |
 | P-008 | Vertical Slice bloquea escalado de contenido. | No producir catálogo MVP hasta pasar Gate B y aprobación factual. |
 

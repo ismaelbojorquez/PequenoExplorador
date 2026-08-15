@@ -14,7 +14,7 @@ Fecha de baseline: 2026-08-14. Este pipeline no firma, sube ni publica.
 | backend / ABI | IL2CPP / ARM64 (`arm64-v8a`) |
 | formato | APK Development; sin firma externa |
 
-`scripts/build-android-development` reafirma esos settings, usa la escena habilitada y escribe exclusivamente bajo `artifacts/`. `artifacts/reports/android-development.json` registra UTC, Editor, commit de entrada, path relativo, bytes, SHA-256, duración, APIs, backend, ABI y estado de firma.
+`scripts/build-android-development` reafirma esos settings, usa la escena habilitada y escribe exclusivamente bajo `artifacts/`. `artifacts/reports/android-development.json` registra UTC, Editor, commit de entrada, path relativo, bytes, SHA-256, duración, APIs, backend, ABI y estado de firma. BuildTools inyecta `PE_DEVELOPMENT_SERVICES` únicamente en `BuildPlayerOptions.extraScriptingDefines` de este perfil; no lo persiste en PlayerSettings.
 
 ## Release
 
@@ -22,7 +22,7 @@ Fecha de baseline: 2026-08-14. Este pipeline no firma, sube ni publica.
 scripts/build-android-release
 ```
 
-Es un placeholder seguro: crea un reporte `BLOCKED`, imprime `PE_RELEASE_SIGNING_REQUIRED` y sale con código `3` antes de invocar BuildPipeline. Habilitar Release requiere decisión humana sobre titular/bundle ID y un mecanismo externo de signing que no exponga keystore, passwords ni rutas personales. AAB, Play App Signing, upload key y publicación siguen `NOT RUN`; se abordan en F12/F46–F52.
+Es un placeholder seguro: crea un reporte `BLOCKED`, imprime `PE_RELEASE_SIGNING_REQUIRED` y sale con código `3` antes de invocar BuildPipeline. El perfil Release no recibe `PE_DEVELOPMENT_SERVICES`; las clases Mock quedan excluidas por preprocesador y la composición selecciona `NullAnalytics`/`NoAds`/`UnavailablePurchase`. Habilitar Release requiere decisión humana sobre titular/bundle ID y un mecanismo externo de signing que no exponga keystore, passwords ni rutas personales. AAB, Play App Signing, upload key y publicación siguen `NOT RUN`; se abordan en F12/F46–F52.
 
 ## Controles exigidos al habilitar AAB
 

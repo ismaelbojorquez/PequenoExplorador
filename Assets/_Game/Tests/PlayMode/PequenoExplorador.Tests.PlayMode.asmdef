@@ -2,6 +2,7 @@
   "name": "PequenoExplorador.Tests.PlayMode",
   "rootNamespace": "PequenoExplorador.Tests.PlayMode",
   "references": [
+    "PequenoExplorador.Application",
     "PequenoExplorador.Bootstrap"
   ],
   "includePlatforms": [],

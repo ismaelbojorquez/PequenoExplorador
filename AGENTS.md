@@ -42,6 +42,8 @@ Layout actual: raíz para controles y proyecto Unity; `Assets/_Game/` contiene D
 
 El pin es Unity `6000.3.22f1`. Desde la raíz, `scripts/validate` ejecuta checks de repositorio, compile/validadores, EditMode, PlayMode y APK Development; los comandos individuales están en [`docs/VALIDATION_PLAYBOOK.md`](docs/VALIDATION_PLAYBOOK.md). Los fallos devuelven código no cero y dejan evidencia ignorada en `artifacts/`. No usar otro Editor ni inventar targets/perfiles.
 
+Servicios transversales se declaran como puertos en Application, se implementan en Infrastructure y solo se ensamblan en Bootstrap. `AppContext` se entrega explícitamente y nunca es global; `ServiceRegistry` permanece interno y tipado, sin lookup genérico. El orden canónico es MessageBus → Analytics → Ads → Purchases, con shutdown inverso. Development puede compilar mocks locales mediante el define exclusivo de build; Release usa NullAnalytics, NoAds y UnavailablePurchase y no contiene selección de simuladores.
+
 ## Dependencias y no-go
 
 - No instalar paquete, SDK o herramienta ni aceptar términos sin autorización y revisión de fuente oficial, licencia, versión exacta, mantenimiento, soporte Android/iOS, 16 KB, datos recolectados y aptitud infantil.

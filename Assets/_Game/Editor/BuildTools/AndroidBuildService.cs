@@ -55,7 +55,8 @@ namespace PequenoExplorador.Editor.BuildTools
                 scenes = scenes,
                 locationPathName = buildPath,
                 target = BuildTarget.Android,
-                options = BuildOptions.Development
+                options = BuildOptions.Development,
+                extraScriptingDefines = new[] { "PE_DEVELOPMENT_SERVICES" }
             });
             stopwatch.Stop();
 

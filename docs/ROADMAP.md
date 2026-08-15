@@ -23,9 +23,9 @@ El roadmap conserva el MVP Selva. Una fase no está aprobada por existir en esta
 | 03 | Foundation Unity reproducible: Editor/módulos, proyecto URP, estructura/asmdefs mínimos, Bootstrap futuro, tests y smoke Android APK/AAB vacío; capas de gameplay se crean con casos reales. | A |
 | 04 | Fronteras físicas de Domain/Application/adaptadores/Bootstrap, Editor y tests; grafo validado, sin gameplay. | B |
 | 05 | Pipeline reproducible local/CI: import, compile, validadores, JUnit, smoke Android y Release bloqueado sin signing. | B |
-| 06 | Shell landscape, navegación uGUI/TMP, safe areas y estados vacío/error. | B |
-| 07 | Dominio puro del loop, actividad, resultado y progreso, con tests. | B |
-| 08 | Prototipos/playtests seguros 4–9 y posterior input táctil/mouse: tap-to-move vs alternativa, prelectura, guías, selección y tolerancia motriz. | B |
+| 06 | Composition root, lifecycle y puertos/adapters locales seguros para reloj, azar, logs, mensajes, analytics, ads e IAP; sin SDKs ni gameplay. | B |
+| 07 | Shell landscape, navegación uGUI/TMP, safe areas y prototipos/playtests de input 4–9: tap-to-move vs alternativa; sin fijar controles antes de evidencia. | B |
+| 08 | Dominio puro del loop, actividad, resultado y progreso, con tests. | B |
 | 09 | Persistencia local versionada, reset adulto y recuperación de corrupción. | B |
 | 10 | Sistema de audio, mezcla, voz/SFX y controles locales. | B |
 | 11 | Pipeline ScriptableObject de authoring y validación de contenido. | B |

@@ -1,6 +1,6 @@
 # Arquitectura técnica — fronteras modulares
 
-Estado: implementada en Fase 04, 2026-08-14. Define fronteras de compilación, no APIs de gameplay. La escena temporal `Bootstrap` conserva el comportamiento de Fase 03.
+Estado: fronteras implementadas en F04 y composition root/lifecycle completado en F06 el 2026-08-15. No define APIs de gameplay. La escena `Bootstrap` muestra estado técnico `Ready` y conserva el placeholder temporal.
 
 ## Grafo real de assemblies
 
@@ -31,10 +31,14 @@ PequenoExplorador.Editor [Editor only]
 └─ Unity.RenderPipelines.Universal.Runtime
 
 PequenoExplorador.Tests.EditMode [Editor only]
+├─ Application
 ├─ Bootstrap
-└─ Editor
+├─ Editor
+├─ Infrastructure
+└─ Presentation
 
 PequenoExplorador.Tests.PlayMode
+├─ Application
 └─ Bootstrap
 ```
 
@@ -47,15 +51,47 @@ El player Android inspeccionado contiene únicamente los seis assemblies runtime
 | Assembly | Responsabilidad autorizada | Referencias prohibidas clave |
 |---|---|---|
 | Domain | Reglas y estado C# puro cuando existan casos reales. | `UnityEngine`, plataforma, filesystem, UI, SDKs. |
-| Application | Casos de uso y puertos futuros sobre Domain. | Unity, concretos de Infrastructure/Presentation/Content. |
+| Application | Lifecycle, contexto inmutable y puertos sobre Domain/BCL. | Unity, concretos de Infrastructure/Presentation/Content. |
 | Content | Authoring y mapeo de contenido aprobado. | Infrastructure y Presentation; estado mutable de sesión. |
-| Infrastructure | Adaptadores de save/plataforma/SDK solo tras fase y ADR. | Presentation, Content y Bootstrap. |
-| Presentation | Adaptadores Unity de UI/input/cámara/audio futuros. | Infrastructure, filesystem, ads, IAP y concretos de plataforma. |
-| Bootstrap | Único composition root; ensambla puertos y concretos explícitamente. | Reglas de producto, service locator o singleton global. |
+| Infrastructure | Reloj/random/logger/bus y adapters Null/Mock/seguros; SDK/save solo tras fase y ADR. | Presentation, Content y Bootstrap. |
+| Presentation | Vista de estado Bootstrap y futuros adaptadores Unity de UI/input/cámara/audio. | Infrastructure, filesystem, ads, IAP y concretos de plataforma. |
+| Bootstrap | Único composition root; configura perfil y ensambla puertos/concretos explícitamente. | Reglas de producto, lookup genérico, service locator o singleton global. |
 | Editor | Build/setup/validación que nunca entra en player. | Gameplay y estado runtime. |
 | Tests | Evidencia por frontera y escena; fixtures controladas. | Dependencias innecesarias, red/reloj/azar real. |
 
-Los markers `*AssemblyMarker` demuestran enlaces permitidos en compile sin anticipar interfaces, servicios o modelos de producto. `DiagnosticBootstrap` sigue siendo un MonoBehaviour sin reglas y no constituye todavía composición de features.
+Los markers `*AssemblyMarker` conservan pruebas de enlace. `DiagnosticBootstrap` adapta `Awake/Start/OnDestroy` y delega el lifecycle a `ApplicationHost`; no contiene reglas de producto ni gameplay.
+
+## Composition root y lifecycle reales
+
+```text
+DiagnosticBootstrap (Unity lifecycle)
+  └─ ServiceRegistry [internal, typed, no Get<T>]
+      ├─ AppContext [immutable, explicit injection]
+      │   ├─ IClock / IRandomSource / IAppLogger
+      │   ├─ IMessageBus
+      │   ├─ IAnalyticsService
+      │   ├─ IAdsService
+      │   └─ IPurchaseService
+      └─ ApplicationHost
+          initialize: MessageBus → Analytics → Ads → Purchases
+          shutdown:  Purchases → Ads → Analytics → MessageBus
+```
+
+`ApplicationHost.InitializeAsync` es secuencial, comparte la misma tarea ante llamadas concurrentes, acepta `CancellationToken`, permite retry después de fallo recuperable y hace cleanup inverso. `Shutdown`/`Dispose` son idempotentes. `AppContext` no es estático y no ofrece lookup; Bootstrap lo retiene para inyección explícita en futuras fachadas.
+
+El bus en memoria solo cubre fan-out acotado. `Subscribe<T>` devuelve `IDisposable`; dispose y shutdown eliminan listeners. No sustituye llamadas directas, no es global y no convierte mensajes en analytics.
+
+## Perfiles de servicios
+
+| Puerto | Development | Release |
+|---|---|---|
+| Analytics | `NullAnalyticsService` | `NullAnalyticsService` |
+| Ads | `MockAdsService` local | `NoAdsService` |
+| Purchases | `MockPurchaseService` local | `UnavailablePurchaseService` |
+| Clock/random | `SystemClock` + seed inyectado | Igual, sin estado remoto |
+| Logs/messages | Structured Unity + bus local | Igual, sin datos infantiles |
+
+Editor o `PE_DEVELOPMENT_SERVICES` habilitan los mocks. El define se pasa únicamente en `BuildPlayerOptions.extraScriptingDefines` del APK Development y no se persiste en PlayerSettings. Fuera de esos símbolos, las clases mock y la rama de composición Development no compilan. El diagnóstico de producto/versión se oculta en Release; la vista mínima de estado/error recuperable permanece.
 
 ## Enforcement
 
@@ -78,15 +114,15 @@ El comando CLI es:
 
 Una fixture EditMode añade en memoria `Presentation → Infrastructure` y verifica su rechazo; otra crea un ciclo Domain/Application. Ningún `.asmdef` real se rompe para probar el guardrail.
 
-## Composition root y evolución
+## Evolución
 
-Solo Bootstrap podrá conocer simultáneamente Presentation, Content e Infrastructure. La composición futura será explícita, por constructor/factory, sin `Find*`, service locator ni `Instance` global. Los eventos serán datos inmutables de Domain y puertos de Application, no un bus estático. ScriptableObjects seguirán siendo authoring; save usará DTOs versionados en Infrastructure; servicios de plataforma y feature flags se inyectarán detrás de puertos con defaults locales seguros.
+Solo Bootstrap conoce simultáneamente Presentation, Content e Infrastructure. La composición futura seguirá explícita, por constructor/factory, sin `Find*`, service locator ni `Instance` global. ScriptableObjects seguirán siendo authoring; save usará DTOs versionados en Infrastructure; todo SDK real requiere reemplazar un adapter mediante ADR, no filtrar su tipo hacia gameplay.
 
 Subdividir un assembly requiere evidencia de tiempos de compilación, ownership, plataforma o aislamiento de dependencias. Añadir una feature no basta. Todo cambio de grafo actualiza la allowlist, este documento, decisión/riesgo aplicables y las suites.
 
 ## Foundation móvil conservada
 
 - Unity `6000.3.22f1`, URP `17.3.0`, Input System `1.20.0`, Test Framework `1.6.0`, uGUI `2.0.0`.
-- Bootstrap es la única escena habilitada y muestra nombre, `0.1.0-dev` y aviso temporal.
+- Bootstrap es la única escena habilitada; Development muestra nombre/versión y estado `Ready`, Release solo estado seguro.
 - Android sigue min API 26, target/compile 36, IL2CPP y ARM64; sin manifest/Gradle custom ni permiso sensible nuevo.
-- No existen gameplay, scene flow, save, UI de producto, Addressables, ads, IAP, analytics ni servicios concretos.
+- No existen gameplay, scene flow, save, UI de producto, Addressables ni SDKs. Ads/IAP/analytics son únicamente Null/Mock/Unavailable locales sin red/cuentas.

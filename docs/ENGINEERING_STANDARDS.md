@@ -21,6 +21,15 @@ Tests -> assembly bajo prueba
 
 Fase 04 fija nueve asmdefs: seis runtime, Editor y dos suites. La tabla y grafo exactos viven en [`02_TECHNICAL_ARCHITECTURE.md`](02_TECHNICAL_ARCHITECTURE.md). Las referencias siguen las flechas, sin ciclos; `Domain`/`Application` usan `noEngineReferences`, Editor no entra al player y Presentation no referencia Infrastructure. `AssemblyBoundaryRules` bloquea deriva. No subdividir por feature salvo evidencia medida de compilación, ownership, plataforma o aislamiento.
 
+## Composition root y servicios
+
+- Application define solo boundaries reales: lifecycle, reloj, azar, logs, mensajes y servicios de plataforma; no conoce Unity ni concretos.
+- Infrastructure implementa adapters; Bootstrap es el único lugar que selecciona concretos. Presentation recibe fachadas/casos de uso, nunca Infrastructure.
+- `AppContext` es inmutable y se pasa explícitamente. No hacerlo estático, publicarlo como `Instance` ni añadir `Get<T>`/registro por diccionario.
+- `ServiceRegistry` es interno a Bootstrap y tipado. El orden canónico de lifecycle es MessageBus → Analytics → Ads → Purchases, con shutdown inverso y cleanup tras fallo/cancelación.
+- Development usa mocks locales solo bajo `UNITY_EDITOR` o `PE_DEVELOPMENT_SERVICES`; Release usa NullAnalytics, NoAds y UnavailablePurchase. El define Development no se persiste en PlayerSettings.
+- Nuevos servicios requieren una dependencia real, ID técnico único, init/cancel/shutdown testeados, default Release seguro y actualización de la tabla canónica.
+
 ## Convenciones C#
 
 - Namespace: `PequenoExplorador.<Layer>[.<Feature>]`; nombre de carpeta/asmdef coherente con la capa.
@@ -51,6 +60,7 @@ Fase 04 fija nueve asmdefs: seis runtime, Editor y dos suites. La tabla y grafo 
 - Application publica/consume mediante interfaces explícitas. No event bus estático global.
 - Suscripciones de Presentation son simétricas y acotadas al lifecycle. Handlers deben ser idempotentes cuando una reanudación pueda repetir entrega.
 - Eventos no transportan datos personales infantiles ni se convierten automáticamente en analytics.
+- El bus local no sustituye una llamada directa. Toda suscripción conserva y dispone su token `IDisposable`; shutdown elimina listeners restantes.
 
 ## ScriptableObjects y contenido
 

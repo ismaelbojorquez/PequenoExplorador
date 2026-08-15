@@ -30,6 +30,12 @@ Ejecuta en orden y se detiene al primer fallo: `check-repository`, `compile`, Ed
 | `scripts/build-android-development` | APK Development IL2CPP/ARM64 API 26/36. | APK, log y manifest JSON con tamaño/hash. |
 | `scripts/build-android-release` | Guard rail de Release. | Código no cero y `android-release-blocked.json`; nunca construye/firma. |
 
+## Suites de lifecycle y servicios
+
+EditMode cubre orden y shutdown inverso, idempotencia secuencial/concurrente, fallo recuperable, cancelación, dispose, IDs duplicados, clock manual, random seeded, perfiles Development/Release, resultados Mock/NoAds/Unavailable, define no persistido y cleanup de listeners. PlayMode carga/reload de `Bootstrap`, exige un solo root y espera `Ready` visible.
+
+La tabla de perfiles y orden de servicios es canónica en [`02_TECHNICAL_ARCHITECTURE.md`](02_TECHNICAL_ARCHITECTURE.md). Un adapter nuevo no está validado solo porque compile: debe ampliar estas suites sin reloj/azar/red reales.
+
 Los wrappers son orquestadores: configuración, validación y build viven bajo `Assets/_Game/Editor/BuildTools`. Los logs sustituyen la raíz del proyecto, home y ejecutable del Editor por marcadores antes de conservarse.
 
 ## Diagnóstico y recuperación

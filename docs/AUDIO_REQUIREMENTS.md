@@ -18,7 +18,7 @@ Contrato inicial para voz, música y SFX del MVP Selva. No contiene audio ni aut
 
 ## Implementación futura
 
-- F09 creará puertos y mixer; F15 establecerá import presets, formatos/load type y budgets medidos.
+- F10 creará puertos y mixer; F15 establecerá import presets, formatos/load type y budgets medidos.
 - Addressables local-first: voz, música y SFX del MVP deben funcionar sin red desde la primera ejecución.
 - Evitar streaming de red, micrófono, reconocimiento de voz y SDKs externos en el MVP.
 - Variaciones aleatorias deben ser deterministas en tests cuando afecten gameplay y no elevar el volumen acumulado.

@@ -48,7 +48,7 @@ Quedan fuera del Vertical Slice: producción del resto de especies, secretos, m�
 | Monetización preparada | Ninguna | Contrato/espacio deshabilitado tras gate adulto | Modelo por ADR | Must | Decisión comercial/legal | Human decision | Cero SDK, precio, SKU, ads o compra; frontera reemplazable documentada. |
 | Lanzamiento ad-free | Ad-free | Recomendado ad-free | Ads solo por ADR | Must | Decisión humana/políticas | Human decision | Binario y UX sin ads; cualquier cambio reabre políticas y playtests. |
 | Accesibilidad/descansos | Baseline | Checklist completo | Mejoras por evidencia | Must | UI, audio, arte | Specified | No depende de lectura/audio/color/velocidad; pausa neutral y salida segura. |
-| Tap-to-move | Candidato a probar | Solo si validado | Alternativa accesible | Should | Playtest F08 | Pending validation | Comprensión/motricidad supera o iguala control alternativo sin frustración. |
+| Tap-to-move | Candidato a probar | Solo si validado | Alternativa accesible | Should | Playtest F07 | Pending validation | Comprensión/motricidad supera o iguala control alternativo sin frustración. |
 
 ## MoSCoW resumido
 

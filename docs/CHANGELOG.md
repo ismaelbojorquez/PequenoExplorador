@@ -2,6 +2,31 @@
 
 Todos los cambios notables de ingeniería se registran aquí. La versión técnica de desarrollo es `0.1.0-dev`; no representa un release comercial.
 
+## Fase 06 — 2026-08-15
+
+### Added
+
+- `ApplicationHost` BCL-only con inicio secuencial, cierre inverso, cancelación, retry e idempotencia; `AppContext` inmutable y puertos mínimos de reloj, azar, logs, mensajes, analytics, ads y compras.
+- Implementaciones locales `Null`, `Mock`, `NoAds` y `Unavailable`, bus con suscripciones desechables y fixtures deterministas de clock/random.
+- Composition root único en `DiagnosticBootstrap`, registro tipado privado, selección Development/Release y vista recuperable de estado `Ready`/error.
+- Cobertura EditMode de lifecycle, perfiles, servicios y listeners, más PlayMode de arranque/reload sin duplicados.
+
+### Changed
+
+- El APK Development recibe `PE_DEVELOPMENT_SERVICES` solo mediante `BuildPlayerOptions`; PlayerSettings y Release permanecen sin el símbolo y los mocks quedan fuera de compilación Release.
+- La escena Bootstrap conserva el diagnóstico temporal, ahora cableado explícitamente a Presentation y sin búsqueda global ni persistencia dispersa.
+- Arquitectura, estándares, testing, decisiones, riesgos, roadmap, AGENTS, README e índice documentan orden, perfiles y siguiente F07.
+
+### Verified
+
+- Validación final `scripts/validate`: código `0` en 1:14.27 con caché; checks, compile, EditMode `19/19`, PlayMode `2/2` y APK Development.
+- APK: `57,069,510 bytes`, API 26/36, IL2CPP/ARM64 y `zipalign -P 16` correcto; BuildTools registró SHA-256 y commit de entrada en el manifest ignorado de cada ejecución.
+- Manifest: solo `INTERNET` y permiso interno de receiver; no cámara, micrófono, ubicación, contactos ni `AD_ID`. `scripts/build-android-release` confirmó el guard esperado con código `3`, antes de BuildPipeline y sin signing autorizado.
+
+### Not added
+
+- Gameplay, save, scene flow, SDKs, red/telemetría real, ads reales, IAP real, dependencias, permisos sensibles, signing, AAB, push o publicación.
+
 ## Fase 05 — 2026-08-14
 
 ### Added

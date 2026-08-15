@@ -24,6 +24,11 @@ namespace PequenoExplorador.Tests.EditMode
             Assert.That(mainCamera, Is.Not.Null, "Bootstrap scene requires one tagged camera.");
             Assert.That(DiagnosticBootstrap.ProductName, Is.EqualTo("Pequeño Explorador: Aprende Jugando"));
             Assert.That(DiagnosticBootstrap.DevelopmentVersion, Does.EndWith("-dev"));
+            var serializedBootstrap = new SerializedObject(diagnostic);
+            Assert.That(
+                serializedBootstrap.FindProperty("_statusView").objectReferenceValue,
+                Is.Not.Null,
+                "BootstrapStatusView must be explicitly wired, not found globally.");
         }
 
         [Test]
