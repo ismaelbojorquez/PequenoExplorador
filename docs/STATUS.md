@@ -1,16 +1,16 @@
 # Estado vivo del proyecto
 
-Actualizado: 2026-08-15 02:10 (`America/Mexico_City`). Git y archivos observados prevalecen si contradicen este resumen y obligan a actualizarlo.
+Actualizado: 2026-08-15 11:59 (`America/Mexico_City`). Git y archivos observados prevalecen si contradicen este resumen y obligan a actualizarlo.
 Las evidencias `PHASE_00/01_PREFLIGHT.md` conservan referencias históricas al roadmap vigente cuando se escribieron; este archivo y `ROADMAP.md` contienen la asignación actual.
 
 ## Fase y Gate
 
 - **Fase actual:** 07 — incremento de flujo aditivo y Addressables locales, sin gameplay.
 - **Estado de fase:** incremento scene-flow/Addressables completado y validado. F07 sigue abierta por shell/safe area/input.
-- **Auditoría Gate A:** [`audits/GATE_A_2026-08-15.md`](audits/GATE_A_2026-08-15.md) — `PASS`, sin Critical/Major abierto.
+- **Auditoría Gate A:** [`audits/GATE_A_2026-08-15.md`](audits/GATE_A_2026-08-15.md) — `PASS` original y revalidación independiente sobre HEAD F07 `PASS`, sin Critical/Major abierto.
 - **Gate actual:** B — Vertical slice playable, iniciado; el flujo actual es placeholder y no gameplay.
 - **Siguiente fase:** completar los entregables restantes de F07 — shell landscape, safe areas y prototipo/playtest de interacción candidata— después de cerrar este incremento.
-- **ExecPlan cerrado:** [`.agent/execplans/07-local-scene-flow-addressables.md`](../.agent/execplans/07-local-scene-flow-addressables.md).
+- **ExecPlan cerrado:** [`.agent/execplans/gate-a-revalidation-2026-08-15.md`](../.agent/execplans/gate-a-revalidation-2026-08-15.md). El plan F07 cerrado se conserva como evidencia histórica.
 
 ## Capacidades verificadas
 
@@ -20,12 +20,12 @@ Las evidencias `PHASE_00/01_PREFLIGHT.md` conservan referencias históricas al r
 | Producto/Vertical Slice/MVP | Especificado | Fuentes canónicas en visión, GDD y `MVP_SCOPE.md`; no implementado. |
 | Contrato de agentes | Especificado | `AGENTS`, planes, estándares, review y playbook de F02. |
 | Proyecto Unity | Verificado | `6000.3.22f1`, URP, Bootstrap y estructura mínima en raíz. |
-| Pipeline local | `PASS` F07 | `scripts/validate` código `0`: checks, compile, catálogo local, EditMode, PlayMode y APK. JUnit/logs/manifests en `artifacts/`. |
+| Pipeline local | `PASS` revalidado | `scripts/validate` código `0` en 109.43 s: checks, compile, catálogo local, EditMode, PlayMode y APK; segundo smoke Android código `0` en 62.22 s. JUnit/logs/manifests en `artifacts/`. |
 | Fronteras/compilación | `PASS` | Nueve asmdefs, allowlist/cycles y placeholder validados; Domain/Application sin engine. |
 | Lifecycle y servicios | `PASS` | Inicio secuencial, cierre inverso, idempotencia, retry, cancelación propia del host, cleanup del servicio en curso, perfiles fail-closed y limpieza de listeners cubiertos por tests. |
 | Scene flow / Addressables | `PASS` | `4.0.1`; Boot→Camp↔Jungle local, exclusión/error/cancel/timeout, tres ciclos, un handle actual y cero tras shutdown; perfiles/grupos/labels validados, sin remoto. |
 | Tests Unity | `PASS` | EditMode `29/29` (28 del proyecto + 1 stub documental del paquete); PlayMode `4/4`, incluido reload, tres ciclos, fallo/retry y cero handles tras shutdown. |
-| Build Android/iOS | Android Development `PASS`; Release `BLOCKED`; iOS `NOT RUN` | APK F07 `41,722,038 bytes`, SHA-256 `789d8342fd9af78151e10b55c566c7778e752d6bbadc07badbe9f473a6d3c29c`, IL2CPP/ARM64 API 26/36; arranque offline en emulador 16 KB llegó a Camp. Release/iOS no cambiaron. |
+| Build Android/iOS | Android Development `PASS`; Release `BLOCKED`; iOS `NOT RUN` | Revalidación: dos APK IL2CPP/ARM64 API 26/36, `41,722,038` y `41,722,037` bytes; segundo SHA-256 `0a9ae311635ec636e4d70057d6c4a6a8c861d60727ed4d0571fbdc20930bb1e1`. Manifest/ELF/zipalign 16 KB pasan. El intento adicional de dispositivo en emulador oficial-no-soportado quedó `INCONCLUSIVE` por ANR del sistema invitado, no del juego. |
 | CI GitHub | `NOT RUN` | Workflow estático + Unity manual/self-hosted definidos; no hay remoto, runner ni activación CI. |
 | Paquetes | Verificado | Cinco pins directos oficiales; Addressables `4.0.1` y transitivos exactos, sin preview/SDK comercial/binario nativo nuevo. |
 | Gameplay/assets finales | No existen | Prohibido escalar contenido antes del Vertical Slice. |
@@ -51,4 +51,4 @@ Las evidencias `PHASE_00/01_PREFLIGHT.md` conservan referencias históricas al r
 
 ## Reanudación inmediata
 
-Ejecutar preflight y confirmar árbol limpio. Continuar los entregables restantes de F07: shell/safe area y comparación de interacción candidata, consumiendo `ISceneFlowService` sin tocar handles/Addressables desde Presentation. No escalar contenido, activar remoto, crear push/signing/publicación ni instalar SDKs.
+Ejecutar preflight y distinguir el archivo ajeno no versionado bajo `docs/prompts/` del trabajo de fase. Continuar los entregables restantes de F07: shell/safe area y comparación de interacción candidata, consumiendo `ISceneFlowService` sin tocar handles/Addressables desde Presentation. No escalar contenido, activar remoto, crear push/signing/publicación ni instalar SDKs.

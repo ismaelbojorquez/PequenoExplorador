@@ -8,6 +8,8 @@
 /artifacts/
 /Assets/AddressableAssetsData/*/addressables_content_state.bin
 /Assets/AddressableAssetsData/*/addressables_content_state.bin.meta
+/Assets/AddressableAssetsData/link.xml
+/Assets/AddressableAssetsData/link.xml.meta
 [Uu]ser[Ss]ettings/
 [Mm]emoryCaptures/
 [Rr]ecordings/

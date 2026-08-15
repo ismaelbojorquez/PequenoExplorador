@@ -2,6 +2,26 @@
 
 Todos los cambios notables de ingeniería se registran aquí. La versión técnica de desarrollo es `0.1.0-dev`; no representa un release comercial.
 
+## Gate A — revalidación posterior a F07 — 2026-08-15
+
+### Changed
+
+- Retirado del control de versiones `Assets/AddressableAssetsData/link.xml` y su `.meta`: Addressables los elimina/regenera durante builds y cambia el GUID; ahora se ignoran como salida transitoria para que una validación no altere fuentes.
+- Status, riesgo y auditoría distinguen el Gate A original de esta revalidación sobre el HEAD F07 real.
+
+### Verified
+
+- Baseline aislado: compile, EditMode `29/29` y PlayMode `4/4`; el test PlayMode repite Camp→Jungle→Camp tres veces, conserva un único bootstrap/handle y libera al cerrar.
+- `scripts/validate` código `0` en 109.43 s y segundo `scripts/build-android-development` código `0` en 62.22 s.
+- APK run 1: `41,722,038 bytes`, SHA-256 `03df45c6f5bfaaa9e54a56027d04bd85b88a6a9d9d03214da66d05efb1fe61ae`; run 2: `41,722,037 bytes`, SHA-256 `0a9ae311635ec636e4d70057d6c4a6a8c861d60727ed4d0571fbdc20930bb1e1`.
+- Segundo APK: API 26/36, IL2CPP/ARM64, siete ELF con `LOAD 0x4000`, `zipalign -P 16`, Addressables local incluido y sin cámara, micrófono, ubicación, contactos, storage o `AD_ID`.
+- Build Addressables posterior a GAR-001: código `0` en 44.11 s; regeneró ambos archivos como ignorados y no añadió diff unstaged.
+- La comprobación adicional en emulador API 37/16 KB fue `INCONCLUSIVE`: el sistema invitado produjo ANR de System UI/teléfono/servicios Google antes del primer frame estable. Unity documenta que los emuladores Android no están soportados; no se atribuye ese intento al APK ni se cuenta como PASS.
+
+### Not run
+
+- AAB Release/firma, dispositivo Android físico, CI Unity remota e iOS; permanecen bloqueados o sin toolchain/infraestructura humana. No se añadieron gameplay, SDKs, permisos sensibles, secretos, signing, push ni publicación.
+
 ## Fase 07 — incremento scene flow local — 2026-08-15
 
 ### Added
