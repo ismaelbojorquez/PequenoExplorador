@@ -183,6 +183,18 @@ MonoBehaviour:
     m_Key: ui.interaction.wait
     m_Metadata:
       m_Items: []
+  - m_Id: 77211267751936
+    m_Key: ui.discovery.new
+    m_Metadata:
+      m_Items: []
+  - m_Id: 77211284529152
+    m_Key: ui.discovery.repeated
+    m_Metadata:
+      m_Items: []
+  - m_Id: 77211284529153
+    m_Key: ui.discovery.debug_count
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

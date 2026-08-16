@@ -28,7 +28,7 @@ namespace PequenoExplorador.Tests.EditMode
             Assert.That(service.Current.WorldIds, Is.Empty);
             Assert.That(service.Current.DiscoveryIds, Is.Empty);
             Assert.That(service.Current.CompletedMissionIds, Is.Empty);
-            Assert.That(envelope.SchemaVersion, Is.EqualTo(3));
+            Assert.That(envelope.SchemaVersion, Is.EqualTo(4));
             Assert.That(service.Current.Preferences.Language, Is.EqualTo(LanguagePreference.Spanish));
         }
 
@@ -142,7 +142,7 @@ namespace PequenoExplorador.Tests.EditMode
             Assert.That(service.LastLoadResult.Status, Is.EqualTo(SaveLoadStatus.Migrated));
             Assert.That(service.LastLoadResult.SourceSchemaVersion, Is.Zero);
             Assert.That(service.Current.Stars, Is.EqualTo(9));
-            Assert.That(current.SchemaVersion, Is.EqualTo(3));
+            Assert.That(current.SchemaVersion, Is.EqualTo(4));
             Assert.That(store.Backup, Is.EqualTo(legacy));
         }
 
@@ -188,7 +188,45 @@ namespace PequenoExplorador.Tests.EditMode
             Assert.That(service.Current.Preferences.EffectsVolume, Is.EqualTo(.75f));
             Assert.That(service.Current.Preferences.VoiceVolume, Is.Zero);
             Assert.That(service.Current.Preferences.SubtitlesEnabled, Is.True);
-            Assert.That(serializer.DeserializeEnvelope(store.Primary).SchemaVersion, Is.EqualTo(3));
+            Assert.That(serializer.DeserializeEnvelope(store.Primary).SchemaVersion, Is.EqualTo(4));
+        }
+
+        [Test]
+        public async Task SchemaV3MigratesDiscoveryIdsToCountedRecordsWithoutInventingHistory()
+        {
+            var store = new InMemoryFileStore();
+            var serializer = new UnityJsonSaveSerializer();
+            PlayerProgressV3Dto v3 = PlayerProgressV3Dto.Create(
+                "0.1.0-test",
+                2,
+                new[] { "world.jungle" },
+                new[] { "discovery.jungle.legacy" },
+                Array.Empty<string>(),
+                PlayerPreferencesV3Dto.Create(
+                    (int)GuidanceMode.Standard,
+                    "es",
+                    .85f,
+                    .65f,
+                    .65f,
+                    .75f,
+                    .85f,
+                    true),
+                SaveMetadataV1Dto.Create(5));
+            string original = serializer.SerializeEnvelope(3, JsonUtility.ToJson(v3, false));
+            store.SeedPrimary(original);
+
+            LocalSaveService service = CreateService(store);
+            await service.InitializeAsync(CancellationToken.None);
+
+            Assert.That(service.LastLoadResult.Status, Is.EqualTo(SaveLoadStatus.Migrated));
+            Assert.That(service.LastLoadResult.SourceSchemaVersion, Is.EqualTo(3));
+            Assert.That(service.Current.Discoveries.Count, Is.EqualTo(1));
+            Assert.That(service.Current.Discoveries[0].Id.Value, Is.EqualTo("discovery.jungle.legacy"));
+            Assert.That(service.Current.Discoveries[0].Count, Is.EqualTo(1));
+            Assert.That(service.Current.Discoveries[0].FirstObservedLocalDate, Is.Empty);
+            Assert.That(service.Current.ProcessedDiscoveryGrantIds, Is.Empty);
+            Assert.That(serializer.DeserializeEnvelope(store.Primary).SchemaVersion, Is.EqualTo(4));
+            Assert.That(store.Backup, Is.EqualTo(original));
         }
 
         [Test]
@@ -304,7 +342,8 @@ namespace PequenoExplorador.Tests.EditMode
                 {
                     new LegacyV0ToV1Migration(),
                     new V1ToV2LocalizationMigration(),
-                    new V2ToV3AudioMigration()
+                    new V2ToV3AudioMigration(),
+                    new V3ToV4DiscoveryMigration()
                 });
         }
 

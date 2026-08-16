@@ -132,6 +132,7 @@ namespace PequenoExplorador.Tests.EditMode
                 1.35f,
                 1.5f,
                 priority,
+                default,
                 new EditorialMetadata(EditorialState.Draft, true, "Tests", "PH_"));
 
         private sealed class FakeApproach : IInteractionApproach

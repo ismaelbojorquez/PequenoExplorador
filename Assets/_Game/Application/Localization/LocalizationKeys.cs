@@ -39,6 +39,9 @@ namespace PequenoExplorador.Application.Localization
         public static readonly LocalizedKey InteractionUnavailable = new LocalizedKey(UiTable, "ui.interaction.unavailable");
         public static readonly LocalizedKey InteractionCompleted = new LocalizedKey(UiTable, "ui.interaction.completed");
         public static readonly LocalizedKey InteractionWait = new LocalizedKey(UiTable, "ui.interaction.wait");
+        public static readonly LocalizedKey DiscoveryNew = new LocalizedKey(UiTable, "ui.discovery.new");
+        public static readonly LocalizedKey DiscoveryRepeated = new LocalizedKey(UiTable, "ui.discovery.repeated");
+        public static readonly LocalizedKey DiscoveryDebugCount = new LocalizedKey(UiTable, "ui.discovery.debug_count");
 
         public static readonly LocalizedKey WorldBoot = new LocalizedKey(ContentTable, "content.world.boot.name");
         public static readonly LocalizedKey WorldCamp = new LocalizedKey(ContentTable, "content.world.camp.name");

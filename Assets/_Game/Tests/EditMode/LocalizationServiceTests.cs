@@ -121,7 +121,8 @@ namespace PequenoExplorador.Tests.EditMode
                 {
                     new LegacyV0ToV1Migration(),
                     new V1ToV2LocalizationMigration(),
-                    new V2ToV3AudioMigration()
+                    new V2ToV3AudioMigration(),
+                    new V3ToV4DiscoveryMigration()
                 });
             await save.InitializeAsync(CancellationToken.None);
             return save;

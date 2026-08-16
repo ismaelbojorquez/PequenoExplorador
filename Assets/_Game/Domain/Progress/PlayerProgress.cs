@@ -1,19 +1,39 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using PequenoExplorador.Domain.Content;
 
 namespace PequenoExplorador.Domain.Progress
 {
     public sealed class PlayerProgress
     {
         private readonly string[] _worldIds;
+        private readonly DiscoveryProgress[] _discoveries;
         private readonly string[] _discoveryIds;
+        private readonly string[] _processedDiscoveryGrantIds;
         private readonly string[] _completedMissionIds;
 
         public PlayerProgress(
             int stars,
             IEnumerable<string> worldIds,
             IEnumerable<string> discoveryIds,
+            IEnumerable<string> completedMissionIds,
+            PlayerPreferences preferences)
+            : this(
+                stars,
+                worldIds,
+                ConvertLegacyDiscoveries(discoveryIds),
+                Array.Empty<string>(),
+                completedMissionIds,
+                preferences)
+        {
+        }
+
+        public PlayerProgress(
+            int stars,
+            IEnumerable<string> worldIds,
+            IEnumerable<DiscoveryProgress> discoveries,
+            IEnumerable<string> processedDiscoveryGrantIds,
             IEnumerable<string> completedMissionIds,
             PlayerPreferences preferences)
         {
@@ -24,7 +44,9 @@ namespace PequenoExplorador.Domain.Progress
 
             Stars = stars;
             _worldIds = CopyAndValidateIds(worldIds, nameof(worldIds));
-            _discoveryIds = CopyAndValidateIds(discoveryIds, nameof(discoveryIds));
+            _discoveries = CopyAndValidateDiscoveries(discoveries);
+            _discoveryIds = _discoveries.Select(item => item.Id.Value).ToArray();
+            _processedDiscoveryGrantIds = CopyAndValidateGrantIds(processedDiscoveryGrantIds);
             _completedMissionIds = CopyAndValidateIds(completedMissionIds, nameof(completedMissionIds));
             Preferences = preferences ?? throw new ArgumentNullException(nameof(preferences));
         }
@@ -32,6 +54,8 @@ namespace PequenoExplorador.Domain.Progress
         public int Stars { get; }
         public IReadOnlyList<string> WorldIds => _worldIds;
         public IReadOnlyList<string> DiscoveryIds => _discoveryIds;
+        public IReadOnlyList<DiscoveryProgress> Discoveries => _discoveries;
+        public IReadOnlyList<string> ProcessedDiscoveryGrantIds => _processedDiscoveryGrantIds;
         public IReadOnlyList<string> CompletedMissionIds => _completedMissionIds;
         public PlayerPreferences Preferences { get; }
 
@@ -47,12 +71,64 @@ namespace PequenoExplorador.Domain.Progress
 
         public PlayerProgress WithStars(int stars)
         {
-            return new PlayerProgress(stars, _worldIds, _discoveryIds, _completedMissionIds, Preferences);
+            return new PlayerProgress(
+                stars,
+                _worldIds,
+                _discoveries,
+                _processedDiscoveryGrantIds,
+                _completedMissionIds,
+                Preferences);
         }
 
         public PlayerProgress WithPreferences(PlayerPreferences preferences)
         {
-            return new PlayerProgress(Stars, _worldIds, _discoveryIds, _completedMissionIds, preferences);
+            return new PlayerProgress(
+                Stars,
+                _worldIds,
+                _discoveries,
+                _processedDiscoveryGrantIds,
+                _completedMissionIds,
+                preferences);
+        }
+
+        public PlayerProgress WithDiscoveryState(
+            IEnumerable<DiscoveryProgress> discoveries,
+            IEnumerable<string> processedDiscoveryGrantIds)
+        {
+            return new PlayerProgress(
+                Stars,
+                _worldIds,
+                discoveries,
+                processedDiscoveryGrantIds,
+                _completedMissionIds,
+                Preferences);
+        }
+
+        private static DiscoveryProgress[] CopyAndValidateDiscoveries(
+            IEnumerable<DiscoveryProgress> values)
+        {
+            if (values == null) throw new ArgumentNullException(nameof(values));
+            DiscoveryProgress[] result = values.ToArray();
+            if (result.Any(item => item == null))
+                throw new ArgumentException("Discovery progress cannot contain null entries.", nameof(values));
+            if (result.Select(item => item.Id).Distinct().Count() != result.Length)
+                throw new ArgumentException("Discovery progress IDs must be unique.", nameof(values));
+            return result.OrderBy(item => item.Id.Value, StringComparer.Ordinal).ToArray();
+        }
+
+        private static DiscoveryProgress[] ConvertLegacyDiscoveries(IEnumerable<string> values)
+        {
+            return CopyAndValidateIds(values, nameof(values))
+                .Select(value => new DiscoveryProgress(DiscoveryId.Parse(value), 1, string.Empty))
+                .ToArray();
+        }
+
+        private static string[] CopyAndValidateGrantIds(IEnumerable<string> values)
+        {
+            string[] result = CopyAndValidateIds(values, nameof(values));
+            if (result.Any(value => !DiscoveryGrantId.TryParse(value, out _)))
+                throw new ArgumentException("Discovery grant IDs are invalid.", nameof(values));
+            return result.OrderBy(value => value, StringComparer.Ordinal).ToArray();
         }
 
         private static string[] CopyAndValidateIds(IEnumerable<string> values, string parameterName)

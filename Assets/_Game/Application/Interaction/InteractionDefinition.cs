@@ -18,6 +18,7 @@ namespace PequenoExplorador.Application.Interaction
             float interactionRange,
             float cooldownSeconds,
             int priority,
+            DiscoveryId directDiscoveryId,
             EditorialMetadata editorial)
         {
             if (!id.IsValid) throw new ArgumentException("Interaction ID is invalid.", nameof(id));
@@ -36,6 +37,7 @@ namespace PequenoExplorador.Application.Interaction
             InteractionRange = interactionRange;
             CooldownSeconds = cooldownSeconds;
             Priority = priority;
+            DirectDiscoveryId = directDiscoveryId;
             Editorial = editorial ?? throw new ArgumentNullException(nameof(editorial));
         }
 
@@ -48,6 +50,8 @@ namespace PequenoExplorador.Application.Interaction
         public float InteractionRange { get; }
         public float CooldownSeconds { get; }
         public int Priority { get; }
+        public DiscoveryId DirectDiscoveryId { get; }
+        public bool HasDirectDiscovery => DirectDiscoveryId.IsValid;
         public EditorialMetadata Editorial { get; }
     }
 }

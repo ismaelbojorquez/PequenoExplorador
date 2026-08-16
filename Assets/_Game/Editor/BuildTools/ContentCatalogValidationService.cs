@@ -113,6 +113,8 @@ namespace PequenoExplorador.Editor.BuildTools
                 string path = AssetDatabase.GetAssetPath(asset);
                 return !string.IsNullOrWhiteSpace(path) && path.StartsWith("Assets/", StringComparison.Ordinal) && AssetDatabase.LoadMainAssetAtPath(path) != null;
             }
+
+            public bool HasDiscovery(DiscoveryId id) => true;
         }
 
         [Serializable]

@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using PequenoExplorador.Application.Input;
+using PequenoExplorador.Application.Discovery;
 using PequenoExplorador.Application.Interaction;
 using PequenoExplorador.Application.Lifecycle;
 using PequenoExplorador.Application.SceneFlow;
@@ -92,6 +93,33 @@ namespace PequenoExplorador.Tests.PlayMode
         }
 
         [UnityTest]
+        public IEnumerator AnimalDiscoveryPersistsAcrossWorldReloadAndRepeatsWithoutUniqueGrant()
+        {
+            yield return LoadExpedition();
+            DiagnosticBootstrap bootstrap = Object.FindFirstObjectByType<DiagnosticBootstrap>();
+            Task reset = bootstrap.ResetProgressForTestsAsync(CancellationToken.None);
+            yield return WaitForTask(reset);
+
+            yield return ActivateAnimal(bootstrap);
+            Assert.That(bootstrap.LastDiscoveryResult.Outcome, Is.EqualTo(DiscoverOutcome.First));
+            Assert.That(bootstrap.LastDiscoveryResult.GrantsUniqueReward, Is.True);
+            Assert.That(bootstrap.LastDiscoveryResult.Count, Is.EqualTo(1));
+            Task flush = bootstrap.FlushSaveAsync(CancellationToken.None);
+            yield return WaitForTask(flush);
+
+            Task<SceneTransitionResult> back = bootstrap.GoToCampAsync(CancellationToken.None);
+            yield return WaitForTask(back);
+            Task<SceneTransitionResult> enter = bootstrap.GoToExpeditionAsync(CancellationToken.None);
+            yield return WaitForTask(enter);
+            Assert.That(enter.Result.IsSuccess, Is.True, enter.Result.ErrorCode);
+
+            yield return ActivateAnimal(bootstrap);
+            Assert.That(bootstrap.LastDiscoveryResult.Outcome, Is.EqualTo(DiscoverOutcome.Repeated));
+            Assert.That(bootstrap.LastDiscoveryResult.GrantsUniqueReward, Is.False);
+            Assert.That(bootstrap.LastDiscoveryResult.Count, Is.EqualTo(2));
+        }
+
+        [UnityTest]
         public IEnumerator UiOpenDestroyedTargetAndSceneUnloadCancelFocusCleanly()
         {
             yield return LoadExpedition();
@@ -137,6 +165,18 @@ namespace PequenoExplorador.Tests.PlayMode
             yield return WaitForTask(enter);
             Assert.That(enter.Result.IsSuccess, Is.True, enter.Result.ErrorCode);
             Assert.That(bootstrap.InteractionRoot, Is.Not.Null);
+        }
+
+        private static IEnumerator ActivateAnimal(DiagnosticBootstrap bootstrap)
+        {
+            WorldInteractableView animal = Target(bootstrap, "interaction.fixture.animal");
+            Vector3 screen = Camera.main.WorldToScreenPoint(animal.transform.position + Vector3.up * 0.7f);
+            Assert.That(bootstrap.InteractionRoot.TryHandleTap(new ScreenPoint(screen.x, screen.y)), Is.True);
+            yield return WaitForInteraction(bootstrap, InteractionOutcome.Ready, 8f);
+            bootstrap.InteractionPrompt.ActionButton.onClick.Invoke();
+            yield return null;
+            Assert.That(bootstrap.InteractionRoot.Coordinator.Snapshot.State,
+                Is.EqualTo(InteractionOutcome.Completed));
         }
 
         private static IEnumerator WaitForInteraction(

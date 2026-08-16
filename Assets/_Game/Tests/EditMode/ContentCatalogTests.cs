@@ -154,6 +154,7 @@ namespace PequenoExplorador.Tests.EditMode
             public bool HasLocalization(LocalizedKey key) => true;
             public bool HasAudioCue(AudioCueId cueId) => true;
             public bool HasVisualAsset(VisualAssetId id, Object asset) => true;
+            public bool HasDiscovery(DiscoveryId id) => true;
         }
 
         private sealed class RejectAllResolver : IContentReferenceResolver
@@ -162,6 +163,7 @@ namespace PequenoExplorador.Tests.EditMode
             public bool HasLocalization(LocalizedKey key) => false;
             public bool HasAudioCue(AudioCueId cueId) => false;
             public bool HasVisualAsset(VisualAssetId id, Object asset) => false;
+            public bool HasDiscovery(DiscoveryId id) => false;
         }
     }
 }

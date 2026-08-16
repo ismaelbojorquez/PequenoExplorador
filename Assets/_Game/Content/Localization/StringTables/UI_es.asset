@@ -117,13 +117,26 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 70000000000005
-    m_Localized: \xA1Lo vimos de cerca!
+    m_Localized: "\xA1Lo vimos de cerca!"
     m_Metadata:
       m_Items: []
   - m_Id: 70000000000006
     m_Localized: Esperemos un momento para volver a mirar.
     m_Metadata:
       m_Items: []
+  - m_Id: 77211267751936
+    m_Localized: "\xA1Nuevo descubrimiento!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 77211284529152
+    m_Localized: "\xA1Lo observaste otra vez!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 77211284529153
+    m_Localized: '{0} · Observaciones: {1}'
+    m_Metadata:
+      m_Items:
+      - rid: 6219209779658358817
   references:
     version: 2
     RefIds:
@@ -133,3 +146,4 @@ MonoBehaviour:
         m_Entries: 
         m_SharedEntries:
         - id: 116383752
+        - id: 77211284529153

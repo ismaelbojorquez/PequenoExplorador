@@ -29,3 +29,4 @@ MonoBehaviour:
   _interactionRange: 1.35
   _cooldownSeconds: 1.5
   _priority: 50
+  _directDiscoveryId: 

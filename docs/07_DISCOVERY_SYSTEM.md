@@ -15,7 +15,24 @@ Cada descubrimiento data-driven necesita:
 - recompensa determinista y estado persistente;
 - fallback si el contenido factual o visual no está aprobado.
 
-El contrato técnico base está en [`CONTENT_MODEL.md`](CONTENT_MODEL.md): `DiscoveryDefinitionAsset` se mapea a `DiscoveryDefinition` readonly y se resuelve mediante `DiscoveryId` en O(1). Categorías/tags son IDs extensibles, no enums. Prompt 14 incluye solo `discovery.jungle.placeholder`, neutral y Draft; no implementa estados, fotografía ni álbum.
+El contrato técnico base está en [`CONTENT_MODEL.md`](CONTENT_MODEL.md): `DiscoveryDefinitionAsset` se mapea a `DiscoveryDefinition` readonly y se resuelve mediante `DiscoveryId` en O(1). Categorías/tags son IDs extensibles, no enums. Prompt 18 implementa registro directo nuevo/repetido sobre el único `discovery.jungle.placeholder`, neutral, Draft y visible solo en Development; todavía no implementa detección, fotografía ni álbum.
+
+## Progresión persistente implementada
+
+`DiscoverUseCase` recibe `DiscoveryId` + `DiscoveryGrantId`, resuelve aliases y devuelve uno de estos outcomes explícitos:
+
+| Outcome | Mutación | Recompensa única futura |
+|---|---|---|
+| `First` | Crea record con `count=1`, día local agregado `yyyy-MM-dd` y conserva grant. | Sí, exactamente una vez. |
+| `Repeated` | Incrementa count y conserva un grant nuevo. | No. |
+| `AlreadyProcessed` | Ninguna; devuelve el count vigente. | No. |
+| `MissingContent` | Ninguna; un ID retirado permanece en save sin entrar en denominadores. | No. |
+| `UnapprovedContent` | Ninguna en perfiles que no admiten Draft. | No. |
+| `SaveReadOnly` | Ninguna ante schema futuro protegido. | No. |
+
+La clave `grant.*` pertenece al origen semántico (interacción ahora, captura después). Economy, álbum y UI consumirán `DiscoverResult`; Discovery no conoce estrellas, vistas ni archivos de audio. `DiscoveryProgressQueries` calcula descubierto/total por world/category exclusivamente desde definitions `Approved` del catálogo. No hay números de contenido hardcodeados ni porcentaje guardado.
+
+El fixture animal enlaza `interaction.fixture.animal → discovery.jungle.placeholder` mediante authoring. `DiscoveryInteractionAction` es el adapter de Application; planta/objeto siguen usando el núcleo neutral. El feedback ES/EN y contador están limitados al diagnóstico Development. Release continúa bloqueando el discovery/interaction Draft por los validators editoriales.
 
 ## Estados
 
@@ -25,6 +42,8 @@ El contrato técnico base está en [`CONTENT_MODEL.md`](CONTENT_MODEL.md): `Disc
 - **Fotografiado:** el viewfinder del juego reconoció encuadre suficiente.
 - **Explorado:** completó la actividad relacionada o revisó la ficha, según contrato.
 - Los estados no bajan ni expiran; pedir pistas no reduce recompensa.
+
+Estos estados ricos siguen siendo contrato futuro. El schema v4 solo distingue existencia, count, primer día local agregado y grants procesados; no inventa `Detectado/Fotografiado/Explorado` antes de implementar sus reglas.
 
 ## Fotografía dentro del juego
 
@@ -51,3 +70,5 @@ Discovery candidato: **tucán pico iris (`Ramphastos sulfuratus`)**, con especie
 - Estado del álbum coincide tras cerrar/reabrir la sesión de papel o futura implementación.
 - Ningún hecho llega a estado Release sin `Approved` en [`CONTENT_SOURCES.md`](CONTENT_SOURCES.md).
 - Descubrimiento y recompensa siguen funcionando offline y sin monetización.
+- Repetir una misma grant key no incrementa count ni vuelve a habilitar la recompensa única.
+- Save v3 migra a v4 con count 1 por ID previo, sin inventar fecha o grants históricos.

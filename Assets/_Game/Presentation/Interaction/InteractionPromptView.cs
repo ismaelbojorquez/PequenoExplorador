@@ -1,5 +1,6 @@
 using System;
 using PequenoExplorador.Application.Audio;
+using PequenoExplorador.Application.Discovery;
 using PequenoExplorador.Application.Interaction;
 using PequenoExplorador.Application.Localization;
 using UnityEngine;
@@ -22,6 +23,9 @@ namespace PequenoExplorador.Presentation.Interaction
         private InteractionCoordinator _coordinator;
         private ILocalizationService _localization;
         private IAudioService _audio;
+        private DiscoveryInteractionAction _discovery;
+        private bool _showDevelopmentCount;
+        private int _lastDiscoveryCount;
         private InteractionSnapshot _lastSnapshot = InteractionSnapshot.Idle;
 
         public bool IsVisible => _panel != null && _panel.activeSelf;
@@ -39,14 +43,19 @@ namespace PequenoExplorador.Presentation.Interaction
         public void Bind(
             InteractionCoordinator coordinator,
             ILocalizationService localization,
-            IAudioService audio)
+            IAudioService audio,
+            DiscoveryInteractionAction discovery = null,
+            bool showDevelopmentCount = false)
         {
             Unbind();
             _coordinator = coordinator ?? throw new ArgumentNullException(nameof(coordinator));
             _localization = localization ?? throw new ArgumentNullException(nameof(localization));
             _audio = audio ?? throw new ArgumentNullException(nameof(audio));
+            _discovery = discovery;
+            _showDevelopmentCount = showDevelopmentCount;
             _coordinator.Changed += HandleChanged;
             _localization.LocaleChanged += HandleLocaleChanged;
+            if (_discovery != null) _discovery.Completed += HandleDiscoveryCompleted;
             _lastSnapshot = _coordinator.Snapshot;
             Render(playFeedback: false);
         }
@@ -55,9 +64,13 @@ namespace PequenoExplorador.Presentation.Interaction
         {
             if (_coordinator != null) _coordinator.Changed -= HandleChanged;
             if (_localization != null) _localization.LocaleChanged -= HandleLocaleChanged;
+            if (_discovery != null) _discovery.Completed -= HandleDiscoveryCompleted;
             _coordinator = null;
             _localization = null;
             _audio = null;
+            _discovery = null;
+            _showDevelopmentCount = false;
+            _lastDiscoveryCount = 0;
             _lastSnapshot = InteractionSnapshot.Idle;
             if (_panel != null) _panel.SetActive(false);
         }
@@ -73,6 +86,12 @@ namespace PequenoExplorador.Presentation.Interaction
 
         private void HandleLocaleChanged(string localeCode) => Render(playFeedback: false);
 
+        private void HandleDiscoveryCompleted(DiscoverResult result)
+        {
+            _lastDiscoveryCount = result.Count;
+            Render(playFeedback: false);
+        }
+
         private void Render(bool playFeedback)
         {
             bool visible = _lastSnapshot?.HasFocus == true;
@@ -81,7 +100,15 @@ namespace PequenoExplorador.Presentation.Interaction
 
             InteractionDefinition definition = _lastSnapshot.Definition;
             if (_nameText != null) _nameText.text = Resolve(definition.DisplayName);
-            if (_statusText != null) _statusText.text = Resolve(StatusKey(_lastSnapshot));
+            if (_statusText != null)
+            {
+                LocalizedKey status = StatusKey(_lastSnapshot);
+                bool isDiscoveryFeedback = status.Equals(LocalizationKeys.DiscoveryNew) ||
+                    status.Equals(LocalizationKeys.DiscoveryRepeated);
+                _statusText.text = _showDevelopmentCount && _lastDiscoveryCount > 0 && isDiscoveryFeedback
+                    ? Resolve(LocalizationKeys.DiscoveryDebugCount, Resolve(status), _lastDiscoveryCount)
+                    : Resolve(status);
+            }
             SetLabel(_actionButton, definition.Prompt);
             SetLabel(_cancelButton, LocalizationKeys.InteractionCancel);
             if (_actionButton != null)
@@ -91,7 +118,6 @@ namespace PequenoExplorador.Presentation.Interaction
             }
             if (_cancelButton != null) _cancelButton.gameObject.SetActive(true);
             if (_icon != null) _icon.enabled = true;
-
             AudioCueId cue = _lastSnapshot.Result.AudioCue;
             if (playFeedback && !string.IsNullOrWhiteSpace(cue.Value)) _audio?.Play(cue);
         }
@@ -103,7 +129,10 @@ namespace PequenoExplorador.Presentation.Interaction
                 case InteractionOutcome.Approaching: return LocalizationKeys.InteractionApproaching;
                 case InteractionOutcome.Ready: return snapshot.Definition.Prompt;
                 case InteractionOutcome.Unavailable: return snapshot.Definition.Unavailable;
-                case InteractionOutcome.Completed: return LocalizationKeys.InteractionCompleted;
+                case InteractionOutcome.Completed:
+                    return string.IsNullOrWhiteSpace(snapshot.Result.Feedback.Entry)
+                        ? LocalizationKeys.InteractionCompleted
+                        : snapshot.Result.Feedback;
                 case InteractionOutcome.CoolingDown: return LocalizationKeys.InteractionWait;
                 default: return LocalizationKeys.SafeFallback;
             }
@@ -111,7 +140,12 @@ namespace PequenoExplorador.Presentation.Interaction
 
         private string Resolve(LocalizedKey key)
         {
-            try { return _localization.Resolve(key); }
+            return Resolve(key, Array.Empty<object>());
+        }
+
+        private string Resolve(LocalizedKey key, params object[] arguments)
+        {
+            try { return _localization.Resolve(key, arguments); }
             catch (InvalidOperationException) { return string.Empty; }
         }
 

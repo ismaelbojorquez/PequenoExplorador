@@ -187,7 +187,21 @@ Content InteractionDefinitionAsset ──compile──→ readonly catalog
 Bootstrap enlaza catálogo + raíz de Selva + servicios localización/audio
 ```
 
-Presentation referencia Domain solo porque la definición pública expone el value ID tipado; la regla queda en la allowlist y no invierte dependencias. `InteractionCoordinator` conserva un foco, serializa approach/acción y limpia por UI, pause, target destruido o unload. El adapter de detección indexa colliders al bind y usa raycast non-alloc; no hay `GetComponent` por frame, categoría animal, service locator ni bus global. Discovery/learning se conectarán mediante casos de uso concretos. Contrato: [`INTERACTION_SYSTEM.md`](INTERACTION_SYSTEM.md).
+Presentation referencia Domain solo porque la definición pública expone el value ID tipado; la regla queda en la allowlist y no invierte dependencias. `InteractionCoordinator` conserva un foco, serializa approach/acción y limpia por UI, pause, target destruido o unload. El adapter de detección indexa colliders al bind y usa raycast non-alloc; no hay `GetComponent` por frame, categoría animal, service locator ni bus global. `DiscoveryInteractionAction` implementa la primera acción concreta mediante `DiscoverUseCase`; learning seguirá una conexión explícita posterior. Contrato: [`INTERACTION_SYSTEM.md`](INTERACTION_SYSTEM.md).
+
+### Discovery persistente
+
+```text
+Content DiscoveryDefinition ──→ DiscoverUseCase ←── IClock + grant.*
+                                      ↓
+                         IDiscoveryProgressRepository
+                                      ↓
+               PlayerProgress v4 → AutosaveCoordinator.Latest
+                                      ↓
+                    Infrastructure Save DTO/migration/file
+```
+
+Domain posee `DiscoveryProgress` y value IDs; Application decide first/repeat/idempotencia/aprobación y calcula queries contra el catálogo; Infrastructure solo serializa DTO v4; Bootstrap compone. `DiscoverResult` no contiene estrellas, UI ni Audio. El día local se reduce a `yyyy-MM-dd`; no se guarda hora/zona/identidad. Los denominadores se derivan de definitions Approved vigentes y records retirados se preservan sin contarlos.
 
 ## Scene flow y contenido local
 
@@ -220,7 +234,7 @@ El bus en memoria solo cubre fan-out acotado. `Subscribe<T>` devuelve `IDisposab
 | Analytics | `NullAnalyticsService` | `NullAnalyticsService` |
 | Ads | `MockAdsService` si flag local ON; default ON | `NoAdsService`; `MockAds` prohibido |
 | Purchases | `MockPurchaseService` si flag local ON; default ON | `UnavailablePurchaseService`; `MockPurchases` prohibido |
-| Save | Local schema v3 | Local schema v3; herramientas Editor excluidas |
+| Save | Local schema v4 | Local schema v4; herramientas Editor excluidas |
 | Localization | ES/EN + pseudo y selector diagnóstico | ES/EN; pseudo/selector diagnóstico excluidos |
 | Audio | Mixer/cues PH_, panel y replay diagnóstico | Servicio local; panel oculto y placeholders bloquean Release de contenido |
 | Input/safe area | 5 mapas; Debug overlay local; presets de ratio | Mapas de producto, Debug deshabilitado; safe area local |
@@ -263,4 +277,4 @@ Subdividir un assembly requiere evidencia de tiempos de compilación, ownership,
 - Unity `6000.3.22f1`, Addressables `4.0.1`, AI Navigation `2.0.9`, URP `17.3.0`, Input System `1.20.0`, Test Framework `1.6.0`, uGUI `2.0.0`.
 - Bootstrap es la única escena habilitada en Build Settings; Camp/Jungle son locales Addressable. Development muestra navegación/fallo simulado; Release oculta controles Development.
 - Android sigue min API 26, target/compile 36, IL2CPP y ARM64; sin manifest/Gradle custom ni permiso sensible nuevo.
-- Solo existe locomoción candidata `PH_`; no existen interacción, discovery/fotografía final, UI final, contenido remoto ni SDKs comerciales. Save schema v3 no guarda PII/cuentas; ads/IAP/analytics son únicamente Null/Mock/Unavailable locales sin red.
+- Existen locomoción, interacción y discovery directo `PH_`; no existen fotografía/álbum/economía/UI final, contenido remoto ni SDKs comerciales. Save schema v4 no guarda PII/cuentas; ads/IAP/analytics son únicamente Null/Mock/Unavailable locales sin red.

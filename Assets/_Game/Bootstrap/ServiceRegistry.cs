@@ -5,6 +5,7 @@ using PequenoExplorador.Application.Audio;
 using PequenoExplorador.Application.Accessibility;
 using PequenoExplorador.Application.Configuration;
 using PequenoExplorador.Application.Content;
+using PequenoExplorador.Application.Discovery;
 using PequenoExplorador.Application.Lifecycle;
 using PequenoExplorador.Application.Logging;
 using PequenoExplorador.Application.Localization;
@@ -101,8 +102,21 @@ namespace PequenoExplorador.Bootstrap
                 {
                     new LegacyV0ToV1Migration(),
                     new V1ToV2LocalizationMigration(),
-                    new V2ToV3AudioMigration()
+                    new V2ToV3AudioMigration(),
+                    new V3ToV4DiscoveryMigration()
                 });
+            SaveCoordinator = new AutosaveCoordinator(save, logger, configuration.AutosaveDebounce);
+            var discoveryRepository = new PlayerProgressDiscoveryRepository(save, SaveCoordinator);
+            bool allowUnapprovedDiscovery = configuration.Profile == BuildProfile.Development;
+            TimeSpan localOffset = TimeZoneInfo.Local.GetUtcOffset(clock.UtcNow.UtcDateTime);
+            Discoveries = new DiscoverUseCase(
+                contentCatalog,
+                discoveryRepository,
+                clock,
+                allowUnapprovedDiscovery,
+                localOffset);
+            DiscoveryQueries = new DiscoveryProgressQueries(contentCatalog, discoveryRepository);
+            DiscoveryInteraction = new DiscoveryInteractionAction(Discoveries);
             ILocalizationService localization = new UnityLocalizationService(
                 save,
                 logger,
@@ -177,7 +191,6 @@ namespace PequenoExplorador.Bootstrap
                     purchases
                 },
                 logger);
-            SaveCoordinator = new AutosaveCoordinator(save, logger, configuration.AutosaveDebounce);
         }
 
         public ApplicationContext Context { get; }
@@ -185,6 +198,9 @@ namespace PequenoExplorador.Bootstrap
         public ApplicationHost Host { get; }
 
         public AutosaveCoordinator SaveCoordinator { get; }
+        public DiscoverUseCase Discoveries { get; }
+        public DiscoveryProgressQueries DiscoveryQueries { get; }
+        public DiscoveryInteractionAction DiscoveryInteraction { get; }
 
         private static IAudioService CreateAudioService(
             UnityEngine.GameObject host,

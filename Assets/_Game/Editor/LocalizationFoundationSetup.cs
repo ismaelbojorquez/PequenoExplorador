@@ -111,7 +111,16 @@ namespace PequenoExplorador.Editor
             new Entry("ui.pause.title", "Pausa tranquila", "A quiet pause"),
             new Entry("ui.action.resume", "Continuar", "Continue"),
             new Entry("ui.world.unavailable", "Este lugar todavía no está disponible.", "This place is not available yet."),
-            new Entry("ui.world.missing", "Este lugar ya no está disponible. Tu progreso sigue seguro.", "This place is no longer available. Your progress is still safe.")
+            new Entry("ui.world.missing", "Este lugar ya no está disponible. Tu progreso sigue seguro.", "This place is no longer available. Your progress is still safe."),
+            new Entry("ui.interaction.approaching", "Vamos a acercarnos.", "Let’s move a little closer."),
+            new Entry("ui.interaction.action", "Mirar de cerca", "Look closer"),
+            new Entry("ui.interaction.cancel", "Ahora no", "Not now"),
+            new Entry("ui.interaction.unavailable", "Todavía no podemos mirar esto. Probemos con otra cosa.", "We can’t look at this yet. Let’s try something else."),
+            new Entry("ui.interaction.completed", "¡Lo vimos de cerca!", "We took a closer look!"),
+            new Entry("ui.interaction.wait", "Esperemos un momento para volver a mirar.", "Let’s wait a moment before looking again."),
+            new Entry("ui.discovery.new", "¡Nuevo descubrimiento!", "New discovery!"),
+            new Entry("ui.discovery.repeated", "¡Lo observaste otra vez!", "You spotted it again!"),
+            new Entry("ui.discovery.debug_count", "{0} · Observaciones: {1}", "{0} · Observations: {1}", isSmart: true)
         };
 
         private static readonly Entry[] ContentEntries =

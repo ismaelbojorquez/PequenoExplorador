@@ -67,6 +67,14 @@ namespace PequenoExplorador.Editor.BuildTools
             }
 
             public bool HasVisualAsset(PequenoExplorador.Domain.Content.VisualAssetId id, Object asset) => true;
+
+            public bool HasDiscovery(PequenoExplorador.Domain.Content.DiscoveryId id)
+            {
+                ContentCatalogAsset catalog = AssetDatabase.LoadAssetAtPath<ContentCatalogAsset>(
+                    ContentFoundationSetup.CatalogPath);
+                return catalog != null && catalog.Discoveries.Any(
+                    item => item != null && string.Equals(item.RawId, id.Value, StringComparison.Ordinal));
+            }
         }
     }
 }

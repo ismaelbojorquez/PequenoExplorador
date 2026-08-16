@@ -1,5 +1,31 @@
 # Changelog
 
+## Prompt 18 — 2026-08-16
+
+### Added
+
+- `DiscoveryGrantId`, `DiscoveryProgress`, outcomes explícitos, `DiscoverUseCase`, repository sobre `PlayerProgress` y queries por world/category derivadas del catálogo Approved.
+- Save DTO v4 y migración pura v3→v4: IDs históricos pasan a count 1 sin fecha/grant inventadas; checksum, backup, future read-only y serializer builtin se conservan.
+- Acción data-driven `interaction.fixture.animal → discovery.jungle.placeholder`, feedback ES/EN nuevo/repetido y contador técnico Development.
+- Tests first/repeat/idempotency/missing/unapproved/removed/denominadores/migración y PlayMode interact→flush→reload Selva→repeat.
+
+### Changed
+
+- `AutosaveCoordinator.Latest` mantiene el snapshot pendiente como autoridad durante debounce y evita que features partan de `ISaveService.Current` obsoleto.
+- `InteractionCoordinator` conserva feedback/cue semántico de la acción concreta; planta/objeto permanecen neutrales y el núcleo no hardcodea categoría animal.
+- Arquitectura, discovery, save, content model, localización, testing, decisiones, riesgos, índice y estado reflejan schema v4 y la frontera previa a fotografía/álbum/economía.
+
+### Verified
+
+- Baseline Prompt 17: `scripts/validate` código `0` en `1:17.19`, EditMode `99/99`, PlayMode `17/17` y APK Development.
+- Durante implementación, compile detectó una comparación `WorldId` inválida; EditMode detectó tres asserts incompatibles con `IReadOnlyList`; PlayMode detectó regresión de copy al regenerar localización. Se corrigieron y repitieron los comandos dirigidos.
+- `scripts/validate` final repetido tras revisión de inmutabilidad/wiring y limpieza de YAML: código `0` en `2:12.27`; repository/compile/validadores, Addressables local 41 locations/896,909 bytes, EditMode `103/103` (2.141 s), PlayMode `18/18` (11.757 s) y APK Development.
+- APK `105,942,573` bytes, SHA-256 `abaa634d2e6ea10bcd84d8badd7480610ed4666c42a74a3fc4dad469f8eb2274`, `59.322 s` Unity, API 26/36, IL2CPP/ARM64 y zipalign 16 KB. Permisos: `INTERNET` heredado + permiso interno receiver; sin cámara/micrófono/ubicación/contactos/`AD_ID`.
+
+### Not added
+
+- Cámara física o in-game, miniaturas, álbum, economía/reward concreto, contenido factual/final, SDK/red/permiso, signing, push o publicación. Android físico sigue `NOT RUN`; `adb devices` no listó hardware.
+
 ## Prompt 17 — 2026-08-16
 
 ### Added

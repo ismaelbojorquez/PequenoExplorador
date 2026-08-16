@@ -101,7 +101,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 70000000000001
-    m_Localized: Let\u2019s move a little closer.
+    m_Localized: "Let\u2019s move a little closer."
     m_Metadata:
       m_Items: []
   - m_Id: 70000000000002
@@ -113,7 +113,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 70000000000004
-    m_Localized: We can\u2019t look at this yet. Let\u2019s try something else.
+    m_Localized: "We can\u2019t look at this yet. Let\u2019s try something else."
     m_Metadata:
       m_Items: []
   - m_Id: 70000000000005
@@ -121,9 +121,22 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 70000000000006
-    m_Localized: Let\u2019s wait a moment before looking again.
+    m_Localized: "Let\u2019s wait a moment before looking again."
     m_Metadata:
       m_Items: []
+  - m_Id: 77211267751936
+    m_Localized: New discovery!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 77211284529152
+    m_Localized: You spotted it again!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 77211284529153
+    m_Localized: '{0} · Observations: {1}'
+    m_Metadata:
+      m_Items:
+      - rid: 6219209779658358820
   references:
     version: 2
     RefIds:
@@ -133,3 +146,4 @@ MonoBehaviour:
         m_Entries: 
         m_SharedEntries:
         - id: 116383752
+        - id: 77211284529153

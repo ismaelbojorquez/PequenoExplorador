@@ -15,6 +15,7 @@ namespace PequenoExplorador.Presentation.Interaction
         [SerializeField] private bool _available = true;
 
         private InteractionDefinition _definition;
+        private IInteractionAction _action;
         private bool _destroyed;
 
         public InteractionDefinition Definition => _definition;
@@ -25,9 +26,10 @@ namespace PequenoExplorador.Presentation.Interaction
         public IReadOnlyList<Collider> TargetColliders => _targetColliders ?? Array.Empty<Collider>();
         public int ActivationCount { get; private set; }
 
-        public void Bind(InteractionDefinition definition)
+        public void Bind(InteractionDefinition definition, IInteractionAction action = null)
         {
             _definition = definition ?? throw new ArgumentNullException(nameof(definition));
+            _action = action;
             if (!string.Equals(_interactionId, definition.Id.Value, StringComparison.Ordinal))
                 throw new InvalidOperationException(
                     $"Fixture '{name}' expects '{_interactionId}' but received '{definition.Id}'.");
@@ -51,6 +53,7 @@ namespace PequenoExplorador.Presentation.Interaction
                     _definition?.Unavailable ?? default,
                     _definition?.UnavailableAudioCue ?? default);
             ActivationCount++;
+            if (_action != null) return _action.Execute(_definition, context);
             return new InteractionResult(
                 InteractionOutcome.Completed,
                 _definition.Id,

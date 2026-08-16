@@ -72,6 +72,11 @@ namespace PequenoExplorador.Content.Interaction
                         continue;
                     }
                     EditorialMetadata editorial = asset.Editorial.ToRuntime();
+                    DiscoveryId directDiscovery = string.IsNullOrWhiteSpace(asset.DirectDiscoveryId)
+                        ? default
+                        : DiscoveryId.Parse(asset.DirectDiscoveryId);
+                    if (directDiscovery.IsValid && resolver != null && !resolver.HasDiscovery(directDiscovery))
+                        errors.Add($"INTERACTION011 missing discovery '{directDiscovery}' referenced by {path}; add it to the canonical content catalog or clear the optional action.");
                     if (mode == ContentValidationMode.Release && !editorial.IsReleaseApproved)
                         errors.Add($"INTERACTION005 Release rejects {editorial.State} or placeholder '{id}' at {path}; replace and approve it.");
                     definitions.Add(new InteractionDefinition(
@@ -84,6 +89,7 @@ namespace PequenoExplorador.Content.Interaction
                         asset.InteractionRange,
                         asset.CooldownSeconds,
                         asset.Priority,
+                        directDiscovery,
                         editorial));
                 }
                 catch (Exception exception) when (

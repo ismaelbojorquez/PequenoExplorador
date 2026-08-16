@@ -23,11 +23,15 @@ namespace PequenoExplorador.Infrastructure.Save
             }
 
             PlayerPreferences preferences = progress.Preferences;
-            PlayerProgressV3Dto payload = PlayerProgressV3Dto.Create(
+            PlayerProgressV4Dto payload = PlayerProgressV4Dto.Create(
                 appVersion,
                 progress.Stars,
                 progress.WorldIds.ToArray(),
-                progress.DiscoveryIds.ToArray(),
+                progress.Discoveries.Select(item => DiscoveryProgressV4Dto.Create(
+                    item.Id.Value,
+                    item.Count,
+                    item.FirstObservedLocalDate)).ToArray(),
+                progress.ProcessedDiscoveryGrantIds.ToArray(),
                 progress.CompletedMissionIds.ToArray(),
                 PlayerPreferencesV3Dto.Create(
                     (int)preferences.GuidanceMode,
@@ -94,10 +98,10 @@ namespace PequenoExplorador.Infrastructure.Save
 
         public DecodedSaveData DeserializeCurrentPayload(string payload)
         {
-            PlayerProgressV3Dto dto;
+            PlayerProgressV4Dto dto;
             try
             {
-                dto = JsonUtility.FromJson<PlayerProgressV3Dto>(payload);
+                dto = JsonUtility.FromJson<PlayerProgressV4Dto>(payload);
             }
             catch (Exception exception)
             {
@@ -105,7 +109,8 @@ namespace PequenoExplorador.Infrastructure.Save
             }
 
             if (dto == null || string.IsNullOrWhiteSpace(dto.AppVersion) || dto.Stars < 0 ||
-                dto.WorldIds == null || dto.DiscoveryIds == null || dto.CompletedMissionIds == null ||
+                dto.WorldIds == null || dto.Discoveries == null || dto.ProcessedDiscoveryGrantIds == null ||
+                dto.CompletedMissionIds == null ||
                 dto.Settings == null || dto.Metadata == null || dto.Metadata.SaveSequence < 0 ||
                 !Enum.IsDefined(typeof(GuidanceMode), dto.Settings.GuidanceMode) ||
                 !LocaleCode.IsSupported(dto.Settings.LocaleCode, includePseudo: false) ||
@@ -130,10 +135,19 @@ namespace PequenoExplorador.Infrastructure.Save
                     dto.Settings.EffectsVolume,
                     dto.Settings.VoiceVolume,
                     dto.Settings.SubtitlesEnabled);
+                var discoveries = dto.Discoveries.Select(item =>
+                {
+                    if (item == null) throw new SaveDataException("SavePayloadInvalid");
+                    return new DiscoveryProgress(
+                        PequenoExplorador.Domain.Content.DiscoveryId.Parse(item.Id),
+                        item.Count,
+                        item.FirstObservedLocalDate);
+                }).ToArray();
                 var progress = new PlayerProgress(
                     dto.Stars,
                     dto.WorldIds,
-                    dto.DiscoveryIds,
+                    discoveries,
+                    dto.ProcessedDiscoveryGrantIds,
                     dto.CompletedMissionIds,
                     preferences);
                 return new DecodedSaveData(progress, dto.Metadata.SaveSequence);

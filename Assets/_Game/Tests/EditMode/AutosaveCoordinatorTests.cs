@@ -23,6 +23,7 @@ namespace PequenoExplorador.Tests.EditMode
             coordinator.RequestCheckpoint(PlayerProgress.CreateDefault().WithStars(1));
             coordinator.RequestCheckpoint(PlayerProgress.CreateDefault().WithStars(2));
             coordinator.RequestCheckpoint(PlayerProgress.CreateDefault().WithStars(3));
+            Assert.That(coordinator.Latest.Stars, Is.EqualTo(3));
             await coordinator.FlushAsync(CancellationToken.None);
 
             Assert.That(save.Saved, Has.Count.EqualTo(1));

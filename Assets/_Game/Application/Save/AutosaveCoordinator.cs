@@ -31,6 +31,18 @@ namespace PequenoExplorador.Application.Save
             _debounce = debounce;
         }
 
+        public PlayerProgress Latest
+        {
+            get
+            {
+                lock (_gate)
+                {
+                    ThrowIfDisposed();
+                    return _pending ?? _saveService.Current;
+                }
+            }
+        }
+
         public void RequestCheckpoint(PlayerProgress progress)
         {
             if (progress == null)

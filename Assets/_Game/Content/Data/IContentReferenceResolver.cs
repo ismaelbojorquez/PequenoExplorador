@@ -11,5 +11,6 @@ namespace PequenoExplorador.Content.Data
         bool HasLocalization(LocalizedKey key);
         bool HasAudioCue(AudioCueId cueId);
         bool HasVisualAsset(VisualAssetId id, Object asset);
+        bool HasDiscovery(DiscoveryId id);
     }
 }

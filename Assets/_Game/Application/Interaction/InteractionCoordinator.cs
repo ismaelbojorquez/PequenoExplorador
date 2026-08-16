@@ -122,8 +122,12 @@ namespace PequenoExplorador.Application.Interaction
                     new InteractionResult(
                         InteractionOutcome.Completed,
                         definition.Id,
-                        definition.Prompt,
-                        AudioCueIds.ConfirmFeedback));
+                        string.IsNullOrWhiteSpace(result.Feedback.Entry)
+                            ? definition.Prompt
+                            : result.Feedback,
+                        string.IsNullOrWhiteSpace(result.AudioCue.Value)
+                            ? AudioCueIds.ConfirmFeedback
+                            : result.AudioCue));
             }
 
             return PublishUnavailable(definition);

@@ -29,7 +29,8 @@ namespace PequenoExplorador.Presentation.Interaction
             IInteractionApproach approach,
             IClock clock,
             IInputService input,
-            Camera worldCamera)
+            Camera worldCamera,
+            IInteractionAction directDiscoveryAction = null)
         {
             if (catalog == null) throw new ArgumentNullException(nameof(catalog));
             if (_detector == null || _targets == null || _targets.Length == 0 ||
@@ -41,7 +42,10 @@ namespace PequenoExplorador.Presentation.Interaction
                 if (!catalog.TryGet(target.RawInteractionId, out InteractionDefinition definition))
                     throw new InvalidOperationException(
                         $"Interaction catalog is missing '{target.RawInteractionId}'.");
-                target.Bind(definition);
+                if (definition.HasDirectDiscovery && directDiscoveryAction == null)
+                    throw new InvalidOperationException(
+                        $"Interaction '{definition.Id}' requires its explicit discovery action.");
+                target.Bind(definition, definition.HasDirectDiscovery ? directDiscoveryAction : null);
             }
             Coordinator = new InteractionCoordinator(approach, clock);
             Coordinator.Changed += HandleChanged;

@@ -1,6 +1,6 @@
 # Índice documental
 
-Estado: foundation, scene flow local, persistencia schema v3, localización/audio/input, catálogo data-driven Draft, manifest Selva, locomoción e interacción contextual `PH_` disponibles; todavía no existe discovery ni contenido final. Empezar siempre por [`../AGENTS.md`](../AGENTS.md) y [`STATUS.md`](STATUS.md).
+Estado: foundation, scene flow local, persistencia schema v4, localización/audio/input, catálogo data-driven Draft, manifest Selva, locomoción, interacción y discovery directo `PH_` disponibles; todavía no existen fotografía, álbum/economía ni contenido final. Empezar siempre por [`../AGENTS.md`](../AGENTS.md) y [`STATUS.md`](STATUS.md).
 
 ## Fuentes de verdad
 
@@ -53,7 +53,7 @@ Los saltos numéricos reservan espacio para documentos técnicos futuros; no imp
 - [`DEPENDENCY_REGISTER.md`](DEPENDENCY_REGISTER.md): intake y pins de paquetes directos/transitivos.
 - [`CONTENT_PIPELINE.md`](CONTENT_PIPELINE.md): Addressables local, addresses/labels, ownership, build y evolución.
 - [`CONTENT_MODEL.md`](CONTENT_MODEL.md): catálogo O(1), ScriptableObjects, IDs, reports y bloqueo Release de Draft.
-- [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md): schema v3, DTOs, checksum, backup, migraciones, autosave y recuperación.
+- [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md): schema v4, DTOs, checksum, backup, migraciones, autosave y recuperación.
 - [`17_LOCALIZATION.md`](17_LOCALIZATION.md): paquete exacto, ES/EN, pseudo, tablas/keys y pipeline CSV local.
 - [`RUNTIME_CONFIGURATION.md`](RUNTIME_CONFIGURATION.md): AppConfig Development/Release, flags tipados y validación build.
 - [`INPUT_ACCESSIBILITY.md`](INPUT_ACCESSIBILITY.md): Input System `1.20.0`, action maps, gestures, safe area, haptics y device harness.
@@ -86,6 +86,7 @@ Los saltos numéricos reservan espacio para documentos técnicos futuros; no imp
 - [`PHASE_15_PREFLIGHT.md`](PHASE_15_PREFLIGHT.md)
 - [`PHASE_16_PREFLIGHT.md`](PHASE_16_PREFLIGHT.md)
 - [`PHASE_17_PREFLIGHT.md`](PHASE_17_PREFLIGHT.md)
+- [`PHASE_18_PREFLIGHT.md`](PHASE_18_PREFLIGHT.md)
 
 ## Lectura obligatoria para el siguiente incremento
 

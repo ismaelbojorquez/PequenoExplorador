@@ -35,6 +35,7 @@ namespace PequenoExplorador.Editor
                     "interaction.fixture.animal",
                     "content.interaction.fixture.animal.name",
                     70);
+                SetDirectDiscovery(animal, "discovery.jungle.placeholder");
                 InteractionDefinitionAsset plant = EnsureDefinition(
                     PlantPath,
                     "interaction.fixture.plant",
@@ -90,6 +91,14 @@ namespace PequenoExplorador.Editor
             serialized.ApplyModifiedPropertiesWithoutUndo();
             EditorUtility.SetDirty(asset);
             return asset;
+        }
+
+        private static void SetDirectDiscovery(InteractionDefinitionAsset asset, string discoveryId)
+        {
+            var serialized = new SerializedObject(asset);
+            serialized.FindProperty("_directDiscoveryId").stringValue = discoveryId;
+            serialized.ApplyModifiedPropertiesWithoutUndo();
+            EditorUtility.SetDirty(asset);
         }
 
         private static InteractionCatalogAsset EnsureCatalog(params InteractionDefinitionAsset[] definitions)

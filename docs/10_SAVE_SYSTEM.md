@@ -1,6 +1,6 @@
 # Sistema de guardado local
 
-Estado: schema v3 implementado en Prompt 12 sobre la foundation atómica de Prompt/Fase 09. Es foundation técnica sin gameplay, cloud, cuentas ni entitlements.
+Estado: schema v4 implementado en Prompt 18 sobre la foundation atómica de Prompt/Fase 09. Persiste discovery contado/idempotente; sigue sin cloud, cuentas ni entitlements.
 
 ## Contrato y límites
 
@@ -8,17 +8,17 @@ Estado: schema v3 implementado en Prompt 12 sobre la foundation atómica de Prom
 Domain.PlayerProgress
         ↓ ISaveService / AutosaveCoordinator (Application)
 Infrastructure.LocalSaveService
-        ├─ UnityJsonSaveSerializer → SaveEnvelope + DTO v1/v2/v3
+        ├─ UnityJsonSaveSerializer → SaveEnvelope + DTO v1/v2/v3/v4
         ├─ ISaveMigration[] → pasos puros n→n+1
         └─ IFileStore → LocalFileStore(Application.persistentDataPath)
 Bootstrap compone; Presentation solo recibe SaveUserNotice.
 ```
 
-`PlayerProgress` contiene únicamente estrellas no negativas, listas de IDs técnicos y preferencias locales (`Guía estándar`/`Más guía`, cinco volúmenes, subtítulos e idioma ES/EN). Las listas world/discovery/mission nacen vacías; no implementan sistemas de gameplay. No se serializan `GameObject`, `ScriptableObject`, `AssetReference`, diccionarios, tipos polimórficos ni nombres de assemblies.
+`PlayerProgress` contiene estrellas no negativas, listas world/mission, records `DiscoveryProgress`, grants de discovery procesados y preferencias locales (`Guía estándar`/`Más guía`, cinco volúmenes, subtítulos e idioma ES/EN). No se serializan `GameObject`, `ScriptableObject`, `AssetReference`, diccionarios, tipos polimórficos ni nombres de assemblies.
 
 `AppConfig` y sus feature flags son runtime inmutable y no se copian al save. Save conserva solo preferencias adultas mutables; perfil de build, budgets, versión técnica y flags se vuelven a resolver desde Content/Bootstrap en cada arranque según [`RUNTIME_CONFIGURATION.md`](RUNTIME_CONFIGURATION.md).
 
-## Formato v3
+## Formato v4
 
 Serializador: `UnityEngine.JsonUtility`, provisto por el módulo builtin fijado `com.unity.modules.jsonserialize` `1.0.0`. No se añadió paquete. Es compatible con el Editor `6000.3.22f1`/IL2CPP y suficiente porque los DTOs son clases cerradas con campos explícitos y arrays. Cambiar serializador o representación requiere ADR y migración, no una sustitución silenciosa.
 
@@ -26,20 +26,21 @@ Envelope lógico:
 
 ```json
 {
-  "schemaVersion": 3,
+  "schemaVersion": 4,
   "checksum": "sha256-hex-del-payload-utf8",
-  "payload": "json-escapado-del-dto-v3"
+  "payload": "json-escapado-del-dto-v4"
 }
 ```
 
-El payload v3 contiene:
+El payload v4 contiene:
 
 | Campo | Propósito | Dato infantil/PII |
 |---|---|---|
 | `appVersion` | Diagnóstico de compatibilidad de escritura. | No. |
 | `stars` | Contador local determinista; inicialmente `0`. | No. |
 | `worldIds` | IDs técnicos; vacío en esta fase. | No. |
-| `discoveryIds` | IDs técnicos; vacío en esta fase. | No. |
+| `discoveries[]` | `id`, count ≥1 y primer día local agregado opcional `yyyy-MM-dd`. | No identifica persona; no guarda hora/zona. |
+| `processedDiscoveryGrantIds` | Claves técnicas `grant.*` ya aplicadas para impedir doble count/grant. | No. |
 | `completedMissionIds` | IDs técnicos; vacío en esta fase. | No. |
 | `settings` | Guía, `localeCode` ES/EN, volúmenes Master/Music/Ambience/Effects/Voice normalizados y subtítulos; no edad. | No. |
 | `metadata.saveSequence` | Secuencia monotónica local para diagnóstico/recovery. | No identifica persona/dispositivo. |
@@ -62,9 +63,9 @@ La restauración de backup usa replace de primary **sin rotar primary sobre back
 
 ## Carga, migración y downgrade
 
-1. Sin primary/backup: crear `PlayerProgress` default en español y escribir schema v3.
-2. Primary v3 válido: validar checksum, DTO/invariantes y cargar.
-3. Primary antiguo: aplicar `v0→v1→v2→v3`. v1→v2 añade locale; v2→v3 conserva progreso/locale/guía y mapea booleans a defaults normalizados (`0` si estaban apagados), Ambience desde Music y subtítulos activos. Se reescribe v3 y se conserva el original como backup.
+1. Sin primary/backup: crear `PlayerProgress` default en español y escribir schema v4.
+2. Primary v4 válido: validar checksum, DTO/invariantes y cargar.
+3. Primary antiguo: aplicar `v0→v1→v2→v3→v4`. v1→v2 añade locale; v2→v3 añade audio; v3→v4 transforma cada `discoveryId` histórico en record con count 1, fecha vacía y cero grants procesados. No inventa cuándo ni cómo ocurrió. Se reescribe v4 y se conserva el original como backup.
 4. Primary corrupto: intentar backup; si pasa, cargarlo, emitir `ProgressRecovered` y reparar primary preservando backup.
 5. Schema futuro: entrar en modo read-only, emitir `NewerSaveVersionDetected` y bloquear save/reset. Nunca sobrescribirlo con el schema actual.
 6. Primary y backup inválidos: fallo recuperable; no pérdida/sobrescritura silenciosa.
@@ -73,7 +74,7 @@ Cada schema nuevo añade DTO, mapper y migración pura; nunca se edita una migra
 
 ## Checkpoints y lifecycle
 
-`AutosaveCoordinator` conserva solo el progreso más reciente durante la ventana de debounce de 500 ms y serializa escrituras mediante `ISaveService`. `FlushAsync` elimina la espera y permite evidencia determinista. Futuras features solicitan checkpoints tras una recompensa confirmada, misión confirmada, cambio de settings o salida segura; no guardan por frame ni escriben archivos directamente.
+`AutosaveCoordinator` conserva solo el progreso más reciente durante la ventana de debounce de 500 ms, expone ese snapshot como `Latest` para que varios productores no partan de un `Current` obsoleto y serializa escrituras mediante `ISaveService`. `FlushAsync` elimina la espera y permite evidencia determinista. Discovery solicita checkpoint tras aplicar una grant; no guarda por frame ni lee/escribe archivos directamente.
 
 En pause se solicita el estado actual y se espera hasta 1 segundo. En quit se inicia un flush best-effort con presupuesto de 250 ms y nunca se bloquea indefinidamente. El último checkpoint ya comprometido siempre prevalece; cerrar durante una escritura no duplica recompensa porque los sistemas de recompensa futuros deberán confirmar estado antes de solicitar el checkpoint.
 
@@ -97,20 +98,20 @@ Reset muestra confirmación explícita y elimina solo los tres nombres conocidos
 
 No hay soporte cloud ni recuperación remota. Una copia manual puede contener progreso de juego aunque no contenga PII; se trata como dato privado local.
 
-## Matriz automatizada F09
+## Matriz automatizada Prompt 18
 
 | Caso | Evidencia |
 |---|---|
-| Default v3, idioma, audio settings y round-trip | EditMode. |
+| Default v4, idioma, audio settings, discovery records/grants y round-trip | EditMode. |
 | JSON determinista y sin campos de perfil personal | EditMode. |
 | Fallo write/flush/commit | Failpoints in-memory; primary/backup invariantes. |
 | Truncado/checksum | Rechazo de primary y recuperación de backup. |
 | Backup no reemplazado por corrupto | Comparación byte a byte tras reparación. |
-| v0→v1→v2→v3, v2→v3 y migración ausente | Migración/backup o fallo conservador sin rewrite. |
+| v0→v1→v2→v3→v4, v2→v3, v3→v4 y migración ausente | Migración/backup o fallo conservador sin rewrite. |
 | Schema futuro | Read-only; save bloqueado y bytes intactos. |
 | Cancelación antes de commit | Excepción de cancelación y último primary intacto. |
 | Requests múltiples | Coalescing al checkpoint más reciente. |
 | Replace físico repetido | `LocalFileStore` en directorio temporal controlado. |
-| Recreación/recarga | PlayMode recrea servicio tras recargar escena. |
+| Discovery first/repeat/reload | PlayMode interactúa, flush, recarga Selva y repite sin segundo grant único. |
 
 El build Android prueba compilación IL2CPP/ARM64 del sistema. La lectura/escritura en dispositivo físico permanece separada y debe reportarse `NOT RUN` si no hay hardware soportado.

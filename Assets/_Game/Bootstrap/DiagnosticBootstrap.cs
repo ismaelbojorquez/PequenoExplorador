@@ -7,6 +7,7 @@ using PequenoExplorador.Application.Audio;
 using PequenoExplorador.Application.Accessibility;
 using PequenoExplorador.Application.Configuration;
 using PequenoExplorador.Application.Content;
+using PequenoExplorador.Application.Discovery;
 using PequenoExplorador.Application.Lifecycle;
 using PequenoExplorador.Application.Logging;
 using PequenoExplorador.Application.Input;
@@ -106,6 +107,9 @@ namespace PequenoExplorador.Bootstrap
         public ExplorerLocomotionRoot ExplorerRoot => _explorerRoot;
         public InteractionSceneRoot InteractionRoot => _interactionRoot;
         public InteractionPromptView InteractionPrompt => _interactionPrompt;
+        public DiscoverResult LastDiscoveryResult => _services == null
+            ? default
+            : _services.DiscoveryInteraction.LastResult;
 
         private void Awake()
         {
@@ -299,7 +303,7 @@ namespace PequenoExplorador.Bootstrap
         {
             if (_services?.Context.Save.Current != null && !_services.Context.Save.IsReadOnly)
             {
-                _services.SaveCoordinator.RequestCheckpoint(_services.Context.Save.Current);
+                _services.SaveCoordinator.RequestCheckpoint(_services.SaveCoordinator.Latest);
             }
         }
 
@@ -334,6 +338,13 @@ namespace PequenoExplorador.Bootstrap
         public void SetInputMap(InputMapId map) => _services.Context.Input.SetMap(map);
 
 #if UNITY_EDITOR
+        public async Task ResetProgressForTestsAsync(CancellationToken cancellationToken)
+        {
+            await _services.SaveCoordinator.FlushAsync(cancellationToken);
+            SaveOperationResult result = await _services.Context.Save.ResetAsync(cancellationToken);
+            if (!result.IsSuccess) throw new InvalidOperationException(result.ErrorCode);
+        }
+
         public void ConfigureInputForEditorAndTests(
             InputActionAsset inputActions,
             GestureThresholdsAsset gestureThresholds,
@@ -464,12 +475,15 @@ namespace PequenoExplorador.Bootstrap
                     found,
                     _services.Context.Clock,
                     _services.Context.Input,
-                    _worldCamera);
+                    _worldCamera,
+                    _services.DiscoveryInteraction);
                 found.SetTapHandler(interaction);
                 _interactionPrompt.Bind(
                     interaction.Coordinator,
                     _services.Context.Localization,
-                    _services.Context.Audio);
+                    _services.Context.Audio,
+                    _services.DiscoveryInteraction,
+                    _diagnosticsEnabled);
                 _explorerRoot = found;
                 _interactionRoot = interaction;
             }
