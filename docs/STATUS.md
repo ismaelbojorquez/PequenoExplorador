@@ -1,14 +1,14 @@
 # Estado vivo del proyecto
 
-Actualizado: 2026-08-16 15:53 (`America/Mexico_City`). Git, implementación y evidencia ejecutada prevalecen si contradicen este resumen.
+Actualizado: 2026-08-16 16:20 (`America/Mexico_City`). Git, implementación y evidencia ejecutada prevalecen si contradicen este resumen.
 
 ## Fase y Gate
 
-- **Fase actual:** Prompt 18 — discovery persistente e idempotente completado y validado.
-- **Estado:** `PASS` local; implementación, documentación y evidencia de fase completas.
-- **Gate actual:** B — Vertical slice playable iniciado; Camp/Jungle todavía son placeholders sin gameplay.
+- **Fase implementada más reciente:** Prompt 18 — discovery persistente e idempotente completado y validado.
+- **Auditoría actual:** Prompt 30 — [`Gate B`](audits/GATE_B_2026-08-16.md) ejecutado sobre HEAD real; `FAIL` por ausencia estructural de Fases 19–29 y del journey end-to-end.
+- **Gate actual:** B — `FAIL`; no ejecutar Prompt 31 hasta completar y volver a auditar el loop mínimo.
 - **Gate A:** [`audits/GATE_A_2026-08-15.md`](audits/GATE_A_2026-08-15.md) — `PASS`, sin Critical/Major abierto.
-- **Siguiente fase:** Prompt 19 — cámara fotográfica in-game, **bloqueado hasta disponer de un animal fixture Approved** conforme al estado esperado del prompt; no convertir el placeholder Draft en Approved por conveniencia.
+- **Siguiente fase:** Prompt 19 — cámara fotográfica in-game, **bloqueado hasta disponer de un animal fixture Approved** conforme al estado esperado del prompt; después continuar secuencialmente hasta Prompt 29 y repetir Gate B.
 - **ExecPlan:** [`p18-persistent-discovery.md`](../.agent/execplans/p18-persistent-discovery.md), completo.
 
 ## Capacidades verificadas
@@ -17,7 +17,7 @@ Actualizado: 2026-08-16 15:53 (`America/Mexico_City`). Git, implementación y ev
 |---|---|---|
 | Git/producto/contrato | Verificado | Fases 00–06 auditadas; visión/GDD/MVP Selva y AGENTS canónicos. Cada preflight debe volver a contrastarlos. |
 | Unity y assemblies | `PASS` | Unity `6000.3.22f1`, URP, nueve asmdefs, grafo acíclico; Domain/Application sin engine. |
-| Pipeline local | `PASS` | Prompt 18 final repetido tras limpieza de diff: `scripts/validate` código `0` en `2:12.27`; checks, compile/validadores, Addressables, EditMode `103/103`, PlayMode `18/18` y APK. |
+| Pipeline local | `PASS` | Auditoría Gate B: `scripts/validate` código `0` en `1:25.81`; checks, compile/validadores, Addressables, EditMode `103/103`, PlayMode `18/18` y APK. Esto valida foundation, no un journey inexistente. |
 | Bootstrap/servicios | `PASS` | MessageBus→Input→SafeArea→Haptics→Save→Localization→Audio→Analytics→Ads→Purchases; shutdown inverso y perfiles fail-closed. |
 | Scene flow / Addressables | `PASS` | `4.0.1`; Boot→Camp↔Selva por `WorldManifest`, tres ciclos, sesión/handles controlados, 41 locations/896,909 bytes; sin endpoint/catálogo remoto. |
 | Save local | `PASS` automatizado; dispositivo `NOT RUN` | Schema v4, JSON builtin, SHA-256, atomicidad/backup, v0→v1→v2→v3→v4, future read-only, discovery records/grants y preferencias; sin PII/red. |
@@ -31,10 +31,11 @@ Actualizado: 2026-08-16 15:53 (`America/Mexico_City`). Git, implementación y ev
 | Contenido data-driven | Development `PASS`; Release `BLOCKED` | Un discovery neutral Draft resuelve por `DiscoveryId` en catálogo O(1); IDs/referencias/aliases/editorial generan reports. Release devuelve `DATA025` por cinco assets Draft. |
 | Mundos data-driven | Development `PASS`; Release `BLOCKED` | `world.jungle` compila desde manifest con escena/labels/spawn/checkpoint/catálogos/cues/version/tamaño. Fixture `world.test-ocean` prueba expansión sin switch; Release devuelve `WORLD018` por Draft/PH_. |
 | Tests Unity | `PASS` | EditMode `103/103`, `2.141 s`; PlayMode `18/18`, `11.757 s`. Añade discovery first/repeat/idempotencia/queries/migración y persistencia por reload Selva. |
-| Android | Development `PASS`; Release `BLOCKED` | APK ES `105,942,573` bytes, SHA-256 `abaa634d2e6ea10bcd84d8badd7480610ed4666c42a74a3fc4dad469f8eb2274`, `59.322 s` Unity, API 26/36, IL2CPP/ARM64 y zipalign 16 KB. Sin permiso CAMERA/sensible nuevo; Release sigue bloqueado por contenido `PH_`/signing. |
+| Android | Development `PASS`; Release `BLOCKED` | Gate B produjo APK ES `105,942,573` bytes, SHA-256 `6da8c8c58db1deaf2c75a58b4bc02a9c775789fa67ae77beb1a3e606f68e52e5`, `17.583 s` Unity, API 26/36, IL2CPP/ARM64 y zipalign 16 KB. Es foundation, no Vertical Slice; sin permiso CAMERA/sensible nuevo. |
 | iOS/CI remota | `NOT RUN` | Sin Xcode/módulo iOS local. `origin` existe, pero runner/licencia/checks remotos no se ejecutaron; no hubo push. |
 | Paquetes | Verificado | AI Navigation `2.0.9`, Audio builtin `1.0.0`, Localization `1.5.12`, AndroidJNI `1.0.0`, Addressables `4.0.1`; exactos, sin preview/SDK comercial. |
 | Gameplay/assets finales | Locomoción + interacción + discovery directo `PH_` | No existen fotografía/álbum/economía ni assets finales. Camp/Jungle/UI/audio/personaje/fixtures son placeholders; prohibido escalar contenido antes del Vertical Slice. |
+| Gate B journey | `FAIL` | No existen Fases 19–29, journey automatizado, actividad, fotografía, estrellas, misión, álbum, mejora ni FTUE. Cinco runs, primera/segunda sesión y UX no lectora: `NOT RUN`. |
 
 ## Lectura para reanudar
 

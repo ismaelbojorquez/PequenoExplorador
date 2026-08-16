@@ -1,5 +1,17 @@
 # Changelog
 
+## Gate B — 2026-08-16
+
+### Audited
+
+- Se contrastó la expectativa de Fase 29 con Git, `STATUS`, historial, último ExecPlan, runtime y tests: HEAD continúa en Prompt 18 y no existe el loop end-to-end.
+- `scripts/validate` pasó en `1:25.81` con EditMode `103/103`, PlayMode `18/18` y APK Development; se registra como salud de foundation, no como evidencia Gate B.
+- Gate B queda `FAIL`: fotografía, álbum, economía, misiones runtime, learning, mejora de Camp, tutorial y journey automatizado están ausentes; el animal continúa Draft y sin aprobación factual.
+
+### Not run
+
+- Journey completo, cinco runs sin debug, primera/segunda sesión, no lector, corrupt-save integrado, ES/EN/ratios del slice y Android físico. No se convirtieron en `PASS` ni se crearon sistemas dentro de la auditoría.
+
 ## Prompt 18 — 2026-08-16
 
 ### Added
