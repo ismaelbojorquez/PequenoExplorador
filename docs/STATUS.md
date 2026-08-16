@@ -1,6 +1,6 @@
 # Estado vivo del proyecto
 
-Actualizado: 2026-08-16 09:40 (`America/Mexico_City`). Git y archivos observados prevalecen si contradicen este resumen y obligan a actualizarlo.
+Actualizado: 2026-08-16 09:48 (`America/Mexico_City`). Git y archivos observados prevalecen si contradicen este resumen y obligan a actualizarlo.
 Las evidencias `PHASE_00/01_PREFLIGHT.md` conservan referencias históricas al roadmap vigente cuando se escribieron; este archivo y `ROADMAP.md` contienen la asignación actual.
 
 ## Fase y Gate
@@ -9,7 +9,7 @@ Las evidencias `PHASE_00/01_PREFLIGHT.md` conservan referencias históricas al r
 - **Estado de fase:** `PASS` local con dispositivo físico `NOT RUN`. Scene flow/Addressables de Prompt 08 sigue validado; la asignación histórica de F07/F08 del roadmap no se declara completada por este incremento.
 - **Auditoría Gate A:** [`audits/GATE_A_2026-08-15.md`](audits/GATE_A_2026-08-15.md) — `PASS` original y revalidación independiente sobre HEAD F07 `PASS`, sin Critical/Major abierto.
 - **Gate actual:** B — Vertical slice playable, iniciado; el flujo actual es placeholder y no gameplay.
-- **Siguiente fase:** Prompt 10 — configuración runtime y feature flags locales— después de resolver el cambio staged ajeno y reconciliar explícitamente numeración cadena/roadmap.
+- **Siguiente fase:** Prompt 10 — configuración runtime y feature flags locales, tomado del catálogo maestro; su preflight debe reconciliar explícitamente la numeración de la cadena con el roadmap canónico.
 - **ExecPlan cerrado:** [`.agent/execplans/f09-versioned-local-save.md`](../.agent/execplans/f09-versioned-local-save.md). Los planes Gate A/F07 cerrados se conservan como evidencia histórica.
 
 ## Capacidades verificadas
@@ -53,4 +53,4 @@ Las evidencias `PHASE_00/01_PREFLIGHT.md` conservan referencias históricas al r
 
 ## Reanudación inmediata
 
-Ejecutar preflight y distinguir `docs/prompts/00_MASTER_CODEX_PROMPTS.md`, staged pero ajeno a F09. Resolverlo por decisión humana antes de exigir árbol global limpio. La cadena indica Prompt 10; reconciliar su numeración con el roadmap canónico y no declarar F07/F08 históricas completadas por inferencia. No cambiar schema sin migración/tests, escalar contenido, activar remoto, crear push/signing/publicación ni instalar SDKs.
+Ejecutar el preflight de Prompt 10 desde [`prompts/00_MASTER_CODEX_PROMPTS.md`](prompts/00_MASTER_CODEX_PROMPTS.md), contrastar su estado esperado con Git y reconciliar su numeración con el roadmap canónico. El catálogo no prueba por sí mismo que una fase esté completa y no permite declarar F07/F08 históricas completadas por inferencia. No cambiar schema sin migración/tests, escalar contenido, activar remoto, crear push/signing/publicación ni instalar SDKs.

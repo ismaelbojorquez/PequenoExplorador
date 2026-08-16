@@ -13,6 +13,7 @@ Estado: foundation, scene flow local y persistencia schema v1 disponibles; todav
 | Hechos educativos | [`CONTENT_SOURCES.md`](CONTENT_SOURCES.md) | Ningún claim llega a Release sin trazabilidad y aprobación humana. |
 | Contenido runtime | [`CONTENT_PIPELINE.md`](CONTENT_PIPELINE.md) | Define grupos/perfiles locales, ownership y prohibición de remoto. |
 | Persistencia | [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md) | Schema, archivos, migración, atomicidad, privacidad y recovery. |
+| Cadena de prompts | [`prompts/00_MASTER_CODEX_PROMPTS.md`](prompts/00_MASTER_CODEX_PROMPTS.md) | Catálogo ejecutable 00–57; `STATUS.md` decide el siguiente prompt y los Gates impiden saltos. |
 | Decisiones | [`DECISIONS.md`](DECISIONS.md) | Separa decisiones técnicas/producto de pendientes humanos. |
 | Estado operativo | [`STATUS.md`](STATUS.md) | Fase/Gate, capacidades, plan activo, bloqueos y siguiente acción. |
 | Ejecución | [`../.agent/PLANS.md`](../.agent/PLANS.md) | Decide cuándo y cómo mantener un ExecPlan vivo. |
@@ -72,6 +73,6 @@ Los saltos numéricos reservan espacio para documentos técnicos futuros; no imp
 
 ## Lectura obligatoria para el siguiente incremento
 
-Seguir el orden exacto de [`STATUS.md`](STATUS.md) y reejecutar `scripts/validate`. Para cualquier cambio de progreso/save, leer `10_SAVE_SYSTEM` y añadir migración/test antes de cambiar schema. La persistencia no autoriza producir catálogo MVP ni ampliar más allá de Selva.
+Seguir el orden exacto de [`STATUS.md`](STATUS.md), abrir allí el prompt siguiente del [catálogo 00–57](prompts/00_MASTER_CODEX_PROMPTS.md) y reejecutar `scripts/validate`. El catálogo describe la cadena completa, pero no sustituye el estado vivo ni autoriza repetir fases, saltar Gates o asumir evidencia. Para cualquier cambio de progreso/save, leer `10_SAVE_SYSTEM` y añadir migración/test antes de cambiar schema. La persistencia no autoriza producir catálogo MVP ni ampliar más allá de Selva.
 
 Las notas regulatorias son baseline de ingeniería, no asesoría legal definitiva. Las políticas deben revalidarse en la fase indicada y antes de cada envío.

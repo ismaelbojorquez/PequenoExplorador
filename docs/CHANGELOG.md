@@ -2,6 +2,21 @@
 
 Todos los cambios notables de ingeniería se registran aquí. La versión técnica de desarrollo es `0.1.0-dev`; no representa un release comercial.
 
+## Catálogo maestro de prompts — 2026-08-16
+
+### Added
+
+- Cadena documental completa de 58 prompts ejecutables, numerados 00–57, con Gates A–F, preflights, criterios de aceptación y reportes requeridos.
+- Enlace canónico desde el índice documental y regla de reanudación: `STATUS.md` selecciona el prompt siguiente y la cadena no sustituye evidencia Git/tests.
+
+### Verified
+
+- Secuencia continua 00–57, 58 marcadores de inicio y 58 de fin; Markdown, enlaces, secretos y whitespace se validan antes del commit.
+
+### Not added
+
+- No se modificó código, configuración Unity, paquetes, gameplay, assets, binarios, secretos, signing, push o publicación.
+
 ## Prompt/Fase 09 — persistencia local — 2026-08-16
 
 ### Added
