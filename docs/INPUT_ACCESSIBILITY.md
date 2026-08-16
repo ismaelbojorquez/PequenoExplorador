@@ -1,6 +1,6 @@
 # Input táctil, safe area y adaptación de dispositivo
 
-Contrato canónico de Prompt 13. Input System está fijado en `1.20.0`; no se añadió paquete ni API legacy. Esta foundation emite intenciones y adapta pantalla, pero no implementa movimiento, cámara final, fotografía final ni UI de producto.
+Contrato canónico de input iniciado en Prompt 13 y extendido en Prompt 16. Input System está fijado en `1.20.0`; `Explorer` alimenta un prototipo tap-to-move `PH_`, pero cámara, tuning y control siguen pendientes de playtest y no son finales.
 
 ## Dirección de dependencias
 
@@ -23,7 +23,7 @@ Solo `UnityInputService` consulta Input System. Ningún componente de feature pu
 | Mapa | Estado/owner | Gestos autorizados | Prohibición |
 |---|---|---|---|
 | `UI` | Camp, transición y pausa | tap, hold y drag de scroll | pinch y navegación de mundo |
-| `Explorer` | Expedition placeholder | tap semántico candidato a destino | joystick, hold/drag como movimiento, pinch |
+| `Explorer` | Expedition Selva `PH_` | tap semántico a suelo válido | joystick, hold/drag como movimiento, pinch |
 | `Photography` | futuro viewfinder | tap, drag y pinch | multitouch fuera del encuadre |
 | `Parents` | futura área adulta | tap y drag de scroll; Back sale | shortcuts infantiles/bypass |
 | `Debug` | aditivo Development, tecla F8 en Editor | toggle del overlay | ser mapa de producto o habilitarse en Release |
@@ -53,6 +53,21 @@ El overlay de toque y viewport existe solo si `DevelopmentDiagnostics` está hab
 
 ## Validación y límites
 
-`scripts/compile` valida cinco mapas, acciones, asset de thresholds, wiring Bootstrap, un fitter por Canvas, tamaño de targets y ausencia de API legacy/`Touchscreen.current`. EditMode cubre clasificación/thresholds/cancelación/pinch/doble toque/allocations/rotación. PlayMode usa `InputTestFixture` para Back, mapas por escena, multitouch y safe areas.
+`scripts/compile` valida cinco mapas, acciones, asset de thresholds, wiring Bootstrap, un fitter por Canvas, tamaño de targets, AI Navigation `2.0.9`, root/prefab/NavMesh y ausencia de API legacy/`Touchscreen.current`. EditMode cubre clasificación/thresholds/cancelación/pinch/doble toque/allocations/rotación y estados/comandos de locomoción. PlayMode usa `InputTestFixture` para Back, mapas, tap real, multitouch, safe areas y ciclos Selva.
 
-Requerido antes de Gate C: al menos un Android físico, ambos landscapes, notch/cutout, gestos del sistema, interrupción/background, latencia y ergonomía con manos infantiles. Device Simulator es ayuda visual y no evidencia física. Tap-to-move sigue siendo candidato P-006 hasta el playtest comparativo; esta fase no lo fija.
+## Locomoción candidata Prompt 16
+
+`ExplorerLocomotionController` es Application/BCL y recibe `IPathNavigator`; no conoce Unity. Presentation adapta raycast, `NavMeshAgent`, marker, animación procedural y cámara. Bootstrap encuentra una única raíz al completar la carga aditiva y la enlaza de forma explícita; no hay lookup por frame, singleton ni service locator.
+
+| Parámetro `PH_` | Valor actual | Propósito |
+|---|---:|---|
+| Velocidad | `2.4 m/s` | Recorrido corto sin exigir sostener un control. |
+| Aceleración | `8 m/s²` | Arranque legible sin respuesta brusca. |
+| Giro | `420°/s` | Seguir path compacto; requiere observarse en hardware. |
+| Radio/altura | `0.35 m` / `1.65 m` | Placeholder y claros del stub. |
+| Stop / sample | `0.18 m` / `0.75 m` | Llegada estable y tolerancia del tap. |
+| Cámara | offset `(0, 7.5, -6.5)`, damping `0.22 s` | Seguimiento automático; bounds `x[-8,8]`, `z[-9,7]`. |
+
+Un tap nuevo reemplaza destino; tap inválido muestra marker cálido sin castigo y deja recuperar con el siguiente. Cambiar a `UI`/`Photography`, pause/focus o unload cancela path. `SetReduceMotion(true)` elimina bob y snappea cámara; la preferencia adulta aún no está conectada a Save.
+
+Requerido antes de Gate C: al menos un Android físico, ambos landscapes, notch/cutout, gestos del sistema, interrupción/background, latencia, FPS/allocations y ergonomía con manos infantiles. Device Simulator y FPS Editor batch son diagnóstico, no evidencia física. Tap-to-move sigue candidato P-006 hasta el playtest comparativo.

@@ -81,7 +81,8 @@ namespace PequenoExplorador.Editor
                 },
                 ["PequenoExplorador.Presentation"] = new[]
                 {
-                    "PequenoExplorador.Application"
+                    "PequenoExplorador.Application",
+                    "UnityEngine.AIModule"
                 },
                 ["PequenoExplorador.Bootstrap"] = new[]
                 {
@@ -106,6 +107,7 @@ namespace PequenoExplorador.Editor
                     "Unity.InputSystem",
                     "Unity.Localization",
                     "Unity.Localization.Editor",
+                    "Unity.AI.Navigation",
                     "Unity.RenderPipelines.Universal.Runtime",
                     "UnityEngine.AudioModule"
                 },
@@ -132,6 +134,7 @@ namespace PequenoExplorador.Editor
                     "PequenoExplorador.Presentation",
                     "Unity.InputSystem",
                     "Unity.InputSystem.TestFramework",
+                    "UnityEngine.AIModule",
                     "UnityEngine.AudioModule"
                 }
             };

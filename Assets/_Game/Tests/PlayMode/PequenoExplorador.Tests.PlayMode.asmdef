@@ -9,6 +9,7 @@
     "PequenoExplorador.Presentation",
     "Unity.InputSystem",
     "Unity.InputSystem.TestFramework",
+    "UnityEngine.AIModule",
     "UnityEngine.AudioModule"
   ],
   "includePlatforms": [],

@@ -24,6 +24,18 @@ Cada asset deberá registrar: ID estable, nombre descriptivo, autor/proveedor, l
 | VFX | Grafos/texturas propios | Sistema aprobado en F14 | Sin flashes intensos; motion reducible y overdraw medido. |
 | Fuente | OTF/TTF con licencia y cobertura | TMP font asset | Español y glifos de localización; fallback documentado. |
 
+## Ledger temporal Prompt 16
+
+| ID/path | Tipo | Estado | Reemplazo humano requerido |
+|---|---|---|---|
+| `PH_Explorer.prefab` | primitives Unity, cuerpo/cabeza/mochila | `Placeholder / ReleaseBlocked` | Modelo inclusivo aprobado, escala/pivot, rig, materiales y provenance. |
+| `PH_Explorer_Body.mat`, `PH_Explorer_Accent.mat` | materiales URP propios | `Placeholder / ReleaseBlocked` | Paleta final, contraste, revisión cultural/accesible y budgets. |
+| `PH_Jungle_Ground.mat` + geometría de escena | suelo/límites/árboles primitivos | `Placeholder / ReleaseBlocked` | Claro Selva final, paths legibles, colisiones y occlusion/budgets. |
+| `PH_Destination_Valid.mat`, `PH_Destination_Invalid.mat` | markers locales | `Placeholder / ReleaseBlocked` | Indicador accesible con forma/movimiento/audio, no dependiente solo de color. |
+| bob procedural | animación técnica sin root motion | `Placeholder / ReleaseBlocked` | Idle/walk/turn finales, rig y decisión explícita root motion tras profiling. |
+
+Estos assets fueron creados dentro del proyecto, sin descarga ni licencia externa. El `NavMeshData` es build data técnico binario, no arte y se regenera con el setup controlado.
+
 ## Git y organización futura
 
 - Fuentes grandes de formatos cubiertos irán a Git LFS; `.meta` siempre en Git normal.

@@ -66,6 +66,7 @@ scripts/build-android-release  # fallo esperado: signing externo requerido
 | Presentation/Content | Compile + EditMode y PlayMode/escena relevantes; validación de authoring/placeholders. |
 | Catálogo data-driven | IDs/duplicados/aliases, referencias localización-audio-visual, states Development/Release, determinismo, reportes y resolución runtime; Android si cambia player. |
 | Input/safe area | Validator de mapas/APIs/targets, EditMode de gestos/allocations/rotación, PlayMode `InputTestFixture`, ratios y Android; hardware físico si el Gate lo exige. |
+| Locomoción/NavMesh | Validator de pin/prefab/surface/data/cámara/tuning, estados/allocations EditMode, tap válido/inválido/mapas/reduce-motion/unload x3 PlayMode y APK; touch/FPS físico si el Gate lo exige. |
 | Localización/copy | Validator de locales/tablas/keys/glifos, ES/EN no vacíos, Smart Strings, pseudo/layout, persistencia y APK por locale cuando cambie runtime. |
 | AppConfig/perfiles | Validar ambos assets, mapping/rangos/duplicados, flags Release, override Editor, PlayMode del perfil seleccionado y ambos paths de build/guard. |
 | Save/Infrastructure | Tests de round-trip, versión, migración, corrupción, cancelación/interrupción y PII. |

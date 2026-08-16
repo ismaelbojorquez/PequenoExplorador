@@ -27,7 +27,7 @@ Documento canónico de experiencia. Visión: [`00_PRODUCT_VISION.md`](00_PRODUCT
 
 ## Control candidato
 
-**Tap-to-move** es candidato, no decisión cerrada: tocar suelo válido propone destino, muestra confirmación visual y permite cancelar/corregir. La cámara evita giros bruscos. Un toque sobre un elemento cercano prioriza interacción. F07 debe compararlo en papel/prototipo con movimiento directo simplificado; no se fijará en código antes de validar comprensión y precisión motriz.
+**Tap-to-move** sigue siendo candidato, no decisión cerrada: tocar suelo válido propone destino, muestra confirmación visual y permite cancelar/corregir. Prompt 16 aporta un prototipo `PH_` reversible con NavMesh y cámara asistida para poder medirlo; no convierte el control en UX final. El playtest P-006 debe compararlo con movimiento directo simplificado y validar comprensión, precisión motriz, latencia y fatiga antes de aprobar producción. Un toque sobre un elemento cercano priorizará interacción desde Prompt 17.
 
 ## Progresión y economía
 

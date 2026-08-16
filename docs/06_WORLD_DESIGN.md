@@ -44,11 +44,13 @@ Baseline Selva: `world.jungle`, `scene/jungle`, `spawn.jungle.entry`, `checkpoin
 
 Cada sector futuro define puntos de entrada/salida, descubrimientos disponibles, interacciones, requisitos de misión, feedback ambiental, navegación y fallback si un objetivo no carga. El mundo consulta progreso; no decide recompensas, hechos educativos ni persistencia física.
 
-## Baseline runtime F07–Prompt 15
+## Baseline runtime F07–Prompt 16
 
 `Bootstrap` representa Boot y conserva servicios. Camp lista Selva desde el catálogo; `Camp` y `Jungle` son escenas placeholder aditivas, no contenido del Vertical Slice. Prueban `Boot → Camp ↔ Expedition`, error/retry y unload. Al volver a Camp se libera Jungle y sus bundles sin destruir servicios. Addresses, manifests, grupos y la prohibición `SharedLocal → JungleLocal` viven en [`CONTENT_PIPELINE.md`](CONTENT_PIPELINE.md).
 
-La pantalla temporal y los controles Development no fijan navegación final, layout, safe area ni input infantil. Siguen bloqueados para Release mediante metadata `PH_`; no cuentan para cantidades MVP ni autorizan producir sectores/animales.
+Prompt 16 convierte Jungle en un claro técnico `16×14 m` con suelo walkable, límites, dos obstáculos, `NavMeshSurface`, spawn y explorador `PH_`. Es geometría de prueba, no un sector Vertical Slice ni arte final. La cámara asistida queda limitada al stub y salir libera agente/root junto con la escena.
+
+La pantalla temporal, geometría, controlador y controles Development no fijan navegación final, layout ni input infantil aprobado. Siguen bloqueados para Release mediante metadata `PH_`; no cuentan para cantidades MVP ni autorizan producir sectores/animales.
 
 ## Post-MVP explícito
 

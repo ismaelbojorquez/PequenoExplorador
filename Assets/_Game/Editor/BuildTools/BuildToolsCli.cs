@@ -16,6 +16,7 @@ namespace PequenoExplorador.Editor.BuildTools
                 ValidateContentInternal(ContentValidationMode.Development);
                 ValidateAddressablesInternal();
                 ValidateInputInternal();
+                ValidateExplorerInternal();
                 ArtifactReportWriter.WriteEnvironmentReport();
                 Debug.Log("PE_COMPILE_OK");
             });
@@ -79,6 +80,7 @@ namespace PequenoExplorador.Editor.BuildTools
                 ValidateContentInternal(ContentValidationMode.Development);
                 ValidateAddressablesInternal();
                 ValidateInputInternal();
+                ValidateExplorerInternal();
                 LocalAddressablesBuildService.BuildDevelopment();
             });
         }
@@ -91,6 +93,7 @@ namespace PequenoExplorador.Editor.BuildTools
                 ValidateContentInternal(ContentValidationMode.Development);
                 ValidateAddressablesInternal();
                 ValidateInputInternal();
+                ValidateExplorerInternal();
                 LocalAddressablesBuildService.BuildDevelopment();
                 AndroidBuildService.BuildDevelopment();
             });
@@ -104,6 +107,7 @@ namespace PequenoExplorador.Editor.BuildTools
                 ValidateContentInternal(ContentValidationMode.Release);
                 ValidateAddressablesInternal();
                 ValidateInputInternal();
+                ValidateExplorerInternal();
                 const string reason =
                     "PE_RELEASE_SIGNING_REQUIRED: Release is intentionally blocked until an authorized human supplies external signing and approves bundle identity.";
                 ArtifactReportWriter.WriteReleaseBlockedReport(reason);
@@ -164,6 +168,14 @@ namespace PequenoExplorador.Editor.BuildTools
             if (violations.Count > 0)
                 throw new InvalidOperationException("Input foundation validation failed:\n" + string.Join("\n", violations));
             Debug.Log("PE_INPUT_FOUNDATION_OK package=1.20.0 maps=5 safeArea=central legacy=0 haptics=noop");
+        }
+
+        private static void ValidateExplorerInternal()
+        {
+            IReadOnlyList<string> violations = ExplorerFoundationValidationService.Validate();
+            if (violations.Count > 0)
+                throw new InvalidOperationException("Explorer foundation validation failed:\n" + string.Join("\n", violations));
+            Debug.Log("PE_EXPLORER_FOUNDATION_OK package=2.0.9 roots=1 navmesh=1 rootMotion=false joystick=false");
         }
 
         private static void Run(Action action)

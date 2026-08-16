@@ -22,9 +22,11 @@ using PequenoExplorador.Presentation.Accessibility;
 using PequenoExplorador.Presentation.Audio;
 using PequenoExplorador.Presentation.Bootstrap;
 using PequenoExplorador.Presentation.Input;
+using PequenoExplorador.Presentation.Explorer;
 using PequenoExplorador.Presentation.SceneFlow;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using AudioSettingsModel = PequenoExplorador.Application.Audio.AudioSettings;
 
 namespace PequenoExplorador.Bootstrap
@@ -49,6 +51,7 @@ namespace PequenoExplorador.Bootstrap
         [SerializeField] private InputPauseView _pauseView;
         [SerializeField] private TouchDiagnosticOverlay _touchOverlay;
         [SerializeField] private DeviceAspectOverlay _aspectOverlay;
+        [SerializeField] private Camera _worldCamera;
 
         private CancellationTokenSource _lifetimeCancellation;
         private IAppConfig _configuration;
@@ -59,6 +62,7 @@ namespace PequenoExplorador.Bootstrap
         private bool _applicationFocused = true;
         private bool _diagnosticsEnabled;
         private InputMapId _inputMapBeforePause = InputMapId.UI;
+        private ExplorerLocomotionRoot _explorerRoot;
 
         public ApplicationState State => _services == null
             ? ApplicationState.Created
@@ -92,6 +96,7 @@ namespace PequenoExplorador.Bootstrap
         public ISafeAreaService SafeArea => _services?.Context.SafeArea;
         public IHapticsService Haptics => _services?.Context.Haptics;
         public bool IsPauseVisible => _pauseView != null && _pauseView.IsVisible;
+        public ExplorerLocomotionRoot ExplorerRoot => _explorerRoot;
 
         private void Awake()
         {
@@ -110,7 +115,8 @@ namespace PequenoExplorador.Bootstrap
                 throw new InvalidOperationException("Audio, content and world catalogs must be wired in the Bootstrap scene.");
             }
             if (_inputActions == null || _gestureThresholds == null || _pauseView == null ||
-                _touchOverlay == null || _aspectOverlay == null || _safeAreaFitters.Length == 0)
+                _touchOverlay == null || _aspectOverlay == null || _safeAreaFitters.Length == 0 ||
+                _worldCamera == null)
             {
                 throw new InvalidOperationException("Input actions, thresholds, pause, overlays and safe-area fitters must be wired.");
             }
@@ -231,6 +237,7 @@ namespace PequenoExplorador.Bootstrap
         public async Task<SceneTransitionResult> GoToCampAsync(CancellationToken cancellationToken)
         {
             _services.Context.Input.SetMap(InputMapId.UI);
+            UnbindExplorerScene();
             WorldLoadResult worldResult = await _services.Context.WorldSession.ReturnToCampAsync(cancellationToken);
             if (worldResult.IsSuccess)
             {
@@ -257,6 +264,7 @@ namespace PequenoExplorador.Bootstrap
             WorldLoadResult result = await _services.Context.WorldSession.EnterAsync(worldId, cancellationToken);
             if (result.IsSuccess)
             {
+                BindExplorerScene();
                 _services.Context.Input.SetMap(InputMapId.Explorer);
                 _services.Context.Audio.Play(result.Manifest.MusicCue);
                 _services.Context.Audio.Play(result.Manifest.AmbienceCue);
@@ -328,6 +336,7 @@ namespace PequenoExplorador.Bootstrap
 
         public void ConfigureContentForEditorAndTests(ContentCatalogAsset contentCatalog) => _contentCatalog = contentCatalog;
         public void ConfigureWorldsForEditorAndTests(WorldCatalogAsset worldCatalog) => _worldCatalog = worldCatalog;
+        public void ConfigureExplorerCameraForEditorAndTests(Camera worldCamera) => _worldCamera = worldCamera;
 #endif
 
         private async void EnterWorld(WorldManifest manifest)
@@ -345,6 +354,7 @@ namespace PequenoExplorador.Bootstrap
             WorldLoadResult result = await _services.Context.WorldSession.RetryAsync(_lifetimeCancellation.Token);
             if (result.IsSuccess)
             {
+                BindExplorerScene();
                 _services.Context.Input.SetMap(InputMapId.Explorer);
                 _services.Context.Audio.Play(result.Manifest.MusicCue);
                 _services.Context.Audio.Play(result.Manifest.AmbienceCue);
@@ -388,6 +398,36 @@ namespace PequenoExplorador.Bootstrap
         {
             if (!_pauseView.IsVisible && !snapshot.IsTransitioning)
                 _services.Context.Input.SetMap(ResolveInputMap(snapshot));
+        }
+
+        private void BindExplorerScene()
+        {
+            UnbindExplorerScene();
+            ExplorerLocomotionRoot found = null;
+            for (int sceneIndex = 0; sceneIndex < SceneManager.sceneCount; sceneIndex++)
+            {
+                Scene scene = SceneManager.GetSceneAt(sceneIndex);
+                if (!scene.isLoaded || scene.path == gameObject.scene.path) continue;
+                foreach (GameObject root in scene.GetRootGameObjects())
+                {
+                    ExplorerLocomotionRoot candidate = root.GetComponentInChildren<ExplorerLocomotionRoot>(true);
+                    if (candidate == null) continue;
+                    if (found != null)
+                        throw new InvalidOperationException("Expedition contains more than one explorer scene root.");
+                    found = candidate;
+                }
+            }
+
+            if (found == null)
+                throw new InvalidOperationException("Expedition scene is missing PH_ explorer scene root.");
+            found.Bind(_services.Context.Input, _worldCamera);
+            _explorerRoot = found;
+        }
+
+        private void UnbindExplorerScene()
+        {
+            _explorerRoot?.Unbind();
+            _explorerRoot = null;
         }
 
         private static InputMapId ResolveInputMap(SceneFlowSnapshot snapshot)
@@ -466,6 +506,7 @@ namespace PequenoExplorador.Bootstrap
         private void OnDestroy()
         {
             _destroying = true;
+            UnbindExplorerScene();
             if (_sceneFlowView != null)
             {
                 _sceneFlowView.WorldRequested -= EnterWorld;

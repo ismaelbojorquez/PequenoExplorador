@@ -10,6 +10,7 @@
     "PequenoExplorador.Presentation",
     "Unity.Addressables",
     "Unity.Addressables.Editor",
+    "Unity.AI.Navigation",
     "Unity.InputSystem",
     "Unity.Localization",
     "Unity.Localization.Editor",

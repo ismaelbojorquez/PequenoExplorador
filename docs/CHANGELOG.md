@@ -1,5 +1,31 @@
 # Changelog
 
+## Prompt 16 — 2026-08-16
+
+### Added
+
+- AI Navigation `2.0.9` oficial fijado; `ExplorerLocomotionController`/`IPathNavigator` puros y adapter NavMesh/raycast en Presentation.
+- Prefab, materiales, geometría, NavMeshData, markers, bob y luz `PH_`; cámara asistida con bounds/damping/reduce-motion y cancelación por mapa/lifecycle/unload.
+- Setup idempotente, validator de package/prefab/scene/camera/tuning y pruebas de comandos, inválidos, spam, pausa/mapas, tres ciclos, unload y FPS Editor.
+
+### Changed
+
+- `IInputService` publica cambio de mapa; Bootstrap enlaza/desenlaza una única raíz de explorador al cargar/soltar Selva sin lookup por frame.
+- Presentation/Editor/tests añaden solo referencias AI Navigation/AIModule necesarias; allowlist conserva nueve assemblies y cero ciclos.
+- Jungle sigue stub, pero ahora es un claro navegable técnico; la escena permanece YAML y su NavMeshData nativo usa atributo binario explícito.
+
+### Verified
+
+- Baseline previa `scripts/validate` PASS en `1:18.90`: EditMode `89/89`, PlayMode `11/11` y APK Development.
+- Iteración dirigida: compile/validator PASS, EditMode `93/93`, PlayMode `14/14`; un fallo inicial de estado de tap inválido fue corregido y repetido.
+- `scripts/validate` final código `0` en `4:23.73`: repository/compile/validator, Addressables 41 locations/893,594 bytes, EditMode `94/94` (1.719 s), PlayMode `14/14` (4.876 s) y APK.
+- APK repetido tres veces con tamaño estable `80,860,082` bytes; último hash staged `1d04f40d81a34794d18949ccc562cb768ffcd6afdd69a5df2bfb898e909b7e79` (`49.551 s` Unity/`68.07 s` wrapper), API 26/36, IL2CPP/ARM64, zipalign 16 KB y siete ELF LOAD 16384. Solo `INTERNET` heredado + permiso interno receiver; sin cámara/mic/ubicación/contactos/`AD_ID`. El hash Development varía por metadatos/firma temporal, por lo que no se afirma reproducibilidad bit a bit.
+- El tamaño aumentó `14,386,460` bytes (`21.64%`) frente a Prompt 15; se registra como deuda de profiling, no se oculta como PASS de budget.
+
+### Not added
+
+- Interacción contextual, discovery, fotografía, joystick, root motion, controller tercero, arte/animación final, preferencia reduce-motion persistida, SDK/red/permiso, signing, push o publicación.
+
 ## Prompt 15 — 2026-08-16
 
 ### Added

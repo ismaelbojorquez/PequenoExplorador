@@ -28,3 +28,6 @@
 *.ogg filter=lfs diff=lfs merge=lfs -text
 *.mp4 filter=lfs diff=lfs merge=lfs -text
 *.mov filter=lfs diff=lfs merge=lfs -text
+
+# NavMeshData is a Unity native binary despite its .asset extension.
+Assets/_Game/Content/Explorer/PH_Jungle_NavMesh.asset -text -diff -merge

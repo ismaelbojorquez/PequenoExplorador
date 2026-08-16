@@ -7,6 +7,7 @@ namespace PequenoExplorador.Application.Input
     {
         event Action<InputIntent> IntentRaised;
         event Action BackRequested;
+        event Action<InputMapId> MapChanged;
         InputMapId CurrentMap { get; }
         bool DebugMapEnabled { get; }
         void SetMap(InputMapId map);

@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.unity.ai.navigation": "2.0.9",
     "com.unity.addressables": "4.0.1",
     "com.unity.inputsystem": "1.20.0",
     "com.unity.localization": "1.5.12",

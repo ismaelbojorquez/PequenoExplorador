@@ -38,6 +38,7 @@ namespace PequenoExplorador.Infrastructure.Input
         public string ServiceId => "Input";
         public event Action<InputIntent> IntentRaised;
         public event Action BackRequested;
+        public event Action<InputMapId> MapChanged;
         public InputMapId CurrentMap { get; private set; }
         public bool DebugMapEnabled => _debugMap != null && _debugMap.enabled;
 
@@ -68,6 +69,7 @@ namespace PequenoExplorador.Infrastructure.Input
             _recognizer.SetMap(map);
             CurrentMap = map;
             if (_initialized) ActivateMap(map);
+            MapChanged?.Invoke(map);
         }
 
         public void Tick(double unscaledTime)

@@ -24,9 +24,9 @@ No se pregunta edad/fecha de nacimiento, no se recomienda modo según comportami
 - Tap-to-move con indicador de destino, camino válido y cancelar mediante nuevo toque.
 - Interacción contextual con toque; mantener pulsado no es requisito principal.
 - Viewfinder de fotografía con zona de éxito generosa y captura asistida opcional.
-- F07 compara tap-to-move contra control directo simplificado; el resultado debe registrarse antes de implementación definitiva.
+- Prompt 16 implementa el candidato como `PH_` medible; P-006 aún exige compararlo con control directo simplificado antes de implementación definitiva.
 
-La foundation ejecutable está en [`INPUT_ACCESSIBILITY.md`](INPUT_ACCESSIBILITY.md). `Explorer` emite tap semántico pero no mueve un avatar; `Photography` es el único contexto de producto que acepta pinch. Android Back abre pausa reversible y checkpoint, no salida destructiva.
+La foundation ejecutable está en [`INPUT_ACCESSIBILITY.md`](INPUT_ACCESSIBILITY.md). `Explorer` mueve un avatar `PH_` solo sobre suelo válido, con marker verde/ámbar y cámara automática; `Photography` sigue siendo el único contexto de producto que acepta pinch. Abrir UI/fotografía, pausar o perder focus detiene movimiento. Android Back abre pausa reversible y checkpoint, no salida destructiva.
 
 ## Jerarquía de pantallas
 
@@ -50,7 +50,7 @@ La foundation ejecutable está en [`INPUT_ACCESSIBILITY.md`](INPUT_ACCESSIBILITY
 - Cada Canvas actual tiene un solo root de safe area; los targets actuales miden al menos `64×64` píxeles de referencia. Los presets 4:3, 16:9, 20:9 y tablet 16:10 no sustituyen hardware.
 - Subtítulos/copy para voz; audio repetible; pistas visuales para sonidos.
 - Prompt 12 activa subtítulos por defecto, replay gratuito y volúmenes separados; cambiar idioma actualiza texto/cue sin pedir edad ni inferir perfil.
-- Reducir movimiento y flashes; cámara estable.
+- Reducir movimiento y flashes; cámara estable. El prototipo ofrece snap sin bob, pero la preferencia adulta aún no está persistida/cableada.
 - No exigir velocidad, precisión fina, lectura, audio, percepción de color o multitouch.
 - Tiempo suficiente y descansos neutrales; reentrada conserva contexto.
 

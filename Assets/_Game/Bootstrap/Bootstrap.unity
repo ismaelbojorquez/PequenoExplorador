@@ -2111,6 +2111,7 @@ MonoBehaviour:
   _pauseView: {fileID: 1268633462}
   _touchOverlay: {fileID: 1268633461}
   _aspectOverlay: {fileID: 1016902373}
+  _worldCamera: {fileID: 133020620}
 --- !u!114 &547690720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2550,7 +2551,7 @@ MonoBehaviour:
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 16
-    m_MaxSize: 40
+    m_MaxSize: 48
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1

@@ -1,6 +1,6 @@
 # Arquitectura técnica — fronteras modulares
 
-Estado: foundation, catálogo data-driven Draft y manifiesto local de Selva, scene flow local, persistencia schema v3, localización ES/EN, audio e input móvil implementados. No define APIs de gameplay. `Bootstrap` persiste y entra a Camp placeholder.
+Estado: foundation, catálogo data-driven Draft, manifiesto local de Selva, scene flow, save v3, localización, audio, input y locomoción candidata `PH_` implementados. No existen interacción/discovery ni contenido final. `Bootstrap` persiste y entra a Camp placeholder.
 
 ## Grafo real de assemblies
 
@@ -25,7 +25,9 @@ PequenoExplorador.Infrastructure
 └─ Unity.InputSystem
 
 PequenoExplorador.Presentation
-└─ Application
+├─ Application
+├─ Unity.AI.Navigation
+└─ UnityEngine.AIModule
 
 PequenoExplorador.Bootstrap
 ├─ Application
@@ -37,7 +39,7 @@ PequenoExplorador.Bootstrap
 PequenoExplorador.Editor [Editor only]
 ├─ Application / Bootstrap / Content / Domain
 ├─ Infrastructure / Presentation
-├─ Unity.Addressables.Editor / Unity.Localization / Unity.Localization.Editor / Unity.InputSystem
+├─ Unity.Addressables.Editor / Unity.Localization / Unity.Localization.Editor / Unity.InputSystem / Unity.AI.Navigation
 └─ Unity.RenderPipelines.Universal.Runtime
 
 PequenoExplorador.Tests.EditMode [Editor only]
@@ -48,15 +50,15 @@ PequenoExplorador.Tests.EditMode [Editor only]
 ├─ Editor
 ├─ Infrastructure
 ├─ Presentation
-├─ Unity.Localization / Unity.Localization.Editor
-└─ Unity.InputSystem
+├─ Unity.Localization / Unity.Localization.Editor / Unity.AI.Navigation
+└─ Unity.InputSystem / UnityEngine.AIModule
 
 PequenoExplorador.Tests.PlayMode
 ├─ Application
 ├─ Bootstrap
 ├─ Domain
 ├─ Infrastructure / Presentation
-└─ Unity.InputSystem / Unity.InputSystem.TestFramework
+└─ Unity.InputSystem / Unity.InputSystem.TestFramework / Unity.AI.Navigation / UnityEngine.AIModule
 ```
 
 Son nueve assemblies de proyecto. Las suites reciben NUnit/TestRunner mediante `optionalUnityReferences: TestAssemblies`; no usan `overrideReferences`. Las dependencias implícitas de Unity solo están disponibles donde `noEngineReferences=false`.
@@ -71,7 +73,7 @@ El player Android inspeccionado contiene únicamente los seis assemblies runtime
 | Application | Lifecycle, contexto inmutable y puertos sobre Domain/BCL. | Unity, concretos de Infrastructure/Presentation/Content. |
 | Content | Authoring y mapeo de contenido aprobado. | Infrastructure y Presentation; estado mutable de sesión. |
 | Infrastructure | Reloj/random/logger/bus, adapters Null/Mock/seguros, ownership Addressables y save DTO/filesystem. | Presentation, Content y Bootstrap. |
-| Presentation | Vistas Bootstrap/transición y futuros adaptadores Unity de UI/input/cámara/audio; consume `ISceneFlowService`. | Infrastructure, filesystem, ads, IAP y concretos de plataforma. |
+| Presentation | Vistas y adapters Unity de UI/input/cámara/locomoción; NavMesh implementa un puerto Application sin filtrar al núcleo. | Infrastructure, filesystem, ads, IAP y concretos de plataforma. |
 | Bootstrap | Único composition root; configura perfil y ensambla puertos/concretos explícitamente. | Reglas de producto, lookup genérico, service locator o singleton global. |
 | Editor | Build/setup/validación que nunca entra en player. | Gameplay y estado runtime. |
 | Tests | Evidencia por frontera y escena; fixtures controladas. | Dependencias innecesarias, red/reloj/azar real. |
@@ -149,6 +151,23 @@ Domain no conoce audio ni archivos. El root Bootstrap posee exactamente siete so
 
 Application define `IInputService`, `ISafeAreaService` e `IHapticsService`; el clasificador de gestos es C# puro. Infrastructure concentra Input System/EnhancedTouch y `Screen.safeArea`; Presentation recibe intenciones y snapshots. Bootstrap selecciona `UI` para Camp/transición/pausa y `Explorer` para Expedition. `Photography`/`Parents` quedan preparados sin feature, mientras `Debug` es aditivo y Development-only. Haptics es no-op/desactivado. Contrato, thresholds, ratios y hardware pendiente: [`INPUT_ACCESSIBILITY.md`](INPUT_ACCESSIBILITY.md).
 
+### Locomoción candidata
+
+```text
+Infrastructure.UnityInputService
+          ↓ InputIntent(Tap) / MapChanged
+Application.ExplorerLocomotionController → IPathNavigator
+          ↑                                  ↑
+Presentation.ExplorerLocomotionRoot ─ UnityNavMeshPathNavigator
+          ├─ raycast + marker PH_
+          ├─ NavMeshAgent / NavMeshSurface 2.0.9
+          └─ camera follow + bounds + reduce motion
+
+Bootstrap enlaza exactamente una raíz tras carga Addressable y la suelta antes del unload.
+```
+
+Application conserva posiciones/estado/settings BCL-only. Presentation es owner de referencias Unity, raycast, path, visual y cámara; Bootstrap puede inspeccionar roots una sola vez como composition root, nunca por frame. Un cambio de mapa fuera de `Explorer`, pause/focus o unload cancela el destino. No hay singleton, joystick, root motion ni `FindObjectOfType` de gameplay. Parámetros, riesgos y límites de hardware: [`INPUT_ACCESSIBILITY.md`](INPUT_ACCESSIBILITY.md).
+
 ### Catálogos data-driven
 
 Domain define value IDs textuales por tipo. Content posee definitions ScriptableObject y compiladores; Bootstrap compila una vez a modelos Application readonly y entrega `IContentCatalog`/`IWorldCatalog` en `AppContext`. El catálogo de contenido indexa category, tag, source, fact y discovery; el catálogo de mundos indexa manifests por `WorldId`. Editor es el único consumidor de `AssetDatabase` para comprobar paths, localización, audio, visuales, escenas, labels, spawn y estado editorial. Contratos: [`CONTENT_MODEL.md`](CONTENT_MODEL.md) y [`CONTENT_PIPELINE.md`](CONTENT_PIPELINE.md).
@@ -223,7 +242,7 @@ Subdividir un assembly requiere evidencia de tiempos de compilación, ownership,
 
 ## Foundation móvil conservada
 
-- Unity `6000.3.22f1`, Addressables `4.0.1`, URP `17.3.0`, Input System `1.20.0`, Test Framework `1.6.0`, uGUI `2.0.0`.
+- Unity `6000.3.22f1`, Addressables `4.0.1`, AI Navigation `2.0.9`, URP `17.3.0`, Input System `1.20.0`, Test Framework `1.6.0`, uGUI `2.0.0`.
 - Bootstrap es la única escena habilitada en Build Settings; Camp/Jungle son locales Addressable. Development muestra navegación/fallo simulado; Release oculta controles Development.
 - Android sigue min API 26, target/compile 36, IL2CPP y ARM64; sin manifest/Gradle custom ni permiso sensible nuevo.
-- No existen gameplay, UI final, discoveries finales, contenido remoto ni SDKs comerciales. Save schema v3 no guarda PII/cuentas; ads/IAP/analytics son únicamente Null/Mock/Unavailable locales sin red.
+- Solo existe locomoción candidata `PH_`; no existen interacción, discovery/fotografía final, UI final, contenido remoto ni SDKs comerciales. Save schema v3 no guarda PII/cuentas; ads/IAP/analytics son únicamente Null/Mock/Unavailable locales sin red.

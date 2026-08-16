@@ -2,7 +2,8 @@
   "name": "PequenoExplorador.Presentation",
   "rootNamespace": "PequenoExplorador.Presentation",
   "references": [
-    "PequenoExplorador.Application"
+    "PequenoExplorador.Application",
+    "UnityEngine.AIModule"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],
