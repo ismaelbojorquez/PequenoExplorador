@@ -26,7 +26,7 @@ Fase 04 fija nueve asmdefs: seis runtime, Editor y dos suites. La tabla y grafo 
 - Application define solo boundaries reales: lifecycle, reloj, azar, logs, mensajes y servicios de plataforma; no conoce Unity ni concretos.
 - Infrastructure implementa adapters; Bootstrap es el único lugar que selecciona concretos. Presentation recibe fachadas/casos de uso, nunca Infrastructure.
 - `AppContext` es inmutable y se pasa explícitamente. No hacerlo estático, publicarlo como `Instance` ni añadir `Get<T>`/registro por diccionario.
-- `ServiceRegistry` es interno a Bootstrap y tipado. El orden canónico de lifecycle es MessageBus → Analytics → Ads → Purchases, con shutdown inverso y cleanup tras fallo/cancelación.
+- `ServiceRegistry` es interno a Bootstrap y tipado. El orden canónico de lifecycle es MessageBus → Save → Localization → Analytics → Ads → Purchases, con shutdown inverso y cleanup tras fallo/cancelación.
 - Development usa mocks locales solo bajo `UNITY_EDITOR` o `PE_DEVELOPMENT_SERVICES`; Release usa NullAnalytics, NoAds y UnavailablePurchase. El define Development no se persiste en PlayerSettings.
 - Nuevos servicios requieren una dependencia real, ID técnico único, init/cancel/shutdown testeados, default Release seguro y actualización de la tabla canónica.
 
@@ -82,6 +82,7 @@ Fase 04 fija nueve asmdefs: seis runtime, Editor y dos suites. La tabla y grafo 
 
 - Addressables es local-first; catálogo remoto, actualización y descarga quedan deshabilitados en MVP. Las claves son constantes/IDs validados, no strings dispersos.
 - Save usa DTOs separados del Domain, con `schemaVersion`, IDs estables, valores mínimos y migraciones encadenadas/testeadas. El contrato ejecutable está en [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md): `JsonUtility` queda encapsulado en Infrastructure, checksum no se llama cifrado, future schema es read-only, escritura rota primary→backup y una recuperación preserva el backup válido.
+- Localización usa `LocalizedKey` namespaced y estable; Domain no contiene copy, Presentation no lee tablas y Bootstrap inyecta `ILocalizationService`. Variables/plurales usan Smart Strings, pseudo es Development-only y Save schema v2 persiste solo ES/EN. Contrato: [`17_LOCALIZATION.md`](17_LOCALIZATION.md).
 - Reloj, almacenamiento, audio focus, lifecycle y futuros servicios de plataforma entran por puertos de Application. Ads/IAP/analytics usan implementaciones null/mock hasta ADR y aprobación humana.
 - Feature flags son locales, tipados, con owner/fecha de retiro y default seguro. No remote config, segmentación infantil o activación silenciosa; ads/IAP/red permanecen off por defecto.
 

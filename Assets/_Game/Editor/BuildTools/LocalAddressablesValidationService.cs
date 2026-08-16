@@ -48,6 +48,11 @@ namespace PequenoExplorador.Editor.BuildTools
             AddressableAssetGroup jungle = settings.FindGroup(SceneFlowFoundationSetup.JungleGroupName);
             ValidateGroup(settings, shared, SceneFlowFoundationSetup.SharedGroupName, violations);
             ValidateGroup(settings, jungle, SceneFlowFoundationSetup.JungleGroupName, violations);
+            foreach (AddressableAssetGroup localizationGroup in settings.groups
+                         .Where(group => group != null && group.Name.StartsWith("Localization-", StringComparison.Ordinal)))
+            {
+                ValidateGroup(settings, localizationGroup, localizationGroup.Name, violations);
+            }
             ValidateEntry(shared, LocalSceneAddresses.Camp, SceneFlowFoundationSetup.CampScenePath,
                 new[] { SceneFlowFoundationSetup.SceneLabel, SceneFlowFoundationSetup.SharedLabel }, violations);
             ValidateEntry(jungle, LocalSceneAddresses.Jungle, SceneFlowFoundationSetup.JungleScenePath,

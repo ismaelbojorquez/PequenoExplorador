@@ -1,6 +1,9 @@
 using NUnit.Framework;
 using PequenoExplorador.Presentation.Bootstrap;
 using PequenoExplorador.Application.Save;
+using PequenoExplorador.Application.Localization;
+using PequenoExplorador.Tests.EditMode.Fixtures;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,6 +28,7 @@ namespace PequenoExplorador.Tests.EditMode
             developmentObjects.arraySize = 1;
             developmentObjects.GetArrayElementAtIndex(0).objectReferenceValue = developmentObject;
             serializedView.ApplyModifiedPropertiesWithoutUndo();
+            view.BindLocalization(CreateLocalization());
 
             view.SetDevelopmentDiagnosticsVisible(false);
             view.ShowRecoverableFailure();
@@ -46,6 +50,7 @@ namespace PequenoExplorador.Tests.EditMode
             var serializedView = new SerializedObject(view);
             serializedView.FindProperty("_statusText").objectReferenceValue = statusText;
             serializedView.ApplyModifiedPropertiesWithoutUndo();
+            view.BindLocalization(CreateLocalization());
 
             view.ShowReady(SaveUserNotice.ProgressRecovered);
 
@@ -53,6 +58,15 @@ namespace PequenoExplorador.Tests.EditMode
             Assert.That(view.CurrentStatus, Does.Not.Contain("corrupt"));
             Assert.That(view.CurrentStatus, Does.Not.Contain("lost"));
             Object.DestroyImmediate(root);
+        }
+
+        private static FakeLocalizationService CreateLocalization()
+        {
+            return new FakeLocalizationService(new Dictionary<string, string>
+            {
+                [LocalizationKeys.StatusFailure.ToString()] = "Initialization failed · Retry available",
+                [LocalizationKeys.StatusRecovered.ToString()] = "Ready · Progress restored safely"
+            });
         }
     }
 }

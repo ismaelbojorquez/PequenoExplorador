@@ -8,12 +8,14 @@ Estado: baseline F07 para navegación placeholder; no autoriza producción masiv
 |---|---|---|
 | Paquete | `com.unity.addressables@4.0.1` | Pin exacto; Unity Registry, Unity `6000.0+`. |
 | Perfiles | `LocalDevelopment`, `LocalRelease` | Ambos usan únicamente `Local.BuildPath`/`Local.LoadPath`. |
-| Grupos | `SharedLocal`, `JungleLocal` | Camp/compartido y mundo Selva, respectivamente. |
+| Grupos | `SharedLocal`, `JungleLocal` + seis grupos Unity Localization | Camp/mundo y locales/tablas ES/EN, todos locales. |
 | Addresses | `scene/camp`, `scene/jungle` | Constantes en Infrastructure; no strings dispersos. |
 | Labels | `scene`, `shared-local`, `world-jungle` | Selección/validación, no reglas de gameplay. |
 | Catálogo | Local, actualización al arranque deshabilitada | Incluido en el player; sin remote catalog, host, CDN o URL. |
 
 `Bootstrap.unity` es el entry point persistente de Build Settings. `Camp.unity` y `Jungle.unity` no se añaden a esa lista: se empaquetan en bundles locales y se cargan aditivamente. `SharedLocal` no puede depender de ninguna entrada de `JungleLocal`; el validador usa dependencias reales de AssetDatabase.
+
+Las colecciones `Shared`, `UI`, `Content`, `Voice` e `Illustrations`, locales `es`/`en` y pseudo Development pertenecen a Content. Unity Localization crea grupos `Localization-Locales`, `Localization-Assets-Shared`, string tables ES/EN y asset tables ES/EN; el validador exige `Local.BuildPath`/`Local.LoadPath` y prohíbe endpoints. Las keys y CSV se gobiernan en [`17_LOCALIZATION.md`](17_LOCALIZATION.md).
 
 ## Ownership y build
 

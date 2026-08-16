@@ -50,6 +50,11 @@ namespace PequenoExplorador.Domain.Progress
             return new PlayerProgress(stars, _worldIds, _discoveryIds, _completedMissionIds, Preferences);
         }
 
+        public PlayerProgress WithPreferences(PlayerPreferences preferences)
+        {
+            return new PlayerProgress(Stars, _worldIds, _discoveryIds, _completedMissionIds, preferences);
+        }
+
         private static string[] CopyAndValidateIds(IEnumerable<string> values, string parameterName)
         {
             if (values == null)

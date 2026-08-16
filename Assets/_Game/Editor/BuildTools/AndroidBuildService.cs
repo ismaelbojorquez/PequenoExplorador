@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
+using PequenoExplorador.Application.Localization;
 
 namespace PequenoExplorador.Editor.BuildTools
 {
@@ -19,6 +20,11 @@ namespace PequenoExplorador.Editor.BuildTools
             }
 
             string configured = CommandLineArguments.Read("-buildPath");
+            string startupLocale = CommandLineArguments.Read("-startupLocale") ?? LocaleCode.Spanish;
+            if (!LocaleCode.IsSupported(startupLocale, includePseudo: false))
+            {
+                throw new ArgumentException("Android smoke startup locale must be es or en.");
+            }
             string buildPath = BuildArtifactPaths.RequireInsideArtifacts(
                 string.IsNullOrWhiteSpace(configured)
                     ? Path.Combine(BuildArtifactPaths.ArtifactsRoot, "builds", "PequenoExplorador-development.apk")
@@ -50,13 +56,16 @@ namespace PequenoExplorador.Editor.BuildTools
             }
 
             var stopwatch = Stopwatch.StartNew();
+            string[] defines = startupLocale == LocaleCode.English
+                ? new[] { "PE_DEVELOPMENT_SERVICES", "PE_LOCALIZATION_SMOKE_EN" }
+                : new[] { "PE_DEVELOPMENT_SERVICES" };
             BuildReport report = BuildPipeline.BuildPlayer(new BuildPlayerOptions
             {
                 scenes = scenes,
                 locationPathName = buildPath,
                 target = BuildTarget.Android,
                 options = BuildOptions.Development,
-                extraScriptingDefines = new[] { "PE_DEVELOPMENT_SERVICES" }
+                extraScriptingDefines = defines
             });
             stopwatch.Stop();
 
@@ -66,9 +75,9 @@ namespace PequenoExplorador.Editor.BuildTools
                     $"Android build ended with {report.summary.result} and {report.summary.totalErrors} errors.");
             }
 
-            ArtifactReportWriter.WriteBuildManifest(buildPath, stopwatch.ElapsedMilliseconds);
+            ArtifactReportWriter.WriteBuildManifest(buildPath, stopwatch.ElapsedMilliseconds, startupLocale);
             UnityEngine.Debug.Log(
-                $"PE_ANDROID_BUILD_OK profile=Development path={BuildArtifactPaths.RelativeToProject(buildPath)} bytes={new FileInfo(buildPath).Length}");
+                $"PE_ANDROID_BUILD_OK profile=Development locale={startupLocale} path={BuildArtifactPaths.RelativeToProject(buildPath)} bytes={new FileInfo(buildPath).Length}");
         }
     }
 }

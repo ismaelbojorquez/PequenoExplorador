@@ -42,6 +42,8 @@ namespace PequenoExplorador.Bootstrap
 
         public string ConfiguredAppVersion => _configuration?.AppVersion ?? string.Empty;
 
+        public string CurrentLocaleCode => _services?.Context.Localization.CurrentLocaleCode ?? string.Empty;
+
         public string StatusText => _statusView == null ? string.Empty : _statusView.CurrentStatus;
 
         public SceneFlowSnapshot SceneFlow => _services == null
@@ -67,11 +69,15 @@ namespace PequenoExplorador.Bootstrap
             _configuration = BuildProfileConfiguration.Resolve();
             _services = new ServiceRegistry(_configuration);
             _lifetimeCancellation = new CancellationTokenSource();
+            _statusView.BindLocalization(_services.Context.Localization);
             _statusView.ConfigureProduct(_configuration);
             bool diagnosticsEnabled = _configuration.Features.IsEnabled(FeatureFlag.DevelopmentDiagnostics);
             _statusView.SetDevelopmentDiagnosticsVisible(diagnosticsEnabled);
             _statusView.ShowInitializing();
-            _sceneFlowView.Bind(_services.Context.SceneFlow, diagnosticsEnabled);
+            _sceneFlowView.Bind(
+                _services.Context.SceneFlow,
+                _services.Context.Localization,
+                diagnosticsEnabled);
             _sceneFlowView.EnterJungleRequested += EnterJungle;
             _sceneFlowView.ReturnCampRequested += ReturnCamp;
             _sceneFlowView.RetryRequested += RetrySceneTransition;
@@ -180,6 +186,19 @@ namespace PequenoExplorador.Bootstrap
             }
 
             return _services.SaveCoordinator.FlushAsync(cancellationToken);
+        }
+
+        public Task SetLocaleAsync(
+            string localeCode,
+            bool persist,
+            CancellationToken cancellationToken)
+        {
+            if (_services == null)
+            {
+                throw new InvalidOperationException("Bootstrap has not completed Awake.");
+            }
+
+            return _services.Context.Localization.SetLocaleAsync(localeCode, persist, cancellationToken);
         }
 
         private async void EnterJungle()

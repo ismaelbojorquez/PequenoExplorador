@@ -39,6 +39,21 @@ namespace PequenoExplorador.Editor.BuildTools
             });
         }
 
+        public static void ValidateLocalization()
+        {
+            Run(() =>
+            {
+                IReadOnlyList<string> violations = LocalizationValidationService.Validate();
+                if (violations.Count > 0)
+                {
+                    throw new InvalidOperationException(
+                        "Localization validation failed:\n" + string.Join("\n", violations));
+                }
+
+                Debug.Log("PE_LOCALIZATION_OK package=1.5.12 locales=es,en,pseudo stringTables=3 assetTables=2");
+            });
+        }
+
         public static void BuildAddressablesLocal()
         {
             Run(() =>
@@ -106,6 +121,7 @@ namespace PequenoExplorador.Editor.BuildTools
 
             Debug.Log("PE_CONTENT_VALIDATION_OK");
             Debug.Log("PE_RUNTIME_CONFIG_OK profiles=2 remote=false releaseUnsafeFlags=0");
+            Debug.Log("PE_LOCALIZATION_OK package=1.5.12 locales=es,en,pseudo stringTables=3 assetTables=2");
         }
 
         private static void ValidateAddressablesInternal()
@@ -117,7 +133,7 @@ namespace PequenoExplorador.Editor.BuildTools
                     "Local Addressables validation failed:\n" + string.Join("\n", violations));
             }
 
-            Debug.Log("PE_LOCAL_ADDRESSABLES_OK profiles=2 groups=2 remote=false");
+            Debug.Log("PE_LOCAL_ADDRESSABLES_OK profiles=2 sceneGroups=2 localizationGroups=6 remote=false");
         }
 
         private static void Run(Action action)

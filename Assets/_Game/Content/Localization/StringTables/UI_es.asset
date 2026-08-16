@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: UI_es
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: es
+  m_SharedData: {fileID: 11400000, guid: bc6e0635e519a4959b2d564ca6e6f6af, type: 2}
+  m_Metadata:
+    m_Items:
+    - rid: 6219209779658358817
+  m_TableData:
+  - m_Id: 116383744
+    m_Localized: "DIAGN\xD3STICO TEMPORAL \xB7 SIN GAMEPLAY"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 116383745
+    m_Localized: "Preparando la aventura\u2026"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 116383746
+    m_Localized: Listo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 116383747
+    m_Localized: "Listo \xB7 Recuperamos tu progreso"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 116383748
+    m_Localized: "Listo \xB7 Tu progreso nuevo est\xE1 protegido"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 116383749
+    m_Localized: "No pudimos iniciar \xB7 Puedes intentar otra vez"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 116383750
+    m_Localized: Pausado
+    m_Metadata:
+      m_Items: []
+  - m_Id: 116383751
+    m_Localized: "No pudimos cambiar de lugar \xB7 Puedes intentar otra vez"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 116383752
+    m_Localized: "Preparando {0}\u2026"
+    m_Metadata:
+      m_Items:
+      - rid: 6219209779658358817
+  - m_Id: 116383753
+    m_Localized: Ir a la selva
+    m_Metadata:
+      m_Items: []
+  - m_Id: 116383754
+    m_Localized: Volver al campamento
+    m_Metadata:
+      m_Items: []
+  - m_Id: 116383755
+    m_Localized: Intentar otra vez
+    m_Metadata:
+      m_Items: []
+  - m_Id: 116383756
+    m_Localized: Simular fallo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 116383757
+    m_Localized: "Espa\xF1ol"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 116383758
+    m_Localized: "Ingl\xE9s"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 116383759
+    m_Localized: Pseudo
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 6219209779658358817
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 
+        m_SharedEntries:
+        - id: 116383752

@@ -1,6 +1,6 @@
 # Índice documental
 
-Estado: foundation, scene flow local y persistencia schema v1 disponibles; todavía no existe gameplay ni contenido final. Empezar siempre por [`../AGENTS.md`](../AGENTS.md) y [`STATUS.md`](STATUS.md).
+Estado: foundation, scene flow local, persistencia schema v2 y localización ES/EN disponibles; todavía no existe gameplay ni contenido final. Empezar siempre por [`../AGENTS.md`](../AGENTS.md) y [`STATUS.md`](STATUS.md).
 
 ## Fuentes de verdad
 
@@ -14,6 +14,7 @@ Estado: foundation, scene flow local y persistencia schema v1 disponibles; todav
 | Contenido runtime | [`CONTENT_PIPELINE.md`](CONTENT_PIPELINE.md) | Define grupos/perfiles locales, ownership y prohibición de remoto. |
 | Persistencia | [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md) | Schema, archivos, migración, atomicidad, privacidad y recovery. |
 | Configuración runtime | [`RUNTIME_CONFIGURATION.md`](RUNTIME_CONFIGURATION.md) | Perfiles/flags locales, autoridades, mapping y guardrails Release. |
+| Localización | [`17_LOCALIZATION.md`](17_LOCALIZATION.md) | Locales ES/EN, pseudo Development, keys/tablas, fallback, CSV y validación. |
 | Cadena de prompts | [`prompts/00_MASTER_CODEX_PROMPTS.md`](prompts/00_MASTER_CODEX_PROMPTS.md) | Catálogo ejecutable 00–57; `STATUS.md` decide el siguiente prompt y los Gates impiden saltos. |
 | Decisiones | [`DECISIONS.md`](DECISIONS.md) | Separa decisiones técnicas/producto de pendientes humanos. |
 | Estado operativo | [`STATUS.md`](STATUS.md) | Fase/Gate, capacidades, plan activo, bloqueos y siguiente acción. |
@@ -49,7 +50,8 @@ Los saltos numéricos reservan espacio para documentos técnicos futuros; no imp
 - [`TECHNICAL_ARCHITECTURE.md`](TECHNICAL_ARCHITECTURE.md): alias histórico hacia la arquitectura canónica.
 - [`DEPENDENCY_REGISTER.md`](DEPENDENCY_REGISTER.md): intake y pins de paquetes directos/transitivos.
 - [`CONTENT_PIPELINE.md`](CONTENT_PIPELINE.md): Addressables local, addresses/labels, ownership, build y evolución.
-- [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md): schema v1, DTOs, checksum, backup, migrations, autosave y recuperación.
+- [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md): schema v2, DTOs, checksum, backup, migraciones, autosave y recuperación.
+- [`17_LOCALIZATION.md`](17_LOCALIZATION.md): paquete exacto, ES/EN, pseudo, tablas/keys y pipeline CSV local.
 - [`RUNTIME_CONFIGURATION.md`](RUNTIME_CONFIGURATION.md): AppConfig Development/Release, flags tipados y validación build.
 - [`20_ANDROID_RELEASE.md`](20_ANDROID_RELEASE.md): build Android actual y bloqueo de Release.
 - [`ANDROID_RELEASE.md`](ANDROID_RELEASE.md): evidencia histórica de smoke F03/F04.
@@ -73,6 +75,7 @@ Los saltos numéricos reservan espacio para documentos técnicos futuros; no imp
 - [`PHASE_07_PREFLIGHT.md`](PHASE_07_PREFLIGHT.md)
 - [`PHASE_09_PREFLIGHT.md`](PHASE_09_PREFLIGHT.md)
 - [`PHASE_10_PREFLIGHT.md`](PHASE_10_PREFLIGHT.md)
+- [`PHASE_11_PREFLIGHT.md`](PHASE_11_PREFLIGHT.md)
 
 ## Lectura obligatoria para el siguiente incremento
 

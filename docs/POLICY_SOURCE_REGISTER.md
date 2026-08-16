@@ -32,6 +32,6 @@ Fecha de investigación: 2026-08-14. Solo se usaron fuentes oficiales. Este regi
 - Cada declaración de Data safety/App Privacy debe derivarse del binario final y pruebas de red, no de intenciones de diseño.
 - El preview de futuras políticas de Families observado el 2026-08-14 no se adopta como regla vigente; se revalidará antes de F50.
 
-## Inventario local de datos tras F09
+## Inventario local de datos tras Prompt 11
 
-El schema v1 almacena solo estrellas, IDs técnicos de progreso, preferencias de guía/audio, versión de app y secuencia técnica. No contiene nombre, edad, fecha de nacimiento, voz, ubicación, cuenta, contacto, device/advertising ID ni tráfico. Los archivos permanecen en `Application.persistentDataPath`; no se transmiten. Esta minimización es un control de ingeniería y **no constituye asesoría legal ni certificación de cumplimiento**. Toda nueva propiedad o SDK obliga a actualizar el inventario y revalidar declaraciones de tienda sobre el binario final.
+El schema v2 almacena solo estrellas, IDs técnicos de progreso, preferencias de guía/audio/locale ES-EN, versión de app y secuencia técnica. No contiene nombre, edad, fecha de nacimiento, voz, ubicación, cuenta, contacto, device/advertising ID ni tráfico. Los archivos permanecen en `Application.persistentDataPath`; no se transmiten. La pseudo-localización no se persiste. Esta minimización es un control de ingeniería y **no constituye asesoría legal ni certificación de cumplimiento**. Toda nueva propiedad o SDK obliga a actualizar el inventario y revalidar declaraciones de tienda sobre el binario final.

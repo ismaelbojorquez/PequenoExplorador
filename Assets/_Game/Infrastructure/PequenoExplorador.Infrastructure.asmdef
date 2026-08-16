@@ -5,6 +5,7 @@
     "PequenoExplorador.Application",
     "PequenoExplorador.Domain",
     "Unity.Addressables",
+    "Unity.Localization",
     "Unity.ResourceManager"
   ],
   "includePlatforms": [],

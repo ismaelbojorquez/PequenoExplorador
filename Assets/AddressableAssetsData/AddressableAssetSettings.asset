@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: 3bd42d644b873463d8253280ec266651
   m_currentHash:
     serializedVersion: 2
-    Hash: 00000000000000000000000000000000
+    Hash: 6b427f4a53b27ce8f31793ea4131aa38
   m_DisableWriteTypeTree: 0
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
@@ -68,6 +68,12 @@ MonoBehaviour:
   m_overridePlayerVersion: '[UnityEditor.PlayerSettings.bundleVersion]'
   m_GroupAssets:
   - {fileID: 11400000, guid: f0da605989f6e4fe587ea94a0808bf5b, type: 2}
+  - {fileID: 11400000, guid: daa45adb451c64c8eb59c3ed2f8ce62a, type: 2}
+  - {fileID: 11400000, guid: 14898dd7cec164e6c8902c13f4986939, type: 2}
+  - {fileID: 11400000, guid: 673730794d66f48d18d2ff80cac4b7fb, type: 2}
+  - {fileID: 11400000, guid: b87a3629abd66472c91814697747fe90, type: 2}
+  - {fileID: 11400000, guid: 8565f156b416b4523acf18b79173dc64, type: 2}
+  - {fileID: 11400000, guid: a09929c389aab4f1aa10378af73b471b, type: 2}
   - {fileID: 11400000, guid: bc7619dc9e1b64248a02c03df8bf011f, type: 2}
   m_BuildSettings:
     m_LogResourceManagerExceptions: 1
@@ -139,6 +145,10 @@ MonoBehaviour:
     - scene
     - shared-local
     - world-jungle
+    - Locale
+    - Locale-es
+    - Locale-en
+    - Preload
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 27355742e9ff34bd8892fc69a205a56f, type: 2}

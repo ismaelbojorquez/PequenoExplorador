@@ -34,3 +34,7 @@ Invita y observa; no evalúa. Frases cortas, vocabulario concreto, ritmo suficie
 ## Aprobación
 
 Actor/compositor/licencias, pronunciación de nombres y claims, mezcla y pruebas de inteligibilidad requieren responsables humanos. Audio factual no entra a Release sin ID Approved en [`CONTENT_SOURCES.md`](CONTENT_SOURCES.md).
+
+## Localización de voz
+
+La tabla asset `Voice` prepara slots ES/EN sin incluir archivos. Voz y subtítulo comparten una key conceptual (`content.*`) y se resuelven por separado; ningún nombre de archivo entra en Domain o Save. Futuros takes requieren locale, voice cue, subtítulo aprobado, pronunciación, actor/licencia y fallback documentados según [`17_LOCALIZATION.md`](17_LOCALIZATION.md) y [`AUDIO_REQUIREMENTS.md`](AUDIO_REQUIREMENTS.md).

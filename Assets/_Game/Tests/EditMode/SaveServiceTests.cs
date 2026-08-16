@@ -14,7 +14,7 @@ namespace PequenoExplorador.Tests.EditMode
     public sealed class SaveServiceTests
     {
         [Test]
-        public async Task FirstRunCreatesDefaultSchemaV1()
+        public async Task FirstRunCreatesDefaultSchemaV2()
         {
             var store = new InMemoryFileStore();
             LocalSaveService service = CreateService(store);
@@ -27,7 +27,8 @@ namespace PequenoExplorador.Tests.EditMode
             Assert.That(service.Current.WorldIds, Is.Empty);
             Assert.That(service.Current.DiscoveryIds, Is.Empty);
             Assert.That(service.Current.CompletedMissionIds, Is.Empty);
-            Assert.That(envelope.SchemaVersion, Is.EqualTo(1));
+            Assert.That(envelope.SchemaVersion, Is.EqualTo(2));
+            Assert.That(service.Current.Preferences.Language, Is.EqualTo(LanguagePreference.Spanish));
         }
 
         [Test]
@@ -140,7 +141,7 @@ namespace PequenoExplorador.Tests.EditMode
             Assert.That(service.LastLoadResult.Status, Is.EqualTo(SaveLoadStatus.Migrated));
             Assert.That(service.LastLoadResult.SourceSchemaVersion, Is.Zero);
             Assert.That(service.Current.Stars, Is.EqualTo(9));
-            Assert.That(current.SchemaVersion, Is.EqualTo(1));
+            Assert.That(current.SchemaVersion, Is.EqualTo(2));
             Assert.That(store.Backup, Is.EqualTo(legacy));
         }
 
@@ -273,7 +274,11 @@ namespace PequenoExplorador.Tests.EditMode
                 store,
                 "0.1.0-test",
                 new RecordingLogger(),
-                new ISaveMigration[] { new LegacyV0ToV1Migration() });
+                new ISaveMigration[]
+                {
+                    new LegacyV0ToV1Migration(),
+                    new V1ToV2LocalizationMigration()
+                });
         }
 
         private static void AssertProgress(PlayerProgress actual, PlayerProgress expected)
@@ -286,6 +291,7 @@ namespace PequenoExplorador.Tests.EditMode
             Assert.That(actual.Preferences.MusicEnabled, Is.EqualTo(expected.Preferences.MusicEnabled));
             Assert.That(actual.Preferences.SoundEffectsEnabled, Is.EqualTo(expected.Preferences.SoundEffectsEnabled));
             Assert.That(actual.Preferences.NarrationEnabled, Is.EqualTo(expected.Preferences.NarrationEnabled));
+            Assert.That(actual.Preferences.Language, Is.EqualTo(expected.Preferences.Language));
         }
     }
 }

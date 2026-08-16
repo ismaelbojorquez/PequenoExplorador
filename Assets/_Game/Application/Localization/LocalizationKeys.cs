@@ -1,0 +1,39 @@
+namespace PequenoExplorador.Application.Localization
+{
+    public static class LocalizationKeys
+    {
+        public const string SharedTable = "Shared";
+        public const string UiTable = "UI";
+        public const string ContentTable = "Content";
+        public const string VoiceAssetTable = "Voice";
+        public const string IllustrationAssetTable = "Illustrations";
+
+        public static readonly LocalizedKey ProductName = new LocalizedKey(SharedTable, "shared.product.name");
+        public static readonly LocalizedKey Version = new LocalizedKey(SharedTable, "shared.build.version");
+        public static readonly LocalizedKey SafeFallback = new LocalizedKey(SharedTable, "shared.fallback.safe");
+        public static readonly LocalizedKey StarsCount = new LocalizedKey(SharedTable, "shared.progress.stars");
+
+        public static readonly LocalizedKey DiagnosticNotice = new LocalizedKey(UiTable, "ui.diagnostic.notice");
+        public static readonly LocalizedKey StatusInitializing = new LocalizedKey(UiTable, "ui.status.initializing");
+        public static readonly LocalizedKey StatusReady = new LocalizedKey(UiTable, "ui.status.ready");
+        public static readonly LocalizedKey StatusRecovered = new LocalizedKey(UiTable, "ui.status.progress_recovered");
+        public static readonly LocalizedKey StatusNewerProtected = new LocalizedKey(UiTable, "ui.status.newer_protected");
+        public static readonly LocalizedKey StatusFailure = new LocalizedKey(UiTable, "ui.status.failure");
+        public static readonly LocalizedKey StatusStopped = new LocalizedKey(UiTable, "ui.status.stopped");
+        public static readonly LocalizedKey TransitionError = new LocalizedKey(UiTable, "ui.transition.error");
+        public static readonly LocalizedKey TransitionPreparing = new LocalizedKey(UiTable, "ui.transition.preparing");
+        public static readonly LocalizedKey ActionEnterJungle = new LocalizedKey(UiTable, "ui.action.enter_jungle");
+        public static readonly LocalizedKey ActionReturnCamp = new LocalizedKey(UiTable, "ui.action.return_camp");
+        public static readonly LocalizedKey ActionRetry = new LocalizedKey(UiTable, "ui.action.retry");
+        public static readonly LocalizedKey ActionSimulateFailure = new LocalizedKey(UiTable, "ui.action.simulate_failure");
+        public static readonly LocalizedKey LocaleSpanish = new LocalizedKey(UiTable, "ui.locale.spanish");
+        public static readonly LocalizedKey LocaleEnglish = new LocalizedKey(UiTable, "ui.locale.english");
+        public static readonly LocalizedKey LocalePseudo = new LocalizedKey(UiTable, "ui.locale.pseudo");
+
+        public static readonly LocalizedKey WorldBoot = new LocalizedKey(ContentTable, "content.world.boot.name");
+        public static readonly LocalizedKey WorldCamp = new LocalizedKey(ContentTable, "content.world.camp.name");
+        public static readonly LocalizedKey WorldJungle = new LocalizedKey(ContentTable, "content.world.jungle.name");
+        public static readonly LocalizedKey WorldCampPlaceholder = new LocalizedKey(ContentTable, "content.world.camp.placeholder");
+        public static readonly LocalizedKey WorldJunglePlaceholder = new LocalizedKey(ContentTable, "content.world.jungle.placeholder");
+    }
+}

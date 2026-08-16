@@ -25,10 +25,12 @@ Ejecuta en orden y se detiene al primer fallo: `check-repository`, `compile`, bu
 | `scripts/check-repository` | Markdown, enlaces relativos, JSON/asmdefs, package pins, YAML/Actions, secretos básicos y Bash. | stdout y código de salida. |
 | `scripts/compile` | Import/compile Unity, fronteras, placeholders y reporte de entorno. | `artifacts/logs/compile.log`, `artifacts/reports/environment.json`. |
 | `scripts/validate-content` | Metadata de placeholders presentes; base extensible para contenido futuro. | `artifacts/logs/validate-content.log`. |
+| `scripts/validate-localization` | Locales/tablas/keys/ES-EN/assets/glifos y escenas sin texto serializado. | `artifacts/logs/validate-localization.log`. |
 | `scripts/build-addressables-local` | Valida perfiles/grupos/labels/dependencias y construye catálogo Android local. | Log + `artifacts/reports/addressables-local.json`; runtime data ignorada bajo `Library`. |
 | `scripts/test-editmode` | Suite EditMode. | XML NUnit y JUnit en `artifacts/test-results/`. |
 | `scripts/test-playmode` | Suite PlayMode/escena. | XML NUnit y JUnit en `artifacts/test-results/`. |
 | `scripts/build-android-development` | APK Development IL2CPP/ARM64 API 26/36. | APK, log y manifest JSON con tamaño/hash. |
+| `scripts/build-android-locales` | APK Development español e inglés con el mismo contenido local. | Dos APK/logs/manifests diferenciados. |
 | `scripts/build-android-release` | Guard rail de Release. | Código no cero y `android-release-blocked.json`; nunca construye/firma. |
 
 ## Suites de lifecycle y servicios
@@ -43,7 +45,9 @@ Save EditMode cubre default/round-trip, JSON determinista, write/flush/commit in
 
 Configuración EditMode cubre defaults, dos assets locales, mapping, IDs duplicados, budgets inválidos, cada flag prohibido en Release y override temporal restaurable. PlayMode comprueba que Bootstrap selecciona Development, muestra producto/versión del asset y conserva Ready/scene flow/save. `scripts/compile`/build llaman el validador de ambos perfiles; una fixture controlada Release+`MockAds` debe fallar `CONFIG008`. Contrato: [`RUNTIME_CONFIGURATION.md`](RUNTIME_CONFIGURATION.md).
 
-Conteo verificado tras Prompt 10: EditMode `57/57` (56 tests del proyecto y el stub documental de Addressables) y PlayMode `5/5`.
+Localización EditMode cubre español default, resolución, Smart variables/plurales, persistencia y restauración v2 sin `PlayerPrefs`, fallback Development/Release y pseudo no persistible. PlayMode cambia ES/EN/pseudo sin reinicio, confirma refresh/persistencia y layouts a `1280×720`/`1920×1080`. El validator cubre 25 keys, cinco colecciones, dos locales y glifos. Contrato: [`17_LOCALIZATION.md`](17_LOCALIZATION.md).
+
+Conteo verificado tras Prompt 11: EditMode `62/62` (61 tests del proyecto y el stub documental de Addressables) y PlayMode `6/6`.
 
 Los wrappers son orquestadores: configuración, validación y build viven bajo `Assets/_Game/Editor/BuildTools`. Los logs sustituyen la raíz del proyecto, home y ejecutable del Editor por marcadores antes de conservarse.
 

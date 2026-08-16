@@ -71,6 +71,7 @@ namespace PequenoExplorador.Editor
                     "PequenoExplorador.Application",
                     "PequenoExplorador.Domain",
                     "Unity.Addressables",
+                    "Unity.Localization",
                     "Unity.ResourceManager"
                 },
                 ["PequenoExplorador.Presentation"] = new[]
@@ -94,6 +95,8 @@ namespace PequenoExplorador.Editor
                     "PequenoExplorador.Presentation",
                     "Unity.Addressables.Editor",
                     "Unity.InputSystem",
+                    "Unity.Localization",
+                    "Unity.Localization.Editor",
                     "Unity.RenderPipelines.Universal.Runtime"
                 },
                 ["PequenoExplorador.Tests.EditMode"] = new[]
@@ -104,7 +107,9 @@ namespace PequenoExplorador.Editor
                     "PequenoExplorador.Domain",
                     "PequenoExplorador.Editor",
                     "PequenoExplorador.Infrastructure",
-                    "PequenoExplorador.Presentation"
+                    "PequenoExplorador.Presentation",
+                    "Unity.Localization",
+                    "Unity.Localization.Editor"
                 },
                 ["PequenoExplorador.Tests.PlayMode"] = new[]
                 {

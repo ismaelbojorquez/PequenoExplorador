@@ -8,7 +8,9 @@
     "PequenoExplorador.Domain",
     "PequenoExplorador.Editor",
     "PequenoExplorador.Infrastructure",
-    "PequenoExplorador.Presentation"
+    "PequenoExplorador.Presentation",
+    "Unity.Localization",
+    "Unity.Localization.Editor"
   ],
   "includePlatforms": [
     "Editor"

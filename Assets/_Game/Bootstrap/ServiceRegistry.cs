@@ -3,6 +3,7 @@ using PequenoExplorador.Application;
 using PequenoExplorador.Application.Configuration;
 using PequenoExplorador.Application.Lifecycle;
 using PequenoExplorador.Application.Logging;
+using PequenoExplorador.Application.Localization;
 using PequenoExplorador.Application.Messaging;
 using PequenoExplorador.Application.Save;
 using PequenoExplorador.Application.Services;
@@ -10,6 +11,7 @@ using PequenoExplorador.Application.SceneFlow;
 using PequenoExplorador.Infrastructure.Ads;
 using PequenoExplorador.Infrastructure.Analytics;
 using PequenoExplorador.Infrastructure.Logging;
+using PequenoExplorador.Infrastructure.Localization;
 using PequenoExplorador.Infrastructure.Messaging;
 using PequenoExplorador.Infrastructure.Purchases;
 using PequenoExplorador.Infrastructure.Random;
@@ -50,7 +52,15 @@ namespace PequenoExplorador.Bootstrap
                 resolvedFileStore,
                 configuration.AppVersion,
                 logger,
-                new ISaveMigration[] { new LegacyV0ToV1Migration() });
+                new ISaveMigration[]
+                {
+                    new LegacyV0ToV1Migration(),
+                    new V1ToV2LocalizationMigration()
+                });
+            ILocalizationService localization = new UnityLocalizationService(
+                save,
+                logger,
+                configuration.Profile);
             IAnalyticsService analytics = new NullAnalyticsService();
             IAdsService ads;
             IPurchaseService purchases;
@@ -89,6 +99,7 @@ namespace PequenoExplorador.Bootstrap
                 logger,
                 messages,
                 save,
+                localization,
                 analytics,
                 ads,
                 purchases,
@@ -98,6 +109,7 @@ namespace PequenoExplorador.Bootstrap
                 {
                     messages,
                     save,
+                    localization,
                     analytics,
                     ads,
                     purchases

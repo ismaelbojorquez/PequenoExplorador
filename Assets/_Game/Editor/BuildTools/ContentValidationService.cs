@@ -12,6 +12,7 @@ namespace PequenoExplorador.Editor.BuildTools
         {
             var violations = new List<string>();
             violations.AddRange(RuntimeConfigurationValidationService.Validate());
+            violations.AddRange(LocalizationValidationService.Validate());
             string directory = Path.Combine(UnityEngine.Application.dataPath, "_Game", "Content", "Placeholders");
             if (!Directory.Exists(directory))
             {

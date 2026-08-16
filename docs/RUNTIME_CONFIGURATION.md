@@ -9,7 +9,7 @@ Estado: Prompt 10 implementado. Configuración tipada y local para foundation; n
 | Build-time | API 26/36, IL2CPP, ARM64, define Development, signing | BuildTools/ProjectSettings | No forma parte de `AppConfig`; Release sigue bloqueado sin signing. |
 | Content-time | perfiles/grupos/labels Addressables, assets aprobados | Content pipeline/Addressables | Validado antes de build; no es preferencia de usuario. |
 | Runtime inmutable | perfil, producto/versión técnica, seed, timeout, debounce y flags | Dos `AppConfigAsset` bajo Content | Mapea una vez al arrancar; no se muta ni se guarda. |
-| Preferencia adulta | modo de guía, música, SFX, narración | Save schema v1 | Mutable y versionada; no copia `AppConfig`. |
+| Preferencia adulta | modo de guía, música, SFX, narración, locale ES/EN | Save schema v2 | Mutable y versionada; no copia `AppConfig`. |
 
 Ningún valor se consulta por red. No existe endpoint, remote catalog, remote config, identidad, variante por niño ni activación silenciosa.
 

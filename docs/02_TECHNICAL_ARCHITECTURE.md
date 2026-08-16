@@ -1,6 +1,6 @@
 # Arquitectura técnica — fronteras modulares
 
-Estado: fronteras F04, composition root F06, scene flow local y persistencia schema v1 implementados. No define APIs de gameplay. `Bootstrap` persiste y entra a Camp placeholder.
+Estado: fronteras F04, composition root F06, scene flow local, persistencia schema v2 y localización ES/EN implementados. No define APIs de gameplay. `Bootstrap` persiste y entra a Camp placeholder.
 
 ## Grafo real de assemblies
 
@@ -18,7 +18,8 @@ PequenoExplorador.Infrastructure
 ├─ Application
 ├─ Domain
 ├─ Unity.Addressables
-└─ Unity.ResourceManager
+├─ Unity.ResourceManager
+└─ Unity.Localization
 
 PequenoExplorador.Presentation
 └─ Application
@@ -33,7 +34,7 @@ PequenoExplorador.Bootstrap
 PequenoExplorador.Editor [Editor only]
 ├─ Application / Bootstrap / Content
 ├─ Infrastructure / Presentation
-├─ Unity.Addressables.Editor / Unity.InputSystem
+├─ Unity.Addressables.Editor / Unity.Localization / Unity.Localization.Editor / Unity.InputSystem
 └─ Unity.RenderPipelines.Universal.Runtime
 
 PequenoExplorador.Tests.EditMode [Editor only]
@@ -43,7 +44,8 @@ PequenoExplorador.Tests.EditMode [Editor only]
 ├─ Domain
 ├─ Editor
 ├─ Infrastructure
-└─ Presentation
+├─ Presentation
+└─ Unity.Localization / Unity.Localization.Editor
 
 PequenoExplorador.Tests.PlayMode
 ├─ Application
@@ -82,13 +84,14 @@ DiagnosticBootstrap (Unity lifecycle)
       │   ├─ IClock / IRandomSource / IAppLogger
       │   ├─ IMessageBus
       │   ├─ ISaveService → IFileStore
+      │   ├─ ILocalizationService → Unity Localization
       │   ├─ IAnalyticsService
       │   ├─ IAdsService
       │   ├─ IPurchaseService
       │   └─ ISceneFlowService → ISceneContentLoader
       └─ ApplicationHost
-          initialize: MessageBus → Save → Analytics → Ads → Purchases
-          shutdown:  Purchases → Ads → Analytics → Save → MessageBus
+          initialize: MessageBus → Save → Localization → Analytics → Ads → Purchases
+          shutdown:  Purchases → Ads → Analytics → Localization → Save → MessageBus
 ```
 
 `ApplicationHost.InitializeAsync` es secuencial, comparte la misma tarea ante llamadas concurrentes, acepta `CancellationToken`, permite retry después de fallo recuperable y hace cleanup inverso. `Shutdown`/`Dispose` son idempotentes; si llegan durante inicialización solicitan cancelación del host, impiden volver a `Ready` y limpian también el servicio que estaba inicializando. `AppContext` no es estático y no ofrece lookup; Bootstrap lo retiene para inyección explícita en futuras fachadas.
@@ -107,12 +110,16 @@ Domain.PlayerProgress
 Application.ISaveService / AutosaveCoordinator / IFileStore
           ↓
 Infrastructure.LocalSaveService
-  ├─ UnityJsonSaveSerializer → envelope/DTO v1 + SHA-256
+  ├─ UnityJsonSaveSerializer → envelope/DTO v1/v2 + SHA-256
   ├─ ISaveMigration[] → pasos n→n+1
   └─ LocalFileStore → persistentDataPath/Save
 ```
 
 Application y features no conocen JSON ni paths. Infrastructure referencia Domain directamente porque implementa firmas públicas que mapean `PlayerProgress`; la dirección sigue hacia adentro y el grafo permanece acíclico. Bootstrap es el único lugar que resuelve `Application.persistentDataPath`. Presentation solo consume `SaveUserNotice` para copy recuperable. Contrato, archivos, downgrade y recovery: [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md).
+
+### Localización
+
+`Application.Localization` define `LocalizedKey`/`ILocalizationService`; Infrastructure es el único adapter de Unity Localization; Content posee tablas/locales; Bootstrap lo inicializa después de Save e inyecta la fachada en Presentation. Domain solo guarda el enum de preferencia ES/EN, no texto. `LocaleChanged` refresca vistas y se limpia en shutdown; pseudo no llega a Release ni al save. Contrato y fallback: [`17_LOCALIZATION.md`](17_LOCALIZATION.md).
 
 ## Scene flow y contenido local
 
@@ -141,7 +148,8 @@ El bus en memoria solo cubre fan-out acotado. `Subscribe<T>` devuelve `IDisposab
 | Analytics | `NullAnalyticsService` | `NullAnalyticsService` |
 | Ads | `MockAdsService` si flag local ON; default ON | `NoAdsService`; `MockAds` prohibido |
 | Purchases | `MockPurchaseService` si flag local ON; default ON | `UnavailablePurchaseService`; `MockPurchases` prohibido |
-| Save | Local schema v1 | Local schema v1; herramientas Editor excluidas |
+| Save | Local schema v2 | Local schema v2; herramientas Editor excluidas |
+| Localization | ES/EN + pseudo y selector diagnóstico | ES/EN; pseudo/selector diagnóstico excluidos |
 | Clock/random | `SystemClock` + seed inyectado | Igual, sin estado remoto |
 | Logs/messages | Structured Unity + bus local | Igual, sin datos infantiles |
 

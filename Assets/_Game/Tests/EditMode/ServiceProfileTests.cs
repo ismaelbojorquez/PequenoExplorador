@@ -83,6 +83,7 @@ namespace PequenoExplorador.Tests.EditMode
                 first.Context.Logger,
                 first.Context.Messages,
                 first.Context.Save,
+                first.Context.Localization,
                 first.Context.Analytics,
                 first.Context.Ads,
                 first.Context.Purchases,
@@ -103,6 +104,7 @@ namespace PequenoExplorador.Tests.EditMode
             {
                 "MessageBus",
                 "Save",
+                "Localization",
                 "Analytics",
                 "Ads",
                 "Purchases"
@@ -115,6 +117,7 @@ namespace PequenoExplorador.Tests.EditMode
             string symbols = PlayerSettings.GetScriptingDefineSymbols(NamedBuildTarget.Android);
 
             Assert.That(symbols.Split(';'), Does.Not.Contain("PE_DEVELOPMENT_SERVICES"));
+            Assert.That(symbols.Split(';'), Does.Not.Contain("PE_LOCALIZATION_SMOKE_EN"));
         }
 
         private static IAppConfig CreateConfig(BuildProfile profile, int seed)

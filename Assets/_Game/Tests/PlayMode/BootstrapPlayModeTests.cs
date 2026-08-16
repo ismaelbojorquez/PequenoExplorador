@@ -1,15 +1,18 @@
 using System.Collections;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using PequenoExplorador.Application;
 using PequenoExplorador.Application.Configuration;
 using PequenoExplorador.Application.Lifecycle;
+using PequenoExplorador.Application.Localization;
 using PequenoExplorador.Application.SceneFlow;
 using PequenoExplorador.Bootstrap;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
+using UnityEngine.UI;
 
 namespace PequenoExplorador.Tests.PlayMode
 {
@@ -34,7 +37,8 @@ namespace PequenoExplorador.Tests.PlayMode
             Assert.That(diagnostic.Profile, Is.EqualTo(BuildProfile.Development));
             Assert.That(diagnostic.ConfiguredProductName, Is.EqualTo(AppConfigDefaults.ProductName));
             Assert.That(diagnostic.ConfiguredAppVersion, Is.EqualTo(AppConfigDefaults.DevelopmentAppVersion));
-            Assert.That(diagnostic.StatusText, Is.EqualTo("Ready"));
+            Assert.That(diagnostic.CurrentLocaleCode, Is.EqualTo(LocaleCode.Spanish));
+            Assert.That(diagnostic.StatusText, Is.EqualTo("Listo"));
         }
 
         [UnityTest]
@@ -110,6 +114,51 @@ namespace PequenoExplorador.Tests.PlayMode
             AssertSceneContract(bootstrap, SceneFlowState.Expedition, "Jungle", "Camp");
         }
 
+        [UnityTest]
+        public IEnumerator LocaleSwitchUpdatesVisibleUiPersistsAndPseudoFitsTargetResolutions()
+        {
+            SceneManager.LoadScene("Bootstrap", LoadSceneMode.Single);
+            yield return null;
+            yield return WaitForReady();
+            DiagnosticBootstrap bootstrap = Object.FindFirstObjectByType<DiagnosticBootstrap>();
+
+            Task english = bootstrap.SetLocaleAsync(LocaleCode.English, persist: true, CancellationToken.None);
+            yield return WaitForTask(english);
+            yield return null;
+            Assert.That(bootstrap.CurrentLocaleCode, Is.EqualTo(LocaleCode.English));
+            Assert.That(bootstrap.StatusText, Is.EqualTo("Ready"));
+            Assert.That(AllTexts().Any(text => text.text == "Go to the jungle"), Is.True);
+
+            Task pseudo = bootstrap.SetLocaleAsync(LocaleCode.Pseudo, persist: false, CancellationToken.None);
+            yield return WaitForTask(pseudo);
+            yield return null;
+            Assert.That(bootstrap.CurrentLocaleCode, Is.EqualTo(LocaleCode.Pseudo));
+            Assert.That(bootstrap.StatusText, Is.Not.EqualTo("Listo"));
+            Assert.That(bootstrap.StatusText.Length, Is.GreaterThan("Listo".Length));
+
+            foreach ((int width, int height) in new[] { (1280, 720), (1920, 1080) })
+            {
+                Screen.SetResolution(width, height, FullScreenMode.Windowed);
+                yield return null;
+                Canvas.ForceUpdateCanvases();
+                foreach (Text text in AllTexts().Where(text => text.gameObject.activeInHierarchy && !string.IsNullOrEmpty(text.text)))
+                {
+                    Rect rect = text.rectTransform.rect;
+                    Assert.That(rect.width, Is.GreaterThan(0f), text.gameObject.name + " width");
+                    Assert.That(rect.height, Is.GreaterThan(0f), text.gameObject.name + " height");
+                    Assert.That(
+                        text.resizeTextForBestFit || text.preferredHeight <= rect.height + 2f,
+                        Is.True,
+                        text.gameObject.name + " clips vertically at " + width + "x" + height);
+                }
+            }
+
+            Task spanish = bootstrap.SetLocaleAsync(LocaleCode.Spanish, persist: true, CancellationToken.None);
+            yield return WaitForTask(spanish);
+            yield return null;
+            Assert.That(bootstrap.StatusText, Is.EqualTo("Listo"));
+        }
+
         private static IEnumerator WaitForReady()
         {
             float deadline = Time.realtimeSinceStartup + 20f;
@@ -120,7 +169,7 @@ namespace PequenoExplorador.Tests.PlayMode
                     FindObjectsSortMode.None);
                 DiagnosticBootstrap bootstrap = candidates.Length == 1 ? candidates[0] : null;
                 if (bootstrap != null && bootstrap.State == ApplicationState.Ready &&
-                    bootstrap.StatusText == "Ready" && bootstrap.SceneFlow != null &&
+                    bootstrap.StatusText == "Listo" && bootstrap.SceneFlow != null &&
                     bootstrap.SceneFlow.Current == SceneFlowState.Camp &&
                     !bootstrap.SceneFlow.IsTransitioning)
                 {
@@ -187,6 +236,11 @@ namespace PequenoExplorador.Tests.PlayMode
             Assert.That(Object.FindObjectsByType<DiagnosticBootstrap>(
                 FindObjectsInactive.Include,
                 FindObjectsSortMode.None), Has.Length.EqualTo(1));
+        }
+
+        private static Text[] AllTexts()
+        {
+            return Object.FindObjectsByType<Text>(FindObjectsInactive.Include, FindObjectsSortMode.None);
         }
     }
 }

@@ -28,16 +28,20 @@ namespace PequenoExplorador.Editor.BuildTools
             Debug.Log($"PE_ENVIRONMENT_REPORT_OK path={BuildArtifactPaths.RelativeToProject(path)}");
         }
 
-        public static void WriteBuildManifest(string buildPath, long elapsedMilliseconds)
+        public static void WriteBuildManifest(string buildPath, long elapsedMilliseconds, string startupLocale)
         {
             var info = new FileInfo(buildPath);
-            string path = Path.Combine(BuildArtifactPaths.ArtifactsRoot, "reports", "android-development.json");
+            string reportName = startupLocale == "es"
+                ? "android-development.json"
+                : "android-development-" + startupLocale + ".json";
+            string path = Path.Combine(BuildArtifactPaths.ArtifactsRoot, "reports", reportName);
             var manifest = new AndroidBuildManifest
             {
                 generatedUtc = DateTime.UtcNow.ToString("O"),
                 unityVersion = UnityEngine.Application.unityVersion,
                 gitCommit = CommandLineArguments.Read("-gitCommit") ?? "unknown",
                 profile = "Development",
+                startupLocale = startupLocale,
                 artifact = BuildArtifactPaths.RelativeToProject(buildPath),
                 bytes = info.Length,
                 sha256 = ComputeSha256(buildPath),
@@ -124,6 +128,7 @@ namespace PequenoExplorador.Editor.BuildTools
             public string unityVersion;
             public string gitCommit;
             public string profile;
+            public string startupLocale;
             public string artifact;
             public long bytes;
             public string sha256;

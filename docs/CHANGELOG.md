@@ -1,5 +1,27 @@
 # Changelog
 
+## Prompt 11 — 2026-08-16
+
+### Added
+
+- Unity Localization `1.5.12`, locales ES/EN, pseudo Development y tablas `Shared`/`UI`/`Content` más slots `Voice`/`Illustrations`.
+- `ILocalizationService`, keys namespaced, cambio live/persistido, fallback seguro por perfil, Smart Strings y selector diagnóstico.
+- Save schema v2 con migración v1→v2, validator CLI, CSV export/import, tests ES/EN/pseudo y builds Android duales.
+
+### Changed
+
+- Todo texto visible actual migra desde escenas/Presentation a tablas; Bootstrap inicializa Localization después de Save.
+- Addressables incluye solo grupos Localization locales; arquitectura, UX, audio, contenido, dependencias, testing, riesgos y estado reflejan la implementación.
+
+### Verified
+
+- Compile/import, validator, Addressables local, EditMode `62/62`, PlayMode `6/6`, pseudo en dos resoluciones y APK Development ES/EN IL2CPP/ARM64 API 26/36.
+- CSV exportó tres tablas; APK no mostró permisos sensibles/`AD_ID` y pasó `zipalign -P 16`. Dispositivo físico quedó `NOT RUN`.
+
+### Not added
+
+- Gameplay, traducción masiva/final, narración humana, assets finales, selector parental de producto, red, remote catalog, SDK comercial, signing o publicación.
+
 Todos los cambios notables de ingeniería se registran aquí. La versión técnica de desarrollo es `0.1.0-dev`; no representa un release comercial.
 
 ## Prompt 10 — configuración runtime local — 2026-08-16

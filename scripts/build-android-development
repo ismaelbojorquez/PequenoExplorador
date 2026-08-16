@@ -4,4 +4,5 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "${SCRIPT_DIR}/lib/common.sh"
 run_unity build-android-development \
   -executeMethod PequenoExplorador.Editor.BuildTools.BuildToolsCli.BuildAndroidDevelopment \
+  -startupLocale es \
   -buildPath "${ARTIFACTS_DIR}/builds/PequenoExplorador-development.apk"

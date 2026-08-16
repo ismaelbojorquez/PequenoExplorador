@@ -54,6 +54,8 @@ No se pregunta edad/fecha de nacimiento, no se recomienda modo según comportami
 
 Verbos de invitación: “mira”, “escucha”, “prueba”, “¿qué notas?”. Evitar “fácil”, “mal”, “fallaste”, “última oportunidad”, “perfecto” como juicio, o cualquier referencia a edad/nivel.
 
+Todo copy runtime usa las keys estables de [`17_LOCALIZATION.md`](17_LOCALIZATION.md); español es predeterminado e inglés no puede quedar vacío. Una key ausente nunca expone IDs técnicos en Release. Pseudo-localización prueba expansión y caracteres en Development. El selector ES/EN actual es diagnóstico; el selector de producto futuro pertenece al área adulta y no pide edad, idioma inferido ni datos personales.
+
 ## Aceptación
 
 - Los tres recorridos de papel de [`PLAYTEST_PLAN.md`](PLAYTEST_PLAN.md) completan su intención sin contradicción.
