@@ -16,6 +16,8 @@ Bootstrap compone; Presentation solo recibe SaveUserNotice.
 
 `PlayerProgress` contiene únicamente estrellas no negativas, listas de IDs técnicos y preferencias locales (`Guía estándar`/`Más guía`, música, SFX y narración). Las listas world/discovery/mission nacen vacías; no implementan sistemas de gameplay. No se serializan `GameObject`, `ScriptableObject`, `AssetReference`, diccionarios, tipos polimórficos ni nombres de assemblies.
 
+`AppConfig` y sus feature flags son runtime inmutable y no se copian al save. Save conserva solo preferencias adultas mutables; perfil de build, budgets, versión técnica y flags se vuelven a resolver desde Content/Bootstrap en cada arranque según [`RUNTIME_CONFIGURATION.md`](RUNTIME_CONFIGURATION.md).
+
 ## Formato v1
 
 Serializador: `UnityEngine.JsonUtility`, provisto por el módulo builtin fijado `com.unity.modules.jsonserialize` `1.0.0`. No se añadió paquete. Es compatible con el Editor `6000.3.22f1`/IL2CPP y suficiente porque los DTOs son clases cerradas con campos explícitos y arrays. Cambiar serializador o representación requiere ADR y migración, no una sustitución silenciosa.

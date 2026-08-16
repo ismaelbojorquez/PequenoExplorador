@@ -1,4 +1,5 @@
 using System;
+using PequenoExplorador.Application.Configuration;
 using PequenoExplorador.Application.Save;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,9 +10,28 @@ namespace PequenoExplorador.Presentation.Bootstrap
     public sealed class BootstrapStatusView : MonoBehaviour
     {
         [SerializeField] private Text _statusText;
+        [SerializeField] private Text _productNameText;
+        [SerializeField] private Text _appVersionText;
         [SerializeField] private GameObject[] _developmentOnlyObjects = Array.Empty<GameObject>();
 
         public string CurrentStatus => _statusText == null ? string.Empty : _statusText.text;
+
+        public void ConfigureProduct(IAppConfig config)
+        {
+            if (config == null)
+            {
+                throw new ArgumentNullException(nameof(config));
+            }
+
+            if (_productNameText == null || _appVersionText == null)
+            {
+                throw new InvalidOperationException(
+                    "Bootstrap product and version Text references must be wired explicitly.");
+            }
+
+            _productNameText.text = config.ProductName;
+            _appVersionText.text = config.AppVersion;
+        }
 
         public void SetDevelopmentDiagnosticsVisible(bool visible)
         {

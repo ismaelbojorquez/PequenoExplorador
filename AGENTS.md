@@ -44,6 +44,8 @@ El pin es Unity `6000.3.22f1`. Desde la raíz, `scripts/validate` ejecuta checks
 
 Servicios transversales se declaran como puertos en Application, se implementan en Infrastructure y solo se ensamblan en Bootstrap. `AppContext` se entrega explícitamente y nunca es global; `ServiceRegistry` permanece interno y tipado, sin lookup genérico. El orden canónico es MessageBus → Save → Analytics → Ads → Purchases, con shutdown inverso. Save v1 sigue [`docs/10_SAVE_SYSTEM.md`](docs/10_SAVE_SYSTEM.md): las features solo usan `ISaveService`/checkpoints y nunca JSON/filesystem. Development puede compilar mocks locales mediante el define exclusivo de build; Release usa NullAnalytics, NoAds y UnavailablePurchase y no contiene selección de simuladores.
 
+Configuración runtime sigue [`docs/RUNTIME_CONFIGURATION.md`](docs/RUNTIME_CONFIGURATION.md): Content posee exactamente un `AppConfigAsset` Development y uno Release, Bootstrap es el único loader y Application consume `IAppConfig` readonly. Todo flag es local/tipado; Release lleva cero flags y prohíbe diagnóstico, mocks, fallo simulado, cheats y bypass parental. Build-time, Addressables/content-time y preferencias de Save son autoridades separadas. No usar remote config, `Resources.Load` fuera del loader ni overrides fuera de tests Editor.
+
 `ISceneFlowService` serializa `Boot → Camp ↔ Expedition`; Infrastructure es el único owner de handles Addressables y Bootstrap conserva la escena persistente. No cargar escenas por strings dispersos, liberar handles fuera del adapter, referenciar Jungle desde Shared ni activar remote catalogs/endpoints. Todo cambio de grupo/perfil pasa el validador local y tres ciclos PlayMode.
 
 ## Dependencias y no-go

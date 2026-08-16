@@ -41,6 +41,10 @@ Scene flow EditMode cubre estados, exclusión mutua, error/retry, cancelación, 
 
 Save EditMode cubre default/round-trip, JSON determinista, write/flush/commit inyectados, truncado, checksum, backup preservado, v0→v1, migración ausente, future schema read-only, cancelación, reset, coalescing y replace físico repetido. PlayMode recrea el servicio tras recarga de escena y verifica el checkpoint. Los directorios físicos de tests son temporales con prefijo controlado; no se usa `PlayerPrefs`, red, reloj real ni rutas versionadas. Detalle: [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md).
 
+Configuración EditMode cubre defaults, dos assets locales, mapping, IDs duplicados, budgets inválidos, cada flag prohibido en Release y override temporal restaurable. PlayMode comprueba que Bootstrap selecciona Development, muestra producto/versión del asset y conserva Ready/scene flow/save. `scripts/compile`/build llaman el validador de ambos perfiles; una fixture controlada Release+`MockAds` debe fallar `CONFIG008`. Contrato: [`RUNTIME_CONFIGURATION.md`](RUNTIME_CONFIGURATION.md).
+
+Conteo verificado tras Prompt 10: EditMode `57/57` (56 tests del proyecto y el stub documental de Addressables) y PlayMode `5/5`.
+
 Los wrappers son orquestadores: configuración, validación y build viven bajo `Assets/_Game/Editor/BuildTools`. Los logs sustituyen la raíz del proyecto, home y ejecutable del Editor por marcadores antes de conservarse.
 
 ## Diagnóstico y recuperación

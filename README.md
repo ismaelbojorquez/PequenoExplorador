@@ -12,7 +12,7 @@ Baseline de producto, ingeniería y cumplimiento para un juego educativo Unity 2
 - Experiencia inicial recomendada: sin publicidad. Ads, IAP y analítica remota permanecen detrás de interfaces nulas y de decisiones humanas futuras.
 - Privacidad por defecto: sin cuenta, chat, ubicación, cámara del dispositivo, micrófono, identificadores publicitarios ni transmisión de datos en el MVP.
 
-El repositorio contiene una foundation Unity mínima: URP, composition root explícito, servicios locales Null/Mock seguros, nueve assemblies, flujo aditivo `Boot → Camp ↔ Jungle`, Addressables solo locales, persistencia local schema v1, BuildTools, tests y smoke Android. No contiene gameplay, contenido remoto, SDKs de IAP/ads/analytics, backend ni arte final.
+El repositorio contiene una foundation Unity mínima: URP, composition root explícito, perfiles runtime Development/Release locales y validados, servicios Null/Mock seguros, nueve assemblies, flujo aditivo `Boot → Camp ↔ Jungle`, Addressables solo locales, persistencia local schema v1, BuildTools, tests y smoke Android. No contiene gameplay, remote config, contenido remoto, SDKs de IAP/ads/analytics, backend ni arte final.
 
 ## Documentación
 
@@ -37,9 +37,9 @@ El workflow GitHub ejecuta checks estáticos sin secretos. La validación Unity 
 ## Continuar desde el estado vivo
 
 1. Ejecutar el preflight de [`AGENTS.md`](AGENTS.md), empezar por [`docs/STATUS.md`](docs/STATUS.md) y contrastar Git, Editor, import y tests.
-2. Leer [`docs/MVP_SCOPE.md`](docs/MVP_SCOPE.md), [`docs/02_TECHNICAL_ARCHITECTURE.md`](docs/02_TECHNICAL_ARCHITECTURE.md), [`docs/10_SAVE_SYSTEM.md`](docs/10_SAVE_SYSTEM.md) y el alcance vigente en [`docs/ROADMAP.md`](docs/ROADMAP.md).
+2. Leer [`docs/MVP_SCOPE.md`](docs/MVP_SCOPE.md), [`docs/02_TECHNICAL_ARCHITECTURE.md`](docs/02_TECHNICAL_ARCHITECTURE.md), [`docs/10_SAVE_SYSTEM.md`](docs/10_SAVE_SYSTEM.md), [`docs/RUNTIME_CONFIGURATION.md`](docs/RUNTIME_CONFIGURATION.md) y el alcance vigente en [`docs/ROADMAP.md`](docs/ROADMAP.md).
 3. Reejecutar `scripts/validate`; no heredar el PASS de esta fase.
-4. Mantener scene flow y save detrás de Application/Infrastructure; Bootstrap solo compone. Ninguna feature puede leer JSON/archivos ni mutar DTOs directamente.
+4. Mantener scene flow y save detrás de Application/Infrastructure; Bootstrap solo compone. Ninguna feature puede leer JSON/archivos, cargar AppConfig desde `Resources` ni mutar DTOs/config directamente.
 5. Mantener placeholder/metadata, evidencia y revisión infantil; no instalar SDKs, publicar ni aceptar términos.
 
 ## Licencia

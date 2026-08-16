@@ -1,4 +1,5 @@
 using System;
+using PequenoExplorador.Application.Configuration;
 using PequenoExplorador.Application.Logging;
 using PequenoExplorador.Application.Messaging;
 using PequenoExplorador.Application.Save;
@@ -10,7 +11,7 @@ namespace PequenoExplorador.Application
     public sealed class AppContext
     {
         public AppContext(
-            ApplicationEnvironment environment,
+            IAppConfig configuration,
             IClock clock,
             IRandomSource random,
             IAppLogger logger,
@@ -21,7 +22,7 @@ namespace PequenoExplorador.Application
             IPurchaseService purchases,
             ISceneFlowService sceneFlow)
         {
-            Environment = environment;
+            Configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             Clock = clock ?? throw new ArgumentNullException(nameof(clock));
             Random = random ?? throw new ArgumentNullException(nameof(random));
             Logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -33,7 +34,8 @@ namespace PequenoExplorador.Application
             SceneFlow = sceneFlow ?? throw new ArgumentNullException(nameof(sceneFlow));
         }
 
-        public ApplicationEnvironment Environment { get; }
+        public IAppConfig Configuration { get; }
+        public BuildProfile Profile => Configuration.Profile;
         public IClock Clock { get; }
         public IRandomSource Random { get; }
         public IAppLogger Logger { get; }

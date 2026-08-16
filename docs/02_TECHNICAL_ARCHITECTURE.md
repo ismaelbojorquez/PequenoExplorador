@@ -31,7 +31,7 @@ PequenoExplorador.Bootstrap
 └─ Presentation
 
 PequenoExplorador.Editor [Editor only]
-├─ Bootstrap
+├─ Application / Bootstrap / Content
 ├─ Infrastructure / Presentation
 ├─ Unity.Addressables.Editor / Unity.InputSystem
 └─ Unity.RenderPipelines.Universal.Runtime
@@ -39,6 +39,7 @@ PequenoExplorador.Editor [Editor only]
 PequenoExplorador.Tests.EditMode [Editor only]
 ├─ Application
 ├─ Bootstrap
+├─ Content
 ├─ Domain
 ├─ Editor
 ├─ Infrastructure
@@ -74,8 +75,10 @@ Los markers `*AssemblyMarker` conservan pruebas de enlace. `DiagnosticBootstrap`
 
 ```text
 DiagnosticBootstrap (Unity lifecycle)
+  ├─ BuildProfileConfiguration → Content AppConfig assets → IAppConfig readonly
   └─ ServiceRegistry [internal, typed, no Get<T>]
       ├─ AppContext [immutable, explicit injection]
+      │   ├─ IAppConfig / IFeatureFlags
       │   ├─ IClock / IRandomSource / IAppLogger
       │   ├─ IMessageBus
       │   ├─ ISaveService → IFileStore
@@ -89,6 +92,12 @@ DiagnosticBootstrap (Unity lifecycle)
 ```
 
 `ApplicationHost.InitializeAsync` es secuencial, comparte la misma tarea ante llamadas concurrentes, acepta `CancellationToken`, permite retry después de fallo recuperable y hace cleanup inverso. `Shutdown`/`Dispose` son idempotentes; si llegan durante inicialización solicitan cancelación del host, impiden volver a `Ready` y limpian también el servicio que estaba inicializando. `AppContext` no es estático y no ofrece lookup; Bootstrap lo retiene para inyección explícita en futuras fachadas.
+
+## Configuración runtime
+
+Content posee dos ScriptableObjects locales: Development y Release. `AppConfigMapper` convierte authoring a `AppConfig`/`FeatureFlags` inmutables de Application; `AppConfigCatalog` exige exactamente un asset por ID. Bootstrap es el único consumidor de `Resources/Configuration`, selecciona por define compilado y entrega la interfaz al contexto/registry. No hay fallback inventado: config ausente/duplicada/insegura bloquea import/build.
+
+Seed, timeout scene flow, debounce save, nombre/versión técnica y selección de mocks/diagnóstico dejaron de ser hardcodes de Bootstrap. Android/API/signing, Addressables y preferencias parentales siguen en sus autoridades respectivas; detalles y tabla de flags: [`RUNTIME_CONFIGURATION.md`](RUNTIME_CONFIGURATION.md).
 
 ## Persistencia local
 
@@ -130,13 +139,13 @@ El bus en memoria solo cubre fan-out acotado. `Subscribe<T>` devuelve `IDisposab
 | Puerto | Development | Release |
 |---|---|---|
 | Analytics | `NullAnalyticsService` | `NullAnalyticsService` |
-| Ads | `MockAdsService` local | `NoAdsService` |
-| Purchases | `MockPurchaseService` local | `UnavailablePurchaseService` |
+| Ads | `MockAdsService` si flag local ON; default ON | `NoAdsService`; `MockAds` prohibido |
+| Purchases | `MockPurchaseService` si flag local ON; default ON | `UnavailablePurchaseService`; `MockPurchases` prohibido |
 | Save | Local schema v1 | Local schema v1; herramientas Editor excluidas |
 | Clock/random | `SystemClock` + seed inyectado | Igual, sin estado remoto |
 | Logs/messages | Structured Unity + bus local | Igual, sin datos infantiles |
 
-Editor o `PE_DEVELOPMENT_SERVICES` habilitan los mocks. El define se pasa únicamente en `BuildPlayerOptions.extraScriptingDefines` del APK Development y no se persiste en PlayerSettings. Fuera de esos símbolos, las clases mock y la rama de composición Development no compilan. El diagnóstico de producto/versión se oculta en Release; la vista mínima de estado/error recuperable permanece.
+Editor o `PE_DEVELOPMENT_SERVICES` compilan la posibilidad de mocks; `IAppConfig` decide explícitamente si se seleccionan. El define se pasa únicamente en `BuildPlayerOptions.extraScriptingDefines` del APK Development y no se persiste en PlayerSettings. Fuera de esos símbolos, las clases mock y la rama Development no compilan. Release carga un perfil con cero flags y el validador rechaza cualquier flag inseguro. El diagnóstico de producto/versión se oculta en Release; la vista mínima de estado/error recuperable permanece.
 
 ## Enforcement
 

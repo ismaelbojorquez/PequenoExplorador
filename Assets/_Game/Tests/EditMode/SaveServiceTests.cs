@@ -202,7 +202,7 @@ namespace PequenoExplorador.Tests.EditMode
         }
 
         [Test]
-        public void SerializationIsDeterministicAndContainsNoPersonalProfileFields()
+        public void SerializationIsDeterministicAndContainsNoPersonalOrRuntimeConfigurationFields()
         {
             var serializer = new UnityJsonSaveSerializer();
             PlayerProgress progress = PlayerProgress.CreateDefault().WithStars(2);
@@ -216,6 +216,11 @@ namespace PequenoExplorador.Tests.EditMode
             Assert.That(first, Does.Not.Contain("age"));
             Assert.That(first, Does.Not.Contain("device"));
             Assert.That(first, Does.Not.Contain("location"));
+            Assert.That(first, Does.Not.Contain("buildProfile"));
+            Assert.That(first, Does.Not.Contain("featureFlag"));
+            Assert.That(first, Does.Not.Contain("randomSeed"));
+            Assert.That(first, Does.Not.Contain("sceneTransitionTimeout"));
+            Assert.That(first, Does.Not.Contain("autosaveDebounce"));
         }
 
         [Test]

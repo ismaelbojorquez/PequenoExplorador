@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using PequenoExplorador.Application;
+using PequenoExplorador.Application.Configuration;
 using PequenoExplorador.Application.Lifecycle;
 using PequenoExplorador.Application.Logging;
 using PequenoExplorador.Application.SceneFlow;
@@ -18,15 +19,13 @@ namespace PequenoExplorador.Bootstrap
     [DisallowMultipleComponent]
     public sealed class DiagnosticBootstrap : MonoBehaviour
     {
-        public const string ProductName = "Pequeño Explorador: Aprende Jugando";
-        public const string DevelopmentVersion = "0.1.0-dev";
         public const string PlaceholderObjectName = "PH_UI_DIAGNOSTIC";
 
         [SerializeField] private BootstrapStatusView _statusView;
         [SerializeField] private SceneTransitionView _sceneFlowView;
 
         private CancellationTokenSource _lifetimeCancellation;
-        private BootstrapConfiguration _configuration;
+        private IAppConfig _configuration;
         private ServiceRegistry _services;
         private Task _sceneShutdownTask;
         private bool _destroying;
@@ -35,9 +34,13 @@ namespace PequenoExplorador.Bootstrap
             ? ApplicationState.Created
             : _services.Host.State;
 
-        public ApplicationEnvironment Environment => _configuration == null
-            ? ApplicationEnvironment.Release
-            : _configuration.Environment;
+        public BuildProfile Profile => _configuration == null
+            ? BuildProfile.Unknown
+            : _configuration.Profile;
+
+        public string ConfiguredProductName => _configuration?.ProductName ?? string.Empty;
+
+        public string ConfiguredAppVersion => _configuration?.AppVersion ?? string.Empty;
 
         public string StatusText => _statusView == null ? string.Empty : _statusView.CurrentStatus;
 
@@ -64,9 +67,11 @@ namespace PequenoExplorador.Bootstrap
             _configuration = BuildProfileConfiguration.Resolve();
             _services = new ServiceRegistry(_configuration);
             _lifetimeCancellation = new CancellationTokenSource();
-            _statusView.SetDevelopmentDiagnosticsVisible(_configuration.DevelopmentDiagnosticsEnabled);
+            _statusView.ConfigureProduct(_configuration);
+            bool diagnosticsEnabled = _configuration.Features.IsEnabled(FeatureFlag.DevelopmentDiagnostics);
+            _statusView.SetDevelopmentDiagnosticsVisible(diagnosticsEnabled);
             _statusView.ShowInitializing();
-            _sceneFlowView.Bind(_services.Context.SceneFlow, _configuration.DevelopmentDiagnosticsEnabled);
+            _sceneFlowView.Bind(_services.Context.SceneFlow, diagnosticsEnabled);
             _sceneFlowView.EnterJungleRequested += EnterJungle;
             _sceneFlowView.ReturnCampRequested += ReturnCamp;
             _sceneFlowView.RetryRequested += RetrySceneTransition;
@@ -195,7 +200,10 @@ namespace PequenoExplorador.Bootstrap
         private void SimulateNextSceneFailure()
         {
 #if UNITY_EDITOR || PE_DEVELOPMENT_SERVICES
-            SimulateNextSceneFailureForDevelopment();
+            if (_configuration.Features.IsEnabled(FeatureFlag.SimulatedSceneFailure))
+            {
+                SimulateNextSceneFailureForDevelopment();
+            }
 #endif
         }
 
@@ -242,6 +250,13 @@ namespace PequenoExplorador.Bootstrap
 #if UNITY_EDITOR || PE_DEVELOPMENT_SERVICES
         public void SimulateNextSceneFailureForDevelopment()
         {
+            if (_configuration == null ||
+                !_configuration.Features.IsEnabled(FeatureFlag.SimulatedSceneFailure))
+            {
+                throw new InvalidOperationException(
+                    "Simulated scene failure is disabled by the active build profile.");
+            }
+
             _services.SceneFailure.FailNextLoad();
         }
 #endif

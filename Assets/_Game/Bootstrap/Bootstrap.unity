@@ -830,6 +830,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.Presentation::PequenoExplorador.Presentation.Bootstrap.BootstrapStatusView
   _statusText: {fileID: 1332547661}
+  _productNameText: {fileID: 1595221544}
+  _appVersionText: {fileID: 2017206366}
   _developmentOnlyObjects:
   - {fileID: 1595221542}
   - {fileID: 2017206364}

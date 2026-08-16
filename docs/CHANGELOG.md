@@ -2,6 +2,32 @@
 
 Todos los cambios notables de ingeniería se registran aquí. La versión técnica de desarrollo es `0.1.0-dev`; no representa un release comercial.
 
+## Prompt 10 — configuración runtime local — 2026-08-16
+
+### Added
+
+- `IAppConfig`/`IFeatureFlags`, IDs estables y defaults tipados en Application; dos ScriptableObjects locales Development/Release y mapping/catálogo en Content.
+- Loader único Bootstrap, override disposable solo Editor, validador Editor/CLI y guardrails que rechazan todo flag Release.
+- Tests de defaults, mapping, budgets, duplicados, seis flags inseguros, perfil PlayMode y fallo real `CONFIG008`.
+
+### Changed
+
+- Seed, producto/versión, timeout scene flow, debounce autosave y selección de diagnóstico/mocks/fallo simulado dejaron de estar hardcodeados en Bootstrap.
+- Build Release valida configuración antes de conservar su bloqueo de signing; build-time, Addressables y preferencias Save permanecen separados.
+- La referencia Editor→Application/Content se hizo explícita; usos de `UnityEngine.Application` quedaron calificados para evitar colisión de namespace.
+
+### Verified
+
+- Primer compile incremental `FAIL` por colisión del namespace `Application`; corrección explícita y repetición `PASS`. No se ocultó el intento.
+- Fixture controlada Release+`MockAds`: `scripts/compile` devolvió `2` con `CONFIG008`; asset restaurado y pipeline final `PASS`.
+- `scripts/validate` código `0` en 3:27.34: repository/config checks, compile, Addressables local, EditMode `57/57`, PlayMode `5/5` y APK Development.
+- APK `60,310,101` bytes, SHA-256 `2c47d85cfe271bc8dde71979779dd7f36d45d09ce8746806a3505de43f9d3b80`, API 26/36, IL2CPP/ARM64; sin permisos sensibles/`AD_ID`.
+- Release unsigned validó perfiles/local-only y devolvió el código esperado `3` por signing. Dispositivo Android `NOT RUN` por `adb devices` vacío.
+
+### Not added
+
+- No remote config, red, secretos, gameplay, tuning ficticio, paquete, SDK, permiso, signing, push o publicación.
+
 ## Catálogo maestro de prompts — 2026-08-16
 
 ### Added

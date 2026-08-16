@@ -1,5 +1,6 @@
 using System;
 using PequenoExplorador.Application;
+using PequenoExplorador.Application.Configuration;
 using PequenoExplorador.Application.Lifecycle;
 using PequenoExplorador.Application.Logging;
 using PequenoExplorador.Application.Messaging;
@@ -23,11 +24,19 @@ namespace PequenoExplorador.Bootstrap
     {
         private readonly IDisposable _fileStoreLifetime;
 
-        public ServiceRegistry(BootstrapConfiguration configuration, IFileStore fileStore = null)
+        public ServiceRegistry(IAppConfig configuration, IFileStore fileStore = null)
         {
             if (configuration == null)
             {
                 throw new ArgumentNullException(nameof(configuration));
+            }
+
+            var configViolations = AppConfigValidator.Validate(configuration);
+            if (configViolations.Count > 0)
+            {
+                throw new ArgumentException(
+                    "Runtime AppConfig is invalid:\n" + string.Join("\n", configViolations),
+                    nameof(configuration));
             }
 
             IAppLogger logger = new UnityStructuredLogger();
@@ -39,7 +48,7 @@ namespace PequenoExplorador.Bootstrap
             _fileStoreLifetime = resolvedFileStore as IDisposable;
             ISaveService save = new LocalSaveService(
                 resolvedFileStore,
-                DiagnosticBootstrap.DevelopmentVersion,
+                configuration.AppVersion,
                 logger,
                 new ISaveMigration[] { new LegacyV0ToV1Migration() });
             IAnalyticsService analytics = new NullAnalyticsService();
@@ -54,21 +63,17 @@ namespace PequenoExplorador.Bootstrap
             ISceneFlowService sceneFlow = new SceneFlowService(
                 sceneLoader,
                 logger,
-                TimeSpan.FromSeconds(20));
+                configuration.SceneTransitionTimeout);
 
 #if UNITY_EDITOR || PE_DEVELOPMENT_SERVICES
-            if (configuration.Environment == ApplicationEnvironment.Development)
-            {
-                ads = new MockAdsService();
-                purchases = new MockPurchaseService();
-            }
-            else
-            {
-                ads = new NoAdsService();
-                purchases = new UnavailablePurchaseService();
-            }
+            ads = configuration.Features.IsEnabled(FeatureFlag.MockAds)
+                ? new MockAdsService()
+                : new NoAdsService();
+            purchases = configuration.Features.IsEnabled(FeatureFlag.MockPurchases)
+                ? new MockPurchaseService()
+                : new UnavailablePurchaseService();
 #else
-            if (configuration.Environment == ApplicationEnvironment.Development)
+            if (configuration.Profile == BuildProfile.Development)
             {
                 throw new InvalidOperationException("Development service profile is not compiled into Release players.");
             }
@@ -78,7 +83,7 @@ namespace PequenoExplorador.Bootstrap
 #endif
 
             Context = new ApplicationContext(
-                configuration.Environment,
+                configuration,
                 clock,
                 random,
                 logger,
@@ -98,7 +103,7 @@ namespace PequenoExplorador.Bootstrap
                     purchases
                 },
                 logger);
-            SaveCoordinator = new AutosaveCoordinator(save, logger, TimeSpan.FromMilliseconds(500));
+            SaveCoordinator = new AutosaveCoordinator(save, logger, configuration.AutosaveDebounce);
         }
 
         public ApplicationContext Context { get; }

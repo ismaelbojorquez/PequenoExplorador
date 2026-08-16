@@ -15,9 +15,9 @@ namespace PequenoExplorador.Editor.BuildTools
             var report = new EnvironmentReport
             {
                 generatedUtc = DateTime.UtcNow.ToString("O"),
-                unityVersion = Application.unityVersion,
+                unityVersion = UnityEngine.Application.unityVersion,
                 operatingSystem = SystemInfo.operatingSystem,
-                batchMode = Application.isBatchMode,
+                batchMode = UnityEngine.Application.isBatchMode,
                 directPackages = UnityEditor.PackageManager.PackageInfo.GetAllRegisteredPackages()
                     .Where(package => package.isDirectDependency)
                     .OrderBy(package => package.name, StringComparer.Ordinal)
@@ -35,7 +35,7 @@ namespace PequenoExplorador.Editor.BuildTools
             var manifest = new AndroidBuildManifest
             {
                 generatedUtc = DateTime.UtcNow.ToString("O"),
-                unityVersion = Application.unityVersion,
+                unityVersion = UnityEngine.Application.unityVersion,
                 gitCommit = CommandLineArguments.Read("-gitCommit") ?? "unknown",
                 profile = "Development",
                 artifact = BuildArtifactPaths.RelativeToProject(buildPath),
@@ -79,7 +79,7 @@ namespace PequenoExplorador.Editor.BuildTools
             WriteJson(path, new AddressablesBuildManifest
             {
                 generatedUtc = DateTime.UtcNow.ToString("O"),
-                unityVersion = Application.unityVersion,
+                unityVersion = UnityEngine.Application.unityVersion,
                 packageVersion = "4.0.1",
                 profile = profile,
                 target = EditorUserBuildSettings.activeBuildTarget.ToString(),

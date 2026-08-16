@@ -69,6 +69,15 @@ Fase 04 fija nueve asmdefs: seis runtime, Editor y dos suites. La tabla y grafo 
 - IDs son estables y únicos; referencias rotas, duplicados, claims sin aprobación o placeholders inválidos bloquean validación.
 - Hechos educativos siguen [`CONTENT_SOURCES.md`](CONTENT_SOURCES.md).
 
+## Configuración runtime
+
+- `AppConfigAsset` vive en Content; Bootstrap carga/mapea exactamente un perfil tipado y Application solo recibe `IAppConfig`/`IFeatureFlags` readonly.
+- Build-time (target/API/signing), content-time (Addressables/claims) y preferencias adultas (Save) no se duplican dentro de AppConfig.
+- IDs de perfiles/flags son enums con valores explícitos. No crear lookup por strings, diccionario global mutable ni flags sin owner/consumidor real.
+- Release usa cero flags y el validador bloquea diagnóstico, mocks, simulación, cheats y bypass parental antes de build. El define Development sigue excluyendo concretos mock del player Release.
+- No remote config, endpoint, segmentación infantil ni fallback silencioso. Missing/duplicate/invalid config es error accionable de import/build.
+- El loader `Resources` local es exclusivo de Bootstrap y su path es constante; ninguna feature o adapter puede cargar configuración por su cuenta.
+
 ## Addressables, save y plataforma
 
 - Addressables es local-first; catálogo remoto, actualización y descarga quedan deshabilitados en MVP. Las claves son constantes/IDs validados, no strings dispersos.

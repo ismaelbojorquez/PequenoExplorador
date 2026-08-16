@@ -2,6 +2,8 @@
 
 El roadmap conserva el MVP Selva. Una fase no está aprobada por existir en esta tabla: necesita preflight, evidencia, documentación y commit propios. Los gates son decisiones de continuar; no fechas prometidas.
 
+La numeración del catálogo maestro de prompts es una cadena operativa posterior y no renumera esta tabla histórica. En particular, **Prompt 10 (configuración runtime)** endurece la foundation, pero no completa **Fase 10 (audio)**. `STATUS.md` registra el mapeo y siguiente acción en cada incremento.
+
 ## Gates
 
 | Gate | Fases | Criterio de salida |

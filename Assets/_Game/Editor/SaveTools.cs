@@ -54,7 +54,7 @@ namespace PequenoExplorador.Editor
 
         private static string GetSaveDirectory()
         {
-            return Path.Combine(Application.persistentDataPath, "Save");
+            return Path.Combine(UnityEngine.Application.persistentDataPath, "Save");
         }
 
         private static void DeleteIfPresent(string path)

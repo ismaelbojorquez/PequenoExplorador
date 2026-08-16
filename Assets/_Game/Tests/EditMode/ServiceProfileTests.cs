@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using PequenoExplorador.Application;
+using PequenoExplorador.Application.Configuration;
 using PequenoExplorador.Application.Services;
 using PequenoExplorador.Application.Save;
 using PequenoExplorador.Bootstrap;
@@ -22,7 +23,7 @@ namespace PequenoExplorador.Tests.EditMode
         public async Task DevelopmentUsesOnlyLocalNullAndMockServices()
         {
             using var registry = new ServiceRegistry(
-                new BootstrapConfiguration(ApplicationEnvironment.Development, 42),
+                AppConfigDefaults.Create(BuildProfile.Development),
                 new InMemoryFileStore());
 
             await registry.Host.InitializeAsync(CancellationToken.None);
@@ -45,7 +46,7 @@ namespace PequenoExplorador.Tests.EditMode
         [Test]
         public async Task ReleaseIsFailClosedAndContainsNoSimulatorSelection()
         {
-            var configuration = new BootstrapConfiguration(ApplicationEnvironment.Release, 42);
+            IAppConfig configuration = AppConfigDefaults.Create(BuildProfile.Release);
             using var registry = new ServiceRegistry(configuration, new InMemoryFileStore());
 
             await registry.Host.InitializeAsync(CancellationToken.None);
@@ -56,7 +57,7 @@ namespace PequenoExplorador.Tests.EditMode
                 "IgnoredProduct",
                 CancellationToken.None);
 
-            Assert.That(configuration.DevelopmentDiagnosticsEnabled, Is.False);
+            Assert.That(configuration.Features.Enabled, Is.Empty);
             Assert.That(registry.Context.Analytics, Is.TypeOf<NullAnalyticsService>());
             Assert.That(registry.Context.Ads, Is.TypeOf<NoAdsService>());
             Assert.That(registry.Context.Purchases, Is.TypeOf<UnavailablePurchaseService>());
@@ -70,13 +71,13 @@ namespace PequenoExplorador.Tests.EditMode
             DateTimeOffset expected = new DateTimeOffset(2026, 8, 14, 12, 0, 0, TimeSpan.Zero);
             var manualClock = new ManualClock(expected);
             using var first = new ServiceRegistry(
-                new BootstrapConfiguration(ApplicationEnvironment.Release, 1234),
+                CreateConfig(BuildProfile.Release, 1234),
                 new InMemoryFileStore());
             using var second = new ServiceRegistry(
-                new BootstrapConfiguration(ApplicationEnvironment.Release, 1234),
+                CreateConfig(BuildProfile.Release, 1234),
                 new InMemoryFileStore());
             var context = new ApplicationContext(
-                ApplicationEnvironment.Release,
+                CreateConfig(BuildProfile.Release, 1234),
                 manualClock,
                 first.Context.Random,
                 first.Context.Logger,
@@ -95,7 +96,7 @@ namespace PequenoExplorador.Tests.EditMode
         public void RegistryDeclaresTheOnlyAuthorizedInitializationOrder()
         {
             using var registry = new ServiceRegistry(
-                new BootstrapConfiguration(ApplicationEnvironment.Release, 1),
+                CreateConfig(BuildProfile.Release, 1),
                 new InMemoryFileStore());
 
             Assert.That(registry.Host.ServiceOrder, Is.EqualTo(new[]
@@ -114,6 +115,19 @@ namespace PequenoExplorador.Tests.EditMode
             string symbols = PlayerSettings.GetScriptingDefineSymbols(NamedBuildTarget.Android);
 
             Assert.That(symbols.Split(';'), Does.Not.Contain("PE_DEVELOPMENT_SERVICES"));
+        }
+
+        private static IAppConfig CreateConfig(BuildProfile profile, int seed)
+        {
+            IAppConfig defaults = AppConfigDefaults.Create(profile);
+            return new AppConfig(
+                profile,
+                defaults.ProductName,
+                defaults.AppVersion,
+                seed,
+                defaults.SceneTransitionTimeout,
+                defaults.AutosaveDebounce,
+                defaults.Features);
         }
     }
 }

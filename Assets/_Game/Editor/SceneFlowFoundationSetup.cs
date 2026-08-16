@@ -42,7 +42,7 @@ namespace PequenoExplorador.Editor
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
                 Debug.Log("PE_SCENE_FLOW_SETUP_OK profiles=LocalDevelopment,LocalRelease groups=SharedLocal,JungleLocal remote=false");
-                if (Application.isBatchMode)
+                if (UnityEngine.Application.isBatchMode)
                 {
                     EditorApplication.Exit(0);
                 }
@@ -50,7 +50,7 @@ namespace PequenoExplorador.Editor
             catch (Exception exception)
             {
                 Debug.LogException(exception);
-                if (Application.isBatchMode)
+                if (UnityEngine.Application.isBatchMode)
                 {
                     EditorApplication.Exit(2);
                 }

@@ -2,7 +2,9 @@
   "name": "PequenoExplorador.Editor",
   "rootNamespace": "PequenoExplorador.Editor",
   "references": [
+    "PequenoExplorador.Application",
     "PequenoExplorador.Bootstrap",
+    "PequenoExplorador.Content",
     "PequenoExplorador.Infrastructure",
     "PequenoExplorador.Presentation",
     "Unity.Addressables.Editor",

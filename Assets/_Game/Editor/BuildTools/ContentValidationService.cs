@@ -10,13 +10,14 @@ namespace PequenoExplorador.Editor.BuildTools
     {
         public static IReadOnlyList<string> Validate()
         {
-            string directory = Path.Combine(Application.dataPath, "_Game", "Content", "Placeholders");
+            var violations = new List<string>();
+            violations.AddRange(RuntimeConfigurationValidationService.Validate());
+            string directory = Path.Combine(UnityEngine.Application.dataPath, "_Game", "Content", "Placeholders");
             if (!Directory.Exists(directory))
             {
-                return Array.Empty<string>();
+                return violations;
             }
 
-            var violations = new List<string>();
             foreach (string path in Directory.GetFiles(directory, "*.placeholder.json", SearchOption.AllDirectories)
                          .OrderBy(value => value, StringComparer.Ordinal))
             {
@@ -60,7 +61,7 @@ namespace PequenoExplorador.Editor.BuildTools
 
         private static string AssetPath(string path)
         {
-            return "Assets" + path.Substring(Application.dataPath.Length).Replace(Path.DirectorySeparatorChar, '/');
+            return "Assets" + path.Substring(UnityEngine.Application.dataPath.Length).Replace(Path.DirectorySeparatorChar, '/');
         }
 
         [Serializable]

@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using PequenoExplorador.Application;
+using PequenoExplorador.Application.Configuration;
 using PequenoExplorador.Application.Lifecycle;
 using PequenoExplorador.Application.SceneFlow;
 using PequenoExplorador.Bootstrap;
@@ -30,7 +31,9 @@ namespace PequenoExplorador.Tests.PlayMode
             Assert.That(diagnostic.gameObject.activeInHierarchy, Is.True);
             Assert.That(diagnostic.gameObject.name, Is.EqualTo(DiagnosticBootstrap.PlaceholderObjectName));
             Assert.That(diagnostic.State, Is.EqualTo(ApplicationState.Ready));
-            Assert.That(diagnostic.Environment, Is.EqualTo(ApplicationEnvironment.Development));
+            Assert.That(diagnostic.Profile, Is.EqualTo(BuildProfile.Development));
+            Assert.That(diagnostic.ConfiguredProductName, Is.EqualTo(AppConfigDefaults.ProductName));
+            Assert.That(diagnostic.ConfiguredAppVersion, Is.EqualTo(AppConfigDefaults.DevelopmentAppVersion));
             Assert.That(diagnostic.StatusText, Is.EqualTo("Ready"));
         }
 

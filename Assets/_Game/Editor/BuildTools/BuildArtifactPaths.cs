@@ -6,7 +6,7 @@ namespace PequenoExplorador.Editor.BuildTools
 {
     internal static class BuildArtifactPaths
     {
-        public static string ProjectRoot => Path.GetFullPath(Path.Combine(Application.dataPath, ".."));
+        public static string ProjectRoot => Path.GetFullPath(Path.Combine(UnityEngine.Application.dataPath, ".."));
 
         public static string ArtifactsRoot
         {

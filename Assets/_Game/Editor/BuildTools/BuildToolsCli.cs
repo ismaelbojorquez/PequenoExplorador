@@ -24,6 +24,21 @@ namespace PequenoExplorador.Editor.BuildTools
             Run(ValidateContentInternal);
         }
 
+        public static void ValidateRuntimeConfiguration()
+        {
+            Run(() =>
+            {
+                IReadOnlyList<string> violations = RuntimeConfigurationValidationService.Validate();
+                if (violations.Count > 0)
+                {
+                    throw new InvalidOperationException(
+                        "Runtime configuration validation failed:\n" + string.Join("\n", violations));
+                }
+
+                Debug.Log("PE_RUNTIME_CONFIG_OK profiles=2 remote=false releaseUnsafeFlags=0");
+            });
+        }
+
         public static void BuildAddressablesLocal()
         {
             Run(() =>
@@ -49,11 +64,22 @@ namespace PequenoExplorador.Editor.BuildTools
 
         public static void BuildAndroidRelease()
         {
-            const string reason =
-                "PE_RELEASE_SIGNING_REQUIRED: Release is intentionally blocked until an authorized human supplies external signing and approves bundle identity.";
-            ArtifactReportWriter.WriteReleaseBlockedReport(reason);
-            Debug.LogError(reason);
-            EditorApplication.Exit(3);
+            try
+            {
+                ValidateBoundaries();
+                ValidateContentInternal();
+                ValidateAddressablesInternal();
+                const string reason =
+                    "PE_RELEASE_SIGNING_REQUIRED: Release is intentionally blocked until an authorized human supplies external signing and approves bundle identity.";
+                ArtifactReportWriter.WriteReleaseBlockedReport(reason);
+                Debug.LogError(reason);
+                EditorApplication.Exit(3);
+            }
+            catch (Exception exception)
+            {
+                Debug.LogException(exception);
+                EditorApplication.Exit(2);
+            }
         }
 
         private static void ValidateBoundaries()
@@ -79,6 +105,7 @@ namespace PequenoExplorador.Editor.BuildTools
             }
 
             Debug.Log("PE_CONTENT_VALIDATION_OK");
+            Debug.Log("PE_RUNTIME_CONFIG_OK profiles=2 remote=false releaseUnsafeFlags=0");
         }
 
         private static void ValidateAddressablesInternal()

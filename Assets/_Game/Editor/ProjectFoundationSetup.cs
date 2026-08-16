@@ -1,5 +1,6 @@
 using System;
 using PequenoExplorador.Bootstrap;
+using PequenoExplorador.Application.Configuration;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.SceneManagement;
@@ -88,7 +89,7 @@ namespace PequenoExplorador.Editor
         private static void ConfigureProject(RenderPipelineAsset pipeline)
         {
             PlayerSettings.companyName = "Placeholder Studio";
-            PlayerSettings.productName = DiagnosticBootstrap.ProductName;
+            PlayerSettings.productName = AppConfigDefaults.ProductName;
             PlayerSettings.bundleVersion = "0.1.0";
             PlayerSettings.colorSpace = ColorSpace.Linear;
             PlayerSettings.defaultInterfaceOrientation = UIOrientation.AutoRotation;
@@ -164,8 +165,8 @@ namespace PequenoExplorador.Editor
             panelObject.AddComponent<DiagnosticBootstrap>();
 
             Font font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
-            CreateText(panelObject.transform, "Product Name", DiagnosticBootstrap.ProductName, font, 62, new Vector2(0.08f, 0.52f), new Vector2(0.92f, 0.72f));
-            CreateText(panelObject.transform, "Development Version", DiagnosticBootstrap.DevelopmentVersion, font, 34, new Vector2(0.08f, 0.37f), new Vector2(0.92f, 0.50f));
+            CreateText(panelObject.transform, "Product Name", AppConfigDefaults.ProductName, font, 62, new Vector2(0.08f, 0.52f), new Vector2(0.92f, 0.72f));
+            CreateText(panelObject.transform, "Development Version", AppConfigDefaults.DevelopmentAppVersion, font, 34, new Vector2(0.08f, 0.37f), new Vector2(0.92f, 0.50f));
             CreateText(panelObject.transform, "Temporary Notice", "DIAGNÓSTICO TEMPORAL · SIN GAMEPLAY", font, 24, new Vector2(0.08f, 0.20f), new Vector2(0.92f, 0.32f));
 
             if (!EditorSceneManager.SaveScene(scene, BootstrapScenePath))

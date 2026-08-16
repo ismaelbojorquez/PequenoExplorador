@@ -62,6 +62,7 @@ scripts/build-android-release  # fallo esperado: signing externo requerido
 | Solo documentación | UTF-8/Markdown, enlaces relativos, contradicciones, `git diff --check`, prueba de reanudación si afecta instrucciones. |
 | Domain/Application | Compile + EditMode/unit tests afectados y regresión; verificar ausencia de `UnityEngine` en Domain. |
 | Presentation/Content | Compile + EditMode y PlayMode/escena relevantes; validación de authoring/placeholders. |
+| AppConfig/perfiles | Validar ambos assets, mapping/rangos/duplicados, flags Release, override Editor, PlayMode del perfil seleccionado y ambos paths de build/guard. |
 | Save/Infrastructure | Tests de round-trip, versión, migración, corrupción, cancelación/interrupción y PII. |
 | Dependencia/SDK/permisos | Intake completo, diff de manifests/permisos/tráfico, licencia/SBOM, 16 KB y revisión infantil. |
 | Android/iOS/build | Target/configuración/hash del artefacto, warnings, arquitectura, tamaño y prueba de dispositivo aplicable. |

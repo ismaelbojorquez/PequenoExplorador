@@ -1,6 +1,7 @@
 using System.Linq;
 using NUnit.Framework;
 using PequenoExplorador.Bootstrap;
+using PequenoExplorador.Application.Configuration;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -22,8 +23,6 @@ namespace PequenoExplorador.Tests.EditMode
             Assert.That(diagnostic, Is.Not.Null, "Temporary diagnostic marker is missing.");
             Assert.That(diagnostic.gameObject.name, Is.EqualTo(DiagnosticBootstrap.PlaceholderObjectName));
             Assert.That(mainCamera, Is.Not.Null, "Bootstrap scene requires one tagged camera.");
-            Assert.That(DiagnosticBootstrap.ProductName, Is.EqualTo("Pequeño Explorador: Aprende Jugando"));
-            Assert.That(DiagnosticBootstrap.DevelopmentVersion, Does.EndWith("-dev"));
             var serializedBootstrap = new SerializedObject(diagnostic);
             Assert.That(
                 serializedBootstrap.FindProperty("_statusView").objectReferenceValue,
@@ -33,6 +32,11 @@ namespace PequenoExplorador.Tests.EditMode
                 serializedBootstrap.FindProperty("_sceneFlowView").objectReferenceValue,
                 Is.Not.Null,
                 "SceneTransitionView must be explicitly wired by the composition root scene.");
+            var serializedStatus = new SerializedObject(
+                serializedBootstrap.FindProperty("_statusView").objectReferenceValue);
+            Assert.That(serializedStatus.FindProperty("_productNameText").objectReferenceValue, Is.Not.Null);
+            Assert.That(serializedStatus.FindProperty("_appVersionText").objectReferenceValue, Is.Not.Null);
+            Assert.That(AppConfigDefaults.ProductName, Is.EqualTo("Pequeño Explorador: Aprende Jugando"));
         }
 
         [Test]

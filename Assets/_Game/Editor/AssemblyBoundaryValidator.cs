@@ -87,7 +87,9 @@ namespace PequenoExplorador.Editor
                 },
                 ["PequenoExplorador.Editor"] = new[]
                 {
+                    "PequenoExplorador.Application",
                     "PequenoExplorador.Bootstrap",
+                    "PequenoExplorador.Content",
                     "PequenoExplorador.Infrastructure",
                     "PequenoExplorador.Presentation",
                     "Unity.Addressables.Editor",
@@ -98,6 +100,7 @@ namespace PequenoExplorador.Editor
                 {
                     "PequenoExplorador.Application",
                     "PequenoExplorador.Bootstrap",
+                    "PequenoExplorador.Content",
                     "PequenoExplorador.Domain",
                     "PequenoExplorador.Editor",
                     "PequenoExplorador.Infrastructure",
@@ -273,7 +276,7 @@ namespace PequenoExplorador.Editor
     {
         public static IReadOnlyList<AssemblyDefinitionSnapshot> LoadProjectDefinitions()
         {
-            string assetsRoot = Application.dataPath;
+            string assetsRoot = UnityEngine.Application.dataPath;
             return Directory.GetFiles(assetsRoot, "*.asmdef", SearchOption.AllDirectories)
                 .OrderBy(path => path, StringComparer.Ordinal)
                 .Select(path => Load(path, assetsRoot))
