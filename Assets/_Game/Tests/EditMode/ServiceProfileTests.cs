@@ -85,6 +85,9 @@ namespace PequenoExplorador.Tests.EditMode
                 first.Context.Save,
                 first.Context.Localization,
                 first.Context.Audio,
+                first.Context.Input,
+                first.Context.SafeArea,
+                first.Context.Haptics,
                 first.Context.Analytics,
                 first.Context.Ads,
                 first.Context.Purchases,
@@ -104,6 +107,9 @@ namespace PequenoExplorador.Tests.EditMode
             Assert.That(registry.Host.ServiceOrder, Is.EqualTo(new[]
             {
                 "MessageBus",
+                "Input",
+                "SafeArea",
+                "Haptics",
                 "Save",
                 "Localization",
                 "Audio",

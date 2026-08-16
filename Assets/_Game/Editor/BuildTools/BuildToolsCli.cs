@@ -14,6 +14,7 @@ namespace PequenoExplorador.Editor.BuildTools
                 ValidateBoundaries();
                 ValidateContentInternal();
                 ValidateAddressablesInternal();
+                ValidateInputInternal();
                 ArtifactReportWriter.WriteEnvironmentReport();
                 Debug.Log("PE_COMPILE_OK");
             });
@@ -76,6 +77,7 @@ namespace PequenoExplorador.Editor.BuildTools
                 ValidateBoundaries();
                 ValidateContentInternal();
                 ValidateAddressablesInternal();
+                ValidateInputInternal();
                 LocalAddressablesBuildService.BuildDevelopment();
             });
         }
@@ -87,6 +89,7 @@ namespace PequenoExplorador.Editor.BuildTools
                 ValidateBoundaries();
                 ValidateContentInternal();
                 ValidateAddressablesInternal();
+                ValidateInputInternal();
                 LocalAddressablesBuildService.BuildDevelopment();
                 AndroidBuildService.BuildDevelopment();
             });
@@ -99,6 +102,7 @@ namespace PequenoExplorador.Editor.BuildTools
                 ValidateBoundaries();
                 ValidateContentInternal();
                 ValidateAddressablesInternal();
+                ValidateInputInternal();
                 const string reason =
                     "PE_RELEASE_SIGNING_REQUIRED: Release is intentionally blocked until an authorized human supplies external signing and approves bundle identity.";
                 ArtifactReportWriter.WriteReleaseBlockedReport(reason);
@@ -151,6 +155,14 @@ namespace PequenoExplorador.Editor.BuildTools
             }
 
             Debug.Log("PE_LOCAL_ADDRESSABLES_OK profiles=2 sceneGroups=2 localizationGroups=6 remote=false");
+        }
+
+        private static void ValidateInputInternal()
+        {
+            IReadOnlyList<string> violations = InputFoundationValidationService.Validate();
+            if (violations.Count > 0)
+                throw new InvalidOperationException("Input foundation validation failed:\n" + string.Join("\n", violations));
+            Debug.Log("PE_INPUT_FOUNDATION_OK package=1.20.0 maps=5 safeArea=central legacy=0 haptics=noop");
         }
 
         private static void Run(Action action)

@@ -15,6 +15,7 @@ Estado: foundation, scene flow local, persistencia schema v3, localización ES/E
 | Persistencia | [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md) | Schema, archivos, migración, atomicidad, privacidad y recovery. |
 | Configuración runtime | [`RUNTIME_CONFIGURATION.md`](RUNTIME_CONFIGURATION.md) | Perfiles/flags locales, autoridades, mapping y guardrails Release. |
 | Localización | [`17_LOCALIZATION.md`](17_LOCALIZATION.md) | Locales ES/EN, pseudo Development, keys/tablas, fallback, CSV y validación. |
+| Input y adaptación | [`INPUT_ACCESSIBILITY.md`](INPUT_ACCESSIBILITY.md) | Mapas semánticos, gestos, safe area, Back, haptics, ratios y límites de hardware. |
 | Cadena de prompts | [`prompts/00_MASTER_CODEX_PROMPTS.md`](prompts/00_MASTER_CODEX_PROMPTS.md) | Catálogo ejecutable 00–57; `STATUS.md` decide el siguiente prompt y los Gates impiden saltos. |
 | Decisiones | [`DECISIONS.md`](DECISIONS.md) | Separa decisiones técnicas/producto de pendientes humanos. |
 | Estado operativo | [`STATUS.md`](STATUS.md) | Fase/Gate, capacidades, plan activo, bloqueos y siguiente acción. |
@@ -53,6 +54,7 @@ Los saltos numéricos reservan espacio para documentos técnicos futuros; no imp
 - [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md): schema v3, DTOs, checksum, backup, migraciones, autosave y recuperación.
 - [`17_LOCALIZATION.md`](17_LOCALIZATION.md): paquete exacto, ES/EN, pseudo, tablas/keys y pipeline CSV local.
 - [`RUNTIME_CONFIGURATION.md`](RUNTIME_CONFIGURATION.md): AppConfig Development/Release, flags tipados y validación build.
+- [`INPUT_ACCESSIBILITY.md`](INPUT_ACCESSIBILITY.md): Input System `1.20.0`, action maps, gestures, safe area, haptics y device harness.
 - [`20_ANDROID_RELEASE.md`](20_ANDROID_RELEASE.md): build Android actual y bloqueo de Release.
 - [`ANDROID_RELEASE.md`](ANDROID_RELEASE.md): evidencia histórica de smoke F03/F04.
 - [`GITHUB_SETUP.md`](GITHUB_SETUP.md): remoto, protección, runner/licencia y secrets como pasos humanos.
@@ -76,6 +78,7 @@ Los saltos numéricos reservan espacio para documentos técnicos futuros; no imp
 - [`PHASE_09_PREFLIGHT.md`](PHASE_09_PREFLIGHT.md)
 - [`PHASE_10_PREFLIGHT.md`](PHASE_10_PREFLIGHT.md)
 - [`PHASE_11_PREFLIGHT.md`](PHASE_11_PREFLIGHT.md)
+- [`PHASE_13_PREFLIGHT.md`](PHASE_13_PREFLIGHT.md)
 
 ## Lectura obligatoria para el siguiente incremento
 

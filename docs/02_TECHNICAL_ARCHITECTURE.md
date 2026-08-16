@@ -1,6 +1,6 @@
 # Arquitectura técnica — fronteras modulares
 
-Estado: fronteras F04, composition root F06, scene flow local, persistencia schema v3, localización ES/EN y framework de audio localizado implementados. No define APIs de gameplay. `Bootstrap` persiste y entra a Camp placeholder.
+Estado: fronteras F04, composition root F06, scene flow local, persistencia schema v3, localización ES/EN, audio localizado e input/adaptación móvil implementados. No define APIs de gameplay. `Bootstrap` persiste y entra a Camp placeholder.
 
 ## Grafo real de assemblies
 
@@ -19,7 +19,8 @@ PequenoExplorador.Infrastructure
 ├─ Domain
 ├─ Unity.Addressables
 ├─ Unity.ResourceManager
-└─ Unity.Localization
+├─ Unity.Localization
+└─ Unity.InputSystem
 
 PequenoExplorador.Presentation
 └─ Application
@@ -45,13 +46,15 @@ PequenoExplorador.Tests.EditMode [Editor only]
 ├─ Editor
 ├─ Infrastructure
 ├─ Presentation
-└─ Unity.Localization / Unity.Localization.Editor
+├─ Unity.Localization / Unity.Localization.Editor
+└─ Unity.InputSystem
 
 PequenoExplorador.Tests.PlayMode
 ├─ Application
 ├─ Bootstrap
 ├─ Domain
-└─ Infrastructure
+├─ Infrastructure / Presentation
+└─ Unity.InputSystem / Unity.InputSystem.TestFramework
 ```
 
 Son nueve assemblies de proyecto. Las suites reciben NUnit/TestRunner mediante `optionalUnityReferences: TestAssemblies`; no usan `overrideReferences`. Las dependencias implícitas de Unity solo están disponibles donde `noEngineReferences=false`.
@@ -83,6 +86,7 @@ DiagnosticBootstrap (Unity lifecycle)
       │   ├─ IAppConfig / IFeatureFlags
       │   ├─ IClock / IRandomSource / IAppLogger
       │   ├─ IMessageBus
+      │   ├─ IInputService / ISafeAreaService / IHapticsService
       │   ├─ ISaveService → IFileStore
       │   ├─ ILocalizationService → Unity Localization
       │   ├─ IAnalyticsService
@@ -90,8 +94,8 @@ DiagnosticBootstrap (Unity lifecycle)
       │   ├─ IPurchaseService
       │   └─ ISceneFlowService → ISceneContentLoader
       └─ ApplicationHost
-          initialize: MessageBus → Save → Localization → Audio → Analytics → Ads → Purchases
-          shutdown:  Purchases → Ads → Analytics → Audio → Localization → Save → MessageBus
+          initialize: MessageBus → Input → SafeArea → Haptics → Save → Localization → Audio → Analytics → Ads → Purchases
+          shutdown:  Purchases → Ads → Analytics → Audio → Localization → Save → Haptics → SafeArea → Input → MessageBus
 ```
 
 `ApplicationHost.InitializeAsync` es secuencial, comparte la misma tarea ante llamadas concurrentes, acepta `CancellationToken`, permite retry después de fallo recuperable y hace cleanup inverso. `Shutdown`/`Dispose` son idempotentes; si llegan durante inicialización solicitan cancelación del host, impiden volver a `Ready` y limpian también el servicio que estaba inicializando. `AppContext` no es estático y no ofrece lookup; Bootstrap lo retiene para inyección explícita en futuras fachadas.
@@ -137,6 +141,10 @@ Presentation: play/replay/settings/subtitle
 
 Domain no conoce audio ni archivos. El root Bootstrap posee exactamente siete sources y un driver; Music/Ambience son exclusivos, Effects tiene pool fijo de cuatro y Voice serializa una cola de cuatro con prioridad. `LocaleChanged` afecta clip/subtítulo; pause/focus suspende, shutdown detiene loops, vacía cola/cooldown y limpia listeners. Faltantes devuelven `Missing` sin bloquear. Contrato/ledger: [`16_AUDIO.md`](16_AUDIO.md) y [`AUDIO_REQUIREMENTS.md`](AUDIO_REQUIREMENTS.md).
 
+### Input y adaptación móvil
+
+Application define `IInputService`, `ISafeAreaService` e `IHapticsService`; el clasificador de gestos es C# puro. Infrastructure concentra Input System/EnhancedTouch y `Screen.safeArea`; Presentation recibe intenciones y snapshots. Bootstrap selecciona `UI` para Camp/transición/pausa y `Explorer` para Expedition. `Photography`/`Parents` quedan preparados sin feature, mientras `Debug` es aditivo y Development-only. Haptics es no-op/desactivado. Contrato, thresholds, ratios y hardware pendiente: [`INPUT_ACCESSIBILITY.md`](INPUT_ACCESSIBILITY.md).
+
 ## Scene flow y contenido local
 
 ```text
@@ -167,6 +175,8 @@ El bus en memoria solo cubre fan-out acotado. `Subscribe<T>` devuelve `IDisposab
 | Save | Local schema v3 | Local schema v3; herramientas Editor excluidas |
 | Localization | ES/EN + pseudo y selector diagnóstico | ES/EN; pseudo/selector diagnóstico excluidos |
 | Audio | Mixer/cues PH_, panel y replay diagnóstico | Servicio local; panel oculto y placeholders bloquean Release de contenido |
+| Input/safe area | 5 mapas; Debug overlay local; presets de ratio | Mapas de producto, Debug deshabilitado; safe area local |
+| Haptics | No-op, off por defecto | No-op, off por defecto |
 | Clock/random | `SystemClock` + seed inyectado | Igual, sin estado remoto |
 | Logs/messages | Structured Unity + bus local | Igual, sin datos infantiles |
 

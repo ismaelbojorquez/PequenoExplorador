@@ -3,16 +3,22 @@ using System.Threading;
 using System.Threading.Tasks;
 using PequenoExplorador.Application;
 using PequenoExplorador.Application.Audio;
+using PequenoExplorador.Application.Accessibility;
 using PequenoExplorador.Application.Configuration;
 using PequenoExplorador.Application.Lifecycle;
 using PequenoExplorador.Application.Logging;
+using PequenoExplorador.Application.Input;
 using PequenoExplorador.Application.SceneFlow;
 using PequenoExplorador.Application.Save;
 using PequenoExplorador.Content.Audio;
+using PequenoExplorador.Content.Input;
+using PequenoExplorador.Presentation.Accessibility;
 using PequenoExplorador.Presentation.Audio;
 using PequenoExplorador.Presentation.Bootstrap;
+using PequenoExplorador.Presentation.Input;
 using PequenoExplorador.Presentation.SceneFlow;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using AudioSettingsModel = PequenoExplorador.Application.Audio.AudioSettings;
 
 namespace PequenoExplorador.Bootstrap
@@ -29,6 +35,12 @@ namespace PequenoExplorador.Bootstrap
         [SerializeField] private SceneTransitionView _sceneFlowView;
         [SerializeField] private AudioDiagnosticView _audioView;
         [SerializeField] private AudioCueCatalogAsset _audioCatalog;
+        [SerializeField] private InputActionAsset _inputActions;
+        [SerializeField] private GestureThresholdsAsset _gestureThresholds;
+        [SerializeField] private SafeAreaFitter[] _safeAreaFitters = Array.Empty<SafeAreaFitter>();
+        [SerializeField] private InputPauseView _pauseView;
+        [SerializeField] private TouchDiagnosticOverlay _touchOverlay;
+        [SerializeField] private DeviceAspectOverlay _aspectOverlay;
 
         private CancellationTokenSource _lifetimeCancellation;
         private IAppConfig _configuration;
@@ -38,6 +50,7 @@ namespace PequenoExplorador.Bootstrap
         private bool _applicationPaused;
         private bool _applicationFocused = true;
         private bool _diagnosticsEnabled;
+        private InputMapId _inputMapBeforePause = InputMapId.UI;
 
         public ApplicationState State => _services == null
             ? ApplicationState.Created
@@ -64,6 +77,10 @@ namespace PequenoExplorador.Bootstrap
             : _services.Context.Save.LastLoadResult;
 
         public IAudioService Audio => _services?.Context.Audio;
+        public IInputService Input => _services?.Context.Input;
+        public ISafeAreaService SafeArea => _services?.Context.SafeArea;
+        public IHapticsService Haptics => _services?.Context.Haptics;
+        public bool IsPauseVisible => _pauseView != null && _pauseView.IsVisible;
 
         private void Awake()
         {
@@ -81,13 +98,30 @@ namespace PequenoExplorador.Bootstrap
             {
                 throw new InvalidOperationException("Audio view and cue catalog must be wired in the Bootstrap scene.");
             }
+            if (_inputActions == null || _gestureThresholds == null || _pauseView == null ||
+                _touchOverlay == null || _aspectOverlay == null || _safeAreaFitters.Length == 0)
+            {
+                throw new InvalidOperationException("Input actions, thresholds, pause, overlays and safe-area fitters must be wired.");
+            }
 
             _configuration = BuildProfileConfiguration.Resolve();
-            _services = new ServiceRegistry(_configuration, gameObject, _audioCatalog);
+            _services = new ServiceRegistry(
+                _configuration,
+                gameObject,
+                _audioCatalog,
+                _inputActions,
+                _gestureThresholds);
             _lifetimeCancellation = new CancellationTokenSource();
             _statusView.BindLocalization(_services.Context.Localization);
             _statusView.ConfigureProduct(_configuration);
             _diagnosticsEnabled = _configuration.Features.IsEnabled(FeatureFlag.DevelopmentDiagnostics);
+            foreach (SafeAreaFitter fitter in _safeAreaFitters) fitter?.Bind(_services.Context.SafeArea);
+            _pauseView.Bind(_services.Context.Localization);
+            _pauseView.ResumeRequested += ResumeFromPause;
+            _touchOverlay.Bind(_services.Context.Input, _services.Context.SafeArea, _diagnosticsEnabled);
+            _aspectOverlay.Bind(_services.Context.SafeArea, _diagnosticsEnabled);
+            _services.Context.Input.BackRequested += HandleBackRequested;
+            _services.Context.SceneFlow.Changed += HandleSceneFlowChanged;
             _statusView.SetDevelopmentDiagnosticsVisible(_diagnosticsEnabled);
             _statusView.ShowInitializing();
             _sceneFlowView.Bind(
@@ -173,14 +207,20 @@ namespace PequenoExplorador.Bootstrap
             }
         }
 
-        public Task<SceneTransitionResult> GoToCampAsync(CancellationToken cancellationToken)
+        public async Task<SceneTransitionResult> GoToCampAsync(CancellationToken cancellationToken)
         {
-            return _services.Context.SceneFlow.GoToCampAsync(cancellationToken);
+            _services.Context.Input.SetMap(InputMapId.UI);
+            SceneTransitionResult result = await _services.Context.SceneFlow.GoToCampAsync(cancellationToken);
+            if (result.IsSuccess) _services.Context.Input.SetMap(InputMapId.UI);
+            return result;
         }
 
-        public Task<SceneTransitionResult> GoToExpeditionAsync(CancellationToken cancellationToken)
+        public async Task<SceneTransitionResult> GoToExpeditionAsync(CancellationToken cancellationToken)
         {
-            return _services.Context.SceneFlow.GoToExpeditionAsync(cancellationToken);
+            _services.Context.Input.SetMap(InputMapId.UI);
+            SceneTransitionResult result = await _services.Context.SceneFlow.GoToExpeditionAsync(cancellationToken);
+            if (result.IsSuccess) _services.Context.Input.SetMap(InputMapId.Explorer);
+            return result;
         }
 
         public Task ShutdownSceneFlowAsync()
@@ -225,6 +265,26 @@ namespace PequenoExplorador.Bootstrap
         public Task UpdateAudioSettingsAsync(AudioSettingsModel settings, CancellationToken cancellationToken) =>
             _services.Context.Audio.UpdateSettingsAsync(settings, cancellationToken);
 
+        public void SetInputMap(InputMapId map) => _services.Context.Input.SetMap(map);
+
+#if UNITY_EDITOR
+        public void ConfigureInputForEditorAndTests(
+            InputActionAsset inputActions,
+            GestureThresholdsAsset gestureThresholds,
+            SafeAreaFitter[] safeAreaFitters,
+            InputPauseView pauseView,
+            TouchDiagnosticOverlay touchOverlay,
+            DeviceAspectOverlay aspectOverlay)
+        {
+            _inputActions = inputActions;
+            _gestureThresholds = gestureThresholds;
+            _safeAreaFitters = safeAreaFitters ?? Array.Empty<SafeAreaFitter>();
+            _pauseView = pauseView;
+            _touchOverlay = touchOverlay;
+            _aspectOverlay = aspectOverlay;
+        }
+#endif
+
         private async void EnterJungle()
         {
             await GoToExpeditionAsync(_lifetimeCancellation.Token);
@@ -248,6 +308,40 @@ namespace PequenoExplorador.Bootstrap
                 SimulateNextSceneFailureForDevelopment();
             }
 #endif
+        }
+
+        private void HandleBackRequested()
+        {
+            if (_pauseView.IsVisible)
+            {
+                ResumeFromPause();
+                return;
+            }
+
+            _inputMapBeforePause = _services.Context.Input.CurrentMap;
+            RequestSaveCheckpoint();
+            _services.Context.Input.SetMap(InputMapId.UI);
+            _pauseView.Show(true);
+        }
+
+        private void ResumeFromPause()
+        {
+            _pauseView.Show(false);
+            _services.Context.Input.SetMap(_inputMapBeforePause == InputMapId.None
+                ? ResolveInputMap(_services.Context.SceneFlow.Snapshot)
+                : _inputMapBeforePause);
+        }
+
+        private void HandleSceneFlowChanged(SceneFlowSnapshot snapshot)
+        {
+            if (!_pauseView.IsVisible && !snapshot.IsTransitioning)
+                _services.Context.Input.SetMap(ResolveInputMap(snapshot));
+        }
+
+        private static InputMapId ResolveInputMap(SceneFlowSnapshot snapshot)
+        {
+            if (snapshot == null || snapshot.IsTransitioning) return InputMapId.UI;
+            return snapshot.Current == SceneFlowState.Expedition ? InputMapId.Explorer : InputMapId.UI;
         }
 
         private async void OnApplicationPause(bool paused)
@@ -329,6 +423,19 @@ namespace PequenoExplorador.Bootstrap
                 _sceneFlowView.Unbind();
             }
             _audioView?.Unbind();
+            if (_services != null)
+            {
+                _services.Context.Input.BackRequested -= HandleBackRequested;
+                _services.Context.SceneFlow.Changed -= HandleSceneFlowChanged;
+            }
+            if (_pauseView != null)
+            {
+                _pauseView.ResumeRequested -= ResumeFromPause;
+                _pauseView.Unbind();
+            }
+            _touchOverlay?.Unbind();
+            _aspectOverlay?.Unbind();
+            foreach (SafeAreaFitter fitter in _safeAreaFitters) fitter?.Unbind();
 
             Shutdown();
             _services?.Dispose();

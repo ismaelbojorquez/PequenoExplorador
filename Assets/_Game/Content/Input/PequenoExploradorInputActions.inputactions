@@ -1,0 +1,71 @@
+{
+    "name": "PequenoExploradorInputActions",
+    "maps": [
+        {
+            "name": "UI", "id": "d8d5f130-a501-4b84-a747-026213ea2694",
+            "actions": [
+                { "name": "Point", "type": "PassThrough", "id": "aa406ca5-d1c2-4f93-893b-b77450ff4b07", "expectedControlType": "Vector2" },
+                { "name": "PrimaryPress", "type": "Button", "id": "22dc6e65-3885-4269-b31f-92e4feef020e", "expectedControlType": "Button" },
+                { "name": "Back", "type": "Button", "id": "38b59648-bd84-48ed-9a8b-fc15410f49b5", "expectedControlType": "Button" }
+            ],
+            "bindings": [
+                { "id": "cf982aaa-4787-4824-bc87-90add817a885", "path": "<Pointer>/position", "action": "Point" },
+                { "id": "ba407c4b-b460-41bb-bbbb-7e348c64d7c9", "path": "<Pointer>/press", "action": "PrimaryPress" },
+                { "id": "0192bd4d-ee1e-42a2-b044-a1d8a0148e92", "path": "<Keyboard>/escape", "action": "Back" },
+                { "id": "d57e7fea-4630-4e90-a9ac-bfbd70026140", "path": "<Gamepad>/buttonEast", "action": "Back" }
+            ]
+        },
+        {
+            "name": "Explorer", "id": "b13be7d8-73a7-4c90-9e1c-1d254325eef2",
+            "actions": [
+                { "name": "Point", "type": "PassThrough", "id": "5a5939d8-1a42-43a5-b4fc-46e10026922f", "expectedControlType": "Vector2" },
+                { "name": "PrimaryPress", "type": "Button", "id": "a1d4a564-9335-4be7-937f-6a5b8ac560f2", "expectedControlType": "Button" },
+                { "name": "Back", "type": "Button", "id": "8b64b71c-2e17-4650-847e-8e3b9c006d2c", "expectedControlType": "Button" }
+            ],
+            "bindings": [
+                { "id": "ff000331-3415-4465-9dbb-609d575d9338", "path": "<Pointer>/position", "action": "Point" },
+                { "id": "ebdb70d8-dd2d-4469-bb49-5fe2139c804c", "path": "<Pointer>/press", "action": "PrimaryPress" },
+                { "id": "86df65a6-a9c3-4203-9e50-a855b40e0752", "path": "<Keyboard>/escape", "action": "Back" },
+                { "id": "f369806c-3410-486b-bc5e-50ba1799bb58", "path": "<Gamepad>/buttonEast", "action": "Back" }
+            ]
+        },
+        {
+            "name": "Photography", "id": "969a7c35-4efd-4295-a0ba-2d54f8235987",
+            "actions": [
+                { "name": "Point", "type": "PassThrough", "id": "150c6cb8-839a-4278-9652-2433809d924b", "expectedControlType": "Vector2" },
+                { "name": "PrimaryPress", "type": "Button", "id": "5d242c7f-ac69-47f9-8c7e-f1a7d8056e19", "expectedControlType": "Button" },
+                { "name": "Back", "type": "Button", "id": "e547937b-c417-4a88-ac99-8e8d43a1cb9f", "expectedControlType": "Button" }
+            ],
+            "bindings": [
+                { "id": "5da8ce78-a755-43f8-a2ce-d8a466f1b3b7", "path": "<Pointer>/position", "action": "Point" },
+                { "id": "77d546a3-557b-4807-876a-4c152c12fe2f", "path": "<Pointer>/press", "action": "PrimaryPress" },
+                { "id": "33914011-506c-4083-9f15-49b157246a96", "path": "<Keyboard>/escape", "action": "Back" },
+                { "id": "d819114c-0886-4751-be12-cbf0cab82dbe", "path": "<Gamepad>/buttonEast", "action": "Back" }
+            ]
+        },
+        {
+            "name": "Parents", "id": "43f7d546-622c-410b-b148-0687d357c4ab",
+            "actions": [
+                { "name": "Point", "type": "PassThrough", "id": "ac5faf7c-4c26-415e-b937-0d5292ff3bd8", "expectedControlType": "Vector2" },
+                { "name": "PrimaryPress", "type": "Button", "id": "a42ec61e-a7f4-45ea-94af-2c3a45f2e29d", "expectedControlType": "Button" },
+                { "name": "Back", "type": "Button", "id": "0425c92a-4a5e-4c66-86fd-495be9245e12", "expectedControlType": "Button" }
+            ],
+            "bindings": [
+                { "id": "666465a6-7c2d-4bd0-9f8a-058c8dc2ca11", "path": "<Pointer>/position", "action": "Point" },
+                { "id": "5775088f-ab0b-4928-aab8-53523adee905", "path": "<Pointer>/press", "action": "PrimaryPress" },
+                { "id": "bc48aad5-031a-492b-a06c-1a10192a05da", "path": "<Keyboard>/escape", "action": "Back" },
+                { "id": "1284d57e-39c0-4712-aa6d-9ebc3b87094b", "path": "<Gamepad>/buttonEast", "action": "Back" }
+            ]
+        },
+        {
+            "name": "Debug", "id": "10136e67-17ea-444a-8318-c309e2ced51f",
+            "actions": [
+                { "name": "ToggleOverlay", "type": "Button", "id": "76bb339f-fb7e-4b6a-aa43-8e94f7aeeb7c", "expectedControlType": "Button" }
+            ],
+            "bindings": [
+                { "id": "3d938bf3-1c4f-4c9f-a47c-a64209f4b539", "path": "<Keyboard>/f8", "action": "ToggleOverlay" }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

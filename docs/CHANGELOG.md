@@ -1,5 +1,31 @@
 # Changelog
 
+## Prompt 13 — 2026-08-16
+
+### Added
+
+- `IInputService`, `ISafeAreaService` e `IHapticsService`; clasificador C# puro de tap/hold/drag/pinch con cinco slots y cancelación determinista.
+- Action maps `UI`, `Explorer`, `Photography`, `Parents` y `Debug`; thresholds Content, adapter Input System único y driver de lifecycle.
+- Safe area central por Canvas, pausa Back con checkpoint/copy ES-EN, overlay touch/viewport Development y haptics no-op/off.
+- Validator build de mapas, APIs, wiring, targets 64×64 y fitters; tests EditMode y PlayMode `InputTestFixture` para 4:3, 16:9, 20:9 y 16:10.
+
+### Changed
+
+- Bootstrap selecciona UI en Camp/transición/pausa y Explorer en Expedition; AppContext/lifecycle exponen input, safe area y haptics sin locator.
+- Dos nuevas keys localizadas; los locale buttons diagnóstico existentes se ampliaron para cumplir target táctil.
+- Arquitectura, UX, testing, decisiones, riesgo, índice, contrato y estado reflejan adaptación móvil sin gameplay.
+
+### Verified
+
+- Baseline previa `scripts/validate` PASS: EditMode `70/70`, PlayMode `7/7` y APK Development.
+- Pipeline final repetido tras documentación/cleanup: `scripts/validate` código `0` en `1:18.93`; compile/input validator, Addressables, EditMode `77/77` (1.735 s), PlayMode `10/10` (4.007 s) y APK Development.
+- APK `66,067,652` bytes, SHA-256 `c19c68eacf50dfb61916c1eaa09c1c787bf452fd12f7e15784206fe898600d26`, build cache `15.654 s`, API 26/36, IL2CPP/ARM64; manifest sin cámara, micrófono, ubicación, contactos ni `AD_ID`.
+- Release guard devolvió el código esperado `3`; hardware Android `NOT RUN` porque `adb devices` no listó dispositivo.
+
+### Not added
+
+- Movimiento, joystick, cámara/fotografía final, UI final, vibración física, Device Simulator como dependencia, SDK, permiso, red, signing, push o publicación.
+
 ## Prompt 12 — 2026-08-16
 
 ### Added

@@ -74,6 +74,7 @@ namespace PequenoExplorador.Editor
                     "Unity.Addressables",
                     "Unity.Localization",
                     "Unity.ResourceManager",
+                    "Unity.InputSystem",
                     "UnityEngine.AudioModule"
                 },
                 ["PequenoExplorador.Presentation"] = new[]
@@ -87,6 +88,7 @@ namespace PequenoExplorador.Editor
                     "PequenoExplorador.Domain",
                     "PequenoExplorador.Infrastructure",
                     "PequenoExplorador.Presentation",
+                    "Unity.InputSystem",
                     "UnityEngine.AudioModule"
                 },
                 ["PequenoExplorador.Editor"] = new[]
@@ -112,6 +114,7 @@ namespace PequenoExplorador.Editor
                     "PequenoExplorador.Editor",
                     "PequenoExplorador.Infrastructure",
                     "PequenoExplorador.Presentation",
+                    "Unity.InputSystem",
                     "Unity.Localization",
                     "Unity.Localization.Editor",
                     "UnityEngine.AudioModule"
@@ -122,6 +125,9 @@ namespace PequenoExplorador.Editor
                     "PequenoExplorador.Bootstrap",
                     "PequenoExplorador.Domain",
                     "PequenoExplorador.Infrastructure",
+                    "PequenoExplorador.Presentation",
+                    "Unity.InputSystem",
+                    "Unity.InputSystem.TestFramework",
                     "UnityEngine.AudioModule"
                 }
             };

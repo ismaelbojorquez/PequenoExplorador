@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using PequenoExplorador.Application;
 using PequenoExplorador.Application.Audio;
+using PequenoExplorador.Application.Accessibility;
 using PequenoExplorador.Application.Configuration;
 using PequenoExplorador.Application.Lifecycle;
 using PequenoExplorador.Application.Logging;
@@ -9,9 +10,13 @@ using PequenoExplorador.Application.Localization;
 using PequenoExplorador.Application.Messaging;
 using PequenoExplorador.Application.Save;
 using PequenoExplorador.Application.Services;
+using PequenoExplorador.Application.Input;
 using PequenoExplorador.Application.SceneFlow;
 using PequenoExplorador.Content.Audio;
+using PequenoExplorador.Content.Input;
 using PequenoExplorador.Infrastructure.Audio;
+using PequenoExplorador.Infrastructure.Accessibility;
+using PequenoExplorador.Infrastructure.Input;
 using PequenoExplorador.Infrastructure.Ads;
 using PequenoExplorador.Infrastructure.Analytics;
 using PequenoExplorador.Infrastructure.Logging;
@@ -23,6 +28,7 @@ using PequenoExplorador.Infrastructure.Save;
 using PequenoExplorador.Infrastructure.Time;
 using PequenoExplorador.Infrastructure.SceneFlow;
 using ApplicationContext = PequenoExplorador.Application.AppContext;
+using UnityEngine.InputSystem;
 
 namespace PequenoExplorador.Bootstrap
 {
@@ -31,7 +37,7 @@ namespace PequenoExplorador.Bootstrap
         private readonly IDisposable _fileStoreLifetime;
 
         public ServiceRegistry(IAppConfig configuration, IFileStore fileStore = null)
-            : this(configuration, null, null, fileStore)
+            : this(configuration, null, null, null, null, fileStore)
         {
         }
 
@@ -39,6 +45,8 @@ namespace PequenoExplorador.Bootstrap
             IAppConfig configuration,
             UnityEngine.GameObject audioHost,
             AudioCueCatalogAsset audioCatalog,
+            InputActionAsset inputActions,
+            GestureThresholdsAsset gestureThresholds,
             IFileStore fileStore = null)
         {
             if (configuration == null)
@@ -58,6 +66,24 @@ namespace PequenoExplorador.Bootstrap
             IClock clock = new SystemClock();
             IRandomSource random = new SeededRandomSource(configuration.RandomSeed);
             IMessageBus messages = new InMemoryMessageBus();
+            IInputService input;
+            ISafeAreaService safeArea;
+            IHapticsService haptics = new NoOpHapticsService();
+            if (audioHost != null && inputActions != null && gestureThresholds != null)
+            {
+                bool debugInput = configuration.Features.IsEnabled(FeatureFlag.DevelopmentDiagnostics);
+                var unityInput = new UnityInputService(inputActions, gestureThresholds.ToRuntime(), debugInput);
+                var unitySafeArea = new UnitySafeAreaService();
+                MobileInputDriver driver = audioHost.AddComponent<MobileInputDriver>();
+                driver.Bind(unityInput, unitySafeArea);
+                input = unityInput;
+                safeArea = unitySafeArea;
+            }
+            else
+            {
+                input = new HeadlessInputService();
+                safeArea = new StaticSafeAreaService();
+            }
             IFileStore resolvedFileStore = fileStore ?? new LocalFileStore(
                 System.IO.Path.Combine(UnityEngine.Application.persistentDataPath, "Save"));
             _fileStoreLifetime = resolvedFileStore as IDisposable;
@@ -118,6 +144,9 @@ namespace PequenoExplorador.Bootstrap
                 save,
                 localization,
                 audio,
+                input,
+                safeArea,
+                haptics,
                 analytics,
                 ads,
                 purchases,
@@ -126,6 +155,9 @@ namespace PequenoExplorador.Bootstrap
                 new IApplicationService[]
                 {
                     messages,
+                    input,
+                    safeArea,
+                    haptics,
                     save,
                     localization,
                     audio,

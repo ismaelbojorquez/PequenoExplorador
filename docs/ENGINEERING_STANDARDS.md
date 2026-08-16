@@ -26,7 +26,7 @@ Fase 04 fija nueve asmdefs: seis runtime, Editor y dos suites. La tabla y grafo 
 - Application define solo boundaries reales: lifecycle, reloj, azar, logs, mensajes y servicios de plataforma; no conoce Unity ni concretos.
 - Infrastructure implementa adapters; Bootstrap es el único lugar que selecciona concretos. Presentation recibe fachadas/casos de uso, nunca Infrastructure.
 - `AppContext` es inmutable y se pasa explícitamente. No hacerlo estático, publicarlo como `Instance` ni añadir `Get<T>`/registro por diccionario.
-- `ServiceRegistry` es interno a Bootstrap y tipado. El orden canónico de lifecycle es MessageBus → Save → Localization → Analytics → Ads → Purchases, con shutdown inverso y cleanup tras fallo/cancelación.
+- `ServiceRegistry` es interno a Bootstrap y tipado. El orden canónico de lifecycle es MessageBus → Input → SafeArea → Haptics → Save → Localization → Audio → Analytics → Ads → Purchases, con shutdown inverso y cleanup tras fallo/cancelación.
 - Development usa mocks locales solo bajo `UNITY_EDITOR` o `PE_DEVELOPMENT_SERVICES`; Release usa NullAnalytics, NoAds y UnavailablePurchase. El define Development no se persiste en PlayerSettings.
 - Nuevos servicios requieren una dependencia real, ID técnico único, init/cancel/shutdown testeados, default Release seguro y actualización de la tabla canónica.
 
@@ -45,6 +45,8 @@ Fase 04 fija nueve asmdefs: seis runtime, Editor y dos suites. La tabla y grafo 
 - `Awake` valida/captura referencias locales; `OnEnable` suscribe; `OnDisable` desuscribe/cancela; `Start` solo inicia orquestación que requiere objetos habilitados. No depender de orden implícito entre objetos.
 - No usar `Find*`, strings de escena, tags o recursos globales como wiring permanente. El composition root entrega dependencias explícitas.
 - Evitar trabajo asignante o búsqueda repetida en `Update`; toda excepción de performance requiere medición.
+- Solo el adapter Input autorizado consulta Input System/EnhancedTouch. Features consumen intenciones semánticas; quedan prohibidos `UnityEngine.Input`, `Touchscreen.current` disperso y joystick permanente sin decisión P-006/playtest.
+- Cada Canvas usa exactamente un root `Safe Area`; no apilar fitters/offsets. Debug input/overlays no se habilitan en Release y haptics parte no-op/off.
 
 ## Async, cancelación y errores
 

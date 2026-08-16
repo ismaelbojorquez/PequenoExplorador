@@ -107,7 +107,9 @@ namespace PequenoExplorador.Editor
             new Entry("ui.action.simulate_failure", "Simular fallo", "Simulate failure"),
             new Entry("ui.locale.spanish", "Español", "Spanish"),
             new Entry("ui.locale.english", "Inglés", "English"),
-            new Entry("ui.locale.pseudo", "Pseudo", "Pseudo")
+            new Entry("ui.locale.pseudo", "Pseudo", "Pseudo"),
+            new Entry("ui.pause.title", "Pausa tranquila", "A quiet pause"),
+            new Entry("ui.action.resume", "Continuar", "Continue")
         };
 
         private static readonly Entry[] ContentEntries =
@@ -209,7 +211,10 @@ namespace PequenoExplorador.Editor
 
             foreach (Entry entry in entries)
             {
-                collection.SharedData.AddKey(entry.Key);
+                if (!collection.SharedData.Entries.Any(existing => existing.Key == entry.Key))
+                {
+                    collection.SharedData.AddKey(entry.Key);
+                }
                 UpsertString(collection, locales[0], entry.Key, entry.Spanish, entry.IsSmart);
                 UpsertString(collection, locales[1], entry.Key, entry.English, entry.IsSmart);
             }
@@ -251,7 +256,10 @@ namespace PequenoExplorador.Editor
                 LocalizationEditorSettings.CreateAssetTableCollection(tableName, AssetTablesPath, locales);
             foreach (string key in conceptualKeys)
             {
-                collection.SharedData.AddKey(key);
+                if (!collection.SharedData.Entries.Any(existing => existing.Key == key))
+                {
+                    collection.SharedData.AddKey(key);
+                }
             }
 
             foreach (LocalizationTable table in collection.AssetTables)
@@ -286,6 +294,9 @@ namespace PequenoExplorador.Editor
                 CreateButton(controls.transform, "Locale English", new Vector2(0.37f, 0.03f), new Vector2(0.63f, 0.16f));
             Button pseudo = FindOptionalInScene<Button>(scene, "Locale Pseudo") ??
                 CreateButton(controls.transform, "Locale Pseudo", new Vector2(0.70f, 0.03f), new Vector2(0.96f, 0.16f));
+            SetRect((RectTransform)spanish.transform, new Vector2(0.04f, 0.03f), new Vector2(0.30f, 0.25f));
+            SetRect((RectTransform)english.transform, new Vector2(0.37f, 0.03f), new Vector2(0.63f, 0.25f));
+            SetRect((RectTransform)pseudo.transform, new Vector2(0.70f, 0.03f), new Vector2(0.96f, 0.25f));
 
             var statusSerialized = new SerializedObject(statusView);
             statusSerialized.FindProperty("_diagnosticNoticeText").objectReferenceValue = notice;

@@ -84,6 +84,14 @@ MonoBehaviour:
     m_Localized: Pseudo
     m_Metadata:
       m_Items: []
+  - m_Id: 23092213571600
+    m_Localized: A quiet pause
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23092213571601
+    m_Localized: Continue
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

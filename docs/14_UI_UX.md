@@ -26,6 +26,8 @@ No se pregunta edad/fecha de nacimiento, no se recomienda modo según comportami
 - Viewfinder de fotografía con zona de éxito generosa y captura asistida opcional.
 - F07 compara tap-to-move contra control directo simplificado; el resultado debe registrarse antes de implementación definitiva.
 
+La foundation ejecutable está en [`INPUT_ACCESSIBILITY.md`](INPUT_ACCESSIBILITY.md). `Explorer` emite tap semántico pero no mueve un avatar; `Photography` es el único contexto de producto que acepta pinch. Android Back abre pausa reversible y checkpoint, no salida destructiva.
+
 ## Jerarquía de pantallas
 
 1. Inicio/continuar y acceso adulto discreto.
@@ -45,6 +47,7 @@ No se pregunta edad/fecha de nacimiento, no se recomienda modo según comportami
 ## Accesibilidad mínima
 
 - Contraste y tamaño validados, safe areas, escalado de texto y foco visible.
+- Cada Canvas actual tiene un solo root de safe area; los targets actuales miden al menos `64×64` píxeles de referencia. Los presets 4:3, 16:9, 20:9 y tablet 16:10 no sustituyen hardware.
 - Subtítulos/copy para voz; audio repetible; pistas visuales para sonidos.
 - Prompt 12 activa subtítulos por defecto, replay gratuito y volúmenes separados; cambiar idioma actualiza texto/cue sin pedir edad ni inferir perfil.
 - Reducir movimiento y flashes; cámara estable.

@@ -1,5 +1,6 @@
 using System;
 using PequenoExplorador.Application.Audio;
+using PequenoExplorador.Application.Accessibility;
 using PequenoExplorador.Application.Configuration;
 using PequenoExplorador.Application.Logging;
 using PequenoExplorador.Application.Localization;
@@ -7,6 +8,7 @@ using PequenoExplorador.Application.Messaging;
 using PequenoExplorador.Application.Save;
 using PequenoExplorador.Application.SceneFlow;
 using PequenoExplorador.Application.Services;
+using PequenoExplorador.Application.Input;
 
 namespace PequenoExplorador.Application
 {
@@ -21,6 +23,9 @@ namespace PequenoExplorador.Application
             ISaveService save,
             ILocalizationService localization,
             IAudioService audio,
+            IInputService input,
+            ISafeAreaService safeArea,
+            IHapticsService haptics,
             IAnalyticsService analytics,
             IAdsService ads,
             IPurchaseService purchases,
@@ -34,6 +39,9 @@ namespace PequenoExplorador.Application
             Save = save ?? throw new ArgumentNullException(nameof(save));
             Localization = localization ?? throw new ArgumentNullException(nameof(localization));
             Audio = audio ?? throw new ArgumentNullException(nameof(audio));
+            Input = input ?? throw new ArgumentNullException(nameof(input));
+            SafeArea = safeArea ?? throw new ArgumentNullException(nameof(safeArea));
+            Haptics = haptics ?? throw new ArgumentNullException(nameof(haptics));
             Analytics = analytics ?? throw new ArgumentNullException(nameof(analytics));
             Ads = ads ?? throw new ArgumentNullException(nameof(ads));
             Purchases = purchases ?? throw new ArgumentNullException(nameof(purchases));
@@ -49,6 +57,9 @@ namespace PequenoExplorador.Application
         public ISaveService Save { get; }
         public ILocalizationService Localization { get; }
         public IAudioService Audio { get; }
+        public IInputService Input { get; }
+        public ISafeAreaService SafeArea { get; }
+        public IHapticsService Haptics { get; }
         public IAnalyticsService Analytics { get; }
         public IAdsService Ads { get; }
         public IPurchaseService Purchases { get; }

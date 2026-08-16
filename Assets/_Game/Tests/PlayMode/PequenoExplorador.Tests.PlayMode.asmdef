@@ -6,6 +6,9 @@
     "PequenoExplorador.Bootstrap",
     "PequenoExplorador.Domain",
     "PequenoExplorador.Infrastructure",
+    "PequenoExplorador.Presentation",
+    "Unity.InputSystem",
+    "Unity.InputSystem.TestFramework",
     "UnityEngine.AudioModule"
   ],
   "includePlatforms": [],
