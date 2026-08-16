@@ -109,7 +109,9 @@ namespace PequenoExplorador.Editor
             new Entry("ui.locale.english", "Inglés", "English"),
             new Entry("ui.locale.pseudo", "Pseudo", "Pseudo"),
             new Entry("ui.pause.title", "Pausa tranquila", "A quiet pause"),
-            new Entry("ui.action.resume", "Continuar", "Continue")
+            new Entry("ui.action.resume", "Continuar", "Continue"),
+            new Entry("ui.world.unavailable", "Este lugar todavía no está disponible.", "This place is not available yet."),
+            new Entry("ui.world.missing", "Este lugar ya no está disponible. Tu progreso sigue seguro.", "This place is no longer available. Your progress is still safe.")
         };
 
         private static readonly Entry[] ContentEntries =

@@ -1,8 +1,10 @@
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using PequenoExplorador.Application.Localization;
 using PequenoExplorador.Application.SceneFlow;
+using PequenoExplorador.Application.Worlds;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,9 +28,12 @@ namespace PequenoExplorador.Presentation.SceneFlow
 
         private ISceneFlowService _service;
         private ILocalizationService _localization;
+        private IWorldCatalog _worlds;
+        private WorldCatalogEntry _selectedWorld;
+        private WorldLoadResult _lastWorldResult;
         private CancellationTokenSource _localeCancellation;
 
-        public event Action EnterJungleRequested;
+        public event Action<WorldManifest> WorldRequested;
         public event Action ReturnCampRequested;
         public event Action RetryRequested;
         public event Action SimulateFailureRequested;
@@ -37,7 +42,10 @@ namespace PequenoExplorador.Presentation.SceneFlow
 
         private void Awake()
         {
-            _enterJungleButton?.onClick.AddListener(() => EnterJungleRequested?.Invoke());
+            _enterJungleButton?.onClick.AddListener(() =>
+            {
+                if (_selectedWorld != null) WorldRequested?.Invoke(_selectedWorld.Manifest);
+            });
             _returnCampButton?.onClick.AddListener(() => ReturnCampRequested?.Invoke());
             _retryButton?.onClick.AddListener(() => RetryRequested?.Invoke());
             _simulateFailureButton?.onClick.AddListener(() => SimulateFailureRequested?.Invoke());
@@ -48,11 +56,14 @@ namespace PequenoExplorador.Presentation.SceneFlow
 
         public void Bind(
             ISceneFlowService service,
+            IWorldCatalog worlds,
             ILocalizationService localization,
             bool developmentControlsEnabled)
         {
             Unbind();
             _service = service ?? throw new ArgumentNullException(nameof(service));
+            _worlds = worlds ?? throw new ArgumentNullException(nameof(worlds));
+            _selectedWorld = _worlds.Worlds.FirstOrDefault();
             _localization = localization ?? throw new ArgumentNullException(nameof(localization));
             _localeCancellation = new CancellationTokenSource();
             _service.Changed += Render;
@@ -82,6 +93,15 @@ namespace PequenoExplorador.Presentation.SceneFlow
             _localeCancellation?.Cancel();
             _localeCancellation?.Dispose();
             _localeCancellation = null;
+            _worlds = null;
+            _selectedWorld = null;
+            _lastWorldResult = null;
+        }
+
+        public void ShowWorldResult(WorldLoadResult result)
+        {
+            _lastWorldResult = result;
+            if (_service != null) Render(_service.Snapshot);
         }
 
         private void Render(SceneFlowSnapshot snapshot)
@@ -100,14 +120,19 @@ namespace PequenoExplorador.Presentation.SceneFlow
 
             if (_statusText != null)
             {
-                _statusText.text = snapshot.HasRecoverableError
-                    ? TryResolve(LocalizationKeys.TransitionError)
-                    : snapshot.IsTransitioning
-                        ? TryResolve(LocalizationKeys.TransitionPreparing, FriendlyName(snapshot.Target))
-                        : FriendlyName(snapshot.Current);
+                if (_lastWorldResult?.Outcome == WorldLoadOutcome.Unavailable)
+                    _statusText.text = TryResolve(LocalizationKeys.WorldUnavailable);
+                else if (_lastWorldResult?.Outcome == WorldLoadOutcome.Missing)
+                    _statusText.text = TryResolve(LocalizationKeys.WorldMissing);
+                else
+                    _statusText.text = snapshot.HasRecoverableError
+                        ? TryResolve(LocalizationKeys.TransitionError)
+                        : snapshot.IsTransitioning
+                            ? TryResolve(LocalizationKeys.TransitionPreparing, FriendlyName(snapshot.Target))
+                            : FriendlyName(snapshot.Current);
             }
 
-            SetButtonLabel(_enterJungleButton, LocalizationKeys.ActionEnterJungle);
+            if (_selectedWorld != null) SetButtonLabel(_enterJungleButton, _selectedWorld.Manifest.DisplayName);
             SetButtonLabel(_returnCampButton, LocalizationKeys.ActionReturnCamp);
             SetButtonLabel(_retryButton, LocalizationKeys.ActionRetry);
             SetButtonLabel(_simulateFailureButton, LocalizationKeys.ActionSimulateFailure);
@@ -116,7 +141,7 @@ namespace PequenoExplorador.Presentation.SceneFlow
             SetButtonLabel(_localePseudoButton, LocalizationKeys.LocalePseudo);
 
             bool interactive = !snapshot.IsTransitioning && !snapshot.HasRecoverableError;
-            SetButton(_enterJungleButton, interactive && snapshot.Current == SceneFlowState.Camp);
+            SetButton(_enterJungleButton, interactive && snapshot.Current == SceneFlowState.Camp && _selectedWorld != null);
             SetButton(_returnCampButton, interactive && snapshot.Current == SceneFlowState.Expedition);
             SetButton(_retryButton, snapshot.HasRecoverableError);
             if (_simulateFailureButton != null)
@@ -132,7 +157,9 @@ namespace PequenoExplorador.Presentation.SceneFlow
                 case SceneFlowState.Camp:
                     return TryResolve(LocalizationKeys.WorldCamp);
                 case SceneFlowState.Expedition:
-                    return TryResolve(LocalizationKeys.WorldJungle);
+                    WorldCatalogEntry active = _worlds?.Worlds.FirstOrDefault(entry =>
+                        entry.Manifest.Scene == _service.Snapshot.CurrentContent);
+                    return active == null ? TryResolve(LocalizationKeys.SafeFallback) : TryResolve(active.Manifest.DisplayName);
                 default:
                     return TryResolve(LocalizationKeys.WorldBoot);
             }

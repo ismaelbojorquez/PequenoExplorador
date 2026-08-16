@@ -5,6 +5,7 @@ namespace PequenoExplorador.Application.Content
 {
     public interface IContentCatalog
     {
+        ContentCatalogId Id { get; }
         IReadOnlyCollection<DiscoveryDefinition> Discoveries { get; }
         bool TryGetCategory(CategoryId id, out CategoryDefinition definition);
         bool TryGetTag(TagId id, out TagDefinition definition);

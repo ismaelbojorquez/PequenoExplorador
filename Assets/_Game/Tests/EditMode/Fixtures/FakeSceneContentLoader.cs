@@ -14,6 +14,7 @@ namespace PequenoExplorador.Tests.EditMode.Fixtures
         public bool FailNextLoad { get; set; }
         public int LoadCount { get; private set; }
         public int UnloadCount { get; private set; }
+        public SceneContentId LastLoadedContent { get; private set; }
         public int ActiveHandleCount => _active.Count;
 
         public async Task<ISceneContentHandle> LoadAsync(
@@ -34,6 +35,7 @@ namespace PequenoExplorador.Tests.EditMode.Fixtures
             }
 
             LoadCount++;
+            LastLoadedContent = contentId;
             progress?.Report(1f);
             var handle = new FakeHandle(contentId);
             _active.Add(handle);

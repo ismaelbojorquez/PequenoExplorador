@@ -92,6 +92,14 @@ MonoBehaviour:
     m_Localized: Continuar
     m_Metadata:
       m_Items: []
+  - m_Id: 49203240755200
+    m_Localized: "Este lugar todav\xEDa no est\xE1 disponible."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49203265921024
+    m_Localized: "Este lugar ya no est\xE1 disponible. Tu progreso sigue seguro."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

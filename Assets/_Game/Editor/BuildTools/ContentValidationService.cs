@@ -13,6 +13,7 @@ namespace PequenoExplorador.Editor.BuildTools
         {
             var violations = new List<string>();
             violations.AddRange(ContentCatalogValidationService.Validate(mode));
+            violations.AddRange(WorldCatalogValidationService.Validate(mode));
             violations.AddRange(RuntimeConfigurationValidationService.Validate());
             violations.AddRange(LocalizationValidationService.Validate());
             violations.AddRange(AudioValidationService.Validate());

@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b6f7d94ad004bb09b8dc2eca099a17e, type: 3}
+  m_Name: PH_World_Jungle
+  m_EditorClassIdentifier: PequenoExplorador.Content::PequenoExplorador.Content.Worlds.WorldManifestAsset
+  _id: world.jungle
+  _manifestVersion: 1
+  _contentVersion: 0.1.0-placeholder
+  _displayNameTable: Content
+  _displayNameKey: content.world.jungle.name
+  _scene:
+    m_AssetGUID: 7325e775975994e9585d77af44b8b5e0
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  _sceneAddress: scene/jungle
+  _labels:
+  - scene
+  - world-jungle
+  _spawnPointId: spawn.jungle.entry
+  _checkpointIds:
+  - checkpoint.jungle.entry
+  _contentCatalogs:
+  - {fileID: 11400000, guid: bda19bfa2767348f983d73a3abf301f7, type: 2}
+  _musicCueId: audio.music.camp
+  _ambienceCueId: audio.ambience.camp
+  _requirements: []
+  _estimatedInstalledBytes: 11628
+  _availability: 0
+  _editorial:
+    _state: 0
+    _isPlaceholder: 1
+    _owner: World Design
+    _developmentWatermark: "BORRADOR \xB7 PH_"

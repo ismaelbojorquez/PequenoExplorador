@@ -17,12 +17,13 @@ namespace PequenoExplorador.Application.Content
         private readonly IReadOnlyCollection<DiscoveryDefinition> _orderedDiscoveries;
 
         public ContentCatalog(IEnumerable<DiscoveryDefinition> discoveries, IEnumerable<DiscoveryIdAlias> aliases)
-            : this(Array.Empty<CategoryDefinition>(), Array.Empty<TagDefinition>(), Array.Empty<ContentSourceRecord>(),
+            : this(ContentCatalogId.Parse("catalog.runtime.default"), Array.Empty<CategoryDefinition>(), Array.Empty<TagDefinition>(), Array.Empty<ContentSourceRecord>(),
                 Array.Empty<EducationalFactDefinition>(), discoveries, aliases)
         {
         }
 
         public ContentCatalog(
+            ContentCatalogId id,
             IEnumerable<CategoryDefinition> categories,
             IEnumerable<TagDefinition> tags,
             IEnumerable<ContentSourceRecord> sources,
@@ -30,6 +31,8 @@ namespace PequenoExplorador.Application.Content
             IEnumerable<DiscoveryDefinition> discoveries,
             IEnumerable<DiscoveryIdAlias> aliases)
         {
+            if (!id.IsValid) throw new ArgumentException("Content catalog ID is invalid.", nameof(id));
+            Id = id;
             DiscoveryDefinition[] raw = (discoveries ?? Array.Empty<DiscoveryDefinition>()).ToArray();
             if (raw.Any(item => item == null)) throw new ArgumentException("Catalog cannot contain null discoveries.", nameof(discoveries));
             DiscoveryDefinition[] ordered = raw.OrderBy(item => item.Id.Value, StringComparer.Ordinal).ToArray();
@@ -55,7 +58,8 @@ namespace PequenoExplorador.Application.Content
             _orderedDiscoveries = Array.AsReadOnly(ordered);
         }
 
-        public static ContentCatalog Empty { get; } = new ContentCatalog(Array.Empty<DiscoveryDefinition>(), Array.Empty<DiscoveryIdAlias>());
+        public static ContentCatalog Empty { get; } = new ContentCatalog(ContentCatalogId.Parse("catalog.empty"), Array.Empty<CategoryDefinition>(), Array.Empty<TagDefinition>(), Array.Empty<ContentSourceRecord>(), Array.Empty<EducationalFactDefinition>(), Array.Empty<DiscoveryDefinition>(), Array.Empty<DiscoveryIdAlias>());
+        public ContentCatalogId Id { get; }
         public IReadOnlyCollection<DiscoveryDefinition> Discoveries => _orderedDiscoveries;
         public bool TryGetCategory(CategoryId id, out CategoryDefinition definition) => _categories.TryGetValue(id, out definition);
         public bool TryGetTag(TagId id, out TagDefinition definition) => _tags.TryGetValue(id, out definition);

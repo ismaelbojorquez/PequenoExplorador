@@ -11,7 +11,7 @@ namespace PequenoExplorador.Application.SceneFlow
         SceneFlowSnapshot Snapshot { get; }
 
         Task<SceneTransitionResult> GoToCampAsync(CancellationToken cancellationToken);
-        Task<SceneTransitionResult> GoToExpeditionAsync(CancellationToken cancellationToken);
+        Task<SceneTransitionResult> GoToExpeditionAsync(SceneContentId contentId, CancellationToken cancellationToken);
         Task<SceneTransitionResult> RetryAsync(CancellationToken cancellationToken);
         Task ShutdownAsync();
     }

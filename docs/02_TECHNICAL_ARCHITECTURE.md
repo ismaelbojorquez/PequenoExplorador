@@ -1,6 +1,6 @@
 # Arquitectura técnica — fronteras modulares
 
-Estado: foundation, catálogo data-driven Draft, scene flow local, persistencia schema v3, localización ES/EN, audio e input móvil implementados. No define APIs de gameplay. `Bootstrap` persiste y entra a Camp placeholder.
+Estado: foundation, catálogo data-driven Draft y manifiesto local de Selva, scene flow local, persistencia schema v3, localización ES/EN, audio e input móvil implementados. No define APIs de gameplay. `Bootstrap` persiste y entra a Camp placeholder.
 
 ## Grafo real de assemblies
 
@@ -13,7 +13,8 @@ PequenoExplorador.Application
 
 PequenoExplorador.Content
 ├─ Application
-└─ Domain
+├─ Domain
+└─ Unity.Addressables
 
 PequenoExplorador.Infrastructure
 ├─ Application
@@ -89,6 +90,7 @@ DiagnosticBootstrap (Unity lifecycle)
       │   ├─ IMessageBus
       │   ├─ IInputService / ISafeAreaService / IHapticsService
       │   ├─ IContentCatalog [readonly, O(1), no lifecycle]
+      │   ├─ IWorldCatalog / IWorldSession [readonly catalog + sesión explícita]
       │   ├─ ISaveService → IFileStore
       │   ├─ ILocalizationService → Unity Localization
       │   ├─ IAnalyticsService
@@ -147,15 +149,17 @@ Domain no conoce audio ni archivos. El root Bootstrap posee exactamente siete so
 
 Application define `IInputService`, `ISafeAreaService` e `IHapticsService`; el clasificador de gestos es C# puro. Infrastructure concentra Input System/EnhancedTouch y `Screen.safeArea`; Presentation recibe intenciones y snapshots. Bootstrap selecciona `UI` para Camp/transición/pausa y `Explorer` para Expedition. `Photography`/`Parents` quedan preparados sin feature, mientras `Debug` es aditivo y Development-only. Haptics es no-op/desactivado. Contrato, thresholds, ratios y hardware pendiente: [`INPUT_ACCESSIBILITY.md`](INPUT_ACCESSIBILITY.md).
 
-### Catálogo data-driven
+### Catálogos data-driven
 
-Domain define value IDs textuales por tipo. Content posee definitions ScriptableObject y `ContentCatalogCompiler`; Bootstrap compila una vez a modelos Application readonly y entrega `IContentCatalog` en `AppContext`. El catálogo indexa category, tag, source, fact y discovery por sus IDs tipados, con aliases separados y enumeración determinista de discoveries. Editor es el único consumidor de `AssetDatabase` para comprobar paths, localización, audio, visuales y estado editorial. Contrato: [`CONTENT_MODEL.md`](CONTENT_MODEL.md).
+Domain define value IDs textuales por tipo. Content posee definitions ScriptableObject y compiladores; Bootstrap compila una vez a modelos Application readonly y entrega `IContentCatalog`/`IWorldCatalog` en `AppContext`. El catálogo de contenido indexa category, tag, source, fact y discovery; el catálogo de mundos indexa manifests por `WorldId`. Editor es el único consumidor de `AssetDatabase` para comprobar paths, localización, audio, visuales, escenas, labels, spawn y estado editorial. Contratos: [`CONTENT_MODEL.md`](CONTENT_MODEL.md) y [`CONTENT_PIPELINE.md`](CONTENT_PIPELINE.md).
 
 ## Scene flow y contenido local
 
 ```text
 Presentation.SceneTransitionView
-             ↓ ISceneFlowService
+             ↓ WorldId
+Application.WorldLoadUseCase → IWorldCatalog / IWorldSession
+             ↓ SceneContentId del manifest
 Application.SceneFlowService ── estado / exclusión / retry / timeout
              ↓ ISceneContentLoader
 Infrastructure.AddressableSceneContentLoader ── owner único de handles
@@ -165,7 +169,9 @@ Addressables local: SharedLocal(Camp) / JungleLocal(Jungle)
 Bootstrap.unity persiste; Camp/Jungle son aditivas.
 ```
 
-La máquina permite `Boot→Camp`, `Camp→Expedition` y `Expedition→Camp`. Un segundo intento recibe `Busy`; error/cancel/timeout conserva el origen y un target de retry. Cancelar no abandona la operación Unity: el adapter espera un punto seguro y descarga cualquier escena resultante. Cada handle se consume una vez; volver a Camp conserva solo Camp y shutdown deja cero. Presentation nunca conoce Addressables y Bootstrap solo cablea eventos/puertos.
+La máquina permite `Boot→Camp`, `Camp→Expedition` y `Expedition→Camp`. `WorldLoadUseCase` resuelve `world.jungle` en O(1), distingue missing/locked de entitlement comercial y entrega al scene flow el address semántico del manifest. Un segundo intento recibe `Busy`; error/cancel/timeout conserva mundo/escena para retry. Cancelar no abandona la operación Unity: el adapter espera un punto seguro y descarga cualquier escena resultante. Cada handle se consume una vez; volver a Camp borra la sesión activa, conserva solo Camp y shutdown deja cero. Presentation no conoce Addressables y Bootstrap solo cablea eventos/puertos.
+
+`WorldManifestAsset` pertenece a Content y contiene `AssetReference` de escena, labels, spawn, checkpoints, catálogos, cues, requisitos, versiones y tamaño instalado estimado. El compilador elimina Unity/GUIDs del modelo runtime `WorldManifest`; Application solo ve IDs/keys/cues readonly. Selva es el único asset real (`world.jungle`); el segundo mundo es una fixture in-memory que demuestra que el coordinador no cambia.
 
 Addressables `4.0.1` queda local-only: perfiles `LocalDevelopment`/`LocalRelease`, grupos `SharedLocal`/`JungleLocal`, labels `scene`/`shared-local`/`world-jungle`, actualización y remote catalog deshabilitados. No hay endpoint. El validador bloquea paths no locales, labels/addresses incorrectos y dependencias Shared→Jungle. Contrato completo: [`CONTENT_PIPELINE.md`](CONTENT_PIPELINE.md).
 

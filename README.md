@@ -12,7 +12,7 @@ Baseline de producto, ingeniería y cumplimiento para un juego educativo Unity 2
 - Experiencia inicial recomendada: sin publicidad. Ads, IAP y analítica remota permanecen detrás de interfaces nulas y de decisiones humanas futuras.
 - Privacidad por defecto: sin cuenta, chat, ubicación, cámara del dispositivo, micrófono, identificadores publicitarios ni transmisión de datos en el MVP.
 
-El repositorio contiene una foundation Unity mínima: URP, composition root explícito, perfiles runtime Development/Release locales y validados, servicios Null/Mock seguros, nueve assemblies, flujo aditivo `Boot → Camp ↔ Jungle`, Addressables solo locales, persistencia schema v3, localización ES/EN, audio/input móviles y catálogo data-driven Draft, BuildTools, tests y smoke Android. No contiene gameplay, discoveries finales, remote config, contenido remoto, SDKs comerciales, backend ni arte final.
+El repositorio contiene una foundation Unity mínima: URP, composition root explícito, perfiles runtime Development/Release locales y validados, servicios Null/Mock seguros, nueve assemblies, flujo aditivo `Boot → Camp ↔ Jungle`, Addressables solo locales, persistencia schema v3, localización ES/EN, audio/input móviles, catálogo data-driven Draft y manifest local `world.jungle`, BuildTools, tests y smoke Android. No contiene gameplay, discoveries finales, otros mundos reales, remote config, contenido remoto, SDKs comerciales, backend ni arte final.
 
 ## Documentación
 
@@ -30,7 +30,7 @@ scripts/validate
 
 El wrapper localiza la revisión fijada de Unity Hub o usa `UNITY_EDITOR` si se proporciona. Comandos parciales, reportes JUnit y recovery están en [`docs/18_TESTING.md`](docs/18_TESTING.md); Android está en [`docs/20_ANDROID_RELEASE.md`](docs/20_ANDROID_RELEASE.md). Todos los outputs van a `artifacts/`, que Git ignora. No se versionan `Library`, `Logs`, `.utmp`, builds ni credenciales.
 
-`scripts/build-addressables-local` valida perfiles/grupos/labels y construye el catálogo Android local. `Bootstrap` es la única escena de Build Settings; `Camp` y `Jungle` son placeholders Addressable aditivos. Remote catalogs, CDN y URLs permanecen deshabilitados.
+`scripts/build-addressables-local` valida perfiles/grupos/labels/manifests y construye el catálogo Android local. `Bootstrap` es la única escena de Build Settings; `Camp` y `Jungle` son placeholders Addressable aditivos. Camp descubre Selva por `IWorldCatalog`; remote catalogs, CDN y URLs permanecen deshabilitados.
 
 `scripts/validate-localization` valida locales/tablas/keys/glifos y `scripts/build-android-locales` genera los smoke Development ES/EN. El contrato, CSV y fallback están en [`docs/17_LOCALIZATION.md`](docs/17_LOCALIZATION.md).
 

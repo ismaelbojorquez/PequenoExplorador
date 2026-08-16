@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using PequenoExplorador.Application;
@@ -11,9 +12,12 @@ using PequenoExplorador.Application.Logging;
 using PequenoExplorador.Application.Input;
 using PequenoExplorador.Application.SceneFlow;
 using PequenoExplorador.Application.Save;
+using PequenoExplorador.Application.Worlds;
 using PequenoExplorador.Content.Audio;
 using PequenoExplorador.Content.Data;
 using PequenoExplorador.Content.Input;
+using PequenoExplorador.Content.Worlds;
+using PequenoExplorador.Domain.Content;
 using PequenoExplorador.Presentation.Accessibility;
 using PequenoExplorador.Presentation.Audio;
 using PequenoExplorador.Presentation.Bootstrap;
@@ -38,6 +42,7 @@ namespace PequenoExplorador.Bootstrap
         [SerializeField] private AudioDiagnosticView _audioView;
         [SerializeField] private AudioCueCatalogAsset _audioCatalog;
         [SerializeField] private ContentCatalogAsset _contentCatalog;
+        [SerializeField] private WorldCatalogAsset _worldCatalog;
         [SerializeField] private InputActionAsset _inputActions;
         [SerializeField] private GestureThresholdsAsset _gestureThresholds;
         [SerializeField] private SafeAreaFitter[] _safeAreaFitters = Array.Empty<SafeAreaFitter>();
@@ -81,6 +86,8 @@ namespace PequenoExplorador.Bootstrap
 
         public IAudioService Audio => _services?.Context.Audio;
         public IContentCatalog Content => _services?.Context.Content;
+        public IWorldCatalog Worlds => _services?.Context.Worlds;
+        public IWorldSession WorldSession => _services?.Context.WorldSession;
         public IInputService Input => _services?.Context.Input;
         public ISafeAreaService SafeArea => _services?.Context.SafeArea;
         public IHapticsService Haptics => _services?.Context.Haptics;
@@ -98,9 +105,9 @@ namespace PequenoExplorador.Bootstrap
                 throw new InvalidOperationException("SceneTransitionView must be wired in the Bootstrap scene.");
             }
 
-            if (_audioView == null || _audioCatalog == null || _contentCatalog == null)
+            if (_audioView == null || _audioCatalog == null || _contentCatalog == null || _worldCatalog == null)
             {
-                throw new InvalidOperationException("Audio view, audio catalog and content catalog must be wired in the Bootstrap scene.");
+                throw new InvalidOperationException("Audio, content and world catalogs must be wired in the Bootstrap scene.");
             }
             if (_inputActions == null || _gestureThresholds == null || _pauseView == null ||
                 _touchOverlay == null || _aspectOverlay == null || _safeAreaFitters.Length == 0)
@@ -114,9 +121,12 @@ namespace PequenoExplorador.Bootstrap
                 : ContentValidationMode.Development;
             if (!_contentCatalog.TryBuildRuntimeCatalog(contentMode, out ContentCatalog runtimeCatalog, out var contentViolations))
                 throw new InvalidOperationException("Runtime content catalog is invalid:\n" + string.Join("\n", contentViolations));
+            if (!_worldCatalog.TryBuildRuntimeCatalog(runtimeCatalog, contentMode, out WorldCatalog runtimeWorlds, out var worldViolations))
+                throw new InvalidOperationException("Runtime world catalog is invalid:\n" + string.Join("\n", worldViolations));
             _services = new ServiceRegistry(
                 _configuration,
                 runtimeCatalog,
+                runtimeWorlds,
                 gameObject,
                 _audioCatalog,
                 _inputActions,
@@ -136,9 +146,10 @@ namespace PequenoExplorador.Bootstrap
             _statusView.ShowInitializing();
             _sceneFlowView.Bind(
                 _services.Context.SceneFlow,
+                _services.Context.Worlds,
                 _services.Context.Localization,
                 _diagnosticsEnabled);
-            _sceneFlowView.EnterJungleRequested += EnterJungle;
+            _sceneFlowView.WorldRequested += EnterWorld;
             _sceneFlowView.ReturnCampRequested += ReturnCamp;
             _sceneFlowView.RetryRequested += RetrySceneTransition;
             _sceneFlowView.SimulateFailureRequested += SimulateNextSceneFailure;
@@ -190,7 +201,7 @@ namespace PequenoExplorador.Bootstrap
                 _audioView.Bind(_services.Context.Audio, _services.Context.Localization, _diagnosticsEnabled);
                 _services.Context.Audio.Play(AudioCueIds.CampMusic);
                 _services.Context.Audio.Play(AudioCueIds.CampAmbience);
-                SceneTransitionResult transition = await _services.Context.SceneFlow.GoToCampAsync(cancellationToken);
+                WorldLoadResult transition = await _services.Context.WorldSession.ReturnToCampAsync(cancellationToken);
                 if (!transition.IsSuccess)
                 {
                     throw new InvalidOperationException(transition.ErrorCode);
@@ -220,16 +231,37 @@ namespace PequenoExplorador.Bootstrap
         public async Task<SceneTransitionResult> GoToCampAsync(CancellationToken cancellationToken)
         {
             _services.Context.Input.SetMap(InputMapId.UI);
-            SceneTransitionResult result = await _services.Context.SceneFlow.GoToCampAsync(cancellationToken);
-            if (result.IsSuccess) _services.Context.Input.SetMap(InputMapId.UI);
-            return result;
+            WorldLoadResult worldResult = await _services.Context.WorldSession.ReturnToCampAsync(cancellationToken);
+            if (worldResult.IsSuccess)
+            {
+                _services.Context.Input.SetMap(InputMapId.UI);
+                _services.Context.Audio.Play(AudioCueIds.CampMusic);
+                _services.Context.Audio.Play(AudioCueIds.CampAmbience);
+            }
+            return ToSceneResult(worldResult);
         }
 
         public async Task<SceneTransitionResult> GoToExpeditionAsync(CancellationToken cancellationToken)
         {
+            WorldCatalogEntry firstAvailable = _services.Context.Worlds.Worlds
+                .FirstOrDefault(entry => entry.Availability == WorldAvailabilityState.Available);
+            WorldLoadResult worldResult = firstAvailable == null
+                ? await _services.Context.WorldSession.EnterAsync(default, cancellationToken)
+                : await EnterWorldAsync(firstAvailable.Manifest.Id, cancellationToken);
+            return ToSceneResult(worldResult);
+        }
+
+        public async Task<WorldLoadResult> EnterWorldAsync(WorldId worldId, CancellationToken cancellationToken)
+        {
             _services.Context.Input.SetMap(InputMapId.UI);
-            SceneTransitionResult result = await _services.Context.SceneFlow.GoToExpeditionAsync(cancellationToken);
-            if (result.IsSuccess) _services.Context.Input.SetMap(InputMapId.Explorer);
+            WorldLoadResult result = await _services.Context.WorldSession.EnterAsync(worldId, cancellationToken);
+            if (result.IsSuccess)
+            {
+                _services.Context.Input.SetMap(InputMapId.Explorer);
+                _services.Context.Audio.Play(result.Manifest.MusicCue);
+                _services.Context.Audio.Play(result.Manifest.AmbienceCue);
+            }
+            _sceneFlowView.ShowWorldResult(result);
             return result;
         }
 
@@ -295,11 +327,12 @@ namespace PequenoExplorador.Bootstrap
         }
 
         public void ConfigureContentForEditorAndTests(ContentCatalogAsset contentCatalog) => _contentCatalog = contentCatalog;
+        public void ConfigureWorldsForEditorAndTests(WorldCatalogAsset worldCatalog) => _worldCatalog = worldCatalog;
 #endif
 
-        private async void EnterJungle()
+        private async void EnterWorld(WorldManifest manifest)
         {
-            await GoToExpeditionAsync(_lifetimeCancellation.Token);
+            await EnterWorldAsync(manifest.Id, _lifetimeCancellation.Token);
         }
 
         private async void ReturnCamp()
@@ -309,7 +342,14 @@ namespace PequenoExplorador.Bootstrap
 
         private async void RetrySceneTransition()
         {
-            await _services.Context.SceneFlow.RetryAsync(_lifetimeCancellation.Token);
+            WorldLoadResult result = await _services.Context.WorldSession.RetryAsync(_lifetimeCancellation.Token);
+            if (result.IsSuccess)
+            {
+                _services.Context.Input.SetMap(InputMapId.Explorer);
+                _services.Context.Audio.Play(result.Manifest.MusicCue);
+                _services.Context.Audio.Play(result.Manifest.AmbienceCue);
+            }
+            _sceneFlowView.ShowWorldResult(result);
         }
 
         private void SimulateNextSceneFailure()
@@ -428,7 +468,7 @@ namespace PequenoExplorador.Bootstrap
             _destroying = true;
             if (_sceneFlowView != null)
             {
-                _sceneFlowView.EnterJungleRequested -= EnterJungle;
+                _sceneFlowView.WorldRequested -= EnterWorld;
                 _sceneFlowView.ReturnCampRequested -= ReturnCamp;
                 _sceneFlowView.RetryRequested -= RetrySceneTransition;
                 _sceneFlowView.SimulateFailureRequested -= SimulateNextSceneFailure;
@@ -454,6 +494,23 @@ namespace PequenoExplorador.Bootstrap
             _services = null;
             _lifetimeCancellation?.Dispose();
             _lifetimeCancellation = null;
+        }
+
+        private static SceneTransitionResult ToSceneResult(WorldLoadResult result)
+        {
+            SceneTransitionOutcome outcome;
+            switch (result.Outcome)
+            {
+                case WorldLoadOutcome.Succeeded: outcome = SceneTransitionOutcome.Succeeded; break;
+                case WorldLoadOutcome.AlreadyThere: outcome = SceneTransitionOutcome.AlreadyThere; break;
+                case WorldLoadOutcome.Busy: outcome = SceneTransitionOutcome.Busy; break;
+                case WorldLoadOutcome.Canceled: outcome = SceneTransitionOutcome.Canceled; break;
+                case WorldLoadOutcome.Missing:
+                case WorldLoadOutcome.Unavailable:
+                case WorldLoadOutcome.Failed:
+                default: outcome = SceneTransitionOutcome.Failed; break;
+            }
+            return new SceneTransitionResult(outcome, result.ErrorCode);
         }
     }
 }

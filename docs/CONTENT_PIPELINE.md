@@ -1,6 +1,6 @@
 # Pipeline técnico de contenido local
 
-Estado: navegación local F07 y catálogo data-driven Prompt 14; no autoriza producción masiva ni contenido factual sin aprobación.
+Estado: navegación local F07, catálogo data-driven Prompt 14 y manifiesto extensible de mundos Prompt 15; no autoriza producción masiva ni contenido factual sin aprobación.
 
 ## Contrato Addressables
 
@@ -12,6 +12,14 @@ Estado: navegación local F07 y catálogo data-driven Prompt 14; no autoriza pro
 | Addresses | `scene/camp`, `scene/jungle`, `audio/<categoría>/<cue>[/locale]` | IDs estables; no paths/strings dispersos en Domain. |
 | Labels | `scene`, `shared-local`, `world-jungle`, `audio-local`, `audio-placeholder` | Selección/validación, no reglas de gameplay. |
 | Catálogo | Local, actualización al arranque deshabilitada | Incluido en el player; sin remote catalog, host, CDN o URL. |
+
+## Manifiestos de mundo
+
+`WorldCatalogAsset` referencia `WorldManifestAsset` locales. Selva aporta `world.jungle` con `AssetReference` a `scene/jungle`, labels `scene`/`world-jungle`, spawn/checkpoint tipados, catálogo de contenido, cues, requirements, `manifestVersion=1`, `contentVersion=0.1.0-placeholder` y tamaño estimado. El asset/GUID queda en Content; `WorldCatalogCompiler` produce un catálogo readonly indexado O(1) sin `AssetDatabase` runtime.
+
+El validator comprueba IDs/duplicados, ES/EN, cues, escena/address/grupo/labels locales, spawn, catálogos, versiones, tamaño y estado editorial. Outputs: `artifacts/reports/world-catalog-{development|release}.{json,md}`. Development acepta el stub Draft con watermark; Release produce `WORLD018` hasta reemplazo/aprobación. Disponibilidad `Locked` no equivale a entitlement, SKU ni compra.
+
+Flujo: Camp enumera `IWorldCatalog` → selección entrega `WorldId` → `WorldLoadUseCase` resuelve manifest → scene flow carga su `SceneContentId` → la sesión retiene el manifest activo → volver a Camp descarga el handle y limpia la sesión. Añadir una fixture de mundo cambia solo datos del catálogo; no el loader/coordinador. No existe descarga, tamaño remoto ni endpoint.
 
 El `ContentCatalogAsset` local se serializa desde Bootstrap y se compila una vez a `IContentCatalog`; no es un remote catalog ni usa `AssetDatabase` runtime. Definitions referencian IDs semánticos de localización/audio/visual, nunca GUID como lógica. Esquema y gate editorial: [`CONTENT_MODEL.md`](CONTENT_MODEL.md).
 
@@ -39,8 +47,8 @@ El comando valida configuración, cambia el target de contenido a Android, selec
 - Todo placeholder conserva `PH_` y metadata Release `Blocked`.
 - Todo contenido factual sigue [`CONTENT_SOURCES.md`](CONTENT_SOURCES.md); ser Addressable no equivale a estar aprobado.
 - Todo Draft lleva watermark Development; Release rechaza cada definition que no sea Approved o conserve placeholder.
-- Antes de añadir mundo/manifiesto: dependencia/provenance, budget, fallback offline, unload test, tres ciclos PlayMode y Android smoke.
+- Antes de añadir mundo/manifiesto: dependencia/provenance, tamaño estimado/budget aprobado, fallback offline, unload test, tres ciclos PlayMode y Android smoke.
 
 ## Evolución futura
 
-Los mundos se describirán mediante manifiestos data-driven; no se añadirá un `switch` central por cada bioma. Descarga/remote catalogs son post-MVP y requieren caso de uso, backend, modelo de actualización/rollback, seguridad, privacidad infantil, store disclosures y ADR humana/técnica.
+Los mundos ya se describen mediante manifiestos data-driven; no se añadirá un `switch` central por cada bioma. Descarga/remote catalogs son post-MVP y requieren caso de uso, backend, modelo de actualización/rollback, seguridad, privacidad infantil, store disclosures y ADR humana/técnica.

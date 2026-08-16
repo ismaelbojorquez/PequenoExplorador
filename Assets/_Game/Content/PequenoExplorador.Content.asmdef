@@ -4,6 +4,7 @@
   "references": [
     "PequenoExplorador.Application",
     "PequenoExplorador.Domain",
+    "Unity.Addressables",
     "UnityEngine.AudioModule"
   ],
   "includePlatforms": [],

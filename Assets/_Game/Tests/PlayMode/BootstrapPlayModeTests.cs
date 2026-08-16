@@ -9,7 +9,9 @@ using PequenoExplorador.Application.Configuration;
 using PequenoExplorador.Application.Lifecycle;
 using PequenoExplorador.Application.Localization;
 using PequenoExplorador.Application.SceneFlow;
+using PequenoExplorador.Application.Worlds;
 using PequenoExplorador.Bootstrap;
+using PequenoExplorador.Domain.Content;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
@@ -30,6 +32,9 @@ namespace PequenoExplorador.Tests.PlayMode
                 FindObjectsInactive.Include,
                 FindObjectsSortMode.None);
             DiagnosticBootstrap diagnostic = bootstraps[0];
+            Task spanish = diagnostic.SetLocaleAsync(LocaleCode.Spanish, persist: false, CancellationToken.None);
+            yield return WaitForTask(spanish);
+            yield return null;
 
             Assert.That(bootstraps, Has.Length.EqualTo(1));
             Assert.That(diagnostic.gameObject.activeInHierarchy, Is.True);
@@ -40,6 +45,8 @@ namespace PequenoExplorador.Tests.PlayMode
             Assert.That(diagnostic.ConfiguredAppVersion, Is.EqualTo(AppConfigDefaults.DevelopmentAppVersion));
             Assert.That(diagnostic.CurrentLocaleCode, Is.EqualTo(LocaleCode.Spanish));
             Assert.That(diagnostic.StatusText, Is.EqualTo("Listo"));
+            Assert.That(diagnostic.Worlds.Worlds, Has.Count.EqualTo(1));
+            Assert.That(diagnostic.Worlds.Worlds.Single().Manifest.Id, Is.EqualTo(WorldId.Parse("world.jungle")));
         }
 
         [UnityTest]
@@ -72,14 +79,18 @@ namespace PequenoExplorador.Tests.PlayMode
 
             for (int cycle = 0; cycle < 3; cycle++)
             {
-                Task<SceneTransitionResult> enter = bootstrap.GoToExpeditionAsync(CancellationToken.None);
+                Task<WorldLoadResult> enter = bootstrap.EnterWorldAsync(
+                    WorldId.Parse("world.jungle"),
+                    CancellationToken.None);
                 yield return WaitForTask(enter);
-                Assert.That(enter.Result.Outcome, Is.EqualTo(SceneTransitionOutcome.Succeeded));
+                Assert.That(enter.Result.Outcome, Is.EqualTo(WorldLoadOutcome.Succeeded));
+                Assert.That(bootstrap.WorldSession.ActiveWorld.Id, Is.EqualTo(WorldId.Parse("world.jungle")));
                 AssertSceneContract(bootstrap, SceneFlowState.Expedition, "Jungle", "Camp");
 
                 Task<SceneTransitionResult> back = bootstrap.GoToCampAsync(CancellationToken.None);
                 yield return WaitForTask(back);
                 Assert.That(back.Result.Outcome, Is.EqualTo(SceneTransitionOutcome.Succeeded));
+                Assert.That(bootstrap.WorldSession.ActiveWorld, Is.Null);
                 AssertSceneContract(bootstrap, SceneFlowState.Camp, "Camp", "Jungle");
                 Assert.That(bootstrap.State, Is.EqualTo(ApplicationState.Ready),
                     "Persistent application services must survive world unload.");
@@ -128,7 +139,7 @@ namespace PequenoExplorador.Tests.PlayMode
             yield return null;
             Assert.That(bootstrap.CurrentLocaleCode, Is.EqualTo(LocaleCode.English));
             Assert.That(bootstrap.StatusText, Is.EqualTo("Ready"));
-            Assert.That(AllTexts().Any(text => text.text == "Go to the jungle"), Is.True);
+            Assert.That(AllTexts().Any(text => text.text == "Jungle Expedition"), Is.True);
 
             Task pseudo = bootstrap.SetLocaleAsync(LocaleCode.Pseudo, persist: false, CancellationToken.None);
             yield return WaitForTask(pseudo);
@@ -210,7 +221,7 @@ namespace PequenoExplorador.Tests.PlayMode
                     FindObjectsSortMode.None);
                 DiagnosticBootstrap bootstrap = candidates.Length == 1 ? candidates[0] : null;
                 if (bootstrap != null && bootstrap.State == ApplicationState.Ready &&
-                    bootstrap.StatusText == "Listo" && bootstrap.SceneFlow != null &&
+                    bootstrap.SceneFlow != null &&
                     bootstrap.SceneFlow.Current == SceneFlowState.Camp &&
                     !bootstrap.SceneFlow.IsTransitioning)
                 {

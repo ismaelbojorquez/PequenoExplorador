@@ -8,6 +8,7 @@
     "PequenoExplorador.Domain",
     "PequenoExplorador.Infrastructure",
     "PequenoExplorador.Presentation",
+    "Unity.Addressables",
     "Unity.Addressables.Editor",
     "Unity.InputSystem",
     "Unity.Localization",

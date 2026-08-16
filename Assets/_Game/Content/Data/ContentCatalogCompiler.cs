@@ -59,7 +59,7 @@ namespace PequenoExplorador.Content.Data
 
             if (errors.Count == 0)
             {
-                try { catalog = new ContentCatalog(categories, tags, sources, facts, discoveries, aliases); }
+                try { catalog = new ContentCatalog(ContentCatalogId.Parse(source.RawId), categories, tags, sources, facts, discoveries, aliases); }
                 catch (ArgumentException exception) { errors.Add("DATA002 catalog index failed: " + exception.Message); }
             }
 

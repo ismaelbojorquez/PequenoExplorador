@@ -31,6 +31,8 @@ namespace PequenoExplorador.Application.Localization
         public static readonly LocalizedKey LocalePseudo = new LocalizedKey(UiTable, "ui.locale.pseudo");
         public static readonly LocalizedKey PauseTitle = new LocalizedKey(UiTable, "ui.pause.title");
         public static readonly LocalizedKey ActionResume = new LocalizedKey(UiTable, "ui.action.resume");
+        public static readonly LocalizedKey WorldUnavailable = new LocalizedKey(UiTable, "ui.world.unavailable");
+        public static readonly LocalizedKey WorldMissing = new LocalizedKey(UiTable, "ui.world.missing");
 
         public static readonly LocalizedKey WorldBoot = new LocalizedKey(ContentTable, "content.world.boot.name");
         public static readonly LocalizedKey WorldCamp = new LocalizedKey(ContentTable, "content.world.camp.name");

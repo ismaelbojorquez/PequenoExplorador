@@ -50,7 +50,7 @@ namespace PequenoExplorador.Infrastructure.SceneFlow
             }
 #endif
             cancellationToken.ThrowIfCancellationRequested();
-            string address = LocalSceneAddresses.For(contentId);
+            string address = contentId.Value;
             AsyncOperationHandle<SceneInstance> operation = Addressables.LoadSceneAsync(
                 (object)address,
                 LoadSceneMode.Additive,

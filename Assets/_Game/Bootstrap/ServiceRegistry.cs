@@ -13,6 +13,7 @@ using PequenoExplorador.Application.Save;
 using PequenoExplorador.Application.Services;
 using PequenoExplorador.Application.Input;
 using PequenoExplorador.Application.SceneFlow;
+using PequenoExplorador.Application.Worlds;
 using PequenoExplorador.Content.Audio;
 using PequenoExplorador.Content.Input;
 using PequenoExplorador.Infrastructure.Audio;
@@ -38,13 +39,14 @@ namespace PequenoExplorador.Bootstrap
         private readonly IDisposable _fileStoreLifetime;
 
         public ServiceRegistry(IAppConfig configuration, IFileStore fileStore = null)
-            : this(configuration, ContentCatalog.Empty, null, null, null, null, fileStore)
+            : this(configuration, ContentCatalog.Empty, WorldCatalog.Empty, null, null, null, null, fileStore)
         {
         }
 
         public ServiceRegistry(
             IAppConfig configuration,
             IContentCatalog contentCatalog,
+            IWorldCatalog worldCatalog,
             UnityEngine.GameObject audioHost,
             AudioCueCatalogAsset audioCatalog,
             InputActionAsset inputActions,
@@ -56,6 +58,7 @@ namespace PequenoExplorador.Bootstrap
                 throw new ArgumentNullException(nameof(configuration));
             }
             contentCatalog ??= ContentCatalog.Empty;
+            worldCatalog ??= WorldCatalog.Empty;
 
             var configViolations = AppConfigValidator.Validate(configuration);
             if (configViolations.Count > 0)
@@ -119,7 +122,9 @@ namespace PequenoExplorador.Bootstrap
             ISceneFlowService sceneFlow = new SceneFlowService(
                 sceneLoader,
                 logger,
-                configuration.SceneTransitionTimeout);
+                configuration.SceneTransitionTimeout,
+                LocalSceneAddresses.CampId);
+            IWorldSession worldSession = new WorldLoadUseCase(worldCatalog, sceneFlow);
 
 #if UNITY_EDITOR || PE_DEVELOPMENT_SERVICES
             ads = configuration.Features.IsEnabled(FeatureFlag.MockAds)
@@ -148,6 +153,8 @@ namespace PequenoExplorador.Bootstrap
                 localization,
                 audio,
                 contentCatalog,
+                worldCatalog,
+                worldSession,
                 input,
                 safeArea,
                 haptics,

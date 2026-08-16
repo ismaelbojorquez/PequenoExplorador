@@ -7,6 +7,7 @@ using PequenoExplorador.Application.Logging;
 using PequenoExplorador.Application.Localization;
 using PequenoExplorador.Application.Messaging;
 using PequenoExplorador.Application.Save;
+using PequenoExplorador.Application.Worlds;
 using PequenoExplorador.Application.SceneFlow;
 using PequenoExplorador.Application.Services;
 using PequenoExplorador.Application.Input;
@@ -25,6 +26,8 @@ namespace PequenoExplorador.Application
             ILocalizationService localization,
             IAudioService audio,
             IContentCatalog content,
+            IWorldCatalog worlds,
+            IWorldSession worldSession,
             IInputService input,
             ISafeAreaService safeArea,
             IHapticsService haptics,
@@ -42,6 +45,8 @@ namespace PequenoExplorador.Application
             Localization = localization ?? throw new ArgumentNullException(nameof(localization));
             Audio = audio ?? throw new ArgumentNullException(nameof(audio));
             Content = content ?? throw new ArgumentNullException(nameof(content));
+            Worlds = worlds ?? throw new ArgumentNullException(nameof(worlds));
+            WorldSession = worldSession ?? throw new ArgumentNullException(nameof(worldSession));
             Input = input ?? throw new ArgumentNullException(nameof(input));
             SafeArea = safeArea ?? throw new ArgumentNullException(nameof(safeArea));
             Haptics = haptics ?? throw new ArgumentNullException(nameof(haptics));
@@ -61,6 +66,8 @@ namespace PequenoExplorador.Application
         public ILocalizationService Localization { get; }
         public IAudioService Audio { get; }
         public IContentCatalog Content { get; }
+        public IWorldCatalog Worlds { get; }
+        public IWorldSession WorldSession { get; }
         public IInputService Input { get; }
         public ISafeAreaService SafeArea { get; }
         public IHapticsService Haptics { get; }

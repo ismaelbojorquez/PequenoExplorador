@@ -39,6 +39,7 @@ Escala: probabilidad (P) e impacto (I) de 1–5; severidad = P×I. `Owner humano
 | R-033 | Mezcla, loop, voz o placeholder de audio sobreestimula, confunde o llega a Release. | 3 | 4 | 12 | Pool/ganancias/ducking acotados, subtítulos/replay, diez `PH_` con `ReleaseBlocked` y validator; pruebas auditivas y reemplazos finales humanos pendientes. | Audio + Child UX | Prompt 12, F15, Gate D |
 | R-034 | Safe area, rotación, multitouch o Back difieren en hardware y provocan taps accidentales/salida frustrante. | 3 | 4 | 12 | Adapter único, targets 64×64, supresión multitouch, checkpoint+pausa, cuatro presets y tests InputTestFixture; Android físico con notch/gestos sigue obligatorio. | Mobile UX + QA | Antes de Gate C |
 | R-035 | IDs duplicados/retirados, referencia rota o Draft factual entra al player/Release. | 2 | 5 | 10 | IDs tipados, aliases, compiler determinista, referencias verificadas, reports JSON/Markdown y Release fail-closed por item. Revisión humana factual/derechos sigue pendiente. | Content + Tools + QA | Cada lote/Gate B |
+| R-036 | Manifest de mundo obsoleto/roto carga escena o catálogo equivocado, deja handles vivos o invalida progreso al retirar un mundo. | 2 | 5 | 10 | IDs tipados, validator de escena/labels/spawn/catálogos/version/editorial, sesión explícita, missing/locked amable, fixture de expansión y tres ciclos con handles. Falta reconciliación cuando save persista mundo/checkpoint y profiling de budgets. | World Systems + QA | Cada mundo/Gate B-C |
 
 ## Riesgo residual tras Gate A
 

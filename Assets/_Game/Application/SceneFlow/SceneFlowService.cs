@@ -11,17 +11,20 @@ namespace PequenoExplorador.Application.SceneFlow
         private readonly ISceneContentLoader _loader;
         private readonly IAppLogger _logger;
         private readonly TimeSpan _transitionTimeout;
+        private readonly SceneContentId _campContent;
         private readonly CancellationTokenSource _lifetimeCancellation = new CancellationTokenSource();
         private ISceneContentHandle _activeHandle;
         private SceneFlowSnapshot _snapshot;
         private TaskCompletionSource<bool> _transitionCompletion;
         private bool _transitionClaimed;
         private bool _shutdown;
+        private SceneContentId _retryContent;
 
         public SceneFlowService(
             ISceneContentLoader loader,
             IAppLogger logger,
-            TimeSpan transitionTimeout)
+            TimeSpan transitionTimeout,
+            SceneContentId campContent)
         {
             _loader = loader ?? throw new ArgumentNullException(nameof(loader));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -31,7 +34,9 @@ namespace PequenoExplorador.Application.SceneFlow
             }
 
             _transitionTimeout = transitionTimeout;
-            _snapshot = CreateSnapshot(SceneFlowState.Boot, SceneFlowState.Boot, false, 0f, string.Empty, null);
+            if (!campContent.IsValid) throw new ArgumentException("Camp scene content ID is invalid.", nameof(campContent));
+            _campContent = campContent;
+            _snapshot = CreateSnapshot(SceneFlowState.Boot, SceneFlowState.Boot, false, 0f, string.Empty, null, default, default);
         }
 
         public event Action<SceneFlowSnapshot> Changed;
@@ -40,19 +45,20 @@ namespace PequenoExplorador.Application.SceneFlow
 
         public Task<SceneTransitionResult> GoToCampAsync(CancellationToken cancellationToken)
         {
-            return TransitionAsync(SceneFlowState.Camp, cancellationToken);
+            return TransitionAsync(SceneFlowState.Camp, _campContent, cancellationToken);
         }
 
-        public Task<SceneTransitionResult> GoToExpeditionAsync(CancellationToken cancellationToken)
+        public Task<SceneTransitionResult> GoToExpeditionAsync(SceneContentId contentId, CancellationToken cancellationToken)
         {
-            return TransitionAsync(SceneFlowState.Expedition, cancellationToken);
+            if (!contentId.IsValid) return Task.FromResult(new SceneTransitionResult(SceneTransitionOutcome.Invalid, "SceneContentInvalid"));
+            return TransitionAsync(SceneFlowState.Expedition, contentId, cancellationToken);
         }
 
         public Task<SceneTransitionResult> RetryAsync(CancellationToken cancellationToken)
         {
             SceneFlowState? retryTarget = _snapshot.RetryTarget;
             return retryTarget.HasValue
-                ? TransitionAsync(retryTarget.Value, cancellationToken)
+                ? TransitionAsync(retryTarget.Value, _retryContent, cancellationToken)
                 : Task.FromResult(new SceneTransitionResult(SceneTransitionOutcome.Invalid, "NoRetryAvailable"));
         }
 
@@ -84,13 +90,14 @@ namespace PequenoExplorador.Application.SceneFlow
                 await _loader.UnloadAsync(handle, CancellationToken.None);
             }
 
-            Publish(CreateSnapshot(SceneFlowState.Boot, SceneFlowState.Boot, false, 0f, string.Empty, null));
+            Publish(CreateSnapshot(SceneFlowState.Boot, SceneFlowState.Boot, false, 0f, string.Empty, null, default, default));
             Changed = null;
             _lifetimeCancellation.Dispose();
         }
 
         private async Task<SceneTransitionResult> TransitionAsync(
             SceneFlowState target,
+            SceneContentId contentId,
             CancellationToken cancellationToken)
         {
             SceneFlowState origin;
@@ -112,9 +119,14 @@ namespace PequenoExplorador.Application.SceneFlow
                     return new SceneTransitionResult(SceneTransitionOutcome.Busy, "TransitionInProgress");
                 }
 
-                if (origin == target && string.IsNullOrEmpty(_snapshot.ErrorCode))
+                if (origin == target && _snapshot.CurrentContent == contentId && string.IsNullOrEmpty(_snapshot.ErrorCode))
                 {
                     return new SceneTransitionResult(SceneTransitionOutcome.AlreadyThere);
+                }
+
+                if (origin == target)
+                {
+                    return new SceneTransitionResult(SceneTransitionOutcome.Invalid, "ReturnToCampBeforeChangingWorld");
                 }
 
                 if (!IsAllowed(origin, target))
@@ -133,7 +145,8 @@ namespace PequenoExplorador.Application.SceneFlow
                 "TransitionStarted",
                 origin + "To" + target));
 
-            Publish(CreateSnapshot(origin, target, true, 0f, string.Empty, null));
+            SceneContentId originContent = _activeHandle?.ContentId ?? default;
+            Publish(CreateSnapshot(origin, target, true, 0f, string.Empty, null, originContent, contentId));
             ISceneContentHandle pendingHandle = null;
             using var timeout = CancellationTokenSource.CreateLinkedTokenSource(
                 cancellationToken,
@@ -142,12 +155,9 @@ namespace PequenoExplorador.Application.SceneFlow
 
             try
             {
-                SceneContentId contentId = target == SceneFlowState.Camp
-                    ? SceneContentId.Camp
-                    : SceneContentId.Jungle;
                 pendingHandle = await _loader.LoadAsync(
                     contentId,
-                    new DirectProgress(value => PublishProgress(origin, target, value)),
+                    new DirectProgress(value => PublishProgress(origin, target, originContent, contentId, value)),
                     timeout.Token);
                 timeout.Token.ThrowIfCancellationRequested();
 
@@ -159,8 +169,9 @@ namespace PequenoExplorador.Application.SceneFlow
 
                 _activeHandle = pendingHandle;
                 pendingHandle = null;
+                _retryContent = default;
                 ReleaseTransitionClaim();
-                Publish(CreateSnapshot(target, target, false, 1f, string.Empty, null));
+                Publish(CreateSnapshot(target, target, false, 1f, string.Empty, null, contentId, contentId));
                 _logger.Write(new AppLogEntry(AppLogLevel.Info, "SceneFlow", "TransitionCompleted", target.ToString()));
                 return new SceneTransitionResult(SceneTransitionOutcome.Succeeded);
             }
@@ -170,8 +181,9 @@ namespace PequenoExplorador.Application.SceneFlow
                 bool callerCanceled = cancellationToken.IsCancellationRequested ||
                                       _lifetimeCancellation.IsCancellationRequested;
                 string code = callerCanceled ? "TransitionCanceled" : "TransitionTimeout";
+                _retryContent = contentId;
                 ReleaseTransitionClaim();
-                Publish(CreateSnapshot(origin, target, false, 0f, code, target));
+                Publish(CreateSnapshot(origin, target, false, 0f, code, target, originContent, contentId));
                 _logger.Write(new AppLogEntry(AppLogLevel.Warning, "SceneFlow", code, target.ToString()));
                 return new SceneTransitionResult(
                     callerCanceled ? SceneTransitionOutcome.Canceled : SceneTransitionOutcome.TimedOut,
@@ -181,8 +193,9 @@ namespace PequenoExplorador.Application.SceneFlow
             {
                 await CleanupPendingAsync(pendingHandle);
                 string code = "SceneLoad" + exception.GetType().Name;
+                _retryContent = contentId;
                 ReleaseTransitionClaim();
-                Publish(CreateSnapshot(origin, target, false, 0f, code, target));
+                Publish(CreateSnapshot(origin, target, false, 0f, code, target, originContent, contentId));
                 _logger.Write(new AppLogEntry(AppLogLevel.Error, "SceneFlow", "TransitionFailed", code));
                 return new SceneTransitionResult(SceneTransitionOutcome.Failed, code);
             }
@@ -209,11 +222,11 @@ namespace PequenoExplorador.Application.SceneFlow
             }
         }
 
-        private void PublishProgress(SceneFlowState origin, SceneFlowState target, float progress)
+        private void PublishProgress(SceneFlowState origin, SceneFlowState target, SceneContentId originContent, SceneContentId targetContent, float progress)
         {
             if (_transitionClaimed)
             {
-                Publish(CreateSnapshot(origin, target, true, progress, string.Empty, null));
+                Publish(CreateSnapshot(origin, target, true, progress, string.Empty, null, originContent, targetContent));
             }
         }
 
@@ -243,7 +256,9 @@ namespace PequenoExplorador.Application.SceneFlow
             bool transitioning,
             float progress,
             string errorCode,
-            SceneFlowState? retryTarget)
+            SceneFlowState? retryTarget,
+            SceneContentId currentContent,
+            SceneContentId targetContent)
         {
             return new SceneFlowSnapshot(
                 current,
@@ -252,7 +267,9 @@ namespace PequenoExplorador.Application.SceneFlow
                 progress,
                 errorCode,
                 retryTarget,
-                _loader.ActiveHandleCount);
+                _loader.ActiveHandleCount,
+                currentContent,
+                targetContent);
         }
 
         private void Publish(SceneFlowSnapshot snapshot)

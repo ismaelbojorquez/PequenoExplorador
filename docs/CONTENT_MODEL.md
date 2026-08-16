@@ -1,6 +1,6 @@
 # Modelo data-driven de contenido
 
-Contrato canónico de Prompt 14. Permite authoring y resolución local de contenido sin implementar reglas de discovery, world, mission, activity o reward. El único discovery versionado es neutral, `Draft` y placeholder; no representa contenido factual final.
+Contrato canónico de Prompt 14, ampliado por Prompt 15 con manifests de mundo. Permite authoring y resolución local sin implementar reglas de discovery, mission, activity o reward. El único discovery y el único mundo versionados son neutrales, `Draft` y placeholder; no representan contenido factual final.
 
 ## Flujo y autoridades
 
@@ -25,6 +25,7 @@ IDs usan minúsculas ASCII, dígitos, puntos y guiones; el primer segmento fija 
 | Fact | `fact.<dominio>.<slug>` | `fact.jungle.placeholder.pending` |
 | Source | `source.<owner>.<slug>` | `source.pending.human-review` |
 | World | `world.<slug>` | `world.jungle` |
+| Scene/catalog/spawn/checkpoint/requirement | `scene/*`, `catalog.*`, `spawn.*`, `checkpoint.*`, `requirement.*` | Contrato del manifest Selva |
 | Mission/activity/reward | `mission.*` / `activity.*` / `reward.*` | Solo contratos; sin instancias runtime |
 | Visual | `visual.<owner>.<slug>` | `visual.discovery.jungle.placeholder` |
 
@@ -39,9 +40,10 @@ Category/world/tag no son enums cerrados. El botón explícito `Generate stable 
 | `TagDefinition` | `TagDefinitionAsset` | ID y metadata editorial |
 | `EducationalFactDefinition` | `EducationalFactDefinitionAsset` | copy localizada, claim de revisión y source records |
 | `ContentSourceRecord` | `ContentSourceRecordAsset` | institución/autor/título/referencia/consulta/revisor según avance |
-| `IWorldDefinition`, `IMissionDefinition`, `IActivityDefinition`, `IRewardDefinition` | Diferido | Solo ID tipado; no reglas ficticias |
+| `WorldManifest` / `IWorldDefinition` | `WorldManifestAsset` | escena/labels/spawn/checkpoints/catálogos/cues/requirements/version/tamaño/editorial |
+| `IMissionDefinition`, `IActivityDefinition`, `IRewardDefinition` | Diferido | Solo ID tipado; no reglas ficticias |
 
-El catálogo mantiene diccionarios privados O(1) para category, tag, source, fact y discovery, más una colección de discoveries ordenada por ID para enumeración determinista. `TryGetDiscovery` resuelve el ID vigente; `TryResolveDiscovery` también consulta aliases.
+El catálogo de contenido mantiene diccionarios privados O(1) para category, tag, source, fact y discovery, más una colección de discoveries ordenada por ID. `TryGetDiscovery` resuelve el ID vigente; `TryResolveDiscovery` consulta aliases. `WorldCatalog` mantiene un índice O(1) separado y orden estable; su disponibilidad técnica no decide acceso comercial.
 
 ## Estados editoriales y Release
 

@@ -11,7 +11,9 @@ namespace PequenoExplorador.Application.SceneFlow
             float progress,
             string errorCode,
             SceneFlowState? retryTarget,
-            int activeHandleCount)
+            int activeHandleCount,
+            SceneContentId currentContent,
+            SceneContentId targetContent)
         {
             Current = current;
             Target = target;
@@ -20,6 +22,8 @@ namespace PequenoExplorador.Application.SceneFlow
             ErrorCode = errorCode ?? string.Empty;
             RetryTarget = retryTarget;
             ActiveHandleCount = activeHandleCount;
+            CurrentContent = currentContent;
+            TargetContent = targetContent;
         }
 
         public SceneFlowState Current { get; }
@@ -29,6 +33,8 @@ namespace PequenoExplorador.Application.SceneFlow
         public string ErrorCode { get; }
         public SceneFlowState? RetryTarget { get; }
         public int ActiveHandleCount { get; }
+        public SceneContentId CurrentContent { get; }
+        public SceneContentId TargetContent { get; }
         public bool HasRecoverableError => !string.IsNullOrEmpty(ErrorCode) && RetryTarget.HasValue;
     }
 }

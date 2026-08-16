@@ -92,6 +92,14 @@ MonoBehaviour:
     m_Localized: Continue
     m_Metadata:
       m_Items: []
+  - m_Id: 49203240755200
+    m_Localized: This place is not available yet.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49203265921024
+    m_Localized: This place is no longer available. Your progress is still safe.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

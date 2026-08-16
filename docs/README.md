@@ -1,6 +1,6 @@
 # Índice documental
 
-Estado: foundation, scene flow local, persistencia schema v3, localización/audio/input y catálogo data-driven Draft disponibles; todavía no existe gameplay ni contenido final. Empezar siempre por [`../AGENTS.md`](../AGENTS.md) y [`STATUS.md`](STATUS.md).
+Estado: foundation, scene flow local, persistencia schema v3, localización/audio/input, catálogo data-driven Draft y manifest Selva disponibles; todavía no existe gameplay ni contenido final. Empezar siempre por [`../AGENTS.md`](../AGENTS.md) y [`STATUS.md`](STATUS.md).
 
 ## Fuentes de verdad
 
@@ -82,6 +82,7 @@ Los saltos numéricos reservan espacio para documentos técnicos futuros; no imp
 - [`PHASE_11_PREFLIGHT.md`](PHASE_11_PREFLIGHT.md)
 - [`PHASE_13_PREFLIGHT.md`](PHASE_13_PREFLIGHT.md)
 - [`PHASE_14_PREFLIGHT.md`](PHASE_14_PREFLIGHT.md)
+- [`PHASE_15_PREFLIGHT.md`](PHASE_15_PREFLIGHT.md)
 
 ## Lectura obligatoria para el siguiente incremento
 

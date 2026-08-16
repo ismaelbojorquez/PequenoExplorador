@@ -86,6 +86,8 @@ namespace PequenoExplorador.Tests.EditMode
                 first.Context.Localization,
                 first.Context.Audio,
                 first.Context.Content,
+                first.Context.Worlds,
+                first.Context.WorldSession,
                 first.Context.Input,
                 first.Context.SafeArea,
                 first.Context.Haptics,

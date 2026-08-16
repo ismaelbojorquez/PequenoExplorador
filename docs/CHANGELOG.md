@@ -1,5 +1,30 @@
 # Changelog
 
+## Prompt 15 — 2026-08-16
+
+### Added
+
+- `WorldManifest` readonly y authoring `WorldManifestAsset` con `world.jungle`, versiones, escena, labels, spawn/checkpoint, catálogos, cues, requirements, tamaño estimado y metadata editorial.
+- `IWorldCatalog`, índice O(1), disponibilidad local, `IWorldSession` y `WorldLoadUseCase`; selector Camp toma Selva del catálogo y muestra respuestas ES/EN para locked/missing.
+- Validator Editor/CLI con reportes JSON/Markdown, marker `spawn.jungle.entry` y fixture in-memory `world.test-ocean` que usa el coordinador sin modificarlo.
+
+### Changed
+
+- `SceneContentId` dejó de ser enum Camp/Jungle: ahora es address semántico `scene/*`; Addressables conserva ownership único y retry por contenido.
+- Bootstrap compila/injecta catálogos Content/World, conserva la sesión de mundo y reproduce cues aportados por manifest; Content añade solo la referencia oficial Addressables ya fijada.
+- Arquitectura, world design, content model/pipeline, testing, decisiones y riesgos reflejan mundos local-only sin entitlement, download ni switch central.
+
+### Verified
+
+- `scripts/validate` final código `0` en 120.04 s: repository/compile/validators, Addressables local, EditMode `89/89` (1.670 s), PlayMode `11/11` (4.321 s) y APK Development.
+- Addressables `4.0.1`: 41 locations, 15 archivos, 821,576 bytes, `LocalDevelopment`, `remoteCatalog=false`; tres ciclos Selva y cero handles tras shutdown.
+- APK `66,473,622` bytes, SHA-256 `07cd4ad69994f79790c0f8ea14c985c63d05a357e333cce466d29b3c1ec75c9c`, API 26/36, IL2CPP/ARM64. Manifest sin cámara, micrófono, ubicación, contactos ni `AD_ID`; conserva `INTERNET` heredado.
+- World report Development `PASS` con `world.jungle`; Release `FAIL` esperado `WORLD018` por Draft/PH_, no se convirtió en PASS.
+
+### Not added
+
+- Gameplay, personaje, otro mundo real, download/remote catalog, entitlement/SKU, cambio de save, assets finales, SDK, permiso sensible, signing, push o publicación.
+
 ## Prompt 14 — 2026-08-16
 
 ### Added

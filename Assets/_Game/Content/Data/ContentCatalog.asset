@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3495a591d88c4400789260388a135dc6, type: 3}
   m_Name: ContentCatalog
   m_EditorClassIdentifier: PequenoExplorador.Content::PequenoExplorador.Content.Data.ContentCatalogAsset
+  _id: catalog.jungle.placeholder
   _categories:
   - {fileID: 11400000, guid: fcd87aa2f711b4c89aac4b31fcae9233, type: 2}
   _tags:

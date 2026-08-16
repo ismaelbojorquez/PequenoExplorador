@@ -9,6 +9,9 @@ namespace PequenoExplorador.Tests.EditMode
 {
     public sealed class SceneFlowServiceTests
     {
+        private static readonly SceneContentId Camp = SceneContentId.Parse("scene/camp");
+        private static readonly SceneContentId Jungle = SceneContentId.Parse("scene/jungle");
+
         [Test]
         public async Task BootCampExpeditionCampOwnsOnlyTheCurrentScene()
         {
@@ -17,7 +20,7 @@ namespace PequenoExplorador.Tests.EditMode
 
             Assert.That((await flow.GoToCampAsync(CancellationToken.None)).Outcome,
                 Is.EqualTo(SceneTransitionOutcome.Succeeded));
-            Assert.That((await flow.GoToExpeditionAsync(CancellationToken.None)).Outcome,
+            Assert.That((await flow.GoToExpeditionAsync(Jungle, CancellationToken.None)).Outcome,
                 Is.EqualTo(SceneTransitionOutcome.Succeeded));
             Assert.That((await flow.GoToCampAsync(CancellationToken.None)).Outcome,
                 Is.EqualTo(SceneTransitionOutcome.Succeeded));
@@ -57,7 +60,7 @@ namespace PequenoExplorador.Tests.EditMode
             await flow.GoToCampAsync(CancellationToken.None);
             loader.FailNextLoad = true;
 
-            SceneTransitionResult failed = await flow.GoToExpeditionAsync(CancellationToken.None);
+            SceneTransitionResult failed = await flow.GoToExpeditionAsync(Jungle, CancellationToken.None);
             SceneTransitionResult retried = await flow.RetryAsync(CancellationToken.None);
 
             Assert.That(failed.Outcome, Is.EqualTo(SceneTransitionOutcome.Failed));
@@ -92,7 +95,7 @@ namespace PequenoExplorador.Tests.EditMode
             {
                 BeforeLoad = async (content, token) => await Task.Delay(Timeout.Infinite, token)
             };
-            var flow = new SceneFlowService(loader, new RecordingLogger(), TimeSpan.FromMilliseconds(25));
+            var flow = new SceneFlowService(loader, new RecordingLogger(), TimeSpan.FromMilliseconds(25), Camp);
 
             SceneTransitionResult result = await flow.GoToCampAsync(CancellationToken.None);
 
@@ -131,7 +134,7 @@ namespace PequenoExplorador.Tests.EditMode
 
         private static SceneFlowService Create(FakeSceneContentLoader loader)
         {
-            return new SceneFlowService(loader, new RecordingLogger(), TimeSpan.FromSeconds(5));
+            return new SceneFlowService(loader, new RecordingLogger(), TimeSpan.FromSeconds(5), Camp);
         }
     }
 }

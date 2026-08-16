@@ -151,6 +151,14 @@ MonoBehaviour:
     m_Key: ui.action.resume
     m_Metadata:
       m_Items: []
+  - m_Id: 49203240755200
+    m_Key: ui.world.unavailable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49203265921024
+    m_Key: ui.world.missing
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

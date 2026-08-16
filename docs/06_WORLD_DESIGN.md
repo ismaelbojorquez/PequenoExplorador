@@ -36,16 +36,20 @@ El campamento representa progreso sin convertirse en city builder.
 - Un objeto especial es contenido coleccionable contextual, no moneda premium.
 - Ninguno bloquea la misión principal ni desaparece por tiempo.
 
-## Estados de mundo data-driven
+## Contrato runtime de mundo
 
-Cada sector define puntos de entrada/salida, descubrimientos disponibles, interacciones, requisitos de misión, feedback ambiental, navegación y fallback si un objetivo no carga. El mundo consulta progreso; no decide recompensas, hechos educativos ni persistencia física.
+Cada mundo se descubre por un `WorldManifest` local, no por un switch central. El contrato incluye ID estable, versiones de manifest/contenido, nombre localizado, escena, labels, spawn, checkpoints, catálogos, música/ambiente, requisitos no comerciales y tamaño instalado estimado. `IWorldCatalog` enumera; `WorldLoadUseCase` distingue `Available`, `Locked` y `Missing`; `IWorldSession` posee el mundo activo y retry. Entitlements/precios no forman parte de disponibilidad técnica.
 
-## Baseline runtime F07
+Baseline Selva: `world.jungle`, `scene/jungle`, `spawn.jungle.entry`, `checkpoint.jungle.entry`, labels `scene`/`world-jungle` y catálogo local actual. Sigue `Draft`/`PH_`, por lo que Development puede mostrarlo y Release lo bloquea. Un mundo retirado devuelve copy amable y no reescribe el progreso; la reconciliación de IDs publicados se diseñará cuando save guarde estado de mundo real.
 
-`Bootstrap` representa Boot y conserva servicios. `Camp` y `Jungle` son escenas placeholder aditivas, no contenido del Vertical Slice: prueban `Boot → Camp ↔ Expedition`, error/retry y descarga. Al volver a Camp se descarga Jungle y sus bundles sin destruir servicios. Addresses, grupos y la prohibición `SharedLocal → JungleLocal` viven en [`CONTENT_PIPELINE.md`](CONTENT_PIPELINE.md).
+Cada sector futuro define puntos de entrada/salida, descubrimientos disponibles, interacciones, requisitos de misión, feedback ambiental, navegación y fallback si un objetivo no carga. El mundo consulta progreso; no decide recompensas, hechos educativos ni persistencia física.
+
+## Baseline runtime F07–Prompt 15
+
+`Bootstrap` representa Boot y conserva servicios. Camp lista Selva desde el catálogo; `Camp` y `Jungle` son escenas placeholder aditivas, no contenido del Vertical Slice. Prueban `Boot → Camp ↔ Expedition`, error/retry y unload. Al volver a Camp se libera Jungle y sus bundles sin destruir servicios. Addresses, manifests, grupos y la prohibición `SharedLocal → JungleLocal` viven en [`CONTENT_PIPELINE.md`](CONTENT_PIPELINE.md).
 
 La pantalla temporal y los controles Development no fijan navegación final, layout, safe area ni input infantil. Siguen bloqueados para Release mediante metadata `PH_`; no cuentan para cantidades MVP ni autorizan producir sectores/animales.
 
 ## Post-MVP explícito
 
-Otros biomas, ciclo día/noche, clima dinámico, encuentros procedurales y mundo conectado a servicios remotos son post-MVP sin cantidad comprometida.
+Otros biomas, ciclo día/noche, clima dinámico, encuentros procedurales y mundo conectado a servicios remotos son post-MVP sin cantidad comprometida. Dinosaurios/Océano/Espacio/Polar/Desierto son posibilidades documentales: no existen assets, catálogos, entitlements ni compromisos de producción para ellos.
