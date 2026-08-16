@@ -69,6 +69,7 @@ namespace PequenoExplorador.Editor
                 ["PequenoExplorador.Infrastructure"] = new[]
                 {
                     "PequenoExplorador.Application",
+                    "PequenoExplorador.Domain",
                     "Unity.Addressables",
                     "Unity.ResourceManager"
                 },
@@ -80,6 +81,7 @@ namespace PequenoExplorador.Editor
                 {
                     "PequenoExplorador.Application",
                     "PequenoExplorador.Content",
+                    "PequenoExplorador.Domain",
                     "PequenoExplorador.Infrastructure",
                     "PequenoExplorador.Presentation"
                 },
@@ -96,6 +98,7 @@ namespace PequenoExplorador.Editor
                 {
                     "PequenoExplorador.Application",
                     "PequenoExplorador.Bootstrap",
+                    "PequenoExplorador.Domain",
                     "PequenoExplorador.Editor",
                     "PequenoExplorador.Infrastructure",
                     "PequenoExplorador.Presentation"
@@ -103,7 +106,9 @@ namespace PequenoExplorador.Editor
                 ["PequenoExplorador.Tests.PlayMode"] = new[]
                 {
                     "PequenoExplorador.Application",
-                    "PequenoExplorador.Bootstrap"
+                    "PequenoExplorador.Bootstrap",
+                    "PequenoExplorador.Domain",
+                    "PequenoExplorador.Infrastructure"
                 }
             };
 

@@ -39,6 +39,8 @@ La tabla de perfiles y orden de servicios es canónica en [`02_TECHNICAL_ARCHITE
 
 Scene flow EditMode cubre estados, exclusión mutua, error/retry, cancelación, timeout, unload y shutdown. PlayMode exige un único Bootstrap, `Boot→Camp`, tres ciclos `Camp→Jungle→Camp`, un solo handle para la escena actual, cero tras shutdown y recuperación del fallo Development. El stub documental incluido por Addressables se distingue del conteo de tests del proyecto.
 
+Save EditMode cubre default/round-trip, JSON determinista, write/flush/commit inyectados, truncado, checksum, backup preservado, v0→v1, migración ausente, future schema read-only, cancelación, reset, coalescing y replace físico repetido. PlayMode recrea el servicio tras recarga de escena y verifica el checkpoint. Los directorios físicos de tests son temporales con prefijo controlado; no se usa `PlayerPrefs`, red, reloj real ni rutas versionadas. Detalle: [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md).
+
 Los wrappers son orquestadores: configuración, validación y build viven bajo `Assets/_Game/Editor/BuildTools`. Los logs sustituyen la raíz del proyecto, home y ejecutable del Editor por marcadores antes de conservarse.
 
 ## Diagnóstico y recuperación

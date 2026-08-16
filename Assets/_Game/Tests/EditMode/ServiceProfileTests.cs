@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using PequenoExplorador.Application;
 using PequenoExplorador.Application.Services;
+using PequenoExplorador.Application.Save;
 using PequenoExplorador.Bootstrap;
 using PequenoExplorador.Infrastructure.Ads;
 using PequenoExplorador.Infrastructure.Analytics;
@@ -21,7 +22,8 @@ namespace PequenoExplorador.Tests.EditMode
         public async Task DevelopmentUsesOnlyLocalNullAndMockServices()
         {
             using var registry = new ServiceRegistry(
-                new BootstrapConfiguration(ApplicationEnvironment.Development, 42));
+                new BootstrapConfiguration(ApplicationEnvironment.Development, 42),
+                new InMemoryFileStore());
 
             await registry.Host.InitializeAsync(CancellationToken.None);
             ServiceOperationResult adResult = await registry.Context.Ads.TryShowAsync(
@@ -44,7 +46,7 @@ namespace PequenoExplorador.Tests.EditMode
         public async Task ReleaseIsFailClosedAndContainsNoSimulatorSelection()
         {
             var configuration = new BootstrapConfiguration(ApplicationEnvironment.Release, 42);
-            using var registry = new ServiceRegistry(configuration);
+            using var registry = new ServiceRegistry(configuration, new InMemoryFileStore());
 
             await registry.Host.InitializeAsync(CancellationToken.None);
             ServiceOperationResult adResult = await registry.Context.Ads.TryShowAsync(
@@ -68,15 +70,18 @@ namespace PequenoExplorador.Tests.EditMode
             DateTimeOffset expected = new DateTimeOffset(2026, 8, 14, 12, 0, 0, TimeSpan.Zero);
             var manualClock = new ManualClock(expected);
             using var first = new ServiceRegistry(
-                new BootstrapConfiguration(ApplicationEnvironment.Release, 1234));
+                new BootstrapConfiguration(ApplicationEnvironment.Release, 1234),
+                new InMemoryFileStore());
             using var second = new ServiceRegistry(
-                new BootstrapConfiguration(ApplicationEnvironment.Release, 1234));
+                new BootstrapConfiguration(ApplicationEnvironment.Release, 1234),
+                new InMemoryFileStore());
             var context = new ApplicationContext(
                 ApplicationEnvironment.Release,
                 manualClock,
                 first.Context.Random,
                 first.Context.Logger,
                 first.Context.Messages,
+                first.Context.Save,
                 first.Context.Analytics,
                 first.Context.Ads,
                 first.Context.Purchases,
@@ -90,11 +95,13 @@ namespace PequenoExplorador.Tests.EditMode
         public void RegistryDeclaresTheOnlyAuthorizedInitializationOrder()
         {
             using var registry = new ServiceRegistry(
-                new BootstrapConfiguration(ApplicationEnvironment.Release, 1));
+                new BootstrapConfiguration(ApplicationEnvironment.Release, 1),
+                new InMemoryFileStore());
 
             Assert.That(registry.Host.ServiceOrder, Is.EqualTo(new[]
             {
                 "MessageBus",
+                "Save",
                 "Analytics",
                 "Ads",
                 "Purchases"

@@ -72,7 +72,7 @@ Fase 04 fija nueve asmdefs: seis runtime, Editor y dos suites. La tabla y grafo 
 ## Addressables, save y plataforma
 
 - Addressables es local-first; catálogo remoto, actualización y descarga quedan deshabilitados en MVP. Las claves son constantes/IDs validados, no strings dispersos.
-- Save usa DTOs separados del Domain, con `schemaVersion`, IDs estables, valores mínimos y migraciones encadenadas/testeadas. Escritura atómica, recuperación de corrupción, reset adulto y ausencia de PII son obligatorios.
+- Save usa DTOs separados del Domain, con `schemaVersion`, IDs estables, valores mínimos y migraciones encadenadas/testeadas. El contrato ejecutable está en [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md): `JsonUtility` queda encapsulado en Infrastructure, checksum no se llama cifrado, future schema es read-only, escritura rota primary→backup y una recuperación preserva el backup válido.
 - Reloj, almacenamiento, audio focus, lifecycle y futuros servicios de plataforma entran por puertos de Application. Ads/IAP/analytics usan implementaciones null/mock hasta ADR y aprobación humana.
 - Feature flags son locales, tipados, con owner/fecha de retiro y default seguro. No remote config, segmentación infantil o activación silenciosa; ads/IAP/red permanecen off por defecto.
 

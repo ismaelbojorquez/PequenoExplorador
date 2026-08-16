@@ -4,6 +4,7 @@
   "references": [
     "PequenoExplorador.Application",
     "PequenoExplorador.Content",
+    "PequenoExplorador.Domain",
     "PequenoExplorador.Infrastructure",
     "PequenoExplorador.Presentation"
   ],

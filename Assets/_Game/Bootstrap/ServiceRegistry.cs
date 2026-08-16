@@ -3,6 +3,7 @@ using PequenoExplorador.Application;
 using PequenoExplorador.Application.Lifecycle;
 using PequenoExplorador.Application.Logging;
 using PequenoExplorador.Application.Messaging;
+using PequenoExplorador.Application.Save;
 using PequenoExplorador.Application.Services;
 using PequenoExplorador.Application.SceneFlow;
 using PequenoExplorador.Infrastructure.Ads;
@@ -11,6 +12,7 @@ using PequenoExplorador.Infrastructure.Logging;
 using PequenoExplorador.Infrastructure.Messaging;
 using PequenoExplorador.Infrastructure.Purchases;
 using PequenoExplorador.Infrastructure.Random;
+using PequenoExplorador.Infrastructure.Save;
 using PequenoExplorador.Infrastructure.Time;
 using PequenoExplorador.Infrastructure.SceneFlow;
 using ApplicationContext = PequenoExplorador.Application.AppContext;
@@ -19,7 +21,9 @@ namespace PequenoExplorador.Bootstrap
 {
     internal sealed class ServiceRegistry : IDisposable
     {
-        public ServiceRegistry(BootstrapConfiguration configuration)
+        private readonly IDisposable _fileStoreLifetime;
+
+        public ServiceRegistry(BootstrapConfiguration configuration, IFileStore fileStore = null)
         {
             if (configuration == null)
             {
@@ -30,6 +34,14 @@ namespace PequenoExplorador.Bootstrap
             IClock clock = new SystemClock();
             IRandomSource random = new SeededRandomSource(configuration.RandomSeed);
             IMessageBus messages = new InMemoryMessageBus();
+            IFileStore resolvedFileStore = fileStore ?? new LocalFileStore(
+                System.IO.Path.Combine(UnityEngine.Application.persistentDataPath, "Save"));
+            _fileStoreLifetime = resolvedFileStore as IDisposable;
+            ISaveService save = new LocalSaveService(
+                resolvedFileStore,
+                DiagnosticBootstrap.DevelopmentVersion,
+                logger,
+                new ISaveMigration[] { new LegacyV0ToV1Migration() });
             IAnalyticsService analytics = new NullAnalyticsService();
             IAdsService ads;
             IPurchaseService purchases;
@@ -71,6 +83,7 @@ namespace PequenoExplorador.Bootstrap
                 random,
                 logger,
                 messages,
+                save,
                 analytics,
                 ads,
                 purchases,
@@ -79,16 +92,20 @@ namespace PequenoExplorador.Bootstrap
                 new IApplicationService[]
                 {
                     messages,
+                    save,
                     analytics,
                     ads,
                     purchases
                 },
                 logger);
+            SaveCoordinator = new AutosaveCoordinator(save, logger, TimeSpan.FromMilliseconds(500));
         }
 
         public ApplicationContext Context { get; }
 
         public ApplicationHost Host { get; }
+
+        public AutosaveCoordinator SaveCoordinator { get; }
 
 #if UNITY_EDITOR || PE_DEVELOPMENT_SERVICES
         public DevelopmentSceneLoadFailure SceneFailure { get; }
@@ -96,7 +113,9 @@ namespace PequenoExplorador.Bootstrap
 
         public void Dispose()
         {
+            SaveCoordinator.Dispose();
             Host.Dispose();
+            _fileStoreLifetime?.Dispose();
         }
     }
 }

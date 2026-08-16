@@ -1,6 +1,6 @@
 # Índice documental
 
-Estado: Fases 00–06 y el incremento scene-flow de F07 completados el 2026-08-15. Existe foundation Unity, composition root, servicios seguros, Addressables local y pipeline; todavía no existe gameplay ni contenido final. Empezar siempre por [`../AGENTS.md`](../AGENTS.md) y [`STATUS.md`](STATUS.md).
+Estado: foundation, scene flow local y persistencia schema v1 disponibles; todavía no existe gameplay ni contenido final. Empezar siempre por [`../AGENTS.md`](../AGENTS.md) y [`STATUS.md`](STATUS.md).
 
 ## Fuentes de verdad
 
@@ -12,6 +12,7 @@ Estado: Fases 00–06 y el incremento scene-flow de F07 completados el 2026-08-1
 | Secuencia de trabajo | [`ROADMAP.md`](ROADMAP.md) | Único orden de Gates A–F y Fases 00–57. |
 | Hechos educativos | [`CONTENT_SOURCES.md`](CONTENT_SOURCES.md) | Ningún claim llega a Release sin trazabilidad y aprobación humana. |
 | Contenido runtime | [`CONTENT_PIPELINE.md`](CONTENT_PIPELINE.md) | Define grupos/perfiles locales, ownership y prohibición de remoto. |
+| Persistencia | [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md) | Schema, archivos, migración, atomicidad, privacidad y recovery. |
 | Decisiones | [`DECISIONS.md`](DECISIONS.md) | Separa decisiones técnicas/producto de pendientes humanos. |
 | Estado operativo | [`STATUS.md`](STATUS.md) | Fase/Gate, capacidades, plan activo, bloqueos y siguiente acción. |
 | Ejecución | [`../.agent/PLANS.md`](../.agent/PLANS.md) | Decide cuándo y cómo mantener un ExecPlan vivo. |
@@ -46,6 +47,7 @@ Los saltos numéricos reservan espacio para documentos técnicos futuros; no imp
 - [`TECHNICAL_ARCHITECTURE.md`](TECHNICAL_ARCHITECTURE.md): alias histórico hacia la arquitectura canónica.
 - [`DEPENDENCY_REGISTER.md`](DEPENDENCY_REGISTER.md): intake y pins de paquetes directos/transitivos.
 - [`CONTENT_PIPELINE.md`](CONTENT_PIPELINE.md): Addressables local, addresses/labels, ownership, build y evolución.
+- [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md): schema v1, DTOs, checksum, backup, migrations, autosave y recuperación.
 - [`20_ANDROID_RELEASE.md`](20_ANDROID_RELEASE.md): build Android actual y bloqueo de Release.
 - [`ANDROID_RELEASE.md`](ANDROID_RELEASE.md): evidencia histórica de smoke F03/F04.
 - [`GITHUB_SETUP.md`](GITHUB_SETUP.md): remoto, protección, runner/licencia y secrets como pasos humanos.
@@ -66,9 +68,10 @@ Los saltos numéricos reservan espacio para documentos técnicos futuros; no imp
 - [`PHASE_05_PREFLIGHT.md`](PHASE_05_PREFLIGHT.md)
 - [`PHASE_06_PREFLIGHT.md`](PHASE_06_PREFLIGHT.md)
 - [`PHASE_07_PREFLIGHT.md`](PHASE_07_PREFLIGHT.md)
+- [`PHASE_09_PREFLIGHT.md`](PHASE_09_PREFLIGHT.md)
 
-## Lectura obligatoria para Fase 07
+## Lectura obligatoria para el siguiente incremento
 
-Seguir el orden exacto de [`STATUS.md`](STATUS.md) y reejecutar `scripts/validate`. Leer la arquitectura canónica antes de tocar UI/escenas. El shell, safe area y prototipo de input de F07 no autorizan producir catálogo MVP; tap-to-move sigue candidato hasta playtest y no se escala contenido antes del Vertical Slice.
+Seguir el orden exacto de [`STATUS.md`](STATUS.md) y reejecutar `scripts/validate`. Para cualquier cambio de progreso/save, leer `10_SAVE_SYSTEM` y añadir migración/test antes de cambiar schema. La persistencia no autoriza producir catálogo MVP ni ampliar más allá de Selva.
 
 Las notas regulatorias son baseline de ingeniería, no asesoría legal definitiva. Las políticas deben revalidarse en la fase indicada y antes de cada envío.

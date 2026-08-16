@@ -3,7 +3,9 @@
   "rootNamespace": "PequenoExplorador.Tests.PlayMode",
   "references": [
     "PequenoExplorador.Application",
-    "PequenoExplorador.Bootstrap"
+    "PequenoExplorador.Bootstrap",
+    "PequenoExplorador.Domain",
+    "PequenoExplorador.Infrastructure"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

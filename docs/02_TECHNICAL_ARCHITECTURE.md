@@ -1,6 +1,6 @@
 # Arquitectura técnica — fronteras modulares
 
-Estado: fronteras F04, composition root F06 y scene flow Addressables local F07 implementados el 2026-08-15. No define APIs de gameplay. `Bootstrap` persiste y entra a Camp placeholder.
+Estado: fronteras F04, composition root F06, scene flow local y persistencia schema v1 implementados. No define APIs de gameplay. `Bootstrap` persiste y entra a Camp placeholder.
 
 ## Grafo real de assemblies
 
@@ -16,6 +16,7 @@ PequenoExplorador.Content
 
 PequenoExplorador.Infrastructure
 ├─ Application
+├─ Domain
 ├─ Unity.Addressables
 └─ Unity.ResourceManager
 
@@ -25,6 +26,7 @@ PequenoExplorador.Presentation
 PequenoExplorador.Bootstrap
 ├─ Application
 ├─ Content
+├─ Domain
 ├─ Infrastructure
 └─ Presentation
 
@@ -37,13 +39,16 @@ PequenoExplorador.Editor [Editor only]
 PequenoExplorador.Tests.EditMode [Editor only]
 ├─ Application
 ├─ Bootstrap
+├─ Domain
 ├─ Editor
 ├─ Infrastructure
 └─ Presentation
 
 PequenoExplorador.Tests.PlayMode
 ├─ Application
-└─ Bootstrap
+├─ Bootstrap
+├─ Domain
+└─ Infrastructure
 ```
 
 Son nueve assemblies de proyecto. Las suites reciben NUnit/TestRunner mediante `optionalUnityReferences: TestAssemblies`; no usan `overrideReferences`. Las dependencias implícitas de Unity solo están disponibles donde `noEngineReferences=false`.
@@ -57,7 +62,7 @@ El player Android inspeccionado contiene únicamente los seis assemblies runtime
 | Domain | Reglas y estado C# puro cuando existan casos reales. | `UnityEngine`, plataforma, filesystem, UI, SDKs. |
 | Application | Lifecycle, contexto inmutable y puertos sobre Domain/BCL. | Unity, concretos de Infrastructure/Presentation/Content. |
 | Content | Authoring y mapeo de contenido aprobado. | Infrastructure y Presentation; estado mutable de sesión. |
-| Infrastructure | Reloj/random/logger/bus, adapters Null/Mock/seguros y ownership Addressables de escenas; SDK/save solo tras fase y ADR. | Presentation, Content y Bootstrap. |
+| Infrastructure | Reloj/random/logger/bus, adapters Null/Mock/seguros, ownership Addressables y save DTO/filesystem. | Presentation, Content y Bootstrap. |
 | Presentation | Vistas Bootstrap/transición y futuros adaptadores Unity de UI/input/cámara/audio; consume `ISceneFlowService`. | Infrastructure, filesystem, ads, IAP y concretos de plataforma. |
 | Bootstrap | Único composition root; configura perfil y ensambla puertos/concretos explícitamente. | Reglas de producto, lookup genérico, service locator o singleton global. |
 | Editor | Build/setup/validación que nunca entra en player. | Gameplay y estado runtime. |
@@ -73,16 +78,32 @@ DiagnosticBootstrap (Unity lifecycle)
       ├─ AppContext [immutable, explicit injection]
       │   ├─ IClock / IRandomSource / IAppLogger
       │   ├─ IMessageBus
+      │   ├─ ISaveService → IFileStore
       │   ├─ IAnalyticsService
       │   ├─ IAdsService
       │   ├─ IPurchaseService
       │   └─ ISceneFlowService → ISceneContentLoader
       └─ ApplicationHost
-          initialize: MessageBus → Analytics → Ads → Purchases
-          shutdown:  Purchases → Ads → Analytics → MessageBus
+          initialize: MessageBus → Save → Analytics → Ads → Purchases
+          shutdown:  Purchases → Ads → Analytics → Save → MessageBus
 ```
 
 `ApplicationHost.InitializeAsync` es secuencial, comparte la misma tarea ante llamadas concurrentes, acepta `CancellationToken`, permite retry después de fallo recuperable y hace cleanup inverso. `Shutdown`/`Dispose` son idempotentes; si llegan durante inicialización solicitan cancelación del host, impiden volver a `Ready` y limpian también el servicio que estaba inicializando. `AppContext` no es estático y no ofrece lookup; Bootstrap lo retiene para inyección explícita en futuras fachadas.
+
+## Persistencia local
+
+```text
+Domain.PlayerProgress
+          ↓
+Application.ISaveService / AutosaveCoordinator / IFileStore
+          ↓
+Infrastructure.LocalSaveService
+  ├─ UnityJsonSaveSerializer → envelope/DTO v1 + SHA-256
+  ├─ ISaveMigration[] → pasos n→n+1
+  └─ LocalFileStore → persistentDataPath/Save
+```
+
+Application y features no conocen JSON ni paths. Infrastructure referencia Domain directamente porque implementa firmas públicas que mapean `PlayerProgress`; la dirección sigue hacia adentro y el grafo permanece acíclico. Bootstrap es el único lugar que resuelve `Application.persistentDataPath`. Presentation solo consume `SaveUserNotice` para copy recuperable. Contrato, archivos, downgrade y recovery: [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md).
 
 ## Scene flow y contenido local
 
@@ -111,6 +132,7 @@ El bus en memoria solo cubre fan-out acotado. `Subscribe<T>` devuelve `IDisposab
 | Analytics | `NullAnalyticsService` | `NullAnalyticsService` |
 | Ads | `MockAdsService` local | `NoAdsService` |
 | Purchases | `MockPurchaseService` local | `UnavailablePurchaseService` |
+| Save | Local schema v1 | Local schema v1; herramientas Editor excluidas |
 | Clock/random | `SystemClock` + seed inyectado | Igual, sin estado remoto |
 | Logs/messages | Structured Unity + bus local | Igual, sin datos infantiles |
 
@@ -139,7 +161,7 @@ Una fixture EditMode añade en memoria `Presentation → Infrastructure` y verif
 
 ## Evolución
 
-Solo Bootstrap conoce simultáneamente Presentation, Content e Infrastructure. La composición futura seguirá explícita, por constructor/factory, sin `Find*`, service locator ni `Instance` global. ScriptableObjects seguirán siendo authoring; save usará DTOs versionados en Infrastructure; todo SDK real requiere reemplazar un adapter mediante ADR, no filtrar su tipo hacia gameplay.
+Solo Bootstrap conoce simultáneamente Presentation, Content e Infrastructure. La composición futura seguirá explícita, por constructor/factory, sin `Find*`, service locator ni `Instance` global. ScriptableObjects siguen siendo authoring; save usa DTOs versionados exclusivamente en Infrastructure; todo SDK real requiere reemplazar un adapter mediante ADR, no filtrar su tipo hacia gameplay.
 
 Subdividir un assembly requiere evidencia de tiempos de compilación, ownership, plataforma o aislamiento de dependencias. Añadir una feature no basta. Todo cambio de grafo actualiza la allowlist, este documento, decisión/riesgo aplicables y las suites.
 
@@ -148,4 +170,4 @@ Subdividir un assembly requiere evidencia de tiempos de compilación, ownership,
 - Unity `6000.3.22f1`, Addressables `4.0.1`, URP `17.3.0`, Input System `1.20.0`, Test Framework `1.6.0`, uGUI `2.0.0`.
 - Bootstrap es la única escena habilitada en Build Settings; Camp/Jungle son locales Addressable. Development muestra navegación/fallo simulado; Release oculta controles Development.
 - Android sigue min API 26, target/compile 36, IL2CPP y ARM64; sin manifest/Gradle custom ni permiso sensible nuevo.
-- No existen gameplay, save, UI final, contenido remoto ni SDKs comerciales. Ads/IAP/analytics son únicamente Null/Mock/Unavailable locales sin red/cuentas.
+- No existen gameplay, UI final, contenido remoto ni SDKs comerciales. Existe save local v1 sin PII/cuentas; ads/IAP/analytics son únicamente Null/Mock/Unavailable locales sin red.

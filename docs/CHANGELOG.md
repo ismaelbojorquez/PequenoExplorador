@@ -2,6 +2,25 @@
 
 Todos los cambios notables de ingeniería se registran aquí. La versión técnica de desarrollo es `0.1.0-dev`; no representa un release comercial.
 
+## Prompt/Fase 09 — persistencia local — 2026-08-16
+
+### Added
+
+- `PlayerProgress`/preferencias C# puro y puertos `ISaveService`, `IFileStore`, migración y autosave sin exponer formato a features.
+- Schema v1 `JsonUtility` builtin: envelope, SHA-256, DTOs, secuencia técnica, v0→v1, future read-only y archivos primary/backup/temp bajo `persistentDataPath`.
+- Escritura temp/flush/replace, recuperación que preserva backup, copy no alarmante y menú Editor Development de inspect/reset con confirmación.
+- Failpoints in-memory, replace físico y PlayMode de recreación/recarga; documentación de privacidad y recuperación manual.
+
+### Verified
+
+- Baseline previo: compile, Addressables, EditMode `29/29`, PlayMode `4/4` y APK Development.
+- Suite incremental: compile `PASS`, EditMode `46/46` y PlayMode `5/5`. El primer compile detectó referencias asmdef directas faltantes y la primera ejecución EditMode falló `1/43` por expectativa demasiado estricta `OperationCanceledException` vs subtipo `TaskCanceledException`; ambos intentos permanecen registrados y las repeticiones pasaron.
+- `scripts/validate` final código `0`; APK Development `60,278,339` bytes, SHA-256 `523ff0d5debf5974643e4106eb8d0743ee03ffdd82e2f9ef4ef6adaf9728e011`, API 26/36, IL2CPP/ARM64. Release guard devolvió el código esperado `3`; dispositivo Android físico `NOT RUN` por `adb devices` vacío.
+
+### Not added
+
+- Cloud, cuenta, sincronización, cifrado, PII, entitlements, gameplay, contenido real, SDK, red, permiso, signing, push o publicación.
+
 ## Gate A — revalidación posterior a F07 — 2026-08-15
 
 ### Changed

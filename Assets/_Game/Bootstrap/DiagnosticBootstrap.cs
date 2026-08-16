@@ -3,7 +3,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using PequenoExplorador.Application;
 using PequenoExplorador.Application.Lifecycle;
+using PequenoExplorador.Application.Logging;
 using PequenoExplorador.Application.SceneFlow;
+using PequenoExplorador.Application.Save;
 using PequenoExplorador.Presentation.Bootstrap;
 using PequenoExplorador.Presentation.SceneFlow;
 using UnityEngine;
@@ -42,6 +44,10 @@ namespace PequenoExplorador.Bootstrap
         public SceneFlowSnapshot SceneFlow => _services == null
             ? null
             : _services.Context.SceneFlow.Snapshot;
+
+        public SaveLoadResult SaveLoadResult => _services == null
+            ? null
+            : _services.Context.Save.LastLoadResult;
 
         private void Awake()
         {
@@ -118,7 +124,7 @@ namespace PequenoExplorador.Bootstrap
 
                 if (!_destroying)
                 {
-                    _statusView.ShowReady();
+                    _statusView.ShowReady(_services.Context.Save.LastLoadResult.UserNotice);
                 }
             }
             catch (OperationCanceledException)
@@ -153,6 +159,24 @@ namespace PequenoExplorador.Bootstrap
             return _sceneShutdownTask;
         }
 
+        public void RequestSaveCheckpoint()
+        {
+            if (_services?.Context.Save.Current != null && !_services.Context.Save.IsReadOnly)
+            {
+                _services.SaveCoordinator.RequestCheckpoint(_services.Context.Save.Current);
+            }
+        }
+
+        public Task FlushSaveAsync(CancellationToken cancellationToken)
+        {
+            if (_services == null)
+            {
+                return Task.CompletedTask;
+            }
+
+            return _services.SaveCoordinator.FlushAsync(cancellationToken);
+        }
+
         private async void EnterJungle()
         {
             await GoToExpeditionAsync(_lifetimeCancellation.Token);
@@ -173,6 +197,46 @@ namespace PequenoExplorador.Bootstrap
 #if UNITY_EDITOR || PE_DEVELOPMENT_SERVICES
             SimulateNextSceneFailureForDevelopment();
 #endif
+        }
+
+        private async void OnApplicationPause(bool paused)
+        {
+            if (!paused || _destroying || _services == null)
+            {
+                return;
+            }
+
+            await FlushCurrentProgressWithBudgetAsync(TimeSpan.FromSeconds(1));
+        }
+
+        private void OnApplicationQuit()
+        {
+            if (!_destroying && _services != null)
+            {
+                _ = FlushCurrentProgressWithBudgetAsync(TimeSpan.FromMilliseconds(250));
+            }
+        }
+
+        private async Task FlushCurrentProgressWithBudgetAsync(TimeSpan budget)
+        {
+            try
+            {
+                RequestSaveCheckpoint();
+                using var cancellation = new CancellationTokenSource(budget);
+                await FlushSaveAsync(cancellation.Token);
+            }
+            catch (OperationCanceledException)
+            {
+                // Checkpoints are authoritative; quit/pause never blocks indefinitely.
+            }
+            catch (Exception exception)
+            {
+                _services?.Context.Logger.Write(new AppLogEntry(
+                    AppLogLevel.Error,
+                    "Save",
+                    "LifecycleFlushFailed",
+                    exception.GetType().Name));
+            }
         }
 
 #if UNITY_EDITOR || PE_DEVELOPMENT_SERVICES

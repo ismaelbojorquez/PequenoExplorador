@@ -1,4 +1,5 @@
 using System;
+using PequenoExplorador.Application.Save;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -28,9 +29,20 @@ namespace PequenoExplorador.Presentation.Bootstrap
             SetStatus("Initializing");
         }
 
-        public void ShowReady()
+        public void ShowReady(SaveUserNotice saveNotice = SaveUserNotice.None)
         {
-            SetStatus("Ready");
+            switch (saveNotice)
+            {
+                case SaveUserNotice.ProgressRecovered:
+                    SetStatus("Ready · Progress restored safely");
+                    break;
+                case SaveUserNotice.NewerSaveVersionDetected:
+                    SetStatus("Ready · Newer progress protected");
+                    break;
+                default:
+                    SetStatus("Ready");
+                    break;
+            }
         }
 
         public void ShowRecoverableFailure()

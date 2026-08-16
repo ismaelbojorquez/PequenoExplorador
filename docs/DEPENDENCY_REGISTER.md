@@ -12,4 +12,6 @@ Baseline observada: 2026-08-15. `Packages/manifest.json` y `packages-lock.json` 
 
 No se añadieron paquetes preview, SDKs comerciales ni Localization. Addressables solicita transitivamente Scriptable Build Pipeline `4.0.0` y Profiling Core `1.0.2`; el lock resuelve exactamente `4.0.0` y `1.0.3`, respectivamente. El resto del lock conserva transitivos oficiales. Ninguna dependencia directa nueva contiene `.so`/`.aar`; por ello no cambia la readiness nativa 16 KB, que se revalida sobre cada artefacto.
 
+F09 no añadió dependencia: encapsula `UnityEngine.JsonUtility` del módulo builtin ya resuelto `com.unity.modules.jsonserialize` `1.0.0`. Su uso queda limitado a DTOs Infrastructure según `10_SAVE_SYSTEM.md`; cambiarlo exige intake/ADR y migraciones.
+
 La licencia de estos paquetes no selecciona la licencia del producto; `LICENSE_NOT_SELECTED.md` sigue gobernando. Toda actualización repite fuente, licencia, pin, mantenimiento, mobile/IL2CPP, 16 KB, permisos/datos, aptitud infantil, tamaño y rollback conforme a `ENGINEERING_STANDARDS.md`.

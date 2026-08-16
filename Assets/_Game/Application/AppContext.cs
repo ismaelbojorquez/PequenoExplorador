@@ -1,6 +1,7 @@
 using System;
 using PequenoExplorador.Application.Logging;
 using PequenoExplorador.Application.Messaging;
+using PequenoExplorador.Application.Save;
 using PequenoExplorador.Application.SceneFlow;
 using PequenoExplorador.Application.Services;
 
@@ -14,6 +15,7 @@ namespace PequenoExplorador.Application
             IRandomSource random,
             IAppLogger logger,
             IMessageBus messages,
+            ISaveService save,
             IAnalyticsService analytics,
             IAdsService ads,
             IPurchaseService purchases,
@@ -24,6 +26,7 @@ namespace PequenoExplorador.Application
             Random = random ?? throw new ArgumentNullException(nameof(random));
             Logger = logger ?? throw new ArgumentNullException(nameof(logger));
             Messages = messages ?? throw new ArgumentNullException(nameof(messages));
+            Save = save ?? throw new ArgumentNullException(nameof(save));
             Analytics = analytics ?? throw new ArgumentNullException(nameof(analytics));
             Ads = ads ?? throw new ArgumentNullException(nameof(ads));
             Purchases = purchases ?? throw new ArgumentNullException(nameof(purchases));
@@ -35,6 +38,7 @@ namespace PequenoExplorador.Application
         public IRandomSource Random { get; }
         public IAppLogger Logger { get; }
         public IMessageBus Messages { get; }
+        public ISaveService Save { get; }
         public IAnalyticsService Analytics { get; }
         public IAdsService Ads { get; }
         public IPurchaseService Purchases { get; }

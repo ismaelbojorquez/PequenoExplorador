@@ -15,7 +15,7 @@ Escala: probabilidad (P) e impacto (I) de 1–5; severidad = P×I. `Owner humano
 | R-009 | Activación/licencia Unity no permite batch build. | 1 | 4 | 4 | Cerrado localmente: import, tests y Android batch build terminaron; no se guardaron credenciales. Reabrir en CI/nueva máquina. | Owner + Release | CI/nueva máquina |
 | R-010 | Assets/audio carecen de derechos o atribución. | 3 | 5 | 15 | Provenance ledger, licencia y releases antes de importar; H-001. | Owner humano | F14–F16 |
 | R-011 | Rendimiento/memoria en Android de gama baja es insuficiente. | 4 | 4 | 16 | Budgets, Addressables locales, profiling temprano y device matrix. | Principal Eng | F12, F33, F38 |
-| R-012 | Estado local se pierde/corrompe o expone información infantil. | 3 | 4 | 12 | Datos mínimos seudónimos, versionado/migración, pruebas de corrupción y reset adulto. | Principal Eng | F09, F34 |
+| R-012 | Estado local se pierde/corrompe o expone información infantil. | 2 | 4 | 8 | Schema v1 sin PII, checksum, temp/flush/replace, backup preservado, future read-only y tests de fallos/migración. Resta dispositivo físico, falta de espacio y matriz destructiva F34. | Principal Eng | F09, F34 |
 | R-013 | Fichas de tienda no coinciden con tráfico/binario. | 3 | 5 | 15 | Auditoría de permisos/red/SBOM; cuatro ojos para Data safety/App Privacy. | Privacy + Release | F50–F52 |
 | R-014 | Contenido educativo o cultural es inexacto/inadecuado. | 3 | 4 | 12 | Revisión pedagógica/cultural y pruebas con adultos responsables; no claims no validados. | Content owner | F17–F30 |
 | R-015 | Ausencia de licencia del producto bloquea colaboración/distribución. | 4 | 4 | 16 | Resolver H-001; mantener aviso sin licencia y no incorporar terceros dudosos. | Owner humano | Antes de terceros |
@@ -41,3 +41,5 @@ Escala: probabilidad (P) e impacto (I) de 1–5; severidad = P×I. `Owner humano
 Import, tests de frontera/lifecycle/perfiles, dos builds APK repetidos e instalación real en emulador 16 KB reducen R-001/R-002/R-003/R-009/R-026/R-029. No prueban un AAB Release firmado, dispositivo físico, performance, safe area, iOS ni aceptación de tienda; R-006, R-024, R-025 y la porción binaria de R-029 continúan explícitos. No hubo gameplay, playtest infantil ni validación legal/store.
 
 La revalidación posterior sobre F07 volvió a pasar compile, suites y dos APK; cerró la deriva transitoria R-031 y verificó estáticamente/localmente R-030. El intento adicional en emulador API 37/16 KB quedó inconcluso por ANR del sistema invitado —Unity no soporta emuladores Android—, por lo que sigue pendiente un dispositivo físico y no se usa ese intento para reducir riesgo.
+
+F09 reduce R-012 mediante fallos inyectados antes de commit, replace físico, backup y migración/future-version. No prueba filesystem lleno, pérdida de energía real, OS kill en dispositivo ni upgrades de una versión publicada; esas porciones siguen abiertas para F34/F35 y Gate C.

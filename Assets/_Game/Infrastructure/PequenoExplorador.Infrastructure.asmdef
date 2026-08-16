@@ -3,6 +3,7 @@
   "rootNamespace": "PequenoExplorador.Infrastructure",
   "references": [
     "PequenoExplorador.Application",
+    "PequenoExplorador.Domain",
     "Unity.Addressables",
     "Unity.ResourceManager"
   ],
