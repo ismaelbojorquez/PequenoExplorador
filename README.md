@@ -12,7 +12,7 @@ Baseline de producto, ingeniería y cumplimiento para un juego educativo Unity 2
 - Experiencia inicial recomendada: sin publicidad. Ads, IAP y analítica remota permanecen detrás de interfaces nulas y de decisiones humanas futuras.
 - Privacidad por defecto: sin cuenta, chat, ubicación, cámara del dispositivo, micrófono, identificadores publicitarios ni transmisión de datos en el MVP.
 
-El repositorio contiene una foundation Unity mínima: URP, composition root explícito, perfiles runtime Development/Release locales y validados, servicios Null/Mock seguros, nueve assemblies, flujo aditivo `Boot → Camp ↔ Jungle`, Addressables solo locales, persistencia local schema v3, localización ES/EN, audio placeholder e input/safe areas móviles, BuildTools, tests y smoke Android. No contiene gameplay, remote config, contenido remoto, SDKs de IAP/ads/analytics, backend ni arte final.
+El repositorio contiene una foundation Unity mínima: URP, composition root explícito, perfiles runtime Development/Release locales y validados, servicios Null/Mock seguros, nueve assemblies, flujo aditivo `Boot → Camp ↔ Jungle`, Addressables solo locales, persistencia schema v3, localización ES/EN, audio/input móviles y catálogo data-driven Draft, BuildTools, tests y smoke Android. No contiene gameplay, discoveries finales, remote config, contenido remoto, SDKs comerciales, backend ni arte final.
 
 ## Documentación
 

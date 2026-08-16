@@ -1,6 +1,6 @@
 # Índice documental
 
-Estado: foundation, scene flow local, persistencia schema v3, localización ES/EN y framework de audio placeholder disponibles; todavía no existe gameplay ni contenido final. Empezar siempre por [`../AGENTS.md`](../AGENTS.md) y [`STATUS.md`](STATUS.md).
+Estado: foundation, scene flow local, persistencia schema v3, localización/audio/input y catálogo data-driven Draft disponibles; todavía no existe gameplay ni contenido final. Empezar siempre por [`../AGENTS.md`](../AGENTS.md) y [`STATUS.md`](STATUS.md).
 
 ## Fuentes de verdad
 
@@ -12,6 +12,7 @@ Estado: foundation, scene flow local, persistencia schema v3, localización ES/E
 | Secuencia de trabajo | [`ROADMAP.md`](ROADMAP.md) | Único orden de Gates A–F y Fases 00–57. |
 | Hechos educativos | [`CONTENT_SOURCES.md`](CONTENT_SOURCES.md) | Ningún claim llega a Release sin trazabilidad y aprobación humana. |
 | Contenido runtime | [`CONTENT_PIPELINE.md`](CONTENT_PIPELINE.md) | Define grupos/perfiles locales, ownership y prohibición de remoto. |
+| Modelo de datos | [`CONTENT_MODEL.md`](CONTENT_MODEL.md) | IDs tipados, definitions, authoring, catálogo, aliases y gate editorial. |
 | Persistencia | [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md) | Schema, archivos, migración, atomicidad, privacidad y recovery. |
 | Configuración runtime | [`RUNTIME_CONFIGURATION.md`](RUNTIME_CONFIGURATION.md) | Perfiles/flags locales, autoridades, mapping y guardrails Release. |
 | Localización | [`17_LOCALIZATION.md`](17_LOCALIZATION.md) | Locales ES/EN, pseudo Development, keys/tablas, fallback, CSV y validación. |
@@ -51,6 +52,7 @@ Los saltos numéricos reservan espacio para documentos técnicos futuros; no imp
 - [`TECHNICAL_ARCHITECTURE.md`](TECHNICAL_ARCHITECTURE.md): alias histórico hacia la arquitectura canónica.
 - [`DEPENDENCY_REGISTER.md`](DEPENDENCY_REGISTER.md): intake y pins de paquetes directos/transitivos.
 - [`CONTENT_PIPELINE.md`](CONTENT_PIPELINE.md): Addressables local, addresses/labels, ownership, build y evolución.
+- [`CONTENT_MODEL.md`](CONTENT_MODEL.md): catálogo O(1), ScriptableObjects, IDs, reports y bloqueo Release de Draft.
 - [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md): schema v3, DTOs, checksum, backup, migraciones, autosave y recuperación.
 - [`17_LOCALIZATION.md`](17_LOCALIZATION.md): paquete exacto, ES/EN, pseudo, tablas/keys y pipeline CSV local.
 - [`RUNTIME_CONFIGURATION.md`](RUNTIME_CONFIGURATION.md): AppConfig Development/Release, flags tipados y validación build.
@@ -79,6 +81,7 @@ Los saltos numéricos reservan espacio para documentos técnicos futuros; no imp
 - [`PHASE_10_PREFLIGHT.md`](PHASE_10_PREFLIGHT.md)
 - [`PHASE_11_PREFLIGHT.md`](PHASE_11_PREFLIGHT.md)
 - [`PHASE_13_PREFLIGHT.md`](PHASE_13_PREFLIGHT.md)
+- [`PHASE_14_PREFLIGHT.md`](PHASE_14_PREFLIGHT.md)
 
 ## Lectura obligatoria para el siguiente incremento
 

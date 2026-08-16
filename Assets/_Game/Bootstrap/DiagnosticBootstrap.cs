@@ -5,12 +5,14 @@ using PequenoExplorador.Application;
 using PequenoExplorador.Application.Audio;
 using PequenoExplorador.Application.Accessibility;
 using PequenoExplorador.Application.Configuration;
+using PequenoExplorador.Application.Content;
 using PequenoExplorador.Application.Lifecycle;
 using PequenoExplorador.Application.Logging;
 using PequenoExplorador.Application.Input;
 using PequenoExplorador.Application.SceneFlow;
 using PequenoExplorador.Application.Save;
 using PequenoExplorador.Content.Audio;
+using PequenoExplorador.Content.Data;
 using PequenoExplorador.Content.Input;
 using PequenoExplorador.Presentation.Accessibility;
 using PequenoExplorador.Presentation.Audio;
@@ -35,6 +37,7 @@ namespace PequenoExplorador.Bootstrap
         [SerializeField] private SceneTransitionView _sceneFlowView;
         [SerializeField] private AudioDiagnosticView _audioView;
         [SerializeField] private AudioCueCatalogAsset _audioCatalog;
+        [SerializeField] private ContentCatalogAsset _contentCatalog;
         [SerializeField] private InputActionAsset _inputActions;
         [SerializeField] private GestureThresholdsAsset _gestureThresholds;
         [SerializeField] private SafeAreaFitter[] _safeAreaFitters = Array.Empty<SafeAreaFitter>();
@@ -77,6 +80,7 @@ namespace PequenoExplorador.Bootstrap
             : _services.Context.Save.LastLoadResult;
 
         public IAudioService Audio => _services?.Context.Audio;
+        public IContentCatalog Content => _services?.Context.Content;
         public IInputService Input => _services?.Context.Input;
         public ISafeAreaService SafeArea => _services?.Context.SafeArea;
         public IHapticsService Haptics => _services?.Context.Haptics;
@@ -94,9 +98,9 @@ namespace PequenoExplorador.Bootstrap
                 throw new InvalidOperationException("SceneTransitionView must be wired in the Bootstrap scene.");
             }
 
-            if (_audioView == null || _audioCatalog == null)
+            if (_audioView == null || _audioCatalog == null || _contentCatalog == null)
             {
-                throw new InvalidOperationException("Audio view and cue catalog must be wired in the Bootstrap scene.");
+                throw new InvalidOperationException("Audio view, audio catalog and content catalog must be wired in the Bootstrap scene.");
             }
             if (_inputActions == null || _gestureThresholds == null || _pauseView == null ||
                 _touchOverlay == null || _aspectOverlay == null || _safeAreaFitters.Length == 0)
@@ -105,8 +109,14 @@ namespace PequenoExplorador.Bootstrap
             }
 
             _configuration = BuildProfileConfiguration.Resolve();
+            ContentValidationMode contentMode = _configuration.Profile == BuildProfile.Release
+                ? ContentValidationMode.Release
+                : ContentValidationMode.Development;
+            if (!_contentCatalog.TryBuildRuntimeCatalog(contentMode, out ContentCatalog runtimeCatalog, out var contentViolations))
+                throw new InvalidOperationException("Runtime content catalog is invalid:\n" + string.Join("\n", contentViolations));
             _services = new ServiceRegistry(
                 _configuration,
+                runtimeCatalog,
                 gameObject,
                 _audioCatalog,
                 _inputActions,
@@ -283,6 +293,8 @@ namespace PequenoExplorador.Bootstrap
             _touchOverlay = touchOverlay;
             _aspectOverlay = aspectOverlay;
         }
+
+        public void ConfigureContentForEditorAndTests(ContentCatalogAsset contentCatalog) => _contentCatalog = contentCatalog;
 #endif
 
         private async void EnterJungle()

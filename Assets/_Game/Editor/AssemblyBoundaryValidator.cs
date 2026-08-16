@@ -65,6 +65,7 @@ namespace PequenoExplorador.Editor
                 ["PequenoExplorador.Content"] = new[]
                 {
                     "PequenoExplorador.Application",
+                    "PequenoExplorador.Domain",
                     "UnityEngine.AudioModule"
                 },
                 ["PequenoExplorador.Infrastructure"] = new[]
@@ -96,6 +97,7 @@ namespace PequenoExplorador.Editor
                     "PequenoExplorador.Application",
                     "PequenoExplorador.Bootstrap",
                     "PequenoExplorador.Content",
+                    "PequenoExplorador.Domain",
                     "PequenoExplorador.Infrastructure",
                     "PequenoExplorador.Presentation",
                     "Unity.Addressables.Editor",

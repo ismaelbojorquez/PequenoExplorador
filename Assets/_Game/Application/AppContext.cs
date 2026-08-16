@@ -1,6 +1,7 @@
 using System;
 using PequenoExplorador.Application.Audio;
 using PequenoExplorador.Application.Accessibility;
+using PequenoExplorador.Application.Content;
 using PequenoExplorador.Application.Configuration;
 using PequenoExplorador.Application.Logging;
 using PequenoExplorador.Application.Localization;
@@ -23,6 +24,7 @@ namespace PequenoExplorador.Application
             ISaveService save,
             ILocalizationService localization,
             IAudioService audio,
+            IContentCatalog content,
             IInputService input,
             ISafeAreaService safeArea,
             IHapticsService haptics,
@@ -39,6 +41,7 @@ namespace PequenoExplorador.Application
             Save = save ?? throw new ArgumentNullException(nameof(save));
             Localization = localization ?? throw new ArgumentNullException(nameof(localization));
             Audio = audio ?? throw new ArgumentNullException(nameof(audio));
+            Content = content ?? throw new ArgumentNullException(nameof(content));
             Input = input ?? throw new ArgumentNullException(nameof(input));
             SafeArea = safeArea ?? throw new ArgumentNullException(nameof(safeArea));
             Haptics = haptics ?? throw new ArgumentNullException(nameof(haptics));
@@ -57,6 +60,7 @@ namespace PequenoExplorador.Application
         public ISaveService Save { get; }
         public ILocalizationService Localization { get; }
         public IAudioService Audio { get; }
+        public IContentCatalog Content { get; }
         public IInputService Input { get; }
         public ISafeAreaService SafeArea { get; }
         public IHapticsService Haptics { get; }

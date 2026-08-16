@@ -54,6 +54,8 @@ Configuración runtime sigue [`docs/RUNTIME_CONFIGURATION.md`](docs/RUNTIME_CONF
 
 Input sigue [`docs/INPUT_ACCESSIBILITY.md`](docs/INPUT_ACCESSIBILITY.md): features consumen intenciones `IInputService`; solo Infrastructure consulta Input System. Mapas son UI/Explorer/Photography/Parents y Debug aditivo Development. No usar API legacy, `Touchscreen.current` disperso, joystick permanente ni offsets safe-area duplicados. Back solicita checkpoint y pausa reversible; haptics permanece no-op/off hasta aprobación y prueba física.
 
+Contenido data-driven sigue [`docs/CONTENT_MODEL.md`](docs/CONTENT_MODEL.md): Domain posee IDs tipados, Content mapea ScriptableObjects a definitions readonly y `IContentCatalog` resuelve por índice. No usar GUID/path como negocio, `AssetDatabase` runtime, enums cerrados para tags/categorías/mundos ni mutar assets. Development exige watermark para Draft; Release acepta solo Approved no-placeholder. Todo ID retirado requiere alias y, si fue persistido, migración.
+
 ## Dependencias y no-go
 
 - No instalar paquete, SDK o herramienta ni aceptar términos sin autorización y revisión de fuente oficial, licencia, versión exacta, mantenimiento, soporte Android/iOS, 16 KB, datos recolectados y aptitud infantil.

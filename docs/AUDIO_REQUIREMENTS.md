@@ -22,6 +22,8 @@ Contrato técnico y ledger de producción para el MVP Selva. Prompt 12 incluye �
 
 Siete `AudioSource` viven exclusivamente en el root Bootstrap: 1 Music + 1 Ambience + 4 Effects + 1 Voice. No existe `Resources.Load`, streaming de red, micrófono, reconocimiento de voz ni middleware.
 
+Definitions de contenido referencian `AudioCueId`, no clips, paths o GUID. El validator de catálogo comprueba que cada cue resuelva en `AudioCueCatalog`; reemplazar un audio conserva su cue ID salvo migración explícita.
+
 ## Ledger baseline de cues y assets
 
 Todos los WAV son PCM mono, 48 kHz/16-bit, `DecompressOnLoad`, generados por `AudioFoundationSetup` y etiquetados Addressables `audio-local` + `audio-placeholder` dentro de `SharedLocal`.

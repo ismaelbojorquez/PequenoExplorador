@@ -119,6 +119,7 @@ namespace PequenoExplorador.Editor
             new Entry("content.world.jungle.name", "Expedición Selva", "Jungle Expedition"),
             new Entry("content.world.camp.placeholder", "Campamento · PLACEHOLDER", "Camp · PLACEHOLDER"),
             new Entry("content.world.jungle.placeholder", "Expedición Selva · PLACEHOLDER", "Jungle Expedition · PLACEHOLDER"),
+            new Entry("content.discovery.placeholder.name", "Descubrimiento de prueba", "Test discovery"),
             new Entry("content.audio.instruction.explore", "Mira a tu alrededor. ¿Qué descubrimos?", "Look around. What can we discover?"),
             new Entry("content.audio.name.jungle", "Selva", "Jungle"),
             new Entry("content.audio.narration.welcome", "Vamos a explorar con calma.", "Let’s explore at our own pace.")

@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
+using PequenoExplorador.Content.Data;
 
 namespace PequenoExplorador.Editor.BuildTools
 {
     internal static class ContentValidationService
     {
-        public static IReadOnlyList<string> Validate()
+        public static IReadOnlyList<string> Validate(ContentValidationMode mode = ContentValidationMode.Development)
         {
             var violations = new List<string>();
+            violations.AddRange(ContentCatalogValidationService.Validate(mode));
             violations.AddRange(RuntimeConfigurationValidationService.Validate());
             violations.AddRange(LocalizationValidationService.Validate());
             violations.AddRange(AudioValidationService.Validate());

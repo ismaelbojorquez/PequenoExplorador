@@ -1,6 +1,6 @@
 # Arquitectura técnica — fronteras modulares
 
-Estado: fronteras F04, composition root F06, scene flow local, persistencia schema v3, localización ES/EN, audio localizado e input/adaptación móvil implementados. No define APIs de gameplay. `Bootstrap` persiste y entra a Camp placeholder.
+Estado: foundation, catálogo data-driven Draft, scene flow local, persistencia schema v3, localización ES/EN, audio e input móvil implementados. No define APIs de gameplay. `Bootstrap` persiste y entra a Camp placeholder.
 
 ## Grafo real de assemblies
 
@@ -12,7 +12,8 @@ PequenoExplorador.Application
 └─ Domain; noEngineReferences=true
 
 PequenoExplorador.Content
-└─ Application
+├─ Application
+└─ Domain
 
 PequenoExplorador.Infrastructure
 ├─ Application
@@ -33,7 +34,7 @@ PequenoExplorador.Bootstrap
 └─ Presentation
 
 PequenoExplorador.Editor [Editor only]
-├─ Application / Bootstrap / Content
+├─ Application / Bootstrap / Content / Domain
 ├─ Infrastructure / Presentation
 ├─ Unity.Addressables.Editor / Unity.Localization / Unity.Localization.Editor / Unity.InputSystem
 └─ Unity.RenderPipelines.Universal.Runtime
@@ -87,6 +88,7 @@ DiagnosticBootstrap (Unity lifecycle)
       │   ├─ IClock / IRandomSource / IAppLogger
       │   ├─ IMessageBus
       │   ├─ IInputService / ISafeAreaService / IHapticsService
+      │   ├─ IContentCatalog [readonly, O(1), no lifecycle]
       │   ├─ ISaveService → IFileStore
       │   ├─ ILocalizationService → Unity Localization
       │   ├─ IAnalyticsService
@@ -144,6 +146,10 @@ Domain no conoce audio ni archivos. El root Bootstrap posee exactamente siete so
 ### Input y adaptación móvil
 
 Application define `IInputService`, `ISafeAreaService` e `IHapticsService`; el clasificador de gestos es C# puro. Infrastructure concentra Input System/EnhancedTouch y `Screen.safeArea`; Presentation recibe intenciones y snapshots. Bootstrap selecciona `UI` para Camp/transición/pausa y `Explorer` para Expedition. `Photography`/`Parents` quedan preparados sin feature, mientras `Debug` es aditivo y Development-only. Haptics es no-op/desactivado. Contrato, thresholds, ratios y hardware pendiente: [`INPUT_ACCESSIBILITY.md`](INPUT_ACCESSIBILITY.md).
+
+### Catálogo data-driven
+
+Domain define value IDs textuales por tipo. Content posee definitions ScriptableObject y `ContentCatalogCompiler`; Bootstrap compila una vez a modelos Application readonly y entrega `IContentCatalog` en `AppContext`. El catálogo indexa category, tag, source, fact y discovery por sus IDs tipados, con aliases separados y enumeración determinista de discoveries. Editor es el único consumidor de `AssetDatabase` para comprobar paths, localización, audio, visuales y estado editorial. Contrato: [`CONTENT_MODEL.md`](CONTENT_MODEL.md).
 
 ## Scene flow y contenido local
 
@@ -214,4 +220,4 @@ Subdividir un assembly requiere evidencia de tiempos de compilación, ownership,
 - Unity `6000.3.22f1`, Addressables `4.0.1`, URP `17.3.0`, Input System `1.20.0`, Test Framework `1.6.0`, uGUI `2.0.0`.
 - Bootstrap es la única escena habilitada en Build Settings; Camp/Jungle son locales Addressable. Development muestra navegación/fallo simulado; Release oculta controles Development.
 - Android sigue min API 26, target/compile 36, IL2CPP y ARM64; sin manifest/Gradle custom ni permiso sensible nuevo.
-- No existen gameplay, UI final, contenido remoto ni SDKs comerciales. Existe save local v1 sin PII/cuentas; ads/IAP/analytics son únicamente Null/Mock/Unavailable locales sin red.
+- No existen gameplay, UI final, discoveries finales, contenido remoto ni SDKs comerciales. Save schema v3 no guarda PII/cuentas; ads/IAP/analytics son únicamente Null/Mock/Unavailable locales sin red.

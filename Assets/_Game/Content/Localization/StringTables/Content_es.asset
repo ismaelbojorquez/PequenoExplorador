@@ -50,6 +50,10 @@ MonoBehaviour:
     m_Localized: Vamos a explorar con calma.
     m_Metadata:
       m_Items: []
+  - m_Id: 37536620601344
+    m_Localized: Descubrimiento de prueba
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -1,5 +1,30 @@
 # Changelog
 
+## Prompt 14 — 2026-08-16
+
+### Added
+
+- Value IDs namespaced para discovery/category/tag/fact/source/world/mission/activity/reward/visual; sin GUID como lógica.
+- Definitions readonly, contratos mínimos y `IContentCatalog` indexado O(1) con aliases.
+- Authoring ScriptableObject, metadata editorial, generador que no sobrescribe, help boxes y catálogo neutral Draft `PH_`.
+- Validator Development/Release con paths/soluciones y reportes JSON/Markdown; casos EditMode/PlayMode de mapping y resolución.
+
+### Changed
+
+- Bootstrap compila e inyecta el catálogo; build Development valida Draft con watermark y Release lo rechaza antes de signing.
+- Content/Editor referencian Domain explícitamente; el grafo sigue en nueve assemblies y sin ciclos.
+- Localización suma `content.discovery.placeholder.name`; requisitos/pipeline/educación documentan trazabilidad por ID.
+
+### Verified
+
+- Pipeline final `scripts/validate` código `0` en `3:51.84`: compile/catalog, Addressables, EditMode `85/85` (1.596 s), PlayMode `11/11` (4.278 s) y APK Development.
+- APK `66,353,374` bytes, SHA-256 `d244ba03df0ab7c8699b012a9f6a484c63db4496ce7437f6f59c620f49298cea`, API 26/36, IL2CPP/ARM64; sin permiso sensible nuevo.
+- Report Development `PASS` con 1 category/tag/source/fact/discovery; report Release `FAIL` esperado con cinco `DATA025` y paths accionables.
+
+### Not added
+
+- Discovery final, hecho de tucán, gameplay, reglas mission/activity/reward, contenido masivo, remote catalog, dependencia, save schema, signing o publicación.
+
 ## Prompt 13 — 2026-08-16
 
 ### Added

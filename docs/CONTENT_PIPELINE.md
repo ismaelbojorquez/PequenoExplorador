@@ -1,6 +1,6 @@
 # Pipeline técnico de contenido local
 
-Estado: baseline F07 para navegación placeholder; no autoriza producción masiva ni contenido factual sin aprobación.
+Estado: navegación local F07 y catálogo data-driven Prompt 14; no autoriza producción masiva ni contenido factual sin aprobación.
 
 ## Contrato Addressables
 
@@ -12,6 +12,8 @@ Estado: baseline F07 para navegación placeholder; no autoriza producción masiv
 | Addresses | `scene/camp`, `scene/jungle`, `audio/<categoría>/<cue>[/locale]` | IDs estables; no paths/strings dispersos en Domain. |
 | Labels | `scene`, `shared-local`, `world-jungle`, `audio-local`, `audio-placeholder` | Selección/validación, no reglas de gameplay. |
 | Catálogo | Local, actualización al arranque deshabilitada | Incluido en el player; sin remote catalog, host, CDN o URL. |
+
+El `ContentCatalogAsset` local se serializa desde Bootstrap y se compila una vez a `IContentCatalog`; no es un remote catalog ni usa `AssetDatabase` runtime. Definitions referencian IDs semánticos de localización/audio/visual, nunca GUID como lógica. Esquema y gate editorial: [`CONTENT_MODEL.md`](CONTENT_MODEL.md).
 
 `Bootstrap.unity` es el entry point persistente de Build Settings. `Camp.unity` y `Jungle.unity` no se añaden a esa lista: se empaquetan en bundles locales y se cargan aditivamente. `SharedLocal` no puede depender de ninguna entrada de `JungleLocal`; el validador usa dependencias reales de AssetDatabase.
 
@@ -36,6 +38,7 @@ El comando valida configuración, cambia el target de contenido a Android, selec
 - No almacenar handles en ScriptableObjects, estáticos o mundos.
 - Todo placeholder conserva `PH_` y metadata Release `Blocked`.
 - Todo contenido factual sigue [`CONTENT_SOURCES.md`](CONTENT_SOURCES.md); ser Addressable no equivale a estar aprobado.
+- Todo Draft lleva watermark Development; Release rechaza cada definition que no sea Approved o conserve placeholder.
 - Antes de añadir mundo/manifiesto: dependencia/provenance, budget, fallback offline, unload test, tres ciclos PlayMode y Android smoke.
 
 ## Evolución futura

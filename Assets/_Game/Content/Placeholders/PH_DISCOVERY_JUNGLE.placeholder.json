@@ -1,0 +1,11 @@
+{
+  "id": "PH_DISCOVERY_JUNGLE",
+  "isPlaceholder": true,
+  "owner": "Content Design",
+  "purpose": "Neutral visual reference for the data-driven discovery catalog; communicates no factual claim.",
+  "provenance": "Repository-authored metadata only; no third-party asset.",
+  "createdOn": "2026-08-16",
+  "replaceByPhase": "Before factual Vertical Slice content approval",
+  "releaseStatus": "Blocked",
+  "releaseApproved": false
+}

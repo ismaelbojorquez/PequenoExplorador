@@ -28,7 +28,7 @@ Cada asset deberá registrar: ID estable, nombre descriptivo, autor/proveedor, l
 
 - Fuentes grandes de formatos cubiertos irán a Git LFS; `.meta` siempre en Git normal.
 - No almacenar exports duplicados, caches DCC, paquetes descargados ni archivos sin licencia.
-- F14 definirá rutas dentro de `Assets/`, naming, presets y límites numéricos después de medir la vertical slice.
+- Prompt 14 fija authoring bajo `Assets/_Game/Content/Data/Definitions`, `VisualAssetId` semántico y referencia local validada. GUID/path Unity siguen metadata, no identidad de negocio. Presets y límites numéricos esperan medición de vertical slice.
 - Addressables será local-first: ningún asset del MVP dependerá de descarga de red.
 
 ## Criterios de aceptación

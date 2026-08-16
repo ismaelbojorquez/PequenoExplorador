@@ -3,6 +3,7 @@
   "rootNamespace": "PequenoExplorador.Content",
   "references": [
     "PequenoExplorador.Application",
+    "PequenoExplorador.Domain",
     "UnityEngine.AudioModule"
   ],
   "includePlatforms": [],

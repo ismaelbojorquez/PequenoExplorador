@@ -37,6 +37,7 @@ namespace PequenoExplorador.Application.Localization
         public static readonly LocalizedKey WorldJungle = new LocalizedKey(ContentTable, "content.world.jungle.name");
         public static readonly LocalizedKey WorldCampPlaceholder = new LocalizedKey(ContentTable, "content.world.camp.placeholder");
         public static readonly LocalizedKey WorldJunglePlaceholder = new LocalizedKey(ContentTable, "content.world.jungle.placeholder");
+        public static readonly LocalizedKey DiscoveryPlaceholderName = new LocalizedKey(ContentTable, "content.discovery.placeholder.name");
         public static readonly LocalizedKey AudioExploreInstruction = new LocalizedKey(ContentTable, "content.audio.instruction.explore");
         public static readonly LocalizedKey AudioJungleName = new LocalizedKey(ContentTable, "content.audio.name.jungle");
         public static readonly LocalizedKey AudioWelcomeNarration = new LocalizedKey(ContentTable, "content.audio.narration.welcome");

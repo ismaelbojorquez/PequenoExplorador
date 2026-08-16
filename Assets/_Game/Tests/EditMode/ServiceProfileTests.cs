@@ -85,6 +85,7 @@ namespace PequenoExplorador.Tests.EditMode
                 first.Context.Save,
                 first.Context.Localization,
                 first.Context.Audio,
+                first.Context.Content,
                 first.Context.Input,
                 first.Context.SafeArea,
                 first.Context.Haptics,

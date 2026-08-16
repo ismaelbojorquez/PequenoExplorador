@@ -15,6 +15,8 @@ Cada misión data-driven define:
 - estado persistente (`Disponible`, `En curso`, `Completada`);
 - hechos usados y estado de aprobación.
 
+Prompt 14 reserva únicamente `IMissionDefinition`/`MissionId`, `IRewardDefinition`/`RewardId` y los value IDs relacionados. Misiones, objetivos, rewards y save no se implementan hasta existir sus casos de uso; el catálogo base evita APIs ficticias extensas.
+
 ## Familias de misión
 
 - **Conocer:** detectar, fotografiar y revisar un descubrimiento.

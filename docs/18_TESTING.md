@@ -24,7 +24,7 @@ Ejecuta en orden y se detiene al primer fallo: `check-repository`, `compile`, bu
 |---|---|---|
 | `scripts/check-repository` | Markdown, enlaces relativos, JSON/asmdefs, package pins, YAML/Actions, secretos básicos y Bash. | stdout y código de salida. |
 | `scripts/compile` | Import/compile Unity, fronteras, placeholders y reporte de entorno. | `artifacts/logs/compile.log`, `artifacts/reports/environment.json`. |
-| `scripts/validate-content` | Metadata de placeholders presentes; base extensible para contenido futuro. | `artifacts/logs/validate-content.log`. |
+| `scripts/validate-content` | Catálogo Development, IDs/referencias/editorial y metadata de placeholders. | Log + `artifacts/reports/content-catalog-development.{json,md}`. |
 | `scripts/validate-localization` | Locales/tablas/keys/ES-EN/assets/glifos y escenas sin texto serializado. | `artifacts/logs/validate-localization.log`. |
 | `scripts/validate-audio` | Mixer/buses, cues, mono/48 kHz, clipping, addresses y bloqueo de placeholders. | `artifacts/logs/validate-audio.log`. |
 | `scripts/build-addressables-local` | Valida perfiles/grupos/labels/dependencias y construye catálogo Android local. | Log + `artifacts/reports/addressables-local.json`; runtime data ignorada bajo `Library`. |
@@ -46,13 +46,15 @@ Save EditMode cubre default/round-trip, JSON determinista, write/flush/commit in
 
 Configuración EditMode cubre defaults, dos assets locales, mapping, IDs duplicados, budgets inválidos, cada flag prohibido en Release y override temporal restaurable. PlayMode comprueba que Bootstrap selecciona Development, muestra producto/versión del asset y conserva Ready/scene flow/save. `scripts/compile`/build llaman el validador de ambos perfiles; una fixture controlada Release+`MockAds` debe fallar `CONFIG008`. Contrato: [`RUNTIME_CONFIGURATION.md`](RUNTIME_CONFIGURATION.md).
 
-Localización EditMode cubre español default, resolución, Smart variables/plurales, persistencia y restauración v3 sin `PlayerPrefs`, fallback Development/Release y pseudo no persistible. PlayMode cambia ES/EN/pseudo sin reinicio, confirma refresh/persistencia y layouts a `1280×720`/`1920×1080`. El validator cubre 30 keys, cinco colecciones, dos locales y glifos. Contrato: [`17_LOCALIZATION.md`](17_LOCALIZATION.md).
+Localización EditMode cubre español default, resolución, Smart variables/plurales, persistencia y restauración v3 sin `PlayerPrefs`, fallback Development/Release y pseudo no persistible. PlayMode cambia ES/EN/pseudo sin reinicio, confirma refresh/persistencia y layouts a `1280×720`/`1920×1080`. El validator cubre 31 keys, cinco colecciones, dos locales y glifos. Contrato: [`17_LOCALIZATION.md`](17_LOCALIZATION.md).
 
 Audio EditMode cubre catálogo/addresses/import, defaults y valores inválidos, prioridad/FIFO/capacidad, cooldown con tiempo inyectado, settings persistidos y missing cue no bloqueante. PlayMode verifica siete sources únicos, ducking, subtítulo, replay, suspend/resume, cue EN y Camp↔Jungle sin duplicados. `scripts/validate-audio` registra diez placeholders pendientes; esto es PASS estructural, no aprobación Release ni prueba auditiva humana.
 
 Input EditMode cubre tap/hold/drag, thresholds, pinch limitado, supresión multitouch, cancelación por mapa, cinco action maps, haptics no-op, cuatro presets landscape, rotación y hot path sin allocations observables tras warmup. PlayMode usa `InputTestFixture` para Back/pausa, UI↔Explorer, doble toque accidental y safe area en 4:3, 16:9, 20:9 y 16:10. El validator bloquea APIs legacy, `Touchscreen.current`, target menor a `64×64`, asset/wiring incompleto o más/menos de un fitter por Canvas. Hardware Android real sigue requerido antes de Gate C.
 
-Conteo incremental de Prompt 12 antes del pipeline final: EditMode `70/70` y PlayMode `7/7`; el resultado canónico se actualiza en `STATUS` tras `scripts/validate`.
+Contenido EditMode cubre parseo/igualdad de IDs, lookup/alias, orden determinista, duplicados, referencias ausentes, localización/audio/visual inexistentes, watermark, generador no destructivo y rechazo Release de Draft. PlayMode resuelve `discovery.jungle.placeholder` desde Bootstrap sin `AssetDatabase`. El reporte Release controlado es `FAIL` esperado mientras el placeholder no esté Approved.
+
+Los conteos, tiempos y artefactos canónicos de la última ejecución integral se registran en [`STATUS.md`](STATUS.md); cifras de fases anteriores no se heredan como evidencia.
 
 Los wrappers son orquestadores: configuración, validación y build viven bajo `Assets/_Game/Editor/BuildTools`. Los logs sustituyen la raíz del proyecto, home y ejecutable del Editor por marcadores antes de conservarse.
 

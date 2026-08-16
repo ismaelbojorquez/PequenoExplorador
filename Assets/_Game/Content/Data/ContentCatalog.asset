@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3495a591d88c4400789260388a135dc6, type: 3}
+  m_Name: ContentCatalog
+  m_EditorClassIdentifier: PequenoExplorador.Content::PequenoExplorador.Content.Data.ContentCatalogAsset
+  _categories:
+  - {fileID: 11400000, guid: fcd87aa2f711b4c89aac4b31fcae9233, type: 2}
+  _tags:
+  - {fileID: 11400000, guid: fa76ce64c583d49279856fcbbdb27027, type: 2}
+  _sources:
+  - {fileID: 11400000, guid: 38aa48fc8d9214636bc3fedfd5ea911d, type: 2}
+  _facts:
+  - {fileID: 11400000, guid: 04b4ea2bfa614428e9f4d5b6db74e1ac, type: 2}
+  _discoveries:
+  - {fileID: 11400000, guid: 8fce25b503def4785a9900eef3181d35, type: 2}
+  _discoveryAliases: []

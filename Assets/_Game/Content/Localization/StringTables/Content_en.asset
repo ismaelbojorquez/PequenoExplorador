@@ -50,6 +50,10 @@ MonoBehaviour:
     m_Localized: "Let\u2019s explore at our own pace."
     m_Metadata:
       m_Items: []
+  - m_Id: 37536620601344
+    m_Localized: Test discovery
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

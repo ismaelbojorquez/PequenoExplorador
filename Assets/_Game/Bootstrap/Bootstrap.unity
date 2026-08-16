@@ -2099,6 +2099,7 @@ MonoBehaviour:
   _sceneFlowView: {fileID: 406724790}
   _audioView: {fileID: 325573484}
   _audioCatalog: {fileID: 11400000, guid: 20cc9f7aa430a415fbcf64668d2d06d8, type: 2}
+  _contentCatalog: {fileID: 11400000, guid: bda19bfa2767348f983d73a3abf301f7, type: 2}
   _inputActions: {fileID: -944628639613478452, guid: 7d179769dd0ce42a6967f78aec62f317, type: 3}
   _gestureThresholds: {fileID: 11400000, guid: f6b623260f2b34beb8cc631f035ecc47, type: 2}
   _safeAreaFitters:

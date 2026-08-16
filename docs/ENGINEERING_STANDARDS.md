@@ -69,6 +69,8 @@ Fase 04 fija nueve asmdefs: seis runtime, Editor y dos suites. La tabla y grafo 
 - ScriptableObjects son authoring inmutable en runtime: IDs, referencias y parámetros; se validan y mapean a definiciones antes del uso.
 - No guardar progreso/sesión en ScriptableObjects ni mutar assets para representar gameplay.
 - IDs son estables y únicos; referencias rotas, duplicados, claims sin aprobación o placeholders inválidos bloquean validación.
+- IDs extensibles son value objects namespaced, no enums ni GUID/path Unity. Un generador solo llena vacío; renames no cambian ID y retiros publicados exigen alias/migración.
+- Catálogos se compilan una vez a modelos readonly e índices; `AssetDatabase` nunca entra al runtime ni se usa búsqueda lineal por frame.
 - Hechos educativos siguen [`CONTENT_SOURCES.md`](CONTENT_SOURCES.md).
 
 ## Configuración runtime

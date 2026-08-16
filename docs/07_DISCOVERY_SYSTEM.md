@@ -15,6 +15,8 @@ Cada descubrimiento data-driven necesita:
 - recompensa determinista y estado persistente;
 - fallback si el contenido factual o visual no está aprobado.
 
+El contrato técnico base está en [`CONTENT_MODEL.md`](CONTENT_MODEL.md): `DiscoveryDefinitionAsset` se mapea a `DiscoveryDefinition` readonly y se resuelve mediante `DiscoveryId` en O(1). Categorías/tags son IDs extensibles, no enums. Prompt 14 incluye solo `discovery.jungle.placeholder`, neutral y Draft; no implementa estados, fotografía ni álbum.
+
 ## Estados
 
 `No visto → Detectado → Fotografiado → Explorado`

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using PequenoExplorador.Content.Data;
 
 namespace PequenoExplorador.Editor.BuildTools
 {
@@ -12,7 +13,7 @@ namespace PequenoExplorador.Editor.BuildTools
             Run(() =>
             {
                 ValidateBoundaries();
-                ValidateContentInternal();
+                ValidateContentInternal(ContentValidationMode.Development);
                 ValidateAddressablesInternal();
                 ValidateInputInternal();
                 ArtifactReportWriter.WriteEnvironmentReport();
@@ -22,7 +23,7 @@ namespace PequenoExplorador.Editor.BuildTools
 
         public static void ValidateContent()
         {
-            Run(ValidateContentInternal);
+            Run(() => ValidateContentInternal(ContentValidationMode.Development));
         }
 
         public static void ValidateRuntimeConfiguration()
@@ -75,7 +76,7 @@ namespace PequenoExplorador.Editor.BuildTools
             Run(() =>
             {
                 ValidateBoundaries();
-                ValidateContentInternal();
+                ValidateContentInternal(ContentValidationMode.Development);
                 ValidateAddressablesInternal();
                 ValidateInputInternal();
                 LocalAddressablesBuildService.BuildDevelopment();
@@ -87,7 +88,7 @@ namespace PequenoExplorador.Editor.BuildTools
             Run(() =>
             {
                 ValidateBoundaries();
-                ValidateContentInternal();
+                ValidateContentInternal(ContentValidationMode.Development);
                 ValidateAddressablesInternal();
                 ValidateInputInternal();
                 LocalAddressablesBuildService.BuildDevelopment();
@@ -100,7 +101,7 @@ namespace PequenoExplorador.Editor.BuildTools
             try
             {
                 ValidateBoundaries();
-                ValidateContentInternal();
+                ValidateContentInternal(ContentValidationMode.Release);
                 ValidateAddressablesInternal();
                 ValidateInputInternal();
                 const string reason =
@@ -129,16 +130,16 @@ namespace PequenoExplorador.Editor.BuildTools
             Debug.Log("PE_ASSEMBLY_BOUNDARIES_OK assemblies=9 cycles=0");
         }
 
-        private static void ValidateContentInternal()
+        private static void ValidateContentInternal(ContentValidationMode mode)
         {
-            IReadOnlyList<string> violations = ContentValidationService.Validate();
+            IReadOnlyList<string> violations = ContentValidationService.Validate(mode);
             if (violations.Count > 0)
             {
                 throw new InvalidOperationException(
                     "Content validation failed:\n" + string.Join("\n", violations));
             }
 
-            Debug.Log("PE_CONTENT_VALIDATION_OK");
+            Debug.Log($"PE_CONTENT_VALIDATION_OK mode={mode} discoveries=1 catalog=O1");
             Debug.Log("PE_RUNTIME_CONFIG_OK profiles=2 remote=false releaseUnsafeFlags=0");
             Debug.Log("PE_LOCALIZATION_OK package=1.5.12 locales=es,en,pseudo stringTables=3 assetTables=2");
             Debug.Log("PE_AUDIO_OK buses=5 cues=7 clips=10 placeholders=10 sampleRate=48000 releaseFinal=0");

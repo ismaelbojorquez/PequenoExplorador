@@ -67,6 +67,10 @@ MonoBehaviour:
     m_Key: content.audio.narration.welcome
     m_Metadata:
       m_Items: []
+  - m_Id: 37536620601344
+    m_Key: content.discovery.placeholder.name
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

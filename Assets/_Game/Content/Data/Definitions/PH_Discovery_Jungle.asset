@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 970e86ecb619b4670b83f52ade81780f, type: 3}
+  m_Name: PH_Discovery_Jungle
+  m_EditorClassIdentifier: PequenoExplorador.Content::PequenoExplorador.Content.Data.DiscoveryDefinitionAsset
+  _id: discovery.jungle.placeholder
+  _editorial:
+    _state: 0
+    _isPlaceholder: 1
+    _owner: Content Design
+    _developmentWatermark: "BORRADOR \xB7 PH_"
+  _worldId: world.jungle
+  _category: {fileID: 11400000, guid: fcd87aa2f711b4c89aac4b31fcae9233, type: 2}
+  _tags:
+  - {fileID: 11400000, guid: fa76ce64c583d49279856fcbbdb27027, type: 2}
+  _facts:
+  - {fileID: 11400000, guid: 04b4ea2bfa614428e9f4d5b6db74e1ac, type: 2}
+  _displayNameTable: Content
+  _displayNameKey: content.discovery.placeholder.name
+  _nameAudioCueId: audio.feedback.confirm
+  _visualAssetId: visual.discovery.jungle.placeholder
+  _visualAsset: {fileID: 4900000, guid: 1e249b1fb854544feb9b9004946b8b71, type: 3}

@@ -32,11 +32,11 @@ Español (`es`) es locale de proyecto, startup y fallback humano. Inglés (`en`)
 |---|---:|---|
 | `Shared` | 4 | Nombre, versión Smart, fallback seguro y plural Smart de estrellas. |
 | `UI` | 16 | Estados, errores, transición, acciones y selector Development. |
-| `Content` | 8 | Nombres/placeholder de mundos y tres subtítulos de audio. |
+| `Content` | 9 | Nombres/placeholder de mundos/discovery y tres subtítulos de audio. |
 | `Voice` | 5 slots conceptuales | Camp/Jungle más tres cues de voz ES/EN; clips finales pendientes. |
 | `Illustrations` | 2 slots conceptuales | Futuros fondos Camp/Jungle; sin assets finales. |
 
-Las 30 keys de texto son namespaced (`shared.*`, `ui.*`, `content.*`) y su catálogo canónico está en `LocalizationKeys.cs`. Voz y subtítulo comparten concepto, por ejemplo `content.audio.name.jungle`; las tablas no conocen archivos. Las tablas y clips baseline se mantienen en Addressables locales; no existen `Remote*`, URL ni update-on-start.
+Las 31 keys de texto son namespaced (`shared.*`, `ui.*`, `content.*`) y su catálogo canónico está en `LocalizationKeys.cs`. Voz y subtítulo comparten concepto, por ejemplo `content.audio.name.jungle`; las tablas no conocen archivos. Las tablas y clips baseline se mantienen en Addressables locales; no existen `Remote*`, URL ni update-on-start.
 
 Variables, números y plurales usan Smart Strings de Unity Localization. Están cubiertos `shared.build.version`, `shared.progress.stars` y `ui.transition.preparing`; no se concatenan frases traducibles en Presentation.
 

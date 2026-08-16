@@ -40,6 +40,8 @@ Cada actividad declara:
 7. hecho/fuente aprobada si aplica;
 8. riesgo de interpretación y criterio de revisión.
 
+Prompt 14 hace ejecutable la trazabilidad mínima: cada `EducationalFactDefinition` enlaza copy localizada, claim atómico de revisión y `ContentSourceRecord` por ID. `Draft` puede apoyar tooling Development con watermark, pero solo `Approved` no-placeholder supera el validator Release; la aprobación técnica no reemplaza al revisor humano.
+
 ## Evidencia, no examen
 
 - Evidencia primaria: acción correcta después de observar una pista relevante.

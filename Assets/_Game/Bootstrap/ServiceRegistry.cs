@@ -4,6 +4,7 @@ using PequenoExplorador.Application;
 using PequenoExplorador.Application.Audio;
 using PequenoExplorador.Application.Accessibility;
 using PequenoExplorador.Application.Configuration;
+using PequenoExplorador.Application.Content;
 using PequenoExplorador.Application.Lifecycle;
 using PequenoExplorador.Application.Logging;
 using PequenoExplorador.Application.Localization;
@@ -37,12 +38,13 @@ namespace PequenoExplorador.Bootstrap
         private readonly IDisposable _fileStoreLifetime;
 
         public ServiceRegistry(IAppConfig configuration, IFileStore fileStore = null)
-            : this(configuration, null, null, null, null, fileStore)
+            : this(configuration, ContentCatalog.Empty, null, null, null, null, fileStore)
         {
         }
 
         public ServiceRegistry(
             IAppConfig configuration,
+            IContentCatalog contentCatalog,
             UnityEngine.GameObject audioHost,
             AudioCueCatalogAsset audioCatalog,
             InputActionAsset inputActions,
@@ -53,6 +55,7 @@ namespace PequenoExplorador.Bootstrap
             {
                 throw new ArgumentNullException(nameof(configuration));
             }
+            contentCatalog ??= ContentCatalog.Empty;
 
             var configViolations = AppConfigValidator.Validate(configuration);
             if (configViolations.Count > 0)
@@ -144,6 +147,7 @@ namespace PequenoExplorador.Bootstrap
                 save,
                 localization,
                 audio,
+                contentCatalog,
                 input,
                 safeArea,
                 haptics,
