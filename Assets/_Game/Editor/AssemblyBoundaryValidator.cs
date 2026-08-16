@@ -64,7 +64,8 @@ namespace PequenoExplorador.Editor
                 },
                 ["PequenoExplorador.Content"] = new[]
                 {
-                    "PequenoExplorador.Application"
+                    "PequenoExplorador.Application",
+                    "UnityEngine.AudioModule"
                 },
                 ["PequenoExplorador.Infrastructure"] = new[]
                 {
@@ -72,7 +73,8 @@ namespace PequenoExplorador.Editor
                     "PequenoExplorador.Domain",
                     "Unity.Addressables",
                     "Unity.Localization",
-                    "Unity.ResourceManager"
+                    "Unity.ResourceManager",
+                    "UnityEngine.AudioModule"
                 },
                 ["PequenoExplorador.Presentation"] = new[]
                 {
@@ -84,7 +86,8 @@ namespace PequenoExplorador.Editor
                     "PequenoExplorador.Content",
                     "PequenoExplorador.Domain",
                     "PequenoExplorador.Infrastructure",
-                    "PequenoExplorador.Presentation"
+                    "PequenoExplorador.Presentation",
+                    "UnityEngine.AudioModule"
                 },
                 ["PequenoExplorador.Editor"] = new[]
                 {
@@ -97,7 +100,8 @@ namespace PequenoExplorador.Editor
                     "Unity.InputSystem",
                     "Unity.Localization",
                     "Unity.Localization.Editor",
-                    "Unity.RenderPipelines.Universal.Runtime"
+                    "Unity.RenderPipelines.Universal.Runtime",
+                    "UnityEngine.AudioModule"
                 },
                 ["PequenoExplorador.Tests.EditMode"] = new[]
                 {
@@ -109,14 +113,16 @@ namespace PequenoExplorador.Editor
                     "PequenoExplorador.Infrastructure",
                     "PequenoExplorador.Presentation",
                     "Unity.Localization",
-                    "Unity.Localization.Editor"
+                    "Unity.Localization.Editor",
+                    "UnityEngine.AudioModule"
                 },
                 ["PequenoExplorador.Tests.PlayMode"] = new[]
                 {
                     "PequenoExplorador.Application",
                     "PequenoExplorador.Bootstrap",
                     "PequenoExplorador.Domain",
-                    "PequenoExplorador.Infrastructure"
+                    "PequenoExplorador.Infrastructure",
+                    "UnityEngine.AudioModule"
                 }
             };
 

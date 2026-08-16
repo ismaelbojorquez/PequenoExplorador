@@ -50,7 +50,10 @@ namespace PequenoExplorador.Editor
                 LocalizationKeys.VoiceAssetTable,
                 realLocales,
                 "content.world.camp.name",
-                "content.world.jungle.name");
+                "content.world.jungle.name",
+                "audio.voice.instruction.explore",
+                "audio.voice.name.jungle",
+                "audio.voice.narration.welcome");
             UpsertAssetCollection(
                 LocalizationKeys.IllustrationAssetTable,
                 realLocales,
@@ -63,6 +66,20 @@ namespace PequenoExplorador.Editor
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
             Debug.Log("PE_LOCALIZATION_SETUP_OK package=1.5.12 locales=3 stringTables=3 assetTables=2");
+        }
+
+        public static void ApplyCli()
+        {
+            try
+            {
+                Apply();
+                EditorApplication.Exit(0);
+            }
+            catch (Exception exception)
+            {
+                Debug.LogException(exception);
+                EditorApplication.Exit(1);
+            }
         }
 
         private static readonly Entry[] SharedEntries =
@@ -99,7 +116,10 @@ namespace PequenoExplorador.Editor
             new Entry("content.world.camp.name", "Campamento", "Camp"),
             new Entry("content.world.jungle.name", "Expedición Selva", "Jungle Expedition"),
             new Entry("content.world.camp.placeholder", "Campamento · PLACEHOLDER", "Camp · PLACEHOLDER"),
-            new Entry("content.world.jungle.placeholder", "Expedición Selva · PLACEHOLDER", "Jungle Expedition · PLACEHOLDER")
+            new Entry("content.world.jungle.placeholder", "Expedición Selva · PLACEHOLDER", "Jungle Expedition · PLACEHOLDER"),
+            new Entry("content.audio.instruction.explore", "Mira a tu alrededor. ¿Qué descubrimos?", "Look around. What can we discover?"),
+            new Entry("content.audio.name.jungle", "Selva", "Jungle"),
+            new Entry("content.audio.narration.welcome", "Vamos a explorar con calma.", "Let’s explore at our own pace.")
         };
 
         private static void EnsureFolders()

@@ -1,6 +1,6 @@
 # Arquitectura técnica — fronteras modulares
 
-Estado: fronteras F04, composition root F06, scene flow local, persistencia schema v2 y localización ES/EN implementados. No define APIs de gameplay. `Bootstrap` persiste y entra a Camp placeholder.
+Estado: fronteras F04, composition root F06, scene flow local, persistencia schema v3, localización ES/EN y framework de audio localizado implementados. No define APIs de gameplay. `Bootstrap` persiste y entra a Camp placeholder.
 
 ## Grafo real de assemblies
 
@@ -90,8 +90,8 @@ DiagnosticBootstrap (Unity lifecycle)
       │   ├─ IPurchaseService
       │   └─ ISceneFlowService → ISceneContentLoader
       └─ ApplicationHost
-          initialize: MessageBus → Save → Localization → Analytics → Ads → Purchases
-          shutdown:  Purchases → Ads → Analytics → Localization → Save → MessageBus
+          initialize: MessageBus → Save → Localization → Audio → Analytics → Ads → Purchases
+          shutdown:  Purchases → Ads → Analytics → Audio → Localization → Save → MessageBus
 ```
 
 `ApplicationHost.InitializeAsync` es secuencial, comparte la misma tarea ante llamadas concurrentes, acepta `CancellationToken`, permite retry después de fallo recuperable y hace cleanup inverso. `Shutdown`/`Dispose` son idempotentes; si llegan durante inicialización solicitan cancelación del host, impiden volver a `Ready` y limpian también el servicio que estaba inicializando. `AppContext` no es estático y no ofrece lookup; Bootstrap lo retiene para inyección explícita en futuras fachadas.
@@ -110,7 +110,7 @@ Domain.PlayerProgress
 Application.ISaveService / AutosaveCoordinator / IFileStore
           ↓
 Infrastructure.LocalSaveService
-  ├─ UnityJsonSaveSerializer → envelope/DTO v1/v2 + SHA-256
+  ├─ UnityJsonSaveSerializer → envelope/DTO v1/v2/v3 + SHA-256
   ├─ ISaveMigration[] → pasos n→n+1
   └─ LocalFileStore → persistentDataPath/Save
 ```
@@ -120,6 +120,22 @@ Application y features no conocen JSON ni paths. Infrastructure referencia Domai
 ### Localización
 
 `Application.Localization` define `LocalizedKey`/`ILocalizationService`; Infrastructure es el único adapter de Unity Localization; Content posee tablas/locales; Bootstrap lo inicializa después de Save e inyecta la fachada en Presentation. Domain solo guarda el enum de preferencia ES/EN, no texto. `LocaleChanged` refresca vistas y se limpia en shutdown; pseudo no llega a Release ni al save. Contrato y fallback: [`17_LOCALIZATION.md`](17_LOCALIZATION.md).
+
+### Audio localizado
+
+```text
+Application: IAudioService + AudioCueId/settings/subtitle
+            ↓
+Infrastructure: UnityAudioService → AudioSource/AudioMixer/voice queue
+            ↑
+Content: AudioCueDefinition + AudioCueCatalog + WAV locales PH_
+            ↑
+Bootstrap: mapping/composition/lifecycle
+            ↓
+Presentation: play/replay/settings/subtitle
+```
+
+Domain no conoce audio ni archivos. El root Bootstrap posee exactamente siete sources y un driver; Music/Ambience son exclusivos, Effects tiene pool fijo de cuatro y Voice serializa una cola de cuatro con prioridad. `LocaleChanged` afecta clip/subtítulo; pause/focus suspende, shutdown detiene loops, vacía cola/cooldown y limpia listeners. Faltantes devuelven `Missing` sin bloquear. Contrato/ledger: [`16_AUDIO.md`](16_AUDIO.md) y [`AUDIO_REQUIREMENTS.md`](AUDIO_REQUIREMENTS.md).
 
 ## Scene flow y contenido local
 
@@ -148,8 +164,9 @@ El bus en memoria solo cubre fan-out acotado. `Subscribe<T>` devuelve `IDisposab
 | Analytics | `NullAnalyticsService` | `NullAnalyticsService` |
 | Ads | `MockAdsService` si flag local ON; default ON | `NoAdsService`; `MockAds` prohibido |
 | Purchases | `MockPurchaseService` si flag local ON; default ON | `UnavailablePurchaseService`; `MockPurchases` prohibido |
-| Save | Local schema v2 | Local schema v2; herramientas Editor excluidas |
+| Save | Local schema v3 | Local schema v3; herramientas Editor excluidas |
 | Localization | ES/EN + pseudo y selector diagnóstico | ES/EN; pseudo/selector diagnóstico excluidos |
+| Audio | Mixer/cues PH_, panel y replay diagnóstico | Servicio local; panel oculto y placeholders bloquean Release de contenido |
 | Clock/random | `SystemClock` + seed inyectado | Igual, sin estado remoto |
 | Logs/messages | Structured Unity + bus local | Igual, sin datos infantiles |
 

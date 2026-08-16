@@ -46,6 +46,7 @@ No se pregunta edad/fecha de nacimiento, no se recomienda modo según comportami
 
 - Contraste y tamaño validados, safe areas, escalado de texto y foco visible.
 - Subtítulos/copy para voz; audio repetible; pistas visuales para sonidos.
+- Prompt 12 activa subtítulos por defecto, replay gratuito y volúmenes separados; cambiar idioma actualiza texto/cue sin pedir edad ni inferir perfil.
 - Reducir movimiento y flashes; cámara estable.
 - No exigir velocidad, precisión fina, lectura, audio, percepción de color o multitouch.
 - Tiempo suficiente y descansos neutrales; reentrada conserva contexto.

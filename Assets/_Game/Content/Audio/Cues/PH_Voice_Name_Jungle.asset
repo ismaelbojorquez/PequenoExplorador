@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93d5b91751d247b78004e10d6080eb25, type: 3}
+  m_Name: PH_Voice_Name_Jungle
+  m_EditorClassIdentifier: PequenoExplorador.Content::PequenoExplorador.Content.Audio.AudioCueDefinition
+  _cueId: audio.voice.name.jungle
+  _category: 5
+  _bus: 4
+  _priority: 20
+  _cooldownSeconds: 0
+  _gain: 0.3
+  _loop: 0
+  _subtitleTable: Content
+  _subtitleKey: content.audio.name.jungle
+  _spanishClip: {fileID: 8300000, guid: 9beb283edf3ed40ee8a6e60111563603, type: 3}
+  _englishClip: {fileID: 8300000, guid: a35c1125f086848f896e2f0c5cbc9b07, type: 3}
+  _spanishAddress: audio/voice/name/jungle/es
+  _englishAddress: audio/voice/name/jungle/en
+  _placeholder: 1
+  _placeholderId: PH_VOICE_NAME_JUNGLE
+  _releaseState: ReleaseBlocked

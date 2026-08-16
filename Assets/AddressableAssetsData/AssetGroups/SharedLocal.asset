@@ -15,12 +15,82 @@ MonoBehaviour:
   m_GroupName: SharedLocal
   m_GUID: 3bd42d644b873463d8253280ec266651
   m_SerializeEntries:
+  - m_GUID: 0b21aec9265e94e52a81e97e8c0bafd3
+    m_Address: audio/voice/narration/welcome/es
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - audio-local
+    - audio-placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 26a53aae0546046f5a6f2d2cd00698ef
+    m_Address: audio/ambience/camp
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - audio-local
+    - audio-placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3bbc498de15c746b2a5e8fba9a99e2b3
+    m_Address: audio/feedback/confirm
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - audio-local
+    - audio-placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6d0882a5503994ef68d0bff509ab851a
+    m_Address: audio/music/camp
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - audio-local
+    - audio-placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 781159a7e31384f47a1e9870ef534551
+    m_Address: audio/feedback/retry
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - audio-local
+    - audio-placeholder
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 822004d7ba45248d78ed71c2207a5abb
     m_Address: scene/camp
     m_ReadOnly: 0
     m_SerializedLabels:
     - scene
     - shared-local
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9beb283edf3ed40ee8a6e60111563603
+    m_Address: audio/voice/name/jungle/es
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - audio-local
+    - audio-placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a35c1125f086848f896e2f0c5cbc9b07
+    m_Address: audio/voice/name/jungle/en
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - audio-local
+    - audio-placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ac0cae93f1144451b9aa7c74d395fcca
+    m_Address: audio/voice/narration/welcome/en
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - audio-local
+    - audio-placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b6298c5c66e644e67a1ec41b3a38289b
+    m_Address: audio/voice/instruction/explore/en
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - audio-local
+    - audio-placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f335aaaad613a41839ef87997a765d8e
+    m_Address: audio/voice/instruction/explore/es
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - audio-local
+    - audio-placeholder
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 0c56d24c3b29b4b1f9fc656e9af54177, type: 2}

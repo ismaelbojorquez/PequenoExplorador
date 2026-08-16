@@ -23,18 +23,21 @@ namespace PequenoExplorador.Infrastructure.Save
             }
 
             PlayerPreferences preferences = progress.Preferences;
-            PlayerProgressV2Dto payload = PlayerProgressV2Dto.Create(
+            PlayerProgressV3Dto payload = PlayerProgressV3Dto.Create(
                 appVersion,
                 progress.Stars,
                 progress.WorldIds.ToArray(),
                 progress.DiscoveryIds.ToArray(),
                 progress.CompletedMissionIds.ToArray(),
-                PlayerPreferencesV2Dto.Create(
+                PlayerPreferencesV3Dto.Create(
                     (int)preferences.GuidanceMode,
-                    preferences.MusicEnabled,
-                    preferences.SoundEffectsEnabled,
-                    preferences.NarrationEnabled,
-                    ToLocaleCode(preferences.Language)),
+                    ToLocaleCode(preferences.Language),
+                    preferences.MasterVolume,
+                    preferences.MusicVolume,
+                    preferences.AmbienceVolume,
+                    preferences.EffectsVolume,
+                    preferences.VoiceVolume,
+                    preferences.SubtitlesEnabled),
                 SaveMetadataV1Dto.Create(saveSequence));
             string payloadJson = JsonUtility.ToJson(payload, false);
             return SerializeEnvelope(LocalSaveService.CurrentSchemaVersion, payloadJson);
@@ -91,10 +94,10 @@ namespace PequenoExplorador.Infrastructure.Save
 
         public DecodedSaveData DeserializeCurrentPayload(string payload)
         {
-            PlayerProgressV2Dto dto;
+            PlayerProgressV3Dto dto;
             try
             {
-                dto = JsonUtility.FromJson<PlayerProgressV2Dto>(payload);
+                dto = JsonUtility.FromJson<PlayerProgressV3Dto>(payload);
             }
             catch (Exception exception)
             {
@@ -105,7 +108,10 @@ namespace PequenoExplorador.Infrastructure.Save
                 dto.WorldIds == null || dto.DiscoveryIds == null || dto.CompletedMissionIds == null ||
                 dto.Settings == null || dto.Metadata == null || dto.Metadata.SaveSequence < 0 ||
                 !Enum.IsDefined(typeof(GuidanceMode), dto.Settings.GuidanceMode) ||
-                !LocaleCode.IsSupported(dto.Settings.LocaleCode, includePseudo: false))
+                !LocaleCode.IsSupported(dto.Settings.LocaleCode, includePseudo: false) ||
+                !IsVolume(dto.Settings.MasterVolume) || !IsVolume(dto.Settings.MusicVolume) ||
+                !IsVolume(dto.Settings.AmbienceVolume) || !IsVolume(dto.Settings.EffectsVolume) ||
+                !IsVolume(dto.Settings.VoiceVolume))
             {
                 throw new SaveDataException("SavePayloadInvalid");
             }
@@ -114,10 +120,16 @@ namespace PequenoExplorador.Infrastructure.Save
             {
                 var preferences = new PlayerPreferences(
                     (GuidanceMode)dto.Settings.GuidanceMode,
-                    dto.Settings.MusicEnabled,
-                    dto.Settings.SoundEffectsEnabled,
-                    dto.Settings.NarrationEnabled,
-                    ToLanguagePreference(dto.Settings.LocaleCode));
+                    dto.Settings.MusicVolume > 0f,
+                    dto.Settings.EffectsVolume > 0f,
+                    dto.Settings.VoiceVolume > 0f,
+                    ToLanguagePreference(dto.Settings.LocaleCode),
+                    dto.Settings.MasterVolume,
+                    dto.Settings.MusicVolume,
+                    dto.Settings.AmbienceVolume,
+                    dto.Settings.EffectsVolume,
+                    dto.Settings.VoiceVolume,
+                    dto.Settings.SubtitlesEnabled);
                 var progress = new PlayerProgress(
                     dto.Stars,
                     dto.WorldIds,
@@ -143,6 +155,11 @@ namespace PequenoExplorador.Infrastructure.Save
             }
 
             return builder.ToString();
+        }
+
+        private static bool IsVolume(float value)
+        {
+            return !float.IsNaN(value) && !float.IsInfinity(value) && value >= 0f && value <= 1f;
         }
 
         private static string ToLocaleCode(LanguagePreference language)

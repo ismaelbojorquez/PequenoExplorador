@@ -1,6 +1,6 @@
 # Índice documental
 
-Estado: foundation, scene flow local, persistencia schema v2 y localización ES/EN disponibles; todavía no existe gameplay ni contenido final. Empezar siempre por [`../AGENTS.md`](../AGENTS.md) y [`STATUS.md`](STATUS.md).
+Estado: foundation, scene flow local, persistencia schema v3, localización ES/EN y framework de audio placeholder disponibles; todavía no existe gameplay ni contenido final. Empezar siempre por [`../AGENTS.md`](../AGENTS.md) y [`STATUS.md`](STATUS.md).
 
 ## Fuentes de verdad
 
@@ -50,7 +50,7 @@ Los saltos numéricos reservan espacio para documentos técnicos futuros; no imp
 - [`TECHNICAL_ARCHITECTURE.md`](TECHNICAL_ARCHITECTURE.md): alias histórico hacia la arquitectura canónica.
 - [`DEPENDENCY_REGISTER.md`](DEPENDENCY_REGISTER.md): intake y pins de paquetes directos/transitivos.
 - [`CONTENT_PIPELINE.md`](CONTENT_PIPELINE.md): Addressables local, addresses/labels, ownership, build y evolución.
-- [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md): schema v2, DTOs, checksum, backup, migraciones, autosave y recuperación.
+- [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md): schema v3, DTOs, checksum, backup, migraciones, autosave y recuperación.
 - [`17_LOCALIZATION.md`](17_LOCALIZATION.md): paquete exacto, ES/EN, pseudo, tablas/keys y pipeline CSV local.
 - [`RUNTIME_CONFIGURATION.md`](RUNTIME_CONFIGURATION.md): AppConfig Development/Release, flags tipados y validación build.
 - [`20_ANDROID_RELEASE.md`](20_ANDROID_RELEASE.md): build Android actual y bloqueo de Release.
@@ -59,7 +59,7 @@ Los saltos numéricos reservan espacio para documentos técnicos futuros; no imp
 - [`POLICY_SOURCE_REGISTER.md`](POLICY_SOURCE_REGISTER.md): políticas oficiales y revalidación.
 - [`RISK_REGISTER.md`](RISK_REGISTER.md): riesgos, owners y mitigaciones.
 - [`ART_ASSET_REQUIREMENTS.md`](ART_ASSET_REQUIREMENTS.md): contrato técnico de assets.
-- [`AUDIO_REQUIREMENTS.md`](AUDIO_REQUIREMENTS.md): contrato técnico de audio.
+- [`16_AUDIO.md`](16_AUDIO.md) y [`AUDIO_REQUIREMENTS.md`](AUDIO_REQUIREMENTS.md): dirección, framework, buses, cues, ledger `PH_` y blockers humanos.
 - [`CHANGELOG.md`](CHANGELOG.md): cambios por fase.
 - [`audits/GATE_A_2026-08-15.md`](audits/GATE_A_2026-08-15.md): auditoría independiente de foundation, hallazgos y evidencia ejecutada.
 

@@ -1,5 +1,7 @@
 # Requisitos de assets visuales
 
+Los assets sonoros no se gobiernan aquí: IDs, formatos, locales, emoción, licencia y estado viven en [`AUDIO_REQUIREMENTS.md`](AUDIO_REQUIREMENTS.md). Ningún WAV `PH_` de Prompt 12 cuenta como arte/audio final del Vertical Slice.
+
 Contrato inicial para el MVP Selva. No autoriza comprar, descargar ni generar assets y no fija todavía budgets que deban medirse en F12.
 
 ## Dirección y alcance

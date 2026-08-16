@@ -84,6 +84,7 @@ namespace PequenoExplorador.Tests.EditMode
                 first.Context.Messages,
                 first.Context.Save,
                 first.Context.Localization,
+                first.Context.Audio,
                 first.Context.Analytics,
                 first.Context.Ads,
                 first.Context.Purchases,
@@ -105,6 +106,7 @@ namespace PequenoExplorador.Tests.EditMode
                 "MessageBus",
                 "Save",
                 "Localization",
+                "Audio",
                 "Analytics",
                 "Ads",
                 "Purchases"

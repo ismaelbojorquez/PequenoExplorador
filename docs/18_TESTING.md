@@ -26,6 +26,7 @@ Ejecuta en orden y se detiene al primer fallo: `check-repository`, `compile`, bu
 | `scripts/compile` | Import/compile Unity, fronteras, placeholders y reporte de entorno. | `artifacts/logs/compile.log`, `artifacts/reports/environment.json`. |
 | `scripts/validate-content` | Metadata de placeholders presentes; base extensible para contenido futuro. | `artifacts/logs/validate-content.log`. |
 | `scripts/validate-localization` | Locales/tablas/keys/ES-EN/assets/glifos y escenas sin texto serializado. | `artifacts/logs/validate-localization.log`. |
+| `scripts/validate-audio` | Mixer/buses, cues, mono/48 kHz, clipping, addresses y bloqueo de placeholders. | `artifacts/logs/validate-audio.log`. |
 | `scripts/build-addressables-local` | Valida perfiles/grupos/labels/dependencias y construye catálogo Android local. | Log + `artifacts/reports/addressables-local.json`; runtime data ignorada bajo `Library`. |
 | `scripts/test-editmode` | Suite EditMode. | XML NUnit y JUnit en `artifacts/test-results/`. |
 | `scripts/test-playmode` | Suite PlayMode/escena. | XML NUnit y JUnit en `artifacts/test-results/`. |
@@ -41,13 +42,15 @@ La tabla de perfiles y orden de servicios es canónica en [`02_TECHNICAL_ARCHITE
 
 Scene flow EditMode cubre estados, exclusión mutua, error/retry, cancelación, timeout, unload y shutdown. PlayMode exige un único Bootstrap, `Boot→Camp`, tres ciclos `Camp→Jungle→Camp`, un solo handle para la escena actual, cero tras shutdown y recuperación del fallo Development. El stub documental incluido por Addressables se distingue del conteo de tests del proyecto.
 
-Save EditMode cubre default/round-trip, JSON determinista, write/flush/commit inyectados, truncado, checksum, backup preservado, v0→v1, migración ausente, future schema read-only, cancelación, reset, coalescing y replace físico repetido. PlayMode recrea el servicio tras recarga de escena y verifica el checkpoint. Los directorios físicos de tests son temporales con prefijo controlado; no se usa `PlayerPrefs`, red, reloj real ni rutas versionadas. Detalle: [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md).
+Save EditMode cubre default/round-trip, JSON determinista, write/flush/commit inyectados, truncado, checksum, backup preservado, v0→v1→v2→v3, migración v2→v3, migración ausente, future schema read-only, cancelación, reset, coalescing y replace físico repetido. PlayMode recrea el servicio tras recarga de escena y verifica el checkpoint. Los directorios físicos de tests son temporales con prefijo controlado; no se usa `PlayerPrefs`, red, reloj real ni rutas versionadas. Detalle: [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md).
 
 Configuración EditMode cubre defaults, dos assets locales, mapping, IDs duplicados, budgets inválidos, cada flag prohibido en Release y override temporal restaurable. PlayMode comprueba que Bootstrap selecciona Development, muestra producto/versión del asset y conserva Ready/scene flow/save. `scripts/compile`/build llaman el validador de ambos perfiles; una fixture controlada Release+`MockAds` debe fallar `CONFIG008`. Contrato: [`RUNTIME_CONFIGURATION.md`](RUNTIME_CONFIGURATION.md).
 
-Localización EditMode cubre español default, resolución, Smart variables/plurales, persistencia y restauración v2 sin `PlayerPrefs`, fallback Development/Release y pseudo no persistible. PlayMode cambia ES/EN/pseudo sin reinicio, confirma refresh/persistencia y layouts a `1280×720`/`1920×1080`. El validator cubre 25 keys, cinco colecciones, dos locales y glifos. Contrato: [`17_LOCALIZATION.md`](17_LOCALIZATION.md).
+Localización EditMode cubre español default, resolución, Smart variables/plurales, persistencia y restauración v3 sin `PlayerPrefs`, fallback Development/Release y pseudo no persistible. PlayMode cambia ES/EN/pseudo sin reinicio, confirma refresh/persistencia y layouts a `1280×720`/`1920×1080`. El validator cubre 28 keys, cinco colecciones, dos locales y glifos. Contrato: [`17_LOCALIZATION.md`](17_LOCALIZATION.md).
 
-Conteo verificado tras Prompt 11: EditMode `62/62` (61 tests del proyecto y el stub documental de Addressables) y PlayMode `6/6`.
+Audio EditMode cubre catálogo/addresses/import, defaults y valores inválidos, prioridad/FIFO/capacidad, cooldown con tiempo inyectado, settings persistidos y missing cue no bloqueante. PlayMode verifica siete sources únicos, ducking, subtítulo, replay, suspend/resume, cue EN y Camp↔Jungle sin duplicados. `scripts/validate-audio` registra diez placeholders pendientes; esto es PASS estructural, no aprobación Release ni prueba auditiva humana.
+
+Conteo incremental de Prompt 12 antes del pipeline final: EditMode `70/70` y PlayMode `7/7`; el resultado canónico se actualiza en `STATUS` tras `scripts/validate`.
 
 Los wrappers son orquestadores: configuración, validación y build viven bajo `Assets/_Game/Editor/BuildTools`. Los logs sustituyen la raíz del proyecto, home y ejecutable del Editor por marcadores antes de conservarse.
 

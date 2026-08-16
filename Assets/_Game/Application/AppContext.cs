@@ -1,4 +1,5 @@
 using System;
+using PequenoExplorador.Application.Audio;
 using PequenoExplorador.Application.Configuration;
 using PequenoExplorador.Application.Logging;
 using PequenoExplorador.Application.Localization;
@@ -19,6 +20,7 @@ namespace PequenoExplorador.Application
             IMessageBus messages,
             ISaveService save,
             ILocalizationService localization,
+            IAudioService audio,
             IAnalyticsService analytics,
             IAdsService ads,
             IPurchaseService purchases,
@@ -31,6 +33,7 @@ namespace PequenoExplorador.Application
             Messages = messages ?? throw new ArgumentNullException(nameof(messages));
             Save = save ?? throw new ArgumentNullException(nameof(save));
             Localization = localization ?? throw new ArgumentNullException(nameof(localization));
+            Audio = audio ?? throw new ArgumentNullException(nameof(audio));
             Analytics = analytics ?? throw new ArgumentNullException(nameof(analytics));
             Ads = ads ?? throw new ArgumentNullException(nameof(ads));
             Purchases = purchases ?? throw new ArgumentNullException(nameof(purchases));
@@ -45,6 +48,7 @@ namespace PequenoExplorador.Application
         public IMessageBus Messages { get; }
         public ISaveService Save { get; }
         public ILocalizationService Localization { get; }
+        public IAudioService Audio { get; }
         public IAnalyticsService Analytics { get; }
         public IAdsService Ads { get; }
         public IPurchaseService Purchases { get; }

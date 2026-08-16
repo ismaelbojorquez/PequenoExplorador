@@ -6,7 +6,8 @@
     "PequenoExplorador.Domain",
     "Unity.Addressables",
     "Unity.Localization",
-    "Unity.ResourceManager"
+    "Unity.ResourceManager",
+    "UnityEngine.AudioModule"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

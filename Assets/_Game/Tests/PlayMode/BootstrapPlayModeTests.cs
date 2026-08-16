@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using PequenoExplorador.Application;
+using PequenoExplorador.Application.Audio;
 using PequenoExplorador.Application.Configuration;
 using PequenoExplorador.Application.Lifecycle;
 using PequenoExplorador.Application.Localization;
@@ -157,6 +158,46 @@ namespace PequenoExplorador.Tests.PlayMode
             yield return WaitForTask(spanish);
             yield return null;
             Assert.That(bootstrap.StatusText, Is.EqualTo("Listo"));
+        }
+
+        [UnityTest]
+        public IEnumerator AudioFrameworkDucksReplaysSuspendsAndSurvivesWorldTransitionsWithoutDuplicates()
+        {
+            SceneManager.LoadScene("Bootstrap", LoadSceneMode.Single);
+            yield return null;
+            yield return WaitForReady();
+            DiagnosticBootstrap bootstrap = Object.FindFirstObjectByType<DiagnosticBootstrap>();
+            Assert.That(bootstrap.Audio, Is.Not.Null);
+            Assert.That(bootstrap.GetComponents<AudioSource>(), Has.Length.EqualTo(7));
+
+            SubtitleModel subtitle = SubtitleModel.Hidden;
+            bootstrap.Audio.SubtitleChanged += value => subtitle = value;
+            AudioPlayResult voice = bootstrap.PlayAudio(AudioCueIds.ExploreInstruction);
+            Assert.That(voice.IsAccepted, Is.True);
+            Assert.That(bootstrap.Audio.IsVoiceDucking, Is.True);
+            Assert.That(subtitle.Visible, Is.True);
+            Assert.That(subtitle.TextKey, Is.EqualTo(LocalizationKeys.AudioExploreInstruction));
+            Assert.That(bootstrap.ReplayInstruction().IsAccepted, Is.True);
+            float duckDeadline = Time.realtimeSinceStartup + 2f;
+            while (bootstrap.Audio.IsVoiceDucking && Time.realtimeSinceStartup < duckDeadline) yield return null;
+            Assert.That(bootstrap.Audio.IsVoiceDucking, Is.False, "Ducking must restore after queued voice completes.");
+            Assert.That(bootstrap.PlayAudio(new AudioCueId("audio.missing.playmode")).Status, Is.EqualTo(AudioPlayStatus.Missing));
+
+            bootstrap.Audio.SetApplicationSuspended(true);
+            Assert.That(bootstrap.PlayAudio(AudioCueIds.ConfirmFeedback).Status, Is.EqualTo(AudioPlayStatus.Suspended));
+            bootstrap.Audio.SetApplicationSuspended(false);
+            Assert.That(bootstrap.PlayAudio(AudioCueIds.ConfirmFeedback).IsAccepted, Is.True);
+
+            Task<SceneTransitionResult> enter = bootstrap.GoToExpeditionAsync(CancellationToken.None);
+            yield return WaitForTask(enter);
+            Task<SceneTransitionResult> back = bootstrap.GoToCampAsync(CancellationToken.None);
+            yield return WaitForTask(back);
+            Assert.That(bootstrap.GetComponents<AudioSource>(), Has.Length.EqualTo(7));
+            Assert.That(Object.FindObjectsByType<DiagnosticBootstrap>(FindObjectsInactive.Include, FindObjectsSortMode.None), Has.Length.EqualTo(1));
+
+            Task english = bootstrap.SetLocaleAsync(LocaleCode.English, persist: false, CancellationToken.None);
+            yield return WaitForTask(english);
+            Assert.That(bootstrap.PlayAudio(AudioCueIds.JungleName).IsAccepted, Is.True);
         }
 
         private static IEnumerator WaitForReady()

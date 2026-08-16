@@ -150,7 +150,14 @@ namespace PequenoExplorador.Editor.BuildTools
         {
             ValidateAssetTable(
                 LocalizationKeys.VoiceAssetTable,
-                new[] { "content.world.camp.name", "content.world.jungle.name" },
+                new[]
+                {
+                    "content.world.camp.name",
+                    "content.world.jungle.name",
+                    "audio.voice.instruction.explore",
+                    "audio.voice.name.jungle",
+                    "audio.voice.narration.welcome"
+                },
                 violations);
             ValidateAssetTable(
                 LocalizationKeys.IllustrationAssetTable,

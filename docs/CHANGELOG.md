@@ -1,5 +1,29 @@
 # Changelog
 
+## Prompt 12 — 2026-08-16
+
+### Added
+
+- `IAudioService`, IDs/categorías/buses/prioridades, settings, resultados y subtítulos BCL-only; mixer Master/Music/Ambience/Effects/Voice y servicio Unity con siete sources acotados.
+- Cola Voice priorizada/FIFO, cooldown, ducking 0.35×, replay, pause/focus/shutdown y panel exclusivamente Development.
+- Siete cues Content, diez WAV mono/48 kHz `PH_` generados internamente, addresses/labels locales y validator `scripts/validate-audio` con bloqueo Release.
+- Save schema v3 y migración pura v2→v3 para cinco volúmenes/subtítulos; tres keys de subtítulo ES/EN y slots Voice conceptuales.
+
+### Changed
+
+- Composition root inicializa Save→Localization→Audio antes de servicios comerciales; AppContext expone el puerto, no un locator.
+- Addressables `SharedLocal`, arquitectura, localización, save, UX, testing, dependencias, decisiones y riesgos reflejan audio offline y sin SDK.
+
+### Verified
+
+- Pipeline `scripts/validate` PASS: repository/compile/content/audio/Addressables, EditMode `70/70` y PlayMode `7/7`.
+- APK Development `66,037,223` bytes, SHA-256 `9564026c1dae24c69d3f96ff4ac46650267a2fad9f2677c63a9ddacc614ec046`, API 26/36, IL2CPP/ARM64 y zipalign 16 KB; Release guard devolvió el código esperado `3`.
+- Los clips no exceden el umbral de clipping del validator; un cue ausente retorna `Missing` y los placeholders se registran como pendientes, nunca aprobados.
+
+### Not added
+
+- Voz humana, música/ambiente/SFX final, claims animales, middleware, red, micrófono, remote content, gameplay, signing, push o publicación.
+
 ## Prompt 11 — 2026-08-16
 
 ### Added

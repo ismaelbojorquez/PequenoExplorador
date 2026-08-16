@@ -11,7 +11,7 @@ namespace PequenoExplorador.Infrastructure.Save
 {
     public sealed class LocalSaveService : ISaveService
     {
-        public const int CurrentSchemaVersion = 2;
+        public const int CurrentSchemaVersion = 3;
 
         private readonly IFileStore _fileStore;
         private readonly UnityJsonSaveSerializer _serializer;

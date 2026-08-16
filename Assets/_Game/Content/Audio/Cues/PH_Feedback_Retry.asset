@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93d5b91751d247b78004e10d6080eb25, type: 3}
+  m_Name: PH_Feedback_Retry
+  m_EditorClassIdentifier: PequenoExplorador.Content::PequenoExplorador.Content.Audio.AudioCueDefinition
+  _cueId: audio.feedback.retry
+  _category: 4
+  _bus: 3
+  _priority: 20
+  _cooldownSeconds: 0.08
+  _gain: 0.24
+  _loop: 0
+  _subtitleTable: 
+  _subtitleKey: 
+  _spanishClip: {fileID: 8300000, guid: 781159a7e31384f47a1e9870ef534551, type: 3}
+  _englishClip: {fileID: 8300000, guid: 781159a7e31384f47a1e9870ef534551, type: 3}
+  _spanishAddress: audio/feedback/retry
+  _englishAddress: audio/feedback/retry
+  _placeholder: 1
+  _placeholderId: PH_FEEDBACK_RETRY
+  _releaseState: ReleaseBlocked

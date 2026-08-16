@@ -10,7 +10,8 @@
     "PequenoExplorador.Infrastructure",
     "PequenoExplorador.Presentation",
     "Unity.Localization",
-    "Unity.Localization.Editor"
+    "Unity.Localization.Editor",
+    "UnityEngine.AudioModule"
   ],
   "includePlatforms": [
     "Editor"

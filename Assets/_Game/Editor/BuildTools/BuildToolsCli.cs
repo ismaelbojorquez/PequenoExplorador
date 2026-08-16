@@ -54,6 +54,21 @@ namespace PequenoExplorador.Editor.BuildTools
             });
         }
 
+        public static void ValidateAudio()
+        {
+            Run(() =>
+            {
+                IReadOnlyList<string> violations = AudioValidationService.Validate();
+                if (violations.Count > 0)
+                {
+                    throw new InvalidOperationException("Audio validation failed:\n" + string.Join("\n", violations));
+                }
+
+                Debug.Log("PE_AUDIO_OK buses=5 cues=7 clips=10 placeholders=10 sampleRate=48000 releaseFinal=0");
+                Debug.LogWarning("PE_AUDIO_RELEASE_PENDING finalAssets=10 humanVoiceReview=required");
+            });
+        }
+
         public static void BuildAddressablesLocal()
         {
             Run(() =>
@@ -122,6 +137,8 @@ namespace PequenoExplorador.Editor.BuildTools
             Debug.Log("PE_CONTENT_VALIDATION_OK");
             Debug.Log("PE_RUNTIME_CONFIG_OK profiles=2 remote=false releaseUnsafeFlags=0");
             Debug.Log("PE_LOCALIZATION_OK package=1.5.12 locales=es,en,pseudo stringTables=3 assetTables=2");
+            Debug.Log("PE_AUDIO_OK buses=5 cues=7 clips=10 placeholders=10 sampleRate=48000 releaseFinal=0");
+            Debug.LogWarning("PE_AUDIO_RELEASE_PENDING finalAssets=10 humanVoiceReview=required");
         }
 
         private static void ValidateAddressablesInternal()

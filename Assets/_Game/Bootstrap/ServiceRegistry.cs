@@ -1,5 +1,7 @@
 using System;
+using System.Linq;
 using PequenoExplorador.Application;
+using PequenoExplorador.Application.Audio;
 using PequenoExplorador.Application.Configuration;
 using PequenoExplorador.Application.Lifecycle;
 using PequenoExplorador.Application.Logging;
@@ -8,6 +10,8 @@ using PequenoExplorador.Application.Messaging;
 using PequenoExplorador.Application.Save;
 using PequenoExplorador.Application.Services;
 using PequenoExplorador.Application.SceneFlow;
+using PequenoExplorador.Content.Audio;
+using PequenoExplorador.Infrastructure.Audio;
 using PequenoExplorador.Infrastructure.Ads;
 using PequenoExplorador.Infrastructure.Analytics;
 using PequenoExplorador.Infrastructure.Logging;
@@ -27,6 +31,15 @@ namespace PequenoExplorador.Bootstrap
         private readonly IDisposable _fileStoreLifetime;
 
         public ServiceRegistry(IAppConfig configuration, IFileStore fileStore = null)
+            : this(configuration, null, null, fileStore)
+        {
+        }
+
+        public ServiceRegistry(
+            IAppConfig configuration,
+            UnityEngine.GameObject audioHost,
+            AudioCueCatalogAsset audioCatalog,
+            IFileStore fileStore = null)
         {
             if (configuration == null)
             {
@@ -55,12 +68,16 @@ namespace PequenoExplorador.Bootstrap
                 new ISaveMigration[]
                 {
                     new LegacyV0ToV1Migration(),
-                    new V1ToV2LocalizationMigration()
+                    new V1ToV2LocalizationMigration(),
+                    new V2ToV3AudioMigration()
                 });
             ILocalizationService localization = new UnityLocalizationService(
                 save,
                 logger,
                 configuration.Profile);
+            IAudioService audio = audioHost != null && audioCatalog != null
+                ? CreateAudioService(audioHost, audioCatalog, save, localization, logger)
+                : new HeadlessAudioService(save);
             IAnalyticsService analytics = new NullAnalyticsService();
             IAdsService ads;
             IPurchaseService purchases;
@@ -100,6 +117,7 @@ namespace PequenoExplorador.Bootstrap
                 messages,
                 save,
                 localization,
+                audio,
                 analytics,
                 ads,
                 purchases,
@@ -110,6 +128,7 @@ namespace PequenoExplorador.Bootstrap
                     messages,
                     save,
                     localization,
+                    audio,
                     analytics,
                     ads,
                     purchases
@@ -123,6 +142,44 @@ namespace PequenoExplorador.Bootstrap
         public ApplicationHost Host { get; }
 
         public AutosaveCoordinator SaveCoordinator { get; }
+
+        private static IAudioService CreateAudioService(
+            UnityEngine.GameObject host,
+            AudioCueCatalogAsset catalog,
+            ISaveService save,
+            ILocalizationService localization,
+            IAppLogger logger)
+        {
+            if (catalog.Mixer == null || catalog.Music == null || catalog.Ambience == null ||
+                catalog.Effects == null || catalog.Voice == null)
+            {
+                throw new InvalidOperationException("Audio catalog mixer buses are not fully configured.");
+            }
+
+            UnityAudioCue[] cues = catalog.Cues.Select(definition => new UnityAudioCue(
+                definition.CueId,
+                definition.Category,
+                definition.Bus,
+                definition.Priority,
+                definition.CooldownSeconds,
+                definition.Gain,
+                definition.Loop,
+                definition.HasSubtitle ? definition.SubtitleKey : default,
+                definition.HasSubtitle,
+                definition.SpanishClip,
+                definition.EnglishClip,
+                definition.IsPlaceholder)).ToArray();
+            return new UnityAudioService(
+                host,
+                cues,
+                save,
+                localization,
+                logger,
+                catalog.Music,
+                catalog.Ambience,
+                catalog.Effects,
+                catalog.Voice);
+        }
 
 #if UNITY_EDITOR || PE_DEVELOPMENT_SERVICES
         public DevelopmentSceneLoadFailure SceneFailure { get; }

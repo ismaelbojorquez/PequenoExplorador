@@ -23,6 +23,14 @@ MonoBehaviour:
     m_Key: content.world.jungle.background
     m_Metadata:
       m_Items: []
+  - m_Id: 11661678206976
+    m_Key: content.world.camp.background 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11661678206977
+    m_Key: content.world.jungle.background 1
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

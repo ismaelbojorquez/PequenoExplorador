@@ -8,14 +8,16 @@ Estado: baseline F07 para navegación placeholder; no autoriza producción masiv
 |---|---|---|
 | Paquete | `com.unity.addressables@4.0.1` | Pin exacto; Unity Registry, Unity `6000.0+`. |
 | Perfiles | `LocalDevelopment`, `LocalRelease` | Ambos usan únicamente `Local.BuildPath`/`Local.LoadPath`. |
-| Grupos | `SharedLocal`, `JungleLocal` + seis grupos Unity Localization | Camp/mundo y locales/tablas ES/EN, todos locales. |
-| Addresses | `scene/camp`, `scene/jungle` | Constantes en Infrastructure; no strings dispersos. |
-| Labels | `scene`, `shared-local`, `world-jungle` | Selección/validación, no reglas de gameplay. |
+| Grupos | `SharedLocal`, `JungleLocal` + seis grupos Unity Localization | Camp/mundo, diez clips audio PH_ y locales/tablas ES/EN, todos locales. |
+| Addresses | `scene/camp`, `scene/jungle`, `audio/<categoría>/<cue>[/locale]` | IDs estables; no paths/strings dispersos en Domain. |
+| Labels | `scene`, `shared-local`, `world-jungle`, `audio-local`, `audio-placeholder` | Selección/validación, no reglas de gameplay. |
 | Catálogo | Local, actualización al arranque deshabilitada | Incluido en el player; sin remote catalog, host, CDN o URL. |
 
 `Bootstrap.unity` es el entry point persistente de Build Settings. `Camp.unity` y `Jungle.unity` no se añaden a esa lista: se empaquetan en bundles locales y se cargan aditivamente. `SharedLocal` no puede depender de ninguna entrada de `JungleLocal`; el validador usa dependencias reales de AssetDatabase.
 
 Las colecciones `Shared`, `UI`, `Content`, `Voice` e `Illustrations`, locales `es`/`en` y pseudo Development pertenecen a Content. Unity Localization crea grupos `Localization-Locales`, `Localization-Assets-Shared`, string tables ES/EN y asset tables ES/EN; el validador exige `Local.BuildPath`/`Local.LoadPath` y prohíbe endpoints. Las keys y CSV se gobiernan en [`17_LOCALIZATION.md`](17_LOCALIZATION.md).
+
+Los diez WAV baseline también viven en `SharedLocal`, con addresses/labels validados y cero endpoint. `AudioCueDefinition` conserva referencias y direcciones preparadas para carga addressable futura; Prompt 12 no introduce descarga ni ownership de handles de audio. Reemplazar clips exige ledger/licencia, diff de grupo, build local, prueba de duplicación/tamaño y aprobación Release según [`AUDIO_REQUIREMENTS.md`](AUDIO_REQUIREMENTS.md).
 
 ## Ownership y build
 

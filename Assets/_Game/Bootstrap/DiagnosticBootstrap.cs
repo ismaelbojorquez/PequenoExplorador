@@ -2,14 +2,18 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using PequenoExplorador.Application;
+using PequenoExplorador.Application.Audio;
 using PequenoExplorador.Application.Configuration;
 using PequenoExplorador.Application.Lifecycle;
 using PequenoExplorador.Application.Logging;
 using PequenoExplorador.Application.SceneFlow;
 using PequenoExplorador.Application.Save;
+using PequenoExplorador.Content.Audio;
+using PequenoExplorador.Presentation.Audio;
 using PequenoExplorador.Presentation.Bootstrap;
 using PequenoExplorador.Presentation.SceneFlow;
 using UnityEngine;
+using AudioSettingsModel = PequenoExplorador.Application.Audio.AudioSettings;
 
 namespace PequenoExplorador.Bootstrap
 {
@@ -23,12 +27,17 @@ namespace PequenoExplorador.Bootstrap
 
         [SerializeField] private BootstrapStatusView _statusView;
         [SerializeField] private SceneTransitionView _sceneFlowView;
+        [SerializeField] private AudioDiagnosticView _audioView;
+        [SerializeField] private AudioCueCatalogAsset _audioCatalog;
 
         private CancellationTokenSource _lifetimeCancellation;
         private IAppConfig _configuration;
         private ServiceRegistry _services;
         private Task _sceneShutdownTask;
         private bool _destroying;
+        private bool _applicationPaused;
+        private bool _applicationFocused = true;
+        private bool _diagnosticsEnabled;
 
         public ApplicationState State => _services == null
             ? ApplicationState.Created
@@ -54,6 +63,8 @@ namespace PequenoExplorador.Bootstrap
             ? null
             : _services.Context.Save.LastLoadResult;
 
+        public IAudioService Audio => _services?.Context.Audio;
+
         private void Awake()
         {
             if (_statusView == null)
@@ -66,18 +77,23 @@ namespace PequenoExplorador.Bootstrap
                 throw new InvalidOperationException("SceneTransitionView must be wired in the Bootstrap scene.");
             }
 
+            if (_audioView == null || _audioCatalog == null)
+            {
+                throw new InvalidOperationException("Audio view and cue catalog must be wired in the Bootstrap scene.");
+            }
+
             _configuration = BuildProfileConfiguration.Resolve();
-            _services = new ServiceRegistry(_configuration);
+            _services = new ServiceRegistry(_configuration, gameObject, _audioCatalog);
             _lifetimeCancellation = new CancellationTokenSource();
             _statusView.BindLocalization(_services.Context.Localization);
             _statusView.ConfigureProduct(_configuration);
-            bool diagnosticsEnabled = _configuration.Features.IsEnabled(FeatureFlag.DevelopmentDiagnostics);
-            _statusView.SetDevelopmentDiagnosticsVisible(diagnosticsEnabled);
+            _diagnosticsEnabled = _configuration.Features.IsEnabled(FeatureFlag.DevelopmentDiagnostics);
+            _statusView.SetDevelopmentDiagnosticsVisible(_diagnosticsEnabled);
             _statusView.ShowInitializing();
             _sceneFlowView.Bind(
                 _services.Context.SceneFlow,
                 _services.Context.Localization,
-                diagnosticsEnabled);
+                _diagnosticsEnabled);
             _sceneFlowView.EnterJungleRequested += EnterJungle;
             _sceneFlowView.ReturnCampRequested += ReturnCamp;
             _sceneFlowView.RetryRequested += RetrySceneTransition;
@@ -127,6 +143,9 @@ namespace PequenoExplorador.Bootstrap
             try
             {
                 await InitializeAsync(cancellationToken);
+                _audioView.Bind(_services.Context.Audio, _services.Context.Localization, _diagnosticsEnabled);
+                _services.Context.Audio.Play(AudioCueIds.CampMusic);
+                _services.Context.Audio.Play(AudioCueIds.CampAmbience);
                 SceneTransitionResult transition = await _services.Context.SceneFlow.GoToCampAsync(cancellationToken);
                 if (!transition.IsSuccess)
                 {
@@ -201,6 +220,11 @@ namespace PequenoExplorador.Bootstrap
             return _services.Context.Localization.SetLocaleAsync(localeCode, persist, cancellationToken);
         }
 
+        public AudioPlayResult PlayAudio(AudioCueId cueId) => _services.Context.Audio.Play(cueId);
+        public AudioPlayResult ReplayInstruction() => _services.Context.Audio.ReplayLastInstruction();
+        public Task UpdateAudioSettingsAsync(AudioSettingsModel settings, CancellationToken cancellationToken) =>
+            _services.Context.Audio.UpdateSettingsAsync(settings, cancellationToken);
+
         private async void EnterJungle()
         {
             await GoToExpeditionAsync(_lifetimeCancellation.Token);
@@ -228,12 +252,25 @@ namespace PequenoExplorador.Bootstrap
 
         private async void OnApplicationPause(bool paused)
         {
+            _applicationPaused = paused;
+            UpdateAudioSuspension();
             if (!paused || _destroying || _services == null)
             {
                 return;
             }
 
             await FlushCurrentProgressWithBudgetAsync(TimeSpan.FromSeconds(1));
+        }
+
+        private void OnApplicationFocus(bool focused)
+        {
+            _applicationFocused = focused;
+            UpdateAudioSuspension();
+        }
+
+        private void UpdateAudioSuspension()
+        {
+            _services?.Context.Audio.SetApplicationSuspended(_applicationPaused || !_applicationFocused);
         }
 
         private void OnApplicationQuit()
@@ -291,6 +328,7 @@ namespace PequenoExplorador.Bootstrap
                 _sceneFlowView.SimulateFailureRequested -= SimulateNextSceneFailure;
                 _sceneFlowView.Unbind();
             }
+            _audioView?.Unbind();
 
             Shutdown();
             _services?.Dispose();

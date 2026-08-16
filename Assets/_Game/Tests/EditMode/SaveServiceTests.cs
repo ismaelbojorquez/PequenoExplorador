@@ -8,13 +8,14 @@ using PequenoExplorador.Application.Save;
 using PequenoExplorador.Domain.Progress;
 using PequenoExplorador.Infrastructure.Save;
 using PequenoExplorador.Tests.EditMode.Fixtures;
+using UnityEngine;
 
 namespace PequenoExplorador.Tests.EditMode
 {
     public sealed class SaveServiceTests
     {
         [Test]
-        public async Task FirstRunCreatesDefaultSchemaV2()
+        public async Task FirstRunCreatesDefaultSchemaV3()
         {
             var store = new InMemoryFileStore();
             LocalSaveService service = CreateService(store);
@@ -27,7 +28,7 @@ namespace PequenoExplorador.Tests.EditMode
             Assert.That(service.Current.WorldIds, Is.Empty);
             Assert.That(service.Current.DiscoveryIds, Is.Empty);
             Assert.That(service.Current.CompletedMissionIds, Is.Empty);
-            Assert.That(envelope.SchemaVersion, Is.EqualTo(2));
+            Assert.That(envelope.SchemaVersion, Is.EqualTo(3));
             Assert.That(service.Current.Preferences.Language, Is.EqualTo(LanguagePreference.Spanish));
         }
 
@@ -141,7 +142,7 @@ namespace PequenoExplorador.Tests.EditMode
             Assert.That(service.LastLoadResult.Status, Is.EqualTo(SaveLoadStatus.Migrated));
             Assert.That(service.LastLoadResult.SourceSchemaVersion, Is.Zero);
             Assert.That(service.Current.Stars, Is.EqualTo(9));
-            Assert.That(current.SchemaVersion, Is.EqualTo(2));
+            Assert.That(current.SchemaVersion, Is.EqualTo(3));
             Assert.That(store.Backup, Is.EqualTo(legacy));
         }
 
@@ -163,6 +164,31 @@ namespace PequenoExplorador.Tests.EditMode
             Assert.That(attempted.Status, Is.EqualTo(SaveOperationStatus.BlockedByFutureVersion));
             Assert.That(store.Primary, Is.EqualTo(future));
             Assert.That(store.Backup, Is.Null);
+        }
+
+        [Test]
+        public async Task SchemaV2MigratesAudioDefaultsWithoutChangingLocaleOrProgress()
+        {
+            var store = new InMemoryFileStore();
+            var serializer = new UnityJsonSaveSerializer();
+            PlayerProgressV2Dto v2 = PlayerProgressV2Dto.Create(
+                "0.1.0-test", 6, new[] { "world.jungle" }, Array.Empty<string>(), Array.Empty<string>(),
+                PlayerPreferencesV2Dto.Create((int)GuidanceMode.MoreGuidance, false, true, false, "en"),
+                SaveMetadataV1Dto.Create(4));
+            store.SeedPrimary(serializer.SerializeEnvelope(2, JsonUtility.ToJson(v2, false)));
+
+            LocalSaveService service = CreateService(store);
+            await service.InitializeAsync(CancellationToken.None);
+
+            Assert.That(service.LastLoadResult.Status, Is.EqualTo(SaveLoadStatus.Migrated));
+            Assert.That(service.Current.Stars, Is.EqualTo(6));
+            Assert.That(service.Current.Preferences.Language, Is.EqualTo(LanguagePreference.English));
+            Assert.That(service.Current.Preferences.MusicVolume, Is.Zero);
+            Assert.That(service.Current.Preferences.AmbienceVolume, Is.Zero);
+            Assert.That(service.Current.Preferences.EffectsVolume, Is.EqualTo(.75f));
+            Assert.That(service.Current.Preferences.VoiceVolume, Is.Zero);
+            Assert.That(service.Current.Preferences.SubtitlesEnabled, Is.True);
+            Assert.That(serializer.DeserializeEnvelope(store.Primary).SchemaVersion, Is.EqualTo(3));
         }
 
         [Test]
@@ -277,7 +303,8 @@ namespace PequenoExplorador.Tests.EditMode
                 new ISaveMigration[]
                 {
                     new LegacyV0ToV1Migration(),
-                    new V1ToV2LocalizationMigration()
+                    new V1ToV2LocalizationMigration(),
+                    new V2ToV3AudioMigration()
                 });
         }
 
@@ -292,6 +319,12 @@ namespace PequenoExplorador.Tests.EditMode
             Assert.That(actual.Preferences.SoundEffectsEnabled, Is.EqualTo(expected.Preferences.SoundEffectsEnabled));
             Assert.That(actual.Preferences.NarrationEnabled, Is.EqualTo(expected.Preferences.NarrationEnabled));
             Assert.That(actual.Preferences.Language, Is.EqualTo(expected.Preferences.Language));
+            Assert.That(actual.Preferences.MasterVolume, Is.EqualTo(expected.Preferences.MasterVolume));
+            Assert.That(actual.Preferences.MusicVolume, Is.EqualTo(expected.Preferences.MusicVolume));
+            Assert.That(actual.Preferences.AmbienceVolume, Is.EqualTo(expected.Preferences.AmbienceVolume));
+            Assert.That(actual.Preferences.EffectsVolume, Is.EqualTo(expected.Preferences.EffectsVolume));
+            Assert.That(actual.Preferences.VoiceVolume, Is.EqualTo(expected.Preferences.VoiceVolume));
+            Assert.That(actual.Preferences.SubtitlesEnabled, Is.EqualTo(expected.Preferences.SubtitlesEnabled));
         }
     }
 }

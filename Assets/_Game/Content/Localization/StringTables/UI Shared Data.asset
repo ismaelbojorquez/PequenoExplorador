@@ -79,6 +79,70 @@ MonoBehaviour:
     m_Key: ui.locale.pseudo
     m_Metadata:
       m_Items: []
+  - m_Id: 11662185717760
+    m_Key: ui.diagnostic.notice 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11662185717761
+    m_Key: ui.status.initializing 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11662185717762
+    m_Key: ui.status.ready 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11662185717763
+    m_Key: ui.status.progress_recovered 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11662185717764
+    m_Key: ui.status.newer_protected 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11662185717765
+    m_Key: ui.status.failure 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11662185717766
+    m_Key: ui.status.stopped 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11662185717767
+    m_Key: ui.transition.error 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11662185717768
+    m_Key: ui.transition.preparing 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11662185717769
+    m_Key: ui.action.enter_jungle 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11662185717770
+    m_Key: ui.action.return_camp 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11662185717771
+    m_Key: ui.action.retry 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11662185717772
+    m_Key: ui.action.simulate_failure 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11662185717773
+    m_Key: ui.locale.spanish 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11662185717774
+    m_Key: ui.locale.english 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11662185717775
+    m_Key: ui.locale.pseudo 1
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

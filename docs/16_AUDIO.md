@@ -1,6 +1,6 @@
 # 16 — Dirección de audio
 
-Dirección de producto; masters, formatos y QA técnico viven en [`AUDIO_REQUIREMENTS.md`](AUDIO_REQUIREMENTS.md). No se graba audio final en esta fase.
+Dirección de producto y contrato del framework implementado en Prompt 12; masters, ledger y QA técnico viven en [`AUDIO_REQUIREMENTS.md`](AUDIO_REQUIREMENTS.md). No existe audio final ni voz humana.
 
 ## Norte sonoro
 
@@ -37,4 +37,10 @@ Actor/compositor/licencias, pronunciación de nombres y claims, mezcla y pruebas
 
 ## Localización de voz
 
-La tabla asset `Voice` prepara slots ES/EN sin incluir archivos. Voz y subtítulo comparten una key conceptual (`content.*`) y se resuelven por separado; ningún nombre de archivo entra en Domain o Save. Futuros takes requieren locale, voice cue, subtítulo aprobado, pronunciación, actor/licencia y fallback documentados según [`17_LOCALIZATION.md`](17_LOCALIZATION.md) y [`AUDIO_REQUIREMENTS.md`](AUDIO_REQUIREMENTS.md).
+La tabla asset `Voice` contiene cinco slots conceptuales; tres corresponden a cues de voz placeholder de Prompt 12. Voz y subtítulo comparten concepto, pero el runtime selecciona clips ES/EN desde `AudioCueDefinition` y resuelve el subtítulo por `LocalizedKey`; ningún nombre de archivo entra en Domain o Save. Futuros takes requieren locale, cue, subtítulo aprobado, pronunciación, actor/licencia y fallback según [`17_LOCALIZATION.md`](17_LOCALIZATION.md) y [`AUDIO_REQUIREMENTS.md`](AUDIO_REQUIREMENTS.md).
+
+## Framework implementado
+
+`IAudioService` expresa intención semántica; `UnityAudioService` posee sources, cooldown, cola, ducking y lifecycle; Content posee `AudioCueDefinition`/catálogo/mixer; Bootstrap es el único composition root; Presentation solicita play/replay y presenta subtítulos. Domain no referencia audio Unity ni archivos.
+
+Mixer `PE_Main`: Master→Music/Ambience/Effects/Voice. La baseline usa siete cues y diez WAV internos `PH_`, locales y Addressables-ready. Un cue/clip ausente devuelve `Missing`, registra un código técnico sin datos infantiles y no bloquea gameplay. `scripts/validate-audio` es el gate estructural; los placeholders permanecen `ReleaseBlocked`.

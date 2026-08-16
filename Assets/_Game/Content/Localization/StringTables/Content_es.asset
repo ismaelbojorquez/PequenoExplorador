@@ -38,6 +38,18 @@ MonoBehaviour:
     m_Localized: "Expedici\xF3n Selva \xB7 PLACEHOLDER"
     m_Metadata:
       m_Items: []
+  - m_Id: 11662072471556
+    m_Localized: "Mira a tu alrededor. \xBFQu\xE9 descubrimos?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11662072471557
+    m_Localized: Selva
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11662072471558
+    m_Localized: Vamos a explorar con calma.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

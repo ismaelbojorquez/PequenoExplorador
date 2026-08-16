@@ -1,31 +1,52 @@
-# Requisitos de audio
+# Requisitos y registro de audio
 
-Contrato inicial para voz, música y SFX del MVP Selva. No contiene audio ni autoriza proveedores.
+Contrato técnico y ledger de producción para el MVP Selva. Prompt 12 incluye únicamente tonos placeholder generados por tooling del proyecto: no son voz, música ni ambiente final, no provienen de terceros y permanecen bloqueados para Release.
 
-## Experiencia
+## Experiencia y controles
 
-- Instrucciones comprensibles para prelectores, con frases breves, tono cálido y repetición bajo demanda; el progreso nunca depende solo del audio.
-- Feedback positivo y no punitivo. Evitar sobresaltos, sonidos de error agresivos, frecuencias molestas y presión sonora excesiva.
-- Música de Selva calmada y loopeable, sin caricaturizar culturas. SFX distinguen selección, interacción, acierto y reintento sin saturación.
-- Controles locales separados para música, voz y efectos, con valores seguros por defecto; responder a mute, interrupciones y audio focus del sistema.
+- Instrucciones breves, cálidas, repetibles y siempre equivalentes en subtítulo/visual; el progreso nunca depende solo del audio.
+- Feedback no punitivo, sin sobresaltos ni presión. Los placeholders usan ganancia por cue `0.20–0.30` y no sustituyen mezcla humana.
+- Volúmenes normalizados independientes `Master`, `Music`, `Ambience`, `Effects` y `Voice`; defaults `0.85/0.65/0.65/0.75/0.85`.
+- Una voz prioritaria aplica ducking `0.35×` a música/ambiente. La cola admite cuatro pendientes, ordena por prioridad/FIFO y evita solapamiento de instrucciones.
+- Subtítulos están activos por defecto y replay no consume moneda, energía ni progreso.
 
-## Masters y metadatos
+## Buses runtime
 
-- Entregar masters WAV PCM sin pérdida, preferentemente 48 kHz/24-bit; compresión runtime se decide con pruebas auditivas y de memoria en F15.
-- Cada archivo registra ID, idioma/locale, texto exacto, actor/compositor, dirección, licencia/release, fecha, edición, loop points y propietario de contenido.
-- Voz localizada no se obtiene por traducción automática no revisada. Pronunciación de fauna/flora y español regional requiere aprobación de contenido.
-- Conservar masters grandes con Git LFS; no versionar sesiones DAW, caches o stems innecesarios sin acuerdo.
+| Bus | Owner/source | Concurrencia | Lifecycle |
+|---|---|---:|---|
+| Master | `PE_Main.mixer` | Suma final | Preferencia global; no tiene clip. |
+| Music | source exclusivo | 1 loop | Camp; pause/focus y shutdown seguros. |
+| Ambience | source exclusivo | 1 loop | Camp; ducking junto con Music. |
+| Effects | pool fijo | 4 | Reemplazo por prioridad; cooldown por cue. |
+| Voice | source + queue | 1 + 4 | Nombres/instrucción/narración; subtítulo y replay. |
 
-## Implementación futura
+Siete `AudioSource` viven exclusivamente en el root Bootstrap: 1 Music + 1 Ambience + 4 Effects + 1 Voice. No existe `Resources.Load`, streaming de red, micrófono, reconocimiento de voz ni middleware.
 
-- F10 creará puertos y mixer; F15 establecerá import presets, formatos/load type y budgets medidos.
-- Addressables local-first: voz, música y SFX del MVP deben funcionar sin red desde la primera ejecución.
-- Evitar streaming de red, micrófono, reconocimiento de voz y SDKs externos en el MVP.
-- Variaciones aleatorias deben ser deterministas en tests cuando afecten gameplay y no elevar el volumen acumulado.
+## Ledger baseline de cues y assets
 
-## Criterios de aceptación
+Todos los WAV son PCM mono, 48 kHz/16-bit, `DecompressOnLoad`, generados por `AudioFoundationSetup` y etiquetados Addressables `audio-local` + `audio-placeholder` dentro de `SharedLocal`.
 
-- Derechos de voz/música/SFX documentados para territorios y plataformas aprobados.
-- Sin clipping, clicks, DC offset perceptible ni loops defectuosos; inteligibilidad probada en altavoz de teléfono y audífonos.
-- Mezcla consistente entre actividades, accesible con audio desactivado y dentro de budgets de memoria/tamaño/carga.
-- QA con interrupciones, cambio de salida, background/foreground y sesiones sostenidas antes del Gate D.
+| Cue ID | Categoría/bus | Duración | Idioma | Emoción/intención | Archivos/estado |
+|---|---|---:|---|---|---|
+| `audio.music.camp` | Music/Music | 2.00 s loop | neutro | calma/curiosidad | `PH_Music_Camp_es.wav`; `PH_MUSIC_CAMP`; `ReleaseBlocked`. |
+| `audio.ambience.camp` | Ambience/Ambience | 2.00 s loop | neutro | fondo suave | `PH_Ambience_Camp_es.wav`; `PH_AMBIENCE_CAMP`; `ReleaseBlocked`. |
+| `audio.feedback.confirm` | Feedback/Effects | 0.18 s | neutro | confirmación suave | `PH_Feedback_Confirm_es.wav`; `PH_FEEDBACK_CONFIRM`; `ReleaseBlocked`. |
+| `audio.feedback.retry` | Feedback/Effects | 0.18 s | neutro | invitación a reintentar | `PH_Feedback_Retry_es.wav`; `PH_FEEDBACK_RETRY`; `ReleaseBlocked`. |
+| `audio.voice.instruction.explore` | VoiceInstruction/Voice | 0.55 s | ES/EN | guía cálida | `PH_Voice_Instruction_Explore_{es,en}.wav`; `PH_VOICE_INSTRUCTION_EXPLORE`; `ReleaseBlocked`. |
+| `audio.voice.name.jungle` | VoiceName/Voice | 0.38 s | ES/EN | nombre claro | `PH_Voice_Name_Jungle_{es,en}.wav`; `PH_VOICE_NAME_JUNGLE`; `ReleaseBlocked`. |
+| `audio.voice.narration.welcome` | Narration/Voice | 0.60 s | ES/EN | bienvenida tranquila | `PH_Voice_Narration_Welcome_{es,en}.wav`; `PH_VOICE_NARRATION_WELCOME`; `ReleaseBlocked`. |
+
+Los tonos de voz no pretenden sonar humanos y nunca muestran al niño un mensaje técnico. Los keys de subtítulo son `content.audio.instruction.explore`, `content.audio.name.jungle` y `content.audio.narration.welcome`; los slots conceptuales `Voice` usan los IDs del cue.
+
+## Entrega final humana
+
+Cada reemplazo debe registrar ID, locale, texto exacto aprobado, actor/compositor, emoción, pronunciación, duración, formato/master, licencia/release, fecha, edición, loop points y owner. Masters finales: WAV PCM sin pérdida, preferentemente 48 kHz/24-bit; import/load/compression se decide con medición móvil en F15. Voz ES/EN no se traduce automáticamente sin revisión lingüística y factual.
+
+Release queda bloqueado mientras cualquier cue sea `IsPlaceholder=true`, su ID no empiece `PH_`, falte licencia/revisión o el asset tenga `ReleaseBlocked`. `scripts/validate-audio` valida estructura, buses, IDs, clips, addresses, mono/48 kHz, clipping y metadata; registra `PE_AUDIO_RELEASE_PENDING` sin convertirlo en PASS comercial.
+
+## Aceptación pendiente
+
+- Sin clipping/clicks/DC offset perceptible ni loops defectuosos en dispositivo físico.
+- Inteligibilidad ES/EN en altavoz de teléfono y audífonos, incluyendo interrupciones y background/foreground.
+- Derechos territoriales/plataforma y pronunciación aprobados; hechos siguen [`CONTENT_SOURCES.md`](CONTENT_SOURCES.md).
+- Budgets de memoria/tamaño y mezcla final medidos antes de Gate D.

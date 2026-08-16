@@ -6,7 +6,8 @@
     "PequenoExplorador.Content",
     "PequenoExplorador.Domain",
     "PequenoExplorador.Infrastructure",
-    "PequenoExplorador.Presentation"
+    "PequenoExplorador.Presentation",
+    "UnityEngine.AudioModule"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

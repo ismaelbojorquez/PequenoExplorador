@@ -5,7 +5,8 @@
     "PequenoExplorador.Application",
     "PequenoExplorador.Bootstrap",
     "PequenoExplorador.Domain",
-    "PequenoExplorador.Infrastructure"
+    "PequenoExplorador.Infrastructure",
+    "UnityEngine.AudioModule"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

@@ -38,6 +38,18 @@ MonoBehaviour:
     m_Localized: "Jungle Expedition \xB7 PLACEHOLDER"
     m_Metadata:
       m_Items: []
+  - m_Id: 11662072471556
+    m_Localized: Look around. What can we discover?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11662072471557
+    m_Localized: Jungle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11662072471558
+    m_Localized: "Let\u2019s explore at our own pace."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

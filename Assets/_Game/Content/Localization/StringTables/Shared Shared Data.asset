@@ -31,6 +31,22 @@ MonoBehaviour:
     m_Key: shared.progress.stars
     m_Metadata:
       m_Items: []
+  - m_Id: 11662588370944
+    m_Key: shared.product.name 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11662621925376
+    m_Key: shared.build.version 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11662621925377
+    m_Key: shared.fallback.safe 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11662621925378
+    m_Key: shared.progress.stars 1
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

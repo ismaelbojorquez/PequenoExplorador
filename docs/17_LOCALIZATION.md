@@ -22,7 +22,7 @@ Bootstrap: Save → Localization → Presentation
 Presentation: resuelve keys y refresca al evento LocaleChanged
 ```
 
-Domain no contiene copy localizada ni referencia Unity. `LocalizedKey` identifica `Table + Entry`; no usa el español como key. Bootstrap inicializa Save antes de Localization para leer la preferencia, y Presentation nunca accede a tablas, JSON ni filesystem. Cambiar entre `es` y `en` guarda inmediatamente `LanguagePreference` mediante `ISaveService` schema v2 y refresca las vistas sin reiniciar. Si el guardado falla, el servicio revierte el locale visible.
+Domain no contiene copy localizada ni referencia Unity. `LocalizedKey` identifica `Table + Entry`; no usa el español como key. Bootstrap inicializa Save antes de Localization y Audio después de Localization. Cambiar `es`/`en` guarda mediante `ISaveService` schema v3, refresca vistas/subtítulos y selecciona el clip de voz correspondiente sin reinicio. Si el guardado falla, el servicio revierte el locale visible.
 
 Español (`es`) es locale de proyecto, startup y fallback humano. Inglés (`en`) es una baseline no vacía. `qps-ploc` expande español solo en Development, nunca se persiste y Release lo rechaza. No se consulta idioma del sistema, red, catálogo remoto ni backend.
 
@@ -32,11 +32,11 @@ Español (`es`) es locale de proyecto, startup y fallback humano. Inglés (`en`)
 |---|---:|---|
 | `Shared` | 4 | Nombre, versión Smart, fallback seguro y plural Smart de estrellas. |
 | `UI` | 16 | Estados, errores, transición, acciones y selector Development. |
-| `Content` | 5 | Nombres Boot/Camp/Jungle y copy de placeholders. |
-| `Voice` | 2 slots conceptuales | Futuras voces Camp/Jungle; sin archivos ni narración en esta fase. |
+| `Content` | 8 | Nombres/placeholder de mundos y tres subtítulos de audio. |
+| `Voice` | 5 slots conceptuales | Camp/Jungle más tres cues de voz ES/EN; clips finales pendientes. |
 | `Illustrations` | 2 slots conceptuales | Futuros fondos Camp/Jungle; sin assets finales. |
 
-Las 25 keys de texto son namespaced (`shared.*`, `ui.*`, `content.*`) y su catálogo canónico está en `LocalizationKeys.cs`. Voz y subtítulo comparten el mismo concepto, por ejemplo `content.world.jungle.name`, sin que una tabla conozca el archivo de la otra. Las tablas se precargan en grupos Addressables locales; no existen `Remote*`, URL ni update-on-start.
+Las 28 keys de texto son namespaced (`shared.*`, `ui.*`, `content.*`) y su catálogo canónico está en `LocalizationKeys.cs`. Voz y subtítulo comparten concepto, por ejemplo `content.audio.name.jungle`; las tablas no conocen archivos. Las tablas y clips baseline se mantienen en Addressables locales; no existen `Remote*`, URL ni update-on-start.
 
 Variables, números y plurales usan Smart Strings de Unity Localization. Están cubiertos `shared.build.version`, `shared.progress.stars` y `ui.transition.preparing`; no se concatenan frases traducibles en Presentation.
 
@@ -62,6 +62,6 @@ Export: menú `Pequeño Explorador/Development/Localization/Export CSV to artifa
 
 ## Aceptación y límites
 
-EditMode prueba resolución, Smart Strings/plurales, persistencia schema v2, fallback Development/Release y pseudo no persistible. PlayMode cambia ES→EN→pseudo→ES sin reinicio y verifica expansión/layout a `1280×720` y `1920×1080`. APK ES/EN demuestra compilación IL2CPP/ARM64 y contenido local; instalación/cambio en dispositivo físico permanece `NOT RUN` cuando `adb` no lista hardware.
+EditMode prueba resolución, Smart Strings/plurales, persistencia schema v3, fallback Development/Release, keys de subtítulo y pseudo no persistible. PlayMode cambia ES→EN→pseudo→ES sin reinicio, verifica expansión/layout y selecciona cue EN. APK ES/EN demuestra compilación IL2CPP/ARM64 y contenido local; reproducción en dispositivo físico permanece `NOT RUN` cuando `adb` no lista hardware.
 
 El selector runtime actual es diagnóstico Development. El futuro selector parental deberá vivir tras el flujo adulto, conservar estas mismas preferencias y pasar Child UX/política; no se implementó ese flujo aquí. Traducción masiva, revisión lingüística humana, narraciones y assets localizados finales siguen pendientes.

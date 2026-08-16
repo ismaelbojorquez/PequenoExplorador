@@ -23,6 +23,26 @@ MonoBehaviour:
     m_Key: content.world.jungle.name
     m_Metadata:
       m_Items: []
+  - m_Id: 11661971808256
+    m_Key: content.world.camp.name 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11661971808257
+    m_Key: content.world.jungle.name 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11661971808258
+    m_Key: audio.voice.instruction.explore
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11661971808259
+    m_Key: audio.voice.name.jungle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11661971808260
+    m_Key: audio.voice.narration.welcome
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

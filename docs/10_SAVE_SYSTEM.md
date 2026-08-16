@@ -1,6 +1,6 @@
 # Sistema de guardado local
 
-Estado: schema v2 implementado en Prompt 11 sobre la foundation de Prompt/Fase 09. Es foundation técnica sin gameplay, cloud, cuentas ni entitlements.
+Estado: schema v3 implementado en Prompt 12 sobre la foundation atómica de Prompt/Fase 09. Es foundation técnica sin gameplay, cloud, cuentas ni entitlements.
 
 ## Contrato y límites
 
@@ -8,17 +8,17 @@ Estado: schema v2 implementado en Prompt 11 sobre la foundation de Prompt/Fase 0
 Domain.PlayerProgress
         ↓ ISaveService / AutosaveCoordinator (Application)
 Infrastructure.LocalSaveService
-        ├─ UnityJsonSaveSerializer → SaveEnvelope + DTO v1/v2
+        ├─ UnityJsonSaveSerializer → SaveEnvelope + DTO v1/v2/v3
         ├─ ISaveMigration[] → pasos puros n→n+1
         └─ IFileStore → LocalFileStore(Application.persistentDataPath)
 Bootstrap compone; Presentation solo recibe SaveUserNotice.
 ```
 
-`PlayerProgress` contiene únicamente estrellas no negativas, listas de IDs técnicos y preferencias locales (`Guía estándar`/`Más guía`, música, SFX, narración e idioma ES/EN). Las listas world/discovery/mission nacen vacías; no implementan sistemas de gameplay. No se serializan `GameObject`, `ScriptableObject`, `AssetReference`, diccionarios, tipos polimórficos ni nombres de assemblies.
+`PlayerProgress` contiene únicamente estrellas no negativas, listas de IDs técnicos y preferencias locales (`Guía estándar`/`Más guía`, cinco volúmenes, subtítulos e idioma ES/EN). Las listas world/discovery/mission nacen vacías; no implementan sistemas de gameplay. No se serializan `GameObject`, `ScriptableObject`, `AssetReference`, diccionarios, tipos polimórficos ni nombres de assemblies.
 
 `AppConfig` y sus feature flags son runtime inmutable y no se copian al save. Save conserva solo preferencias adultas mutables; perfil de build, budgets, versión técnica y flags se vuelven a resolver desde Content/Bootstrap en cada arranque según [`RUNTIME_CONFIGURATION.md`](RUNTIME_CONFIGURATION.md).
 
-## Formato v2
+## Formato v3
 
 Serializador: `UnityEngine.JsonUtility`, provisto por el módulo builtin fijado `com.unity.modules.jsonserialize` `1.0.0`. No se añadió paquete. Es compatible con el Editor `6000.3.22f1`/IL2CPP y suficiente porque los DTOs son clases cerradas con campos explícitos y arrays. Cambiar serializador o representación requiere ADR y migración, no una sustitución silenciosa.
 
@@ -26,13 +26,13 @@ Envelope lógico:
 
 ```json
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "checksum": "sha256-hex-del-payload-utf8",
-  "payload": "json-escapado-del-dto-v2"
+  "payload": "json-escapado-del-dto-v3"
 }
 ```
 
-El payload v2 contiene:
+El payload v3 contiene:
 
 | Campo | Propósito | Dato infantil/PII |
 |---|---|---|
@@ -41,7 +41,7 @@ El payload v2 contiene:
 | `worldIds` | IDs técnicos; vacío en esta fase. | No. |
 | `discoveryIds` | IDs técnicos; vacío en esta fase. | No. |
 | `completedMissionIds` | IDs técnicos; vacío en esta fase. | No. |
-| `settings` | Guía, música, SFX, narración y `localeCode` (`es`/`en`); no edad. | No. |
+| `settings` | Guía, `localeCode` ES/EN, volúmenes Master/Music/Ambience/Effects/Voice normalizados y subtítulos; no edad. | No. |
 | `metadata.saveSequence` | Secuencia monotónica local para diagnóstico/recovery. | No identifica persona/dispositivo. |
 
 No se guarda nombre, edad, fecha de nacimiento, voz, ubicación, cuenta, device ID, advertising ID, contacto ni telemetría. SHA-256 detecta corrupción accidental; **no es cifrado, autenticación ni protección frente a una persona con acceso al archivo**. El MVP no guarda datos sensibles que justifiquen afirmar cifrado.
@@ -62,9 +62,9 @@ La restauración de backup usa replace de primary **sin rotar primary sobre back
 
 ## Carga, migración y downgrade
 
-1. Sin primary/backup: crear `PlayerProgress` default en español y escribir schema v2.
-2. Primary v2 válido: validar checksum, DTO/invariantes y cargar.
-3. Primary antiguo: aplicar registro ordenado `n→n+1`; existen migraciones reales `v0→v1→v2`. La migración v1→v2 conserva progreso/settings y añade `localeCode=es`; después se reescribe v2 y se conserva el original como backup.
+1. Sin primary/backup: crear `PlayerProgress` default en español y escribir schema v3.
+2. Primary v3 válido: validar checksum, DTO/invariantes y cargar.
+3. Primary antiguo: aplicar `v0→v1→v2→v3`. v1→v2 añade locale; v2→v3 conserva progreso/locale/guía y mapea booleans a defaults normalizados (`0` si estaban apagados), Ambience desde Music y subtítulos activos. Se reescribe v3 y se conserva el original como backup.
 4. Primary corrupto: intentar backup; si pasa, cargarlo, emitir `ProgressRecovered` y reparar primary preservando backup.
 5. Schema futuro: entrar en modo read-only, emitir `NewerSaveVersionDetected` y bloquear save/reset. Nunca sobrescribirlo con el schema actual.
 6. Primary y backup inválidos: fallo recuperable; no pérdida/sobrescritura silenciosa.
@@ -101,12 +101,12 @@ No hay soporte cloud ni recuperación remota. Una copia manual puede contener pr
 
 | Caso | Evidencia |
 |---|---|
-| Default v2, idioma y round-trip | EditMode. |
+| Default v3, idioma, audio settings y round-trip | EditMode. |
 | JSON determinista y sin campos de perfil personal | EditMode. |
 | Fallo write/flush/commit | Failpoints in-memory; primary/backup invariantes. |
 | Truncado/checksum | Rechazo de primary y recuperación de backup. |
 | Backup no reemplazado por corrupto | Comparación byte a byte tras reparación. |
-| v0→v1→v2, v1→v2 y migración ausente | Migración/backup o fallo conservador sin rewrite. |
+| v0→v1→v2→v3, v2→v3 y migración ausente | Migración/backup o fallo conservador sin rewrite. |
 | Schema futuro | Read-only; save bloqueado y bytes intactos. |
 | Cancelación antes de commit | Excepción de cancelación y último primary intacto. |
 | Requests múltiples | Coalescing al checkpoint más reciente. |
