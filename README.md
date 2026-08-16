@@ -32,7 +32,7 @@ El wrapper localiza la revisión fijada de Unity Hub o usa `UNITY_EDITOR` si se 
 
 `scripts/build-addressables-local` valida perfiles/grupos/labels y construye el catálogo Android local. `Bootstrap` es la única escena de Build Settings; `Camp` y `Jungle` son placeholders Addressable aditivos. Remote catalogs, CDN y URLs permanecen deshabilitados.
 
-El workflow GitHub ejecuta checks estáticos sin secretos. La validación Unity remota es manual y requiere un runner propio explícitamente habilitado; no se ha ejecutado en GitHub porque todavía no existe remoto. Véase [`docs/GITHUB_SETUP.md`](docs/GITHUB_SETUP.md).
+El workflow GitHub ejecuta checks estáticos sin secretos. `origin` está configurado, pero la validación remota, protección de rama, runner y activación CI no fueron inspeccionados ni ejecutados en esta fase. La validación Unity remota sigue siendo manual y requiere un runner propio explícitamente habilitado. Véase [`docs/GITHUB_SETUP.md`](docs/GITHUB_SETUP.md).
 
 ## Continuar desde el estado vivo
 

@@ -1,10 +1,10 @@
 # Configuración humana de GitHub
 
-Estado observado el 2026-08-14: no hay remoto configurado. Estos pasos son instrucciones; no se creó repositorio, no se hizo push y no se aceptaron términos.
+Estado histórico del 2026-08-14: no había remoto configurado. Estado local observado el 2026-08-16: `origin` apunta a `https://github.com/ismaelbojorquez/PequenoExplorador.git` y `main` lo sigue; no se hizo push, no se inspeccionaron settings remotos/Actions/runners y no se aceptaron términos en Prompt 10.
 
-## Crear y conectar
+## Crear, verificar o conectar
 
-Una persona autorizada debe crear un repositorio privado o aplicar la visibilidad/licencia decididas por H-001. Después, desde esta raíz y sustituyendo el placeholder por la URL aprobada:
+Antes del próximo push, una persona autorizada debe verificar que el `origin` actual tiene titularidad, visibilidad y licencia compatibles con H-001. No volver a ejecutar `git remote add origin` mientras ya exista. Si se reconstruye el repositorio en una máquina sin remoto, usar:
 
 ```sh
 git remote add origin <URL_APROBADA>
@@ -12,7 +12,7 @@ git remote -v
 git push -u origin main
 ```
 
-No ejecutar si la titularidad, licencia o destino son ambiguos.
+No ejecutar el push si la titularidad, licencia, permisos o destino son ambiguos. Configurar un remoto local no demuestra que branch protection, required checks, secrets o runners estén activos.
 
 ## Protección de `main`
 

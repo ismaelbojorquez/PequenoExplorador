@@ -21,8 +21,9 @@ Todos los cambios notables de ingeniería se registran aquí. La versión técni
 - Primer compile incremental `FAIL` por colisión del namespace `Application`; corrección explícita y repetición `PASS`. No se ocultó el intento.
 - Fixture controlada Release+`MockAds`: `scripts/compile` devolvió `2` con `CONFIG008`; asset restaurado y pipeline final `PASS`.
 - `scripts/validate` código `0` en 3:27.34: repository/config checks, compile, Addressables local, EditMode `57/57`, PlayMode `5/5` y APK Development.
-- APK `60,310,101` bytes, SHA-256 `2c47d85cfe271bc8dde71979779dd7f36d45d09ce8746806a3505de43f9d3b80`, API 26/36, IL2CPP/ARM64; sin permisos sensibles/`AD_ID`.
+- APK post-commit `60,310,101` bytes, SHA-256 `94d56d67b7f24055630f81603beea46cb0bf4ff934cd3da143d3177502075802`, manifest ligado al commit de feature, API 26/36, IL2CPP/ARM64; sin permisos sensibles/`AD_ID`.
 - Release unsigned validó perfiles/local-only y devolvió el código esperado `3` por signing. Dispositivo Android `NOT RUN` por `adb devices` vacío.
+- La comprobación post-commit detectó `origin` ya configurado; se corrigió la afirmación documental obsoleta. No hubo push ni inspección/ejecución remota.
 
 ### Not added
 
