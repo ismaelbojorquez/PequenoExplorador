@@ -1,6 +1,6 @@
 # Input táctil, safe area y adaptación de dispositivo
 
-Contrato canónico de input iniciado en Prompt 13 y extendido en Prompt 16. Input System está fijado en `1.20.0`; `Explorer` alimenta un prototipo tap-to-move `PH_`, pero cámara, tuning y control siguen pendientes de playtest y no son finales.
+Contrato canónico de input iniciado en Prompt 13 y extendido en Prompt 16/17. Input System está fijado en `1.20.0`; `Explorer` alimenta tap-to-move y el detector contextual con la misma intención semántica, pero cámara, tuning y control siguen pendientes de playtest y no son finales.
 
 ## Dirección de dependencias
 
@@ -69,5 +69,7 @@ El overlay de toque y viewport existe solo si `DevelopmentDiagnostics` está hab
 | Cámara | offset `(0, 7.5, -6.5)`, damping `0.22 s` | Seguimiento automático; bounds `x[-8,8]`, `z[-9,7]`. |
 
 Un tap nuevo reemplaza destino; tap inválido muestra marker cálido sin castigo y deja recuperar con el siguiente. Cambiar a `UI`/`Photography`, pause/focus o unload cancela path. `SetReduceMotion(true)` elimina bob y snappea cámara; la preferencia adulta aún no está conectada a Save.
+
+Prompt 17 da prioridad al detector contextual sobre el suelo: si el rayo selecciona un target, el coordinador enfoca y solicita approach; si no, el mismo tap continúa como destino de suelo. El detector usa `RaycastNonAlloc` e índice collider→target construido al bind. UI/pause/unload suspenden tanto focus como path, y el botón cancelar limpia ambos. Contrato: [`INTERACTION_SYSTEM.md`](INTERACTION_SYSTEM.md).
 
 Requerido antes de Gate C: al menos un Android físico, ambos landscapes, notch/cutout, gestos del sistema, interrupción/background, latencia, FPS/allocations y ergonomía con manos infantiles. Device Simulator y FPS Editor batch son diagnóstico, no evidencia física. Tap-to-move sigue candidato P-006 hasta el playtest comparativo.

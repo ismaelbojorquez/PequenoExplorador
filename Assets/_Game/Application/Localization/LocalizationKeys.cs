@@ -33,6 +33,12 @@ namespace PequenoExplorador.Application.Localization
         public static readonly LocalizedKey ActionResume = new LocalizedKey(UiTable, "ui.action.resume");
         public static readonly LocalizedKey WorldUnavailable = new LocalizedKey(UiTable, "ui.world.unavailable");
         public static readonly LocalizedKey WorldMissing = new LocalizedKey(UiTable, "ui.world.missing");
+        public static readonly LocalizedKey InteractionApproaching = new LocalizedKey(UiTable, "ui.interaction.approaching");
+        public static readonly LocalizedKey InteractionAction = new LocalizedKey(UiTable, "ui.interaction.action");
+        public static readonly LocalizedKey InteractionCancel = new LocalizedKey(UiTable, "ui.interaction.cancel");
+        public static readonly LocalizedKey InteractionUnavailable = new LocalizedKey(UiTable, "ui.interaction.unavailable");
+        public static readonly LocalizedKey InteractionCompleted = new LocalizedKey(UiTable, "ui.interaction.completed");
+        public static readonly LocalizedKey InteractionWait = new LocalizedKey(UiTable, "ui.interaction.wait");
 
         public static readonly LocalizedKey WorldBoot = new LocalizedKey(ContentTable, "content.world.boot.name");
         public static readonly LocalizedKey WorldCamp = new LocalizedKey(ContentTable, "content.world.camp.name");
@@ -40,6 +46,9 @@ namespace PequenoExplorador.Application.Localization
         public static readonly LocalizedKey WorldCampPlaceholder = new LocalizedKey(ContentTable, "content.world.camp.placeholder");
         public static readonly LocalizedKey WorldJunglePlaceholder = new LocalizedKey(ContentTable, "content.world.jungle.placeholder");
         public static readonly LocalizedKey DiscoveryPlaceholderName = new LocalizedKey(ContentTable, "content.discovery.placeholder.name");
+        public static readonly LocalizedKey InteractionAnimalPlaceholderName = new LocalizedKey(ContentTable, "content.interaction.fixture.animal.name");
+        public static readonly LocalizedKey InteractionPlantPlaceholderName = new LocalizedKey(ContentTable, "content.interaction.fixture.plant.name");
+        public static readonly LocalizedKey InteractionObjectPlaceholderName = new LocalizedKey(ContentTable, "content.interaction.fixture.object.name");
         public static readonly LocalizedKey AudioExploreInstruction = new LocalizedKey(ContentTable, "content.audio.instruction.explore");
         public static readonly LocalizedKey AudioJungleName = new LocalizedKey(ContentTable, "content.audio.name.jungle");
         public static readonly LocalizedKey AudioWelcomeNarration = new LocalizedKey(ContentTable, "content.audio.narration.welcome");

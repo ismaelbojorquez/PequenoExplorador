@@ -1,0 +1,10 @@
+{
+  "id": "PH_INTERACTION_FIXTURES",
+  "isPlaceholder": true,
+  "owner": "Gameplay Interaction + Child UX",
+  "purpose": "Probar foco, acercamiento, prioridad, prompt y disponibilidad sin contenido factual ni discovery.",
+  "provenance": "Primitives, materiales y UI creados por tooling interno del proyecto.",
+  "replaceByPhase": "Antes de Gate C y producción de arte del Vertical Slice",
+  "releaseStatus": "Blocked",
+  "releaseApproved": false
+}

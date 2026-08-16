@@ -1,6 +1,6 @@
 # Modelo data-driven de contenido
 
-Contrato canónico de Prompt 14, ampliado por Prompt 15 con manifests de mundo. Permite authoring y resolución local sin implementar reglas de discovery, mission, activity o reward. El único discovery y el único mundo versionados son neutrales, `Draft` y placeholder; no representan contenido factual final.
+Contrato canónico de Prompt 14, ampliado por Prompt 15 con manifests de mundo y Prompt 17 con authoring de interacción. Permite authoring y resolución local sin implementar reglas de discovery, mission, activity o reward. El único discovery, el único mundo y las tres interacciones versionadas son neutrales, `Draft` y placeholder; no representan contenido factual final.
 
 ## Flujo y autoridades
 
@@ -28,6 +28,7 @@ IDs usan minúsculas ASCII, dígitos, puntos y guiones; el primer segmento fija 
 | Scene/catalog/spawn/checkpoint/requirement | `scene/*`, `catalog.*`, `spawn.*`, `checkpoint.*`, `requirement.*` | Contrato del manifest Selva |
 | Mission/activity/reward | `mission.*` / `activity.*` / `reward.*` | Solo contratos; sin instancias runtime |
 | Visual | `visual.<owner>.<slug>` | `visual.discovery.jungle.placeholder` |
+| Interaction | `interaction.<owner>.<slug>` | `interaction.fixture.animal` |
 
 Category/world/tag no son enums cerrados. El botón explícito `Generate stable ID if empty` crea un ID solo cuando el campo está vacío; nunca sobrescribe. Retirar un Discovery ID exige alias `previous → current` en el catálogo y migración de save cuando el ID ya se haya publicado. Un alias no puede colisionar con un ID vigente ni apuntar fuera del catálogo.
 
@@ -42,6 +43,7 @@ Category/world/tag no son enums cerrados. El botón explícito `Generate stable 
 | `ContentSourceRecord` | `ContentSourceRecordAsset` | institución/autor/título/referencia/consulta/revisor según avance |
 | `WorldManifest` / `IWorldDefinition` | `WorldManifestAsset` | escena/labels/spawn/checkpoints/catálogos/cues/requirements/version/tamaño/editorial |
 | `IMissionDefinition`, `IActivityDefinition`, `IRewardDefinition` | Diferido | Solo ID tipado; no reglas ficticias |
+| `InteractionDefinition` | `InteractionDefinitionAsset` | ID, copy/cues, rango, cooldown, prioridad y metadata editorial |
 
 El catálogo de contenido mantiene diccionarios privados O(1) para category, tag, source, fact y discovery, más una colección de discoveries ordenada por ID. `TryGetDiscovery` resuelve el ID vigente; `TryResolveDiscovery` consulta aliases. `WorldCatalog` mantiene un índice O(1) separado y orden estable; su disponibilidad técnica no decide acceso comercial.
 
@@ -61,3 +63,5 @@ Se detectan: ID inválido/duplicado, alias inválido, referencia de catálogo au
 - `artifacts/reports/content-catalog-release.{json,md}`.
 
 Para agregar un placeholder: crear definitions/metadata, asignar referencias, añadirlo al único `ContentCatalogAsset`, ejecutar validator y tests. No se modifica `ContentCatalog`, Bootstrap, un switch central ni sistemas de gameplay. Producir catálogo masivo continúa bloqueado por Gate B y P-008.
+
+Las interacciones usan un catálogo separado compilado una vez y el mismo `WorldInteractableView`, sin enums animal/planta/objeto. Su contrato canónico es [`INTERACTION_SYSTEM.md`](INTERACTION_SYSTEM.md); añadir una acción concreta futura implementa `IInteractable`/caso de uso, no modifica selección, detector o locomoción.

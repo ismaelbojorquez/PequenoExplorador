@@ -1,6 +1,6 @@
 # Arquitectura técnica — fronteras modulares
 
-Estado: foundation, catálogo data-driven Draft, manifiesto local de Selva, scene flow, save v3, localización, audio, input y locomoción candidata `PH_` implementados. No existen interacción/discovery ni contenido final. `Bootstrap` persiste y entra a Camp placeholder.
+Estado: foundation, catálogo data-driven Draft, manifiesto local de Selva, scene flow, save v3, localización, audio, input, locomoción e interacción contextual `PH_` implementados. No existen discovery ni contenido final. `Bootstrap` persiste y entra a Camp placeholder.
 
 ## Grafo real de assemblies
 
@@ -14,7 +14,8 @@ PequenoExplorador.Application
 PequenoExplorador.Content
 ├─ Application
 ├─ Domain
-└─ Unity.Addressables
+├─ Unity.Addressables
+└─ UnityEngine.AudioModule
 
 PequenoExplorador.Infrastructure
 ├─ Application
@@ -22,11 +23,12 @@ PequenoExplorador.Infrastructure
 ├─ Unity.Addressables
 ├─ Unity.ResourceManager
 ├─ Unity.Localization
-└─ Unity.InputSystem
+├─ Unity.InputSystem
+└─ UnityEngine.AudioModule
 
 PequenoExplorador.Presentation
 ├─ Application
-├─ Unity.AI.Navigation
+├─ Domain
 └─ UnityEngine.AIModule
 
 PequenoExplorador.Bootstrap
@@ -34,13 +36,16 @@ PequenoExplorador.Bootstrap
 ├─ Content
 ├─ Domain
 ├─ Infrastructure
-└─ Presentation
+├─ Presentation
+├─ Unity.InputSystem
+└─ UnityEngine.AudioModule
 
 PequenoExplorador.Editor [Editor only]
 ├─ Application / Bootstrap / Content / Domain
 ├─ Infrastructure / Presentation
-├─ Unity.Addressables.Editor / Unity.Localization / Unity.Localization.Editor / Unity.InputSystem / Unity.AI.Navigation
-└─ Unity.RenderPipelines.Universal.Runtime
+├─ Unity.Addressables / Unity.Addressables.Editor / Unity.AI.Navigation / Unity.InputSystem
+├─ Unity.Localization / Unity.Localization.Editor / Unity.RenderPipelines.Universal.Runtime
+└─ UnityEngine.AudioModule
 
 PequenoExplorador.Tests.EditMode [Editor only]
 ├─ Application
@@ -50,15 +55,15 @@ PequenoExplorador.Tests.EditMode [Editor only]
 ├─ Editor
 ├─ Infrastructure
 ├─ Presentation
-├─ Unity.Localization / Unity.Localization.Editor / Unity.AI.Navigation
-└─ Unity.InputSystem / UnityEngine.AIModule
+├─ Unity.Localization / Unity.Localization.Editor / Unity.InputSystem
+└─ UnityEngine.AudioModule
 
 PequenoExplorador.Tests.PlayMode
 ├─ Application
 ├─ Bootstrap
 ├─ Domain
 ├─ Infrastructure / Presentation
-└─ Unity.InputSystem / Unity.InputSystem.TestFramework / Unity.AI.Navigation / UnityEngine.AIModule
+└─ Unity.InputSystem / Unity.InputSystem.TestFramework / UnityEngine.AIModule / UnityEngine.AudioModule
 ```
 
 Son nueve assemblies de proyecto. Las suites reciben NUnit/TestRunner mediante `optionalUnityReferences: TestAssemblies`; no usan `overrideReferences`. Las dependencias implícitas de Unity solo están disponibles donde `noEngineReferences=false`.
@@ -172,6 +177,18 @@ Application conserva posiciones/estado/settings BCL-only. Presentation es owner 
 
 Domain define value IDs textuales por tipo. Content posee definitions ScriptableObject y compiladores; Bootstrap compila una vez a modelos Application readonly y entrega `IContentCatalog`/`IWorldCatalog` en `AppContext`. El catálogo de contenido indexa category, tag, source, fact y discovery; el catálogo de mundos indexa manifests por `WorldId`. Editor es el único consumidor de `AssetDatabase` para comprobar paths, localización, audio, visuales, escenas, labels, spawn y estado editorial. Contratos: [`CONTENT_MODEL.md`](CONTENT_MODEL.md) y [`CONTENT_PIPELINE.md`](CONTENT_PIPELINE.md).
 
+### Interacción contextual
+
+```text
+Presentation detector/prompt ──→ Application coordinator/contracts ──→ Domain InteractionId
+           │                              │
+           └─ IInteractionApproach ───────┘
+Content InteractionDefinitionAsset ──compile──→ readonly catalog
+Bootstrap enlaza catálogo + raíz de Selva + servicios localización/audio
+```
+
+Presentation referencia Domain solo porque la definición pública expone el value ID tipado; la regla queda en la allowlist y no invierte dependencias. `InteractionCoordinator` conserva un foco, serializa approach/acción y limpia por UI, pause, target destruido o unload. El adapter de detección indexa colliders al bind y usa raycast non-alloc; no hay `GetComponent` por frame, categoría animal, service locator ni bus global. Discovery/learning se conectarán mediante casos de uso concretos. Contrato: [`INTERACTION_SYSTEM.md`](INTERACTION_SYSTEM.md).
+
 ## Scene flow y contenido local
 
 ```text
@@ -208,6 +225,7 @@ El bus en memoria solo cubre fan-out acotado. `Subscribe<T>` devuelve `IDisposab
 | Audio | Mixer/cues PH_, panel y replay diagnóstico | Servicio local; panel oculto y placeholders bloquean Release de contenido |
 | Input/safe area | 5 mapas; Debug overlay local; presets de ratio | Mapas de producto, Debug deshabilitado; safe area local |
 | Haptics | No-op, off por defecto | No-op, off por defecto |
+| Interaction | Fixtures `PH_`, diagnóstico localizado | Catálogo final Approved; fixtures `PH_` bloqueados |
 | Clock/random | `SystemClock` + seed inyectado | Igual, sin estado remoto |
 | Logs/messages | Structured Unity + bus local | Igual, sin datos infantiles |
 

@@ -1,6 +1,6 @@
 # Índice documental
 
-Estado: foundation, scene flow local, persistencia schema v3, localización/audio/input, catálogo data-driven Draft, manifest Selva y locomoción `PH_` disponibles; todavía no existe interacción/discovery ni contenido final. Empezar siempre por [`../AGENTS.md`](../AGENTS.md) y [`STATUS.md`](STATUS.md).
+Estado: foundation, scene flow local, persistencia schema v3, localización/audio/input, catálogo data-driven Draft, manifest Selva, locomoción e interacción contextual `PH_` disponibles; todavía no existe discovery ni contenido final. Empezar siempre por [`../AGENTS.md`](../AGENTS.md) y [`STATUS.md`](STATUS.md).
 
 ## Fuentes de verdad
 
@@ -57,6 +57,7 @@ Los saltos numéricos reservan espacio para documentos técnicos futuros; no imp
 - [`17_LOCALIZATION.md`](17_LOCALIZATION.md): paquete exacto, ES/EN, pseudo, tablas/keys y pipeline CSV local.
 - [`RUNTIME_CONFIGURATION.md`](RUNTIME_CONFIGURATION.md): AppConfig Development/Release, flags tipados y validación build.
 - [`INPUT_ACCESSIBILITY.md`](INPUT_ACCESSIBILITY.md): Input System `1.20.0`, action maps, gestures, safe area, haptics y device harness.
+- [`INTERACTION_SYSTEM.md`](INTERACTION_SYSTEM.md): foco, auto-acercamiento, selección determinista, prompt, fixtures y límites antes de discovery.
 - [`20_ANDROID_RELEASE.md`](20_ANDROID_RELEASE.md): build Android actual y bloqueo de Release.
 - [`ANDROID_RELEASE.md`](ANDROID_RELEASE.md): evidencia histórica de smoke F03/F04.
 - [`GITHUB_SETUP.md`](GITHUB_SETUP.md): remoto, protección, runner/licencia y secrets como pasos humanos.
@@ -84,6 +85,7 @@ Los saltos numéricos reservan espacio para documentos técnicos futuros; no imp
 - [`PHASE_14_PREFLIGHT.md`](PHASE_14_PREFLIGHT.md)
 - [`PHASE_15_PREFLIGHT.md`](PHASE_15_PREFLIGHT.md)
 - [`PHASE_16_PREFLIGHT.md`](PHASE_16_PREFLIGHT.md)
+- [`PHASE_17_PREFLIGHT.md`](PHASE_17_PREFLIGHT.md)
 
 ## Lectura obligatoria para el siguiente incremento
 

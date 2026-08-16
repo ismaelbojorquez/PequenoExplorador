@@ -4,7 +4,7 @@ Todos los loops realizan `acción → descubrimiento → aprendizaje → recompe
 
 ## Loop de 30 segundos — microinteracción
 
-La locomoción candidata que conecta este loop es `tap en suelo legible → marker inmediato → desplazamiento asistido → llegada`. Un tap inválido no consume recurso ni falla la misión; muestra feedback discreto y permite otro tap. Prompt 16 solo valida este tramo `PH_`; interacción y discovery empiezan en Prompt 17/18.
+La locomoción candidata que conecta este loop es `tap en suelo legible → marker inmediato → desplazamiento asistido → llegada`. Prompt 17 añade `tap en target → foco único → auto-acercamiento → acción contextual grande → resultado`, con cancelación y fallback amable. Un tap inválido/no disponible no consume recurso ni falla la misión; muestra feedback discreto y permite otro tap. Discovery sigue fuera hasta Prompt 18.
 
 1. Percibir una pista audiovisual o un elemento interesante.
 2. Tocar para acercarse, observar o enfocar.
@@ -13,6 +13,8 @@ La locomoción candidata que conecta este loop es `tap en suelo legible → mark
 5. Obtener feedback positivo y un avance visible.
 
 **Aceptación:** intención comprensible en cinco segundos después del tutorial; reacción en cada acción; sin pantalla de nota; reintento inmediato y sin pérdida.
+
+El contrato técnico y sus límites están en [`INTERACTION_SYSTEM.md`](INTERACTION_SYSTEM.md). Los tres fixtures actuales son neutrales `PH_`; no conceden progreso ni contienen afirmaciones educativas.
 
 ## Loop de 3 minutos — descubrimiento completo
 

@@ -36,6 +36,17 @@ Cada asset deberá registrar: ID estable, nombre descriptivo, autor/proveedor, l
 
 Estos assets fueron creados dentro del proyecto, sin descarga ni licencia externa. El `NavMeshData` es build data técnico binario, no arte y se regenera con el setup controlado.
 
+## Ledger temporal Prompt 17
+
+| ID/path | Tipo | Estado | Reemplazo humano requerido |
+|---|---|---|---|
+| `PH_FIXTURE_ANIMAL` / `interaction.fixture.animal` | cápsula/material local | `Placeholder / ReleaseBlocked` | Silueta animal aprobada, collider/punto, states de foco y provenance. |
+| `PH_FIXTURE_PLANT` / `interaction.fixture.plant` | cilindro/material local | `Placeholder / ReleaseBlocked` | Planta aprobada y factual, escala/contraste/collider/punto. |
+| `PH_FIXTURE_OBJECT` / `interaction.fixture.object` | cubo/material local | `Placeholder / ReleaseBlocked` | Prop final, razón de disponibilidad y feedback accesible. |
+| `PH_UI_INTERACTION_PROMPT` + indicador | uGUI/primitives locales | `Placeholder / ReleaseBlocked` | Iconografía sin lectura/color único, foco/acción/cancel y revisión en safe areas. |
+
+Los tres fixtures comparten el mismo núcleo y no representan especies/hechos. Materiales, geometría e icono se crearon dentro del proyecto; no se descargaron assets ni se asumió licencia externa. Copy y cues también siguen sujetos a revisión humana.
+
 ## Git y organización futura
 
 - Fuentes grandes de formatos cubiertos irán a Git LFS; `.meta` siempre en Git normal.

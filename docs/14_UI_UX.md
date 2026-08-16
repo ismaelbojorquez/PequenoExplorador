@@ -22,11 +22,13 @@ No se pregunta edad/fecha de nacimiento, no se recomienda modo según comportami
 ## Navegación candidata
 
 - Tap-to-move con indicador de destino, camino válido y cancelar mediante nuevo toque.
-- Interacción contextual con toque; mantener pulsado no es requisito principal.
+- Interacción contextual con toque: foco visible, auto-acercamiento si hace falta, acción iconográfica grande y cancelación siempre disponible; mantener pulsado no es requisito principal.
 - Viewfinder de fotografía con zona de éxito generosa y captura asistida opcional.
 - Prompt 16 implementa el candidato como `PH_` medible; P-006 aún exige compararlo con control directo simplificado antes de implementación definitiva.
 
 La foundation ejecutable está en [`INPUT_ACCESSIBILITY.md`](INPUT_ACCESSIBILITY.md). `Explorer` mueve un avatar `PH_` solo sobre suelo válido, con marker verde/ámbar y cámara automática; `Photography` sigue siendo el único contexto de producto que acepta pinch. Abrir UI/fotografía, pausar o perder focus detiene movimiento. Android Back abre pausa reversible y checkpoint, no salida destructiva.
+
+El prompt contextual vive en un Canvas dedicado con safe area y targets mínimos `64×64`. Solo existe un foco. En overlaps gobiernan prioridad, distancia e ID estable; nunca “animal primero” por hardcode. `Unavailable` muestra “Todavía no podemos…” y cue suave, no términos técnicos, cruz roja ni castigo. Detalle: [`INTERACTION_SYSTEM.md`](INTERACTION_SYSTEM.md).
 
 ## Jerarquía de pantallas
 

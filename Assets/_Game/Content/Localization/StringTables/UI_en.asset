@@ -100,6 +100,30 @@ MonoBehaviour:
     m_Localized: This place is no longer available. Your progress is still safe.
     m_Metadata:
       m_Items: []
+  - m_Id: 70000000000001
+    m_Localized: Let\u2019s move a little closer.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 70000000000002
+    m_Localized: Look closer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 70000000000003
+    m_Localized: Not now
+    m_Metadata:
+      m_Items: []
+  - m_Id: 70000000000004
+    m_Localized: We can\u2019t look at this yet. Let\u2019s try something else.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 70000000000005
+    m_Localized: We took a closer look!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 70000000000006
+    m_Localized: Let\u2019s wait a moment before looking again.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

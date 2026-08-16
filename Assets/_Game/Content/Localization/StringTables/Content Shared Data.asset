@@ -71,6 +71,18 @@ MonoBehaviour:
     m_Key: content.discovery.placeholder.name
     m_Metadata:
       m_Items: []
+  - m_Id: 70000000000011
+    m_Key: content.interaction.fixture.animal.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 70000000000012
+    m_Key: content.interaction.fixture.plant.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 70000000000013
+    m_Key: content.interaction.fixture.object.name
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

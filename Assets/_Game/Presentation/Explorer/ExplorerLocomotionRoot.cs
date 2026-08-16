@@ -1,6 +1,7 @@
 using System;
 using PequenoExplorador.Application.Explorer;
 using PequenoExplorador.Application.Input;
+using PequenoExplorador.Application.Interaction;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
@@ -8,7 +9,7 @@ using UnityEngine.EventSystems;
 namespace PequenoExplorador.Presentation.Explorer
 {
     [DisallowMultipleComponent]
-    public sealed class ExplorerLocomotionRoot : MonoBehaviour
+    public sealed class ExplorerLocomotionRoot : MonoBehaviour, IInteractionApproach
     {
         public const string PlaceholderRootName = "PH_EXPLORER_RUNTIME";
 
@@ -41,11 +42,15 @@ namespace PequenoExplorador.Presentation.Explorer
         private bool _applicationPaused;
         private bool _applicationFocused = true;
         private bool _bound;
+        private IExplorerTapHandler _tapHandler;
 
         public ExplorerLocomotionState State => _controller?.State ?? ExplorerLocomotionState.Idle;
         public bool IsBound => _bound;
         public bool ReduceMotion => _reduceMotion;
         public NavMeshAgent Agent => _agent;
+        public WorldPosition Position => _agent == null
+            ? default
+            : new WorldPosition(_agent.transform.position.x, _agent.transform.position.y, _agent.transform.position.z);
 
         public void Bind(IInputService input, Camera worldCamera, bool reduceMotion = false)
         {
@@ -79,6 +84,7 @@ namespace PequenoExplorador.Presentation.Explorer
             }
             _controller?.Cancel();
             _controller = null;
+            _tapHandler = null;
             _input = null;
             _camera = null;
             _bound = false;
@@ -90,6 +96,16 @@ namespace PequenoExplorador.Presentation.Explorer
             _reduceMotion = enabled;
             if (enabled) SnapCamera();
         }
+
+        public void SetTapHandler(IExplorerTapHandler tapHandler) => _tapHandler = tapHandler;
+
+        public bool TryMoveTo(WorldPosition destination)
+        {
+            return _bound && _controller != null && _input.CurrentMap == InputMapId.Explorer &&
+                   _controller.MoveTo(destination);
+        }
+
+        public void CancelMovement() => _controller?.Cancel();
 
         public bool TryHandleScreenTap(ScreenPoint screenPoint)
         {
@@ -140,7 +156,10 @@ namespace PequenoExplorador.Presentation.Explorer
         {
             if (intent.Map == InputMapId.Explorer && intent.Kind == InputGestureKind.Tap &&
                 !IsPointerOverUi(intent.PointerId))
-                TryHandleScreenTap(intent.Position);
+            {
+                if (_tapHandler == null || !_tapHandler.TryHandleTap(intent.Position))
+                    TryHandleScreenTap(intent.Position);
+            }
         }
 
         private void HandleMapChanged(InputMapId map) => ApplySuspension();

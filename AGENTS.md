@@ -50,6 +50,8 @@ Configuración runtime sigue [`docs/RUNTIME_CONFIGURATION.md`](docs/RUNTIME_CONF
 
 `ISceneFlowService` serializa `Boot → Camp ↔ Expedition`; Infrastructure es el único owner de handles Addressables y Bootstrap conserva la escena persistente. No cargar escenas por strings dispersos, liberar handles fuera del adapter, referenciar Jungle desde Shared ni activar remote catalogs/endpoints. Todo cambio de grupo/perfil pasa el validador local y tres ciclos PlayMode.
 
+La interacción contextual mantiene un solo foco y la selección determinista `prioridad → distancia → ID`; Application coordina approach/cancel/cooldown sobre contratos genéricos y Presentation adapta raycast/prompt. No introducir hardcode animal, `GetComponent` por frame ni conceder discovery mediante evento global. Seguir [`docs/INTERACTION_SYSTEM.md`](docs/INTERACTION_SYSTEM.md).
+
 La locomoción candidata usa `Application.ExplorerLocomotionController → IPathNavigator`; Presentation adapta raycast/NavMeshAgent/cámara y Bootstrap enlaza una sola raíz `PH_` al cargar Selva. No consultar input/NavMesh por APIs dispersas, mover durante UI/fotografía/pausa, añadir joystick/root motion ni declarar tap-to-move definitivo antes del playtest P-006.
 
 `IAudioService` recibe IDs semánticos; Content posee cues/mixer y Infrastructure sources/cola/ducking. Domain no conoce clips. No usar `Resources.Load`, crear `AudioSource` fuera de Bootstrap, solapar voz instructiva ni aceptar audio sin ledger/licencia. Ejecutar `scripts/validate-audio`; cualquier `PH_` permanece bloqueado para Release.

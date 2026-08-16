@@ -10,12 +10,14 @@ using PequenoExplorador.Application.Content;
 using PequenoExplorador.Application.Lifecycle;
 using PequenoExplorador.Application.Logging;
 using PequenoExplorador.Application.Input;
+using PequenoExplorador.Application.Interaction;
 using PequenoExplorador.Application.SceneFlow;
 using PequenoExplorador.Application.Save;
 using PequenoExplorador.Application.Worlds;
 using PequenoExplorador.Content.Audio;
 using PequenoExplorador.Content.Data;
 using PequenoExplorador.Content.Input;
+using PequenoExplorador.Content.Interaction;
 using PequenoExplorador.Content.Worlds;
 using PequenoExplorador.Domain.Content;
 using PequenoExplorador.Presentation.Accessibility;
@@ -23,6 +25,7 @@ using PequenoExplorador.Presentation.Audio;
 using PequenoExplorador.Presentation.Bootstrap;
 using PequenoExplorador.Presentation.Input;
 using PequenoExplorador.Presentation.Explorer;
+using PequenoExplorador.Presentation.Interaction;
 using PequenoExplorador.Presentation.SceneFlow;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -45,6 +48,7 @@ namespace PequenoExplorador.Bootstrap
         [SerializeField] private AudioCueCatalogAsset _audioCatalog;
         [SerializeField] private ContentCatalogAsset _contentCatalog;
         [SerializeField] private WorldCatalogAsset _worldCatalog;
+        [SerializeField] private InteractionCatalogAsset _interactionCatalog;
         [SerializeField] private InputActionAsset _inputActions;
         [SerializeField] private GestureThresholdsAsset _gestureThresholds;
         [SerializeField] private SafeAreaFitter[] _safeAreaFitters = Array.Empty<SafeAreaFitter>();
@@ -52,6 +56,7 @@ namespace PequenoExplorador.Bootstrap
         [SerializeField] private TouchDiagnosticOverlay _touchOverlay;
         [SerializeField] private DeviceAspectOverlay _aspectOverlay;
         [SerializeField] private Camera _worldCamera;
+        [SerializeField] private InteractionPromptView _interactionPrompt;
 
         private CancellationTokenSource _lifetimeCancellation;
         private IAppConfig _configuration;
@@ -63,6 +68,8 @@ namespace PequenoExplorador.Bootstrap
         private bool _diagnosticsEnabled;
         private InputMapId _inputMapBeforePause = InputMapId.UI;
         private ExplorerLocomotionRoot _explorerRoot;
+        private InteractionSceneRoot _interactionRoot;
+        private InteractionCatalog _runtimeInteractions;
 
         public ApplicationState State => _services == null
             ? ApplicationState.Created
@@ -97,6 +104,8 @@ namespace PequenoExplorador.Bootstrap
         public IHapticsService Haptics => _services?.Context.Haptics;
         public bool IsPauseVisible => _pauseView != null && _pauseView.IsVisible;
         public ExplorerLocomotionRoot ExplorerRoot => _explorerRoot;
+        public InteractionSceneRoot InteractionRoot => _interactionRoot;
+        public InteractionPromptView InteractionPrompt => _interactionPrompt;
 
         private void Awake()
         {
@@ -110,13 +119,14 @@ namespace PequenoExplorador.Bootstrap
                 throw new InvalidOperationException("SceneTransitionView must be wired in the Bootstrap scene.");
             }
 
-            if (_audioView == null || _audioCatalog == null || _contentCatalog == null || _worldCatalog == null)
+            if (_audioView == null || _audioCatalog == null || _contentCatalog == null ||
+                _worldCatalog == null || _interactionCatalog == null)
             {
                 throw new InvalidOperationException("Audio, content and world catalogs must be wired in the Bootstrap scene.");
             }
             if (_inputActions == null || _gestureThresholds == null || _pauseView == null ||
                 _touchOverlay == null || _aspectOverlay == null || _safeAreaFitters.Length == 0 ||
-                _worldCamera == null)
+                _worldCamera == null || _interactionPrompt == null)
             {
                 throw new InvalidOperationException("Input actions, thresholds, pause, overlays and safe-area fitters must be wired.");
             }
@@ -129,6 +139,12 @@ namespace PequenoExplorador.Bootstrap
                 throw new InvalidOperationException("Runtime content catalog is invalid:\n" + string.Join("\n", contentViolations));
             if (!_worldCatalog.TryBuildRuntimeCatalog(runtimeCatalog, contentMode, out WorldCatalog runtimeWorlds, out var worldViolations))
                 throw new InvalidOperationException("Runtime world catalog is invalid:\n" + string.Join("\n", worldViolations));
+            if (!_interactionCatalog.TryBuildRuntimeCatalog(
+                    contentMode,
+                    out _runtimeInteractions,
+                    out var interactionViolations))
+                throw new InvalidOperationException(
+                    "Runtime interaction catalog is invalid:\n" + string.Join("\n", interactionViolations));
             _services = new ServiceRegistry(
                 _configuration,
                 runtimeCatalog,
@@ -336,6 +352,13 @@ namespace PequenoExplorador.Bootstrap
 
         public void ConfigureContentForEditorAndTests(ContentCatalogAsset contentCatalog) => _contentCatalog = contentCatalog;
         public void ConfigureWorldsForEditorAndTests(WorldCatalogAsset worldCatalog) => _worldCatalog = worldCatalog;
+        public void ConfigureInteractionsForEditorAndTests(
+            InteractionCatalogAsset interactionCatalog,
+            InteractionPromptView interactionPrompt)
+        {
+            _interactionCatalog = interactionCatalog;
+            _interactionPrompt = interactionPrompt;
+        }
         public void ConfigureExplorerCameraForEditorAndTests(Camera worldCamera) => _worldCamera = worldCamera;
 #endif
 
@@ -404,6 +427,7 @@ namespace PequenoExplorador.Bootstrap
         {
             UnbindExplorerScene();
             ExplorerLocomotionRoot found = null;
+            InteractionSceneRoot interaction = null;
             for (int sceneIndex = 0; sceneIndex < SceneManager.sceneCount; sceneIndex++)
             {
                 Scene scene = SceneManager.GetSceneAt(sceneIndex);
@@ -411,22 +435,60 @@ namespace PequenoExplorador.Bootstrap
                 foreach (GameObject root in scene.GetRootGameObjects())
                 {
                     ExplorerLocomotionRoot candidate = root.GetComponentInChildren<ExplorerLocomotionRoot>(true);
-                    if (candidate == null) continue;
-                    if (found != null)
-                        throw new InvalidOperationException("Expedition contains more than one explorer scene root.");
-                    found = candidate;
+                    if (candidate != null)
+                    {
+                        if (found != null)
+                            throw new InvalidOperationException("Expedition contains more than one explorer scene root.");
+                        found = candidate;
+                    }
+
+                    InteractionSceneRoot sceneInteraction = root.GetComponentInChildren<InteractionSceneRoot>(true);
+                    if (sceneInteraction != null)
+                    {
+                        if (interaction != null)
+                            throw new InvalidOperationException("Expedition contains more than one interaction scene root.");
+                        interaction = sceneInteraction;
+                    }
                 }
             }
 
             if (found == null)
                 throw new InvalidOperationException("Expedition scene is missing PH_ explorer scene root.");
-            found.Bind(_services.Context.Input, _worldCamera);
-            _explorerRoot = found;
+            if (interaction == null)
+                throw new InvalidOperationException("Expedition scene is missing PH_ interaction scene root.");
+            try
+            {
+                found.Bind(_services.Context.Input, _worldCamera);
+                interaction.Bind(
+                    _runtimeInteractions,
+                    found,
+                    _services.Context.Clock,
+                    _services.Context.Input,
+                    _worldCamera);
+                found.SetTapHandler(interaction);
+                _interactionPrompt.Bind(
+                    interaction.Coordinator,
+                    _services.Context.Localization,
+                    _services.Context.Audio);
+                _explorerRoot = found;
+                _interactionRoot = interaction;
+            }
+            catch
+            {
+                _interactionPrompt.Unbind();
+                interaction.Unbind();
+                found.Unbind();
+                throw;
+            }
         }
 
         private void UnbindExplorerScene()
         {
+            _interactionPrompt?.Unbind();
+            _explorerRoot?.SetTapHandler(null);
+            _interactionRoot?.Unbind();
             _explorerRoot?.Unbind();
+            _interactionRoot = null;
             _explorerRoot = null;
         }
 

@@ -82,6 +82,7 @@ namespace PequenoExplorador.Editor
                 ["PequenoExplorador.Presentation"] = new[]
                 {
                     "PequenoExplorador.Application",
+                    "PequenoExplorador.Domain",
                     "UnityEngine.AIModule"
                 },
                 ["PequenoExplorador.Bootstrap"] = new[]

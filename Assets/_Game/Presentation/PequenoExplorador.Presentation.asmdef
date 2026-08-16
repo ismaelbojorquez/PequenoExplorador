@@ -3,6 +3,7 @@
   "rootNamespace": "PequenoExplorador.Presentation",
   "references": [
     "PequenoExplorador.Application",
+    "PequenoExplorador.Domain",
     "UnityEngine.AIModule"
   ],
   "includePlatforms": [],

@@ -17,6 +17,7 @@ namespace PequenoExplorador.Editor.BuildTools
                 ValidateAddressablesInternal();
                 ValidateInputInternal();
                 ValidateExplorerInternal();
+                ValidateInteractionInternal();
                 ArtifactReportWriter.WriteEnvironmentReport();
                 Debug.Log("PE_COMPILE_OK");
             });
@@ -53,7 +54,7 @@ namespace PequenoExplorador.Editor.BuildTools
                         "Localization validation failed:\n" + string.Join("\n", violations));
                 }
 
-                Debug.Log("PE_LOCALIZATION_OK package=1.5.12 locales=es,en,pseudo stringTables=3 assetTables=2");
+                Debug.Log("PE_LOCALIZATION_OK package=1.5.12 locales=es,en,pseudo keys=40 stringTables=3 assetTables=2");
             });
         }
 
@@ -81,6 +82,7 @@ namespace PequenoExplorador.Editor.BuildTools
                 ValidateAddressablesInternal();
                 ValidateInputInternal();
                 ValidateExplorerInternal();
+                ValidateInteractionInternal();
                 LocalAddressablesBuildService.BuildDevelopment();
             });
         }
@@ -94,6 +96,7 @@ namespace PequenoExplorador.Editor.BuildTools
                 ValidateAddressablesInternal();
                 ValidateInputInternal();
                 ValidateExplorerInternal();
+                ValidateInteractionInternal();
                 LocalAddressablesBuildService.BuildDevelopment();
                 AndroidBuildService.BuildDevelopment();
             });
@@ -108,6 +111,7 @@ namespace PequenoExplorador.Editor.BuildTools
                 ValidateAddressablesInternal();
                 ValidateInputInternal();
                 ValidateExplorerInternal();
+                ValidateInteractionInternal();
                 const string reason =
                     "PE_RELEASE_SIGNING_REQUIRED: Release is intentionally blocked until an authorized human supplies external signing and approves bundle identity.";
                 ArtifactReportWriter.WriteReleaseBlockedReport(reason);
@@ -145,7 +149,7 @@ namespace PequenoExplorador.Editor.BuildTools
 
             Debug.Log($"PE_CONTENT_VALIDATION_OK mode={mode} discoveries=1 catalog=O1");
             Debug.Log("PE_RUNTIME_CONFIG_OK profiles=2 remote=false releaseUnsafeFlags=0");
-            Debug.Log("PE_LOCALIZATION_OK package=1.5.12 locales=es,en,pseudo stringTables=3 assetTables=2");
+            Debug.Log("PE_LOCALIZATION_OK package=1.5.12 locales=es,en,pseudo keys=40 stringTables=3 assetTables=2");
             Debug.Log("PE_AUDIO_OK buses=5 cues=7 clips=10 placeholders=10 sampleRate=48000 releaseFinal=0");
             Debug.LogWarning("PE_AUDIO_RELEASE_PENDING finalAssets=10 humanVoiceReview=required");
         }
@@ -176,6 +180,15 @@ namespace PequenoExplorador.Editor.BuildTools
             if (violations.Count > 0)
                 throw new InvalidOperationException("Explorer foundation validation failed:\n" + string.Join("\n", violations));
             Debug.Log("PE_EXPLORER_FOUNDATION_OK package=2.0.9 roots=1 navmesh=1 rootMotion=false joystick=false");
+        }
+
+        private static void ValidateInteractionInternal()
+        {
+            IReadOnlyList<string> violations = InteractionFoundationValidationService.Validate();
+            if (violations.Count > 0)
+                throw new InvalidOperationException(
+                    "Interaction foundation validation failed:\n" + string.Join("\n", violations));
+            Debug.Log("PE_INTERACTION_FOUNDATION_OK definitions=3 fixtures=3 priority=deterministic colliderIndex=3 promptSafeArea=true");
         }
 
         private static void Run(Action action)

@@ -54,6 +54,18 @@ MonoBehaviour:
     m_Localized: Test discovery
     m_Metadata:
       m_Items: []
+  - m_Id: 70000000000011
+    m_Localized: Animal figure
+    m_Metadata:
+      m_Items: []
+  - m_Id: 70000000000012
+    m_Localized: Plant figure
+    m_Metadata:
+      m_Items: []
+  - m_Id: 70000000000013
+    m_Localized: Exploration object
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

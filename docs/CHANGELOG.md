@@ -1,5 +1,31 @@
 # Changelog
 
+## Prompt 17 — 2026-08-16
+
+### Added
+
+- `InteractionId`, definitions/context/result y catálogo readonly; selector determinista prioridad/distancia/ID y coordinador de foco, approach, cooldown, idempotencia, cancelación y lifecycle.
+- Authoring/validator y tres fixtures neutrales `PH_` animal/planta/objeto sobre el mismo `WorldInteractableView`, con colliders, puntos NavMesh, indicador y metadata ReleaseBlocked.
+- Detector `RaycastNonAlloc` indexado, prompt safe-area localizado ES/EN, feedback audio existente y tests EditMode/PlayMode de overlap, rango, spam, unavailable, UI, destroy y unload.
+
+### Changed
+
+- El tap Explorer intenta primero interacción contextual y, si no hay target, conserva tap-to-move; Bootstrap compila el catálogo y enlaza una raíz por escena sin lookup por frame.
+- Presentation añade la referencia Domain explícita requerida por el `InteractionId` público; allowlist mantiene nueve assemblies y cero ciclos.
+- Gameplay, contenido, UX, input, arquitectura, testing, assets, decisiones, riesgos, contrato e índice describen la frontera anterior a discovery.
+
+### Verified
+
+- Baseline Prompt 16 `scripts/validate` código `0` en `80.40 s`: compile, Addressables, EditMode `94/94`, PlayMode `14/14` y APK `80,860,082` bytes.
+- Iteración dirigida: dos fallos de compilación por referencias/using y un validator de keys detectaron wiring incompleto; EditMode detectó resultado `Missing` incoherente y PlayMode detectó referencia UI destruida/cadena YAML sin comillas. Todos se corrigieron y repitieron.
+- `scripts/validate` final repetido tras revisión de extensibilidad, código `0` en `2:08.77`: repository/compile/validators, Addressables 41 locations/896,715 bytes, EditMode `99/99` (1.904 s), PlayMode `17/17` (7.417 s) y APK Development.
+- APK `80,931,145` bytes, SHA-256 `752b0fd41eb0558d6fa162d8fa8137cde46c08350645842d56f3ff508fe8a4f4`, `59.545 s` Unity, API 26/36, IL2CPP/ARM64, zipalign 16 KB y siete ELF LOAD `0x4000`. Solo `INTERNET` heredado + permiso interno; sin cámara/mic/ubicación/contactos/`AD_ID`.
+- Release guard falló de forma esperada antes de signing: `INTERACTION005` bloqueó los tres fixtures Draft/placeholder junto con los bloqueos de contenido/mundo existentes.
+
+### Not added
+
+- Discovery, fotografía, aprendizaje, recompensa, progreso nuevo, contenido factual/final, SDK/red/permiso, signing, push o publicación. Touch/ergonomía/FPS en Android físico siguen `NOT RUN` porque `adb devices` no listó dispositivo.
+
 ## Prompt 16 — 2026-08-16
 
 ### Added
