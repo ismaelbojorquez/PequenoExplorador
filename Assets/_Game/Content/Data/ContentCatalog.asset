@@ -12,15 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3495a591d88c4400789260388a135dc6, type: 3}
   m_Name: ContentCatalog
   m_EditorClassIdentifier: PequenoExplorador.Content::PequenoExplorador.Content.Data.ContentCatalogAsset
-  _id: catalog.jungle.placeholder
+  _id: catalog.jungle.vertical-slice
   _categories:
-  - {fileID: 11400000, guid: fcd87aa2f711b4c89aac4b31fcae9233, type: 2}
+  - {fileID: 11400000, guid: 47c9a308f5c8e41e3b644b6fb3bd4b2b, type: 2}
   _tags:
-  - {fileID: 11400000, guid: fa76ce64c583d49279856fcbbdb27027, type: 2}
+  - {fileID: 11400000, guid: e68b235f5e58f431a93a656f45eace2b, type: 2}
   _sources:
-  - {fileID: 11400000, guid: 38aa48fc8d9214636bc3fedfd5ea911d, type: 2}
+  - {fileID: 11400000, guid: 6b00bb3ae44ef4c3d857f5af2c78f6bd, type: 2}
+  - {fileID: 11400000, guid: edcb659d8a9c24ceabbce1f28588ccc1, type: 2}
+  - {fileID: 11400000, guid: bcdf0b9f8c8504ab5bce93bbf4c37963, type: 2}
+  - {fileID: 11400000, guid: 3cebffa3e5b78408b995ad4cb529e087, type: 2}
+  - {fileID: 11400000, guid: 8fff1587d3b3e423abc8dadb95d34912, type: 2}
+  - {fileID: 11400000, guid: 20875f4e5d15a4adb893c029f2948d77, type: 2}
   _facts:
-  - {fileID: 11400000, guid: 04b4ea2bfa614428e9f4d5b6db74e1ac, type: 2}
+  - {fileID: 11400000, guid: f4c38caee4fce4adfb1048cff6ec9c05, type: 2}
+  - {fileID: 11400000, guid: 359dc04dc4cc7491e9f367c98af6e3aa, type: 2}
+  - {fileID: 11400000, guid: 62dc722d1d4254c8c9d8d0177ca0d94c, type: 2}
+  - {fileID: 11400000, guid: 1675e0d6f73f5430fbc05313470dd07f, type: 2}
+  - {fileID: 11400000, guid: bd6209f650ef74f1892f9f9dda7ef65c, type: 2}
+  - {fileID: 11400000, guid: 806bbf59a41e04ac6a493e115ee4ad34, type: 2}
+  - {fileID: 11400000, guid: 16c60f391502545abb3ac42697f90a08, type: 2}
   _discoveries:
-  - {fileID: 11400000, guid: 8fce25b503def4785a9900eef3181d35, type: 2}
-  _discoveryAliases: []
+  - {fileID: 11400000, guid: b29f5cc6c17f14e9fa1c7554af295a03, type: 2}
+  _discoveryAliases:
+  - _previousId: discovery.jungle.placeholder
+    _current: {fileID: 11400000, guid: b29f5cc6c17f14e9fa1c7554af295a03, type: 2}

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using PequenoExplorador.Application.Content;
 using PequenoExplorador.Bootstrap;
 using PequenoExplorador.Content.Interaction;
 using PequenoExplorador.Presentation.Accessibility;
@@ -19,7 +20,8 @@ namespace PequenoExplorador.Editor
         public const string Root = "Assets/_Game/Content/Interaction";
         public const string DefinitionsRoot = Root + "/Definitions";
         public const string CatalogPath = Root + "/InteractionCatalog.asset";
-        public const string AnimalPath = DefinitionsRoot + "/PH_Interaction_Animal.asset";
+        public const string AnimalPath = DefinitionsRoot + "/VS_Interaction_KeelBilledToucan.asset";
+        public const string AnimalId = "interaction.jungle.keel-billed-toucan";
         public const string PlantPath = DefinitionsRoot + "/PH_Interaction_Plant.asset";
         public const string ObjectPath = DefinitionsRoot + "/PH_Interaction_Object.asset";
         public const string CanvasName = "PH_UI_INTERACTION_CANVAS";
@@ -29,29 +31,8 @@ namespace PequenoExplorador.Editor
         {
             try
             {
-                EnsureFolder(DefinitionsRoot);
-                InteractionDefinitionAsset animal = EnsureDefinition(
-                    AnimalPath,
-                    "interaction.fixture.animal",
-                    "content.interaction.fixture.animal.name",
-                    70);
-                SetDirectDiscovery(animal, "discovery.jungle.placeholder");
-                InteractionDefinitionAsset plant = EnsureDefinition(
-                    PlantPath,
-                    "interaction.fixture.plant",
-                    "content.interaction.fixture.plant.name",
-                    60);
-                InteractionDefinitionAsset genericObject = EnsureDefinition(
-                    ObjectPath,
-                    "interaction.fixture.object",
-                    "content.interaction.fixture.object.name",
-                    50);
-                InteractionCatalogAsset catalog = EnsureCatalog(animal, plant, genericObject);
-                ConfigureJungle();
-                ConfigureBootstrap(catalog);
-                AssetDatabase.SaveAssets();
-                AssetDatabase.Refresh();
-                Debug.Log("PE_INTERACTION_SETUP_OK definitions=3 fixtures=3 promptSafeArea=true colliderIndex=true");
+                ApplyAssetsAndScenes();
+                Debug.Log("PE_INTERACTION_SETUP_OK definitions=3 fixtures=3 promptSafeArea=true colliderIndex=true approvedAnimal=1");
                 if (UnityEngine.Application.isBatchMode) EditorApplication.Exit(0);
             }
             catch (Exception exception)
@@ -62,11 +43,42 @@ namespace PequenoExplorador.Editor
             }
         }
 
+        public static void ApplyAssetsAndScenes()
+        {
+                EnsureFolder(DefinitionsRoot);
+                InteractionDefinitionAsset animal = EnsureDefinition(
+                    AnimalPath,
+                    AnimalId,
+                    "content.discovery.keel-billed-toucan.name",
+                    70,
+                    approved: true);
+                SetDirectDiscovery(animal, ContentFoundationSetup.DiscoveryId);
+                InteractionDefinitionAsset plant = EnsureDefinition(
+                    PlantPath,
+                    "interaction.fixture.plant",
+                    "content.interaction.fixture.plant.name",
+                    60,
+                    approved: false);
+                InteractionDefinitionAsset genericObject = EnsureDefinition(
+                    ObjectPath,
+                    "interaction.fixture.object",
+                    "content.interaction.fixture.object.name",
+                    50,
+                    approved: false);
+            InteractionCatalogAsset catalog = EnsureCatalog(animal, plant, genericObject);
+            AssetDatabase.DeleteAsset(DefinitionsRoot + "/PH_Interaction_Animal.asset");
+                ConfigureJungle();
+                ConfigureBootstrap(catalog);
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
+        }
+
         private static InteractionDefinitionAsset EnsureDefinition(
             string path,
             string id,
             string displayNameKey,
-            int priority)
+            int priority,
+            bool approved)
         {
             InteractionDefinitionAsset asset = AssetDatabase.LoadAssetAtPath<InteractionDefinitionAsset>(path);
             if (asset == null)
@@ -77,6 +89,17 @@ namespace PequenoExplorador.Editor
             }
             asset.ConfigureIdentityForEditorAndTests(id);
             var serialized = new SerializedObject(asset);
+            SerializedProperty editorial = serialized.FindProperty("_editorial");
+            editorial.FindPropertyRelative("_state").enumValueIndex = approved
+                ? (int)EditorialState.Approved
+                : (int)EditorialState.Draft;
+            editorial.FindPropertyRelative("_isPlaceholder").boolValue = !approved;
+            editorial.FindPropertyRelative("_owner").stringValue = approved
+                ? "Ismael Bojórquez — Product/Education; factual H-009"
+                : "Content Design";
+            editorial.FindPropertyRelative("_developmentWatermark").stringValue = approved
+                ? string.Empty
+                : "BORRADOR · PH_";
             serialized.FindProperty("_displayNameTable").stringValue = "Content";
             serialized.FindProperty("_displayNameKey").stringValue = displayNameKey;
             serialized.FindProperty("_promptTable").stringValue = "UI";
@@ -128,8 +151,8 @@ namespace PequenoExplorador.Editor
             InteractionDetector detector = root.AddComponent<InteractionDetector>();
             WorldInteractableView animal = CreateFixture(
                 root.transform,
-                "PH_FIXTURE_ANIMAL",
-                "interaction.fixture.animal",
+                "VS_TOUCAN_INTERACTABLE",
+                AnimalId,
                 PrimitiveType.Capsule,
                 new Vector3(-4.2f, 0f, 2.6f),
                 new Vector3(1.25f, 0f, 0f),
@@ -223,7 +246,10 @@ namespace PequenoExplorador.Editor
 
         private static Material CreateFixtureMaterial(string name, Color color)
         {
-            string path = Root + "/" + name + ".mat";
+            string materialAssetName = string.Equals(name, "VS_TOUCAN_INTERACTABLE", StringComparison.Ordinal)
+                ? "PH_FIXTURE_ANIMAL"
+                : name;
+            string path = Root + "/" + materialAssetName + ".mat";
             Material material = AssetDatabase.LoadAssetAtPath<Material>(path);
             if (material == null)
             {

@@ -23,7 +23,7 @@ namespace PequenoExplorador.Infrastructure.Save
             }
 
             PlayerPreferences preferences = progress.Preferences;
-            PlayerProgressV4Dto payload = PlayerProgressV4Dto.Create(
+            PlayerProgressV5Dto payload = PlayerProgressV5Dto.Create(
                 appVersion,
                 progress.Stars,
                 progress.WorldIds.ToArray(),
@@ -98,10 +98,10 @@ namespace PequenoExplorador.Infrastructure.Save
 
         public DecodedSaveData DeserializeCurrentPayload(string payload)
         {
-            PlayerProgressV4Dto dto;
+            PlayerProgressV5Dto dto;
             try
             {
-                dto = JsonUtility.FromJson<PlayerProgressV4Dto>(payload);
+                dto = JsonUtility.FromJson<PlayerProgressV5Dto>(payload);
             }
             catch (Exception exception)
             {

@@ -73,13 +73,14 @@ namespace PequenoExplorador.Editor.BuildTools
             if (opened) scene = EditorSceneManager.OpenScene(SceneFlowFoundationSetup.JungleScenePath, OpenSceneMode.Additive);
             WorldInteractableView animal = scene.GetRootGameObjects()
                 .SelectMany(root => root.GetComponentsInChildren<WorldInteractableView>(true))
-                .SingleOrDefault(item => item.RawInteractionId == "interaction.fixture.animal");
-            if (animal == null) violations.Add("TOUCAN013 neutral Development animal interactable is missing.");
+                .SingleOrDefault(item => item.RawInteractionId == InteractionFoundationSetup.AnimalId);
+            if (animal == null) violations.Add("TOUCAN013 approved Vertical Slice toucan interactable is missing.");
             else
             {
                 ToucanReviewFixtureMetadata metadata = animal.GetComponentInChildren<ToucanReviewFixtureMetadata>(true);
-                if (metadata == null) violations.Add("TOUCAN014 neutral interactable is not using the review visual.");
-                if (animal.transform.Find("PH_FIXTURE_ANIMAL_VISUAL") != null)
+                if (metadata == null) violations.Add("TOUCAN014 approved interactable is not using the reviewed visual.");
+                if (animal.transform.Find("VS_TOUCAN_INTERACTABLE_VISUAL") != null ||
+                    animal.transform.Find("PH_FIXTURE_ANIMAL_VISUAL") != null)
                     violations.Add("TOUCAN015 legacy capsule visual remains attached.");
                 if (metadata != null && !animal.TargetColliders.Contains(metadata.TouchCollider))
                     violations.Add("TOUCAN016 interactable is not wired to the prefab touch collider.");

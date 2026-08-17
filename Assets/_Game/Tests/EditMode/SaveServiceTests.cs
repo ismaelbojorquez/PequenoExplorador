@@ -15,7 +15,7 @@ namespace PequenoExplorador.Tests.EditMode
     public sealed class SaveServiceTests
     {
         [Test]
-        public async Task FirstRunCreatesDefaultSchemaV3()
+        public async Task FirstRunCreatesDefaultSchemaV5()
         {
             var store = new InMemoryFileStore();
             LocalSaveService service = CreateService(store);
@@ -28,7 +28,7 @@ namespace PequenoExplorador.Tests.EditMode
             Assert.That(service.Current.WorldIds, Is.Empty);
             Assert.That(service.Current.DiscoveryIds, Is.Empty);
             Assert.That(service.Current.CompletedMissionIds, Is.Empty);
-            Assert.That(envelope.SchemaVersion, Is.EqualTo(4));
+            Assert.That(envelope.SchemaVersion, Is.EqualTo(5));
             Assert.That(service.Current.Preferences.Language, Is.EqualTo(LanguagePreference.Spanish));
         }
 
@@ -142,7 +142,7 @@ namespace PequenoExplorador.Tests.EditMode
             Assert.That(service.LastLoadResult.Status, Is.EqualTo(SaveLoadStatus.Migrated));
             Assert.That(service.LastLoadResult.SourceSchemaVersion, Is.Zero);
             Assert.That(service.Current.Stars, Is.EqualTo(9));
-            Assert.That(current.SchemaVersion, Is.EqualTo(4));
+            Assert.That(current.SchemaVersion, Is.EqualTo(5));
             Assert.That(store.Backup, Is.EqualTo(legacy));
         }
 
@@ -188,7 +188,7 @@ namespace PequenoExplorador.Tests.EditMode
             Assert.That(service.Current.Preferences.EffectsVolume, Is.EqualTo(.75f));
             Assert.That(service.Current.Preferences.VoiceVolume, Is.Zero);
             Assert.That(service.Current.Preferences.SubtitlesEnabled, Is.True);
-            Assert.That(serializer.DeserializeEnvelope(store.Primary).SchemaVersion, Is.EqualTo(4));
+            Assert.That(serializer.DeserializeEnvelope(store.Primary).SchemaVersion, Is.EqualTo(5));
         }
 
         [Test]
@@ -225,7 +225,52 @@ namespace PequenoExplorador.Tests.EditMode
             Assert.That(service.Current.Discoveries[0].Count, Is.EqualTo(1));
             Assert.That(service.Current.Discoveries[0].FirstObservedLocalDate, Is.Empty);
             Assert.That(service.Current.ProcessedDiscoveryGrantIds, Is.Empty);
-            Assert.That(serializer.DeserializeEnvelope(store.Primary).SchemaVersion, Is.EqualTo(4));
+            Assert.That(serializer.DeserializeEnvelope(store.Primary).SchemaVersion, Is.EqualTo(5));
+            Assert.That(store.Backup, Is.EqualTo(original));
+        }
+
+        [Test]
+        public async Task SchemaV4MigratesRetiredToucanIdMergesProgressAndNormalizesGrants()
+        {
+            var store = new InMemoryFileStore();
+            var serializer = new UnityJsonSaveSerializer();
+            PlayerProgressV4Dto v4 = PlayerProgressV4Dto.Create(
+                "0.1.0-test",
+                3,
+                new[] { "world.jungle" },
+                new[]
+                {
+                    DiscoveryProgressV4Dto.Create(V4ToV5ToucanDiscoveryMigration.RetiredDiscoveryId, 2, "2026-08-16"),
+                    DiscoveryProgressV4Dto.Create(V4ToV5ToucanDiscoveryMigration.CurrentDiscoveryId, 3, "2026-08-15"),
+                    DiscoveryProgressV4Dto.Create("discovery.jungle.unrelated", 1, string.Empty)
+                },
+                new[]
+                {
+                    "grant.interaction.10." + V4ToV5ToucanDiscoveryMigration.RetiredDiscoveryId,
+                    "grant.interaction.10." + V4ToV5ToucanDiscoveryMigration.CurrentDiscoveryId,
+                    "grant.interaction.11.discovery.jungle.unrelated"
+                },
+                Array.Empty<string>(),
+                PlayerPreferencesV3Dto.Create((int)GuidanceMode.Standard, "es", 1f, .7f, .7f, .8f, .9f, true),
+                SaveMetadataV1Dto.Create(6));
+            string original = serializer.SerializeEnvelope(4, JsonUtility.ToJson(v4, false));
+            store.SeedPrimary(original);
+
+            LocalSaveService service = CreateService(store);
+            await service.InitializeAsync(CancellationToken.None);
+
+            Assert.That(service.LastLoadResult.Status, Is.EqualTo(SaveLoadStatus.Migrated));
+            Assert.That(service.LastLoadResult.SourceSchemaVersion, Is.EqualTo(4));
+            DiscoveryProgress toucan = service.Current.Discoveries.Single(item =>
+                item.Id.Value == V4ToV5ToucanDiscoveryMigration.CurrentDiscoveryId);
+            Assert.That(toucan.Count, Is.EqualTo(5));
+            Assert.That(toucan.FirstObservedLocalDate, Is.EqualTo("2026-08-15"));
+            Assert.That(service.Current.Discoveries.Any(item =>
+                item.Id.Value == V4ToV5ToucanDiscoveryMigration.RetiredDiscoveryId), Is.False);
+            Assert.That(service.Current.ProcessedDiscoveryGrantIds.Count(value => value.EndsWith(
+                V4ToV5ToucanDiscoveryMigration.CurrentDiscoveryId, StringComparison.Ordinal)), Is.EqualTo(1));
+            Assert.That(service.Current.ProcessedDiscoveryGrantIds, Does.Contain("grant.interaction.11.discovery.jungle.unrelated"));
+            Assert.That(serializer.DeserializeEnvelope(store.Primary).SchemaVersion, Is.EqualTo(5));
             Assert.That(store.Backup, Is.EqualTo(original));
         }
 
@@ -343,7 +388,8 @@ namespace PequenoExplorador.Tests.EditMode
                     new LegacyV0ToV1Migration(),
                     new V1ToV2LocalizationMigration(),
                     new V2ToV3AudioMigration(),
-                    new V3ToV4DiscoveryMigration()
+                    new V3ToV4DiscoveryMigration(),
+                    new V4ToV5ToucanDiscoveryMigration()
                 });
         }
 

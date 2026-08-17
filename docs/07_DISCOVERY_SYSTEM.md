@@ -15,7 +15,7 @@ Cada descubrimiento data-driven necesita:
 - recompensa determinista y estado persistente;
 - fallback si el contenido factual o visual no está aprobado.
 
-El contrato técnico base está en [`CONTENT_MODEL.md`](CONTENT_MODEL.md): `DiscoveryDefinitionAsset` se mapea a `DiscoveryDefinition` readonly y se resuelve mediante `DiscoveryId` en O(1). Categorías/tags son IDs extensibles, no enums. Prompt 18 implementa registro directo nuevo/repetido sobre el único `discovery.jungle.placeholder`, neutral, Draft y visible solo en Development; todavía no implementa detección, fotografía ni álbum.
+El contrato técnico base está en [`CONTENT_MODEL.md`](CONTENT_MODEL.md): `DiscoveryDefinitionAsset` se mapea a `DiscoveryDefinition` readonly y se resuelve mediante `DiscoveryId` en O(1). El único contenido adoptado es `discovery.jungle.keel-billed-toucan`, `Approved`, con siete facts y seis fuentes; todavía no implementa detección, fotografía ni álbum.
 
 ## Progresión persistente implementada
 
@@ -32,7 +32,7 @@ El contrato técnico base está en [`CONTENT_MODEL.md`](CONTENT_MODEL.md): `Disc
 
 La clave `grant.*` pertenece al origen semántico (interacción ahora, captura después). Economy, álbum y UI consumirán `DiscoverResult`; Discovery no conoce estrellas, vistas ni archivos de audio. `DiscoveryProgressQueries` calcula descubierto/total por world/category exclusivamente desde definitions `Approved` del catálogo. No hay números de contenido hardcodeados ni porcentaje guardado.
 
-El fixture animal enlaza `interaction.fixture.animal → discovery.jungle.placeholder` mediante authoring. `DiscoveryInteractionAction` es el adapter de Application; planta/objeto siguen usando el núcleo neutral. El feedback ES/EN y contador están limitados al diagnóstico Development. Release continúa bloqueando el discovery/interaction Draft por los validators editoriales.
+El fixture animal enlaza `interaction.jungle.keel-billed-toucan → discovery.jungle.keel-billed-toucan` mediante authoring. `DiscoveryInteractionAction` es el adapter de Application; planta/objeto siguen neutrales. El ID retirado se resuelve por alias y la migración save v4→v5 converge records/grants al ID vigente.
 
 ## Estados
 
@@ -43,7 +43,7 @@ El fixture animal enlaza `interaction.fixture.animal → discovery.jungle.placeh
 - **Explorado:** completó la actividad relacionada o revisó la ficha, según contrato.
 - Los estados no bajan ni expiran; pedir pistas no reduce recompensa.
 
-Estos estados ricos siguen siendo contrato futuro. El schema v4 solo distingue existencia, count, primer día local agregado y grants procesados; no inventa `Detectado/Fotografiado/Explorado` antes de implementar sus reglas.
+Estos estados ricos siguen siendo contrato futuro. El schema v5 solo distingue existencia, count, primer día local agregado y grants procesados; no inventa `Detectado/Fotografiado/Explorado` antes de implementar sus reglas.
 
 ## Fotografía dentro del juego
 
@@ -62,7 +62,7 @@ Estos estados ricos siguen siendo contrato futuro. El schema v4 solo distingue e
 
 ## Vertical Slice
 
-Discovery candidato: **`Ramphastos sulfuratus`**, con expediente [`VS-D-A01`](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md) aprobado por H-007/H-008/H-009 para Product/Localization, visual/rights/QA y revisión factual humana. `Tucán pico canoa` es el nombre elegido para la baseline mexicana y `Tucán pico iris` permanece como variante regional documentada. Development aún registra `discovery.jungle.placeholder`: antes de fotografía deben adoptarse definitions, IDs, aliases/migración y mapping reales. No hay todavía foto, fact runtime nuevo ni recompensa. El nombre científico no se presenta obligatoriamente al niño.
+Discovery adoptado: **`Ramphastos sulfuratus`**, expediente [`VS-D-A01`](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md), nombre `Tucán pico canoa` / `Keel-billed Toucan`. H-007/H-008/H-009 sustentan los assets runtime `Approved`. Conservación permanece excluida y el nombre científico es detalle opcional. No hay todavía foto, álbum ni recompensa.
 
 ## Aceptación del sistema
 
@@ -71,4 +71,4 @@ Discovery candidato: **`Ramphastos sulfuratus`**, con expediente [`VS-D-A01`](VS
 - Ningún hecho llega a estado Release sin `Approved` en [`CONTENT_SOURCES.md`](CONTENT_SOURCES.md).
 - Descubrimiento y recompensa siguen funcionando offline y sin monetización.
 - Repetir una misma grant key no incrementa count ni vuelve a habilitar la recompensa única.
-- Save v3 migra a v4 con count 1 por ID previo, sin inventar fecha o grants históricos.
+- Save v3 migra a v4; v4 migra a v5, reemplaza/mezcla el ID placeholder y normaliza grants exactos sin inventar fecha ni duplicar progreso.

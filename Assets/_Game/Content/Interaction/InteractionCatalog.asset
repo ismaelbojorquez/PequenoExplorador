@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: InteractionCatalog
   m_EditorClassIdentifier: PequenoExplorador.Content::PequenoExplorador.Content.Interaction.InteractionCatalogAsset
   _definitions:
-  - {fileID: 11400000, guid: f1585b02229b2474ebc791d573a73f58, type: 2}
+  - {fileID: 11400000, guid: 213796fd4d5e340e78a7ea3ef6d4ddd6, type: 2}
   - {fileID: 11400000, guid: 45e4ff344fdc744d999e2d022c92f02a, type: 2}
   - {fileID: 11400000, guid: 1c0dc8cad7b38477ca3bd722eb145183, type: 2}

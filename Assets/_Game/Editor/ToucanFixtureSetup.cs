@@ -87,12 +87,12 @@ namespace PequenoExplorador.Editor
             {
                 WorldInteractableView animal = scene.GetRootGameObjects()
                     .SelectMany(item => item.GetComponentsInChildren<WorldInteractableView>(true))
-                    .Single(item => item.RawInteractionId == "interaction.fixture.animal");
+                    .Single(item => item.RawInteractionId == InteractionFoundationSetup.AnimalId);
                 GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(PrefabPath);
                 ToucanReviewFixtureMetadata metadata = animal.GetComponentInChildren<ToucanReviewFixtureMetadata>(true);
                 if (metadata == null || PrefabUtility.GetCorrespondingObjectFromSource(metadata.gameObject) != prefab)
                 {
-                    Transform legacy = animal.transform.Find("PH_FIXTURE_ANIMAL_VISUAL");
+                    Transform legacy = animal.transform.Find("VS_TOUCAN_INTERACTABLE_VISUAL");
                     if (legacy != null) UnityEngine.Object.DestroyImmediate(legacy.gameObject);
                     if (metadata != null) UnityEngine.Object.DestroyImmediate(metadata.gameObject);
                     GameObject instance = (GameObject)PrefabUtility.InstantiatePrefab(prefab, animal.transform);

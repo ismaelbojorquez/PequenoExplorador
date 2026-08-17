@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 91eb5df59e287479aa1ce575efc9f503, type: 3}
-  m_Name: PH_Tag_Jungle
+  m_Name: VS_Tag_Jungle
   m_EditorClassIdentifier: PequenoExplorador.Content::PequenoExplorador.Content.Data.TagDefinitionAsset
-  _id: tag.jungle.placeholder
+  _id: tag.world.jungle
   _editorial:
-    _state: 0
-    _isPlaceholder: 1
-    _owner: Content Design
-    _developmentWatermark: "BORRADOR \xB7 PH_"
+    _state: 3
+    _isPlaceholder: 0
+    _owner: "Ismael Boj\xF3rquez \u2014 Product/Education"
+    _developmentWatermark: 

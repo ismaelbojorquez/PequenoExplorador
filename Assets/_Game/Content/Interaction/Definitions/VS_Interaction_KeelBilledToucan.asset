@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4ebbe0aa0081749b996b9d77ddd70cc4, type: 3}
-  m_Name: PH_Interaction_Animal
+  m_Name: VS_Interaction_KeelBilledToucan
   m_EditorClassIdentifier: PequenoExplorador.Content::PequenoExplorador.Content.Interaction.InteractionDefinitionAsset
-  _id: interaction.fixture.animal
+  _id: interaction.jungle.keel-billed-toucan
   _editorial:
-    _state: 0
-    _isPlaceholder: 1
-    _owner: Content Design
-    _developmentWatermark: "BORRADOR \xB7 PH_"
+    _state: 3
+    _isPlaceholder: 0
+    _owner: "Ismael Boj\xF3rquez \u2014 Product/Education; factual H-009"
+    _developmentWatermark: 
   _displayNameTable: Content
-  _displayNameKey: content.interaction.fixture.animal.name
+  _displayNameKey: content.discovery.keel-billed-toucan.name
   _promptTable: UI
   _promptKey: ui.interaction.action
   _unavailableTable: UI
@@ -29,4 +29,4 @@ MonoBehaviour:
   _interactionRange: 1.35
   _cooldownSeconds: 1.5
   _priority: 70
-  _directDiscoveryId: discovery.jungle.placeholder
+  _directDiscoveryId: discovery.jungle.keel-billed-toucan

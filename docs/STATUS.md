@@ -1,16 +1,16 @@
 # Estado vivo del proyecto
 
-Actualizado: 2026-08-16 22:52 (`America/Mexico_City`). Git, implementación y evidencia ejecutada prevalecen si contradicen este resumen.
+Actualizado: 2026-08-16 23:06 (`America/Mexico_City`). Git, implementación y evidencia ejecutada prevalecen si contradicen este resumen.
 
 ## Fase y Gate
 
-- **Fase implementada más reciente:** Prompt 18 — discovery persistente e idempotente completado y validado.
-- **Preparación editorial H-007/H-008/H-009:** [`VS-D-A01`](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md) con Product/Localization, visual/rights/QA y revisión factual humana aprobados. La competencia factual declarada es investigación/búsqueda ampliada, no credencial ornitológica externa. Discovery/interacción runtime permanecen Draft neutrales.
+- **Fase implementada más reciente:** adopción técnica posterior a Prompt 18 — `VS-D-A01` es el único discovery/interacción animal runtime `Approved`; Prompt 19 aún no está implementado.
+- **Preparación editorial H-007/H-008/H-009:** [`VS-D-A01`](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md) con Product/Localization, visual/rights/QA y revisión factual humana aprobados. La competencia factual declarada es investigación/búsqueda ampliada, no credencial ornitológica externa. Conservación y audio final permanecen fuera del contenido adoptado.
 - **Auditoría actual:** Prompt 30 — [`Gate B`](audits/GATE_B_2026-08-16.md) ejecutado sobre HEAD real; `FAIL` por ausencia estructural de Fases 19–29 y del journey end-to-end.
 - **Gate actual:** B — `FAIL`; no ejecutar Prompt 31 hasta completar y volver a auditar el loop mínimo.
 - **Gate A:** [`audits/GATE_A_2026-08-15.md`](audits/GATE_A_2026-08-15.md) — `PASS`, sin Critical/Major abierto.
-- **Siguiente fase:** adoptar definitions no-`PH_`, IDs/aliases/migración y mapping aprobados; revalidar y después ejecutar Prompt 19. No iniciar fotografía mientras discovery/interacción sigan Draft.
-- **ExecPlan completo:** [`p18b-toucan-review-fixture.md`](../.agent/execplans/p18b-toucan-review-fixture.md), fixture visual previo a Prompt 19.
+- **Siguiente fase:** Prompt 19 — cámara ficticia asistida; no cámara física, compartir ni permisos sensibles.
+- **Último ExecPlan:** [`p18c-adopt-vs-d-a01-runtime.md`](../.agent/execplans/p18c-adopt-vs-d-a01-runtime.md), adopción de IDs/definitions/save completada antes de Prompt 19.
 
 ## Capacidades verificadas
 
@@ -18,23 +18,23 @@ Actualizado: 2026-08-16 22:52 (`America/Mexico_City`). Git, implementación y ev
 |---|---|---|
 | Git/producto/contrato | Verificado | Fases 00–06 auditadas; visión/GDD/MVP Selva y AGENTS canónicos. Cada preflight debe volver a contrastarlos. |
 | Unity y assemblies | `PASS` | Unity `6000.3.22f1`, URP, nueve asmdefs, grafo acíclico; Domain/Application sin engine. |
-| Pipeline local | `PASS` | `scripts/validate` final código `0`: checks, compile/validadores, Addressables, EditMode `106/106`, PlayMode `18/18` y APK Development. |
+| Pipeline local | `PASS` | `scripts/validate` código `0` en `4:31.06`: checks, compile/validadores, Addressables, EditMode `107/107`, PlayMode `18/18` y APK Development. |
 | Bootstrap/servicios | `PASS` | MessageBus→Input→SafeArea→Haptics→Save→Localization→Audio→Analytics→Ads→Purchases; shutdown inverso y perfiles fail-closed. |
 | Scene flow / Addressables | `PASS` | `4.0.1`; Boot→Camp↔Selva por `WorldManifest`, tres ciclos, sesión/handles controlados, 41 locations/896,909 bytes; sin endpoint/catálogo remoto. |
-| Save local | `PASS` automatizado; dispositivo `NOT RUN` | Schema v4, JSON builtin, SHA-256, atomicidad/backup, v0→v1→v2→v3→v4, future read-only, discovery records/grants y preferencias; sin PII/red. |
+| Save local | `PASS` automatizado; dispositivo `NOT RUN` | Schema v5, JSON builtin, SHA-256, atomicidad/backup, v0→…→v5, future read-only; v4→v5 migra/mezcla el ID retirado del tucán y normaliza grants sin duplicarlos; sin PII/red. |
 | Config runtime | `PASS` | Development/Release tipados, cero flags Release, sin remote config ni secretos. |
-| Localización | `PASS` local | Localization `1.5.12`; 43 keys, ES/EN completos, pseudo Development, feedback discovery, cinco slots Voice y tres subtítulos/cues localizados. |
+| Localización | `PASS` local | Localization `1.5.12`; ES/EN completos, pseudo Development y ocho keys nuevas aprobadas para nombre/claims del tucán; audio final sigue pendiente. |
 | Audio | `PASS` estructural; final/hardware `NOT RUN` | Audio builtin `1.0.0`; 5 buses, 7 cues, 7 sources, 10 WAV `PH_` mono/48 kHz, queue/cooldown/ducking/replay/pause. `releaseFinal=0`. |
 | Input/adaptación | `PASS` automatizado; hardware `NOT RUN` | Input System `1.20.0`; 5 mapas, safe area central, Back+checkpoint, no-op haptics, ratios 4:3/16:9/20:9/16:10 y supresión multitouch. Android físico requerido antes de Gate C. |
 | Locomoción candidata | `PASS` automatizado; UX/hardware pendiente | AI Navigation `2.0.9`; tap válido/inválido, spam, UI/Photography, cancelación, reduce-motion, camera bounds, unload y Selva x3. Sin joystick/root motion; P-006 sigue abierto. |
-| Interacción contextual | `PASS` automatizado; hardware pendiente | Foco único, selección prioridad/distancia/ID, auto-approach, prompt safe-area ES/EN, cooldown y tres fixtures genéricos `PH_`; animal aporta discovery directo por datos. Touch Android `NOT RUN`. |
-| Discovery progression | `PASS` automatizado; contenido final bloqueado | First/repeat/already/missing/unapproved, count/día local agregado, grants idempotentes, denominadores Approved y persistencia reload. Fixture neutral sigue Draft Development; no hay reward/economía/foto/álbum. |
-| Contenido data-driven | Development `PASS`; Release `BLOCKED` | Un discovery neutral Draft resuelve por `DiscoveryId` en catálogo O(1); IDs/referencias/aliases/editorial generan reports. Release devuelve `DATA025` por cinco assets Draft. |
-| Expediente factual VS-D-A01 | Human review `APPROVED`; adopción técnica pendiente | H-007/H-008/H-009 cubren claims/copy, nombres, asset visual/rights/QA y revisión factual humana. Conservación excluida. El revisor declaró investigación/búsqueda ampliada; no se presenta como ornitólogo acreditado. |
-| Visual tucán VS-D-A01 | `APPROVED`; catálogo runtime pendiente | `visual.discovery.jungle.keel-billed-toucan`, prefab/materiales propios, ledger+hashes, 16 meshes/renderers, 7 materiales y seis renders revisados. `TOUCAN019` queda resuelto; `DATA025` seguirá hasta reemplazar/adoptar definitions `PH_`. |
+| Interacción contextual | `PASS` automatizado; hardware pendiente | Foco único, auto-approach y prompt ES/EN; `interaction.jungle.keel-billed-toucan` es Approved y planta/objeto continúan `PH_`. Touch Android `NOT RUN`. |
+| Discovery progression | `PASS` automatizado | First/repeat/already, count/día agregado y grants idempotentes operan sobre `discovery.jungle.keel-billed-toucan`; alias y save v5 preservan el placeholder retirado. No hay reward/economía/foto/álbum. |
+| Contenido data-driven | Tucán Release `PASS`; proyecto Release `BLOCKED` | Catálogo O(1) contiene 1 discovery, 7 facts y 6 fuentes Approved; alias `discovery.jungle.placeholder → discovery.jungle.keel-billed-toucan`. Planta/objeto, mundo y audio final siguen bloqueando Release. |
+| Expediente factual VS-D-A01 | Runtime `APPROVED` | H-007/H-008/H-009 cubren claims/copy, nombres, visual/rights/QA y revisión factual humana. Conservación excluida; no se atribuye credencial ornitológica externa. |
+| Visual tucán VS-D-A01 | Runtime `APPROVED` | `visual.discovery.jungle.keel-billed-toucan`, prefab/materiales propios y ledger; discovery/interacción reales lo referencian sin `PH_`. |
 | Mundos data-driven | Development `PASS`; Release `BLOCKED` | `world.jungle` compila desde manifest con escena/labels/spawn/checkpoint/catálogos/cues/version/tamaño. Fixture `world.test-ocean` prueba expansión sin switch; Release devuelve `WORLD018` por Draft/PH_. |
-| Tests Unity | `PASS` | EditMode `106/106`; PlayMode `18/18`. Añade tres tests del fixture/generator/Release y conserva interacción, discovery, save y tres ciclos Selva. |
-| Android | Development `PASS`; Release `BLOCKED` | APK ES `105,937,888` bytes, SHA-256 `974ffbafc807947cbed6e42a2f1db6d48f570d32ad317b9239f53b9f20e99465`, `16.724 s` Unity, API 26/36 e IL2CPP/ARM64. Manifest final: `INTERNET` heredado + permiso interno receiver; sin `CAMERA`, micrófono, ubicación, contactos ni `AD_ID`. Release termina `2` por cinco `DATA025` y `WORLD018`; no emite `TOUCAN019`. |
+| Tests Unity | `PASS` | EditMode `107/107`; PlayMode `18/18`. Incluye catálogo Approved/alias y migración v4→v5 con merge/grants. |
+| Android | Development `PASS`; Release `BLOCKED` | APK ES `105,983,639` bytes, SHA-256 `54876d08ce3de1b15b12f628471a23b17139f064dbdfdd92d278ca0bb333fdf9`, `190.013 s` Unity, API 26/36, IL2CPP/ARM64. Manifest: solo `INTERNET` heredado + permiso interno receiver; sin `CAMERA`, micrófono, ubicación, contactos ni `AD_ID`. Release ejecutado: exit `2` esperado por planta/objeto `INTERACTION005`, mundo `WORLD018` y signing; cero `DATA025`/`TOUCAN` para VS-D-A01. |
 | iOS/CI remota | `NOT RUN` | Sin Xcode/módulo iOS local. `origin` existe, pero runner/licencia/checks remotos no se ejecutaron; no hubo push. |
 | Paquetes | Verificado | AI Navigation `2.0.9`, Audio builtin `1.0.0`, Localization `1.5.12`, AndroidJNI `1.0.0`, Addressables `4.0.1`; exactos, sin preview/SDK comercial. |
 | Gameplay/assets finales | Locomoción + interacción + discovery directo `PH_` | No existen fotografía/álbum/economía ni assets finales. Camp/Jungle/UI/audio/personaje/fixtures son placeholders; prohibido escalar contenido antes del Vertical Slice. |
@@ -54,13 +54,13 @@ Actualizado: 2026-08-16 22:52 (`America/Mexico_City`). Git, implementación y ev
 - Signing, bundle/company definitivos, AAB/store, licencia/titularidad del producto y aprobación factual/comercial continúan humanos; el build Release permanece fail-closed.
 - Xcode/iOS y CI Unity remota no están disponibles/verificados. No publicar, hacer push ni aceptar términos.
 - Validación ornitológica externa independiente, traducción final, protocolo de playtests con menores, territorios y modelo comercial siguen pendientes; la primera no bloquea el Vertical Slice bajo la aprobación humana H-009, pero sí es mitigación recomendada antes de Release.
-- Los cinco assets de contenido y el manifest Selva son Draft `PH_`: fuente/revisor, fact copy, arte/audio final y aprobación por item bloquean Release; los reports Development no los convierten en contenido aprobado.
-- Save v4 persiste grants sin compactación; medir crecimiento al añadir orígenes/catálogo real. IDs retirados se preservan y no cuentan en denominadores; alias/migración siguen obligatorios al renombrar contenido publicado.
+- El tucán runtime ya no es placeholder. Manifest Selva, planta/objeto y audio final continúan Draft/`PH_`; no aprobarlos por arrastre.
+- Save v5 persiste grants sin compactación; medir crecimiento. La migración v4→v5 es específica y todo retiro futuro sigue exigiendo alias + migración.
 - Tap-to-move/cámara necesitan playtest comparativo P-006; reduce-motion existe runtime pero todavía no está conectado a preferencia adulta/Save.
 - Las tres interacciones y su UI son `PH_` Draft: no son contenido final; el animal concede solo discovery neutral Development. Target size, overlap, approach, audio y cancelación necesitan Android físico/playtest infantil antes de Gate C.
-- Prompt 19 exige un animal fixture Approved. El visual ya cubre H-007/H-008/H-009, pero discovery/interacción siguen neutrales Draft; falta adoptar states/IDs/aliases/migración antes de fotografía.
+- Prompt 19 ya tiene animal/discovery/interacción/facts Approved y migrados. Conservación, audio final y publicación no quedan autorizados por ello.
 - El APK final mide `25,011,428` bytes más que Prompt 17; la mayor parte visible está en binarios nativos comprimidos. No se atribuye causalidad a Discovery sin profiling; investigar reproducibilidad/strip/budget antes de Gate C.
 
 ## Reanudación inmediata
 
-Crear/adoptar definitions reales para [`VS-D-A01`](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md), localización y mapping `interaction.jungle.keel-billed-toucan → discovery.jungle.keel-billed-toucan`; añadir aliases/migración desde el placeholder persistible, revalidar y solo entonces ejecutar Prompt 19. No aprobar otros Draft por arrastre, introducir contenido masivo, cámara física/permisos, segundo mundo, remote, signing, push o publicación.
+Ejecutar Prompt 19 sobre `interaction.jungle.keel-billed-toucan → discovery.jungle.keel-billed-toucan`, usando el alias/save v5 ya validados. No aprobar otros Draft por arrastre, introducir contenido masivo, cámara física/permisos, segundo mundo, remote, signing, push o publicación.

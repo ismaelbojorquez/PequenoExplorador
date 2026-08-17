@@ -12,7 +12,7 @@ namespace PequenoExplorador.Tests.PlayMode
     public sealed class ContentCatalogPlayModeTests
     {
         [UnityTest]
-        public IEnumerator BootstrapResolvesNeutralDraftDiscoveryWithoutAssetDatabase()
+        public IEnumerator BootstrapResolvesApprovedToucanAndRetiredAliasWithoutAssetDatabase()
         {
             SceneManager.LoadScene("Bootstrap", LoadSceneMode.Single);
             float deadline = Time.realtimeSinceStartup + 20f;
@@ -25,8 +25,10 @@ namespace PequenoExplorador.Tests.PlayMode
             }
             Assert.That(bootstrap, Is.Not.Null);
             Assert.That(bootstrap.State, Is.EqualTo(ApplicationState.Ready));
-            Assert.That(bootstrap.Content.TryGetDiscovery(DiscoveryId.Parse("discovery.jungle.placeholder"), out var discovery), Is.True);
-            Assert.That(discovery.DevelopmentWatermark, Does.Contain("PH_"));
+            Assert.That(bootstrap.Content.TryGetDiscovery(DiscoveryId.Parse("discovery.jungle.keel-billed-toucan"), out var discovery), Is.True);
+            Assert.That(discovery.Editorial.IsReleaseApproved, Is.True);
+            Assert.That(bootstrap.Content.TryResolveDiscovery(DiscoveryId.Parse("discovery.jungle.placeholder"), out var aliased), Is.True);
+            Assert.That(aliased.Id, Is.EqualTo(discovery.Id));
         }
     }
 }

@@ -49,6 +49,7 @@ namespace PequenoExplorador.Application.Localization
         public static readonly LocalizedKey WorldCampPlaceholder = new LocalizedKey(ContentTable, "content.world.camp.placeholder");
         public static readonly LocalizedKey WorldJunglePlaceholder = new LocalizedKey(ContentTable, "content.world.jungle.placeholder");
         public static readonly LocalizedKey DiscoveryPlaceholderName = new LocalizedKey(ContentTable, "content.discovery.placeholder.name");
+        public static readonly LocalizedKey KeelBilledToucanName = new LocalizedKey(ContentTable, "content.discovery.keel-billed-toucan.name");
         public static readonly LocalizedKey InteractionAnimalPlaceholderName = new LocalizedKey(ContentTable, "content.interaction.fixture.animal.name");
         public static readonly LocalizedKey InteractionPlantPlaceholderName = new LocalizedKey(ContentTable, "content.interaction.fixture.plant.name");
         public static readonly LocalizedKey InteractionObjectPlaceholderName = new LocalizedKey(ContentTable, "content.interaction.fixture.object.name");

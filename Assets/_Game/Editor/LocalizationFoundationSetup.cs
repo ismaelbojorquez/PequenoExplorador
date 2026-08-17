@@ -82,6 +82,18 @@ namespace PequenoExplorador.Editor
             }
         }
 
+        public static void ApplyApprovedContentEntries()
+        {
+            LocalizationSettings settings = AssetDatabase.LoadAssetAtPath<LocalizationSettings>(SettingsPath);
+            Locale spanish = AssetDatabase.LoadAssetAtPath<Locale>(SpanishLocalePath);
+            Locale english = AssetDatabase.LoadAssetAtPath<Locale>(EnglishLocalePath);
+            if (settings == null || spanish == null || english == null)
+                throw new InvalidOperationException("Localization foundation must exist before adopting approved content.");
+            LocalizationEditorSettings.ActiveLocalizationSettings = settings;
+            UpsertStringCollection(LocalizationKeys.ContentTable, new[] { spanish, english }, ContentEntries);
+            AssetDatabase.SaveAssets();
+        }
+
         private static readonly Entry[] SharedEntries =
         {
             new Entry("shared.product.name", "Pequeño Explorador: Aprende Jugando", "Little Explorer: Learning Through Play"),
@@ -131,6 +143,14 @@ namespace PequenoExplorador.Editor
             new Entry("content.world.camp.placeholder", "Campamento · PLACEHOLDER", "Camp · PLACEHOLDER"),
             new Entry("content.world.jungle.placeholder", "Expedición Selva · PLACEHOLDER", "Jungle Expedition · PLACEHOLDER"),
             new Entry("content.discovery.placeholder.name", "Descubrimiento de prueba", "Test discovery"),
+            new Entry("content.discovery.keel-billed-toucan.name", "Tucán pico canoa", "Keel-billed Toucan"),
+            new Entry("content.fact.keel-billed-toucan.identity", "Este tucán es un Ramphastos sulfuratus.", "This toucan is Ramphastos sulfuratus."),
+            new Entry("content.fact.keel-billed-toucan.common-name", "Tucán pico canoa.", "Keel-billed Toucan."),
+            new Entry("content.fact.keel-billed-toucan.range", "Vive desde el sur de México, a través de Centroamérica, hasta una parte del norte de Sudamérica.", "It lives from southern Mexico through Central America to part of northern South America."),
+            new Entry("content.fact.keel-billed-toucan.habitat", "Vive entre los árboles de selvas cálidas y bosques que están creciendo de nuevo.", "It lives among the trees of warm forests, including forests that are growing back."),
+            new Entry("content.fact.keel-billed-toucan.diet", "Come sobre todo frutas.", "It mostly eats fruit."),
+            new Entry("content.fact.keel-billed-toucan.bill", "Su pico grande tiene varios colores: verde, naranja, rojo y azul.", "Its large bill has several colors: green, orange, red, and blue."),
+            new Entry("content.fact.keel-billed-toucan.voice", "Su llamado se parece a un croar que se repite.", "Its call sounds like a repeated croak."),
             new Entry("content.audio.instruction.explore", "Mira a tu alrededor. ¿Qué descubrimos?", "Look around. What can we discover?"),
             new Entry("content.audio.name.jungle", "Selva", "Jungle"),
             new Entry("content.audio.narration.welcome", "Vamos a explorar con calma.", "Let’s explore at our own pace.")

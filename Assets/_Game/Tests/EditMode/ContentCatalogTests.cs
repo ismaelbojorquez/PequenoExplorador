@@ -20,8 +20,8 @@ namespace PequenoExplorador.Tests.EditMode
         [Test]
         public void TypedIdsParseCompareAndRejectWrongNamespaces()
         {
-            DiscoveryId first = DiscoveryId.Parse("discovery.jungle.placeholder");
-            DiscoveryId second = DiscoveryId.Parse("discovery.jungle.placeholder");
+            DiscoveryId first = DiscoveryId.Parse(ContentFoundationSetup.DiscoveryId);
+            DiscoveryId second = DiscoveryId.Parse(ContentFoundationSetup.DiscoveryId);
             Assert.That(first, Is.EqualTo(second));
             Assert.That(first.GetHashCode(), Is.EqualTo(second.GetHashCode()));
             Assert.That(DiscoveryId.TryParse("category.jungle.placeholder", out _), Is.False);
@@ -30,19 +30,23 @@ namespace PequenoExplorador.Tests.EditMode
         }
 
         [Test]
-        public void CanonicalDraftMapsAndResolvesByStableIdWithWatermark()
+        public void CanonicalApprovedToucanMapsAndRetiredIdResolvesByAlias()
         {
             ContentCatalogAsset asset = AssetDatabase.LoadAssetAtPath<ContentCatalogAsset>(ContentFoundationSetup.CatalogPath);
             Assert.That(asset, Is.Not.Null);
             Assert.That(asset.TryBuildRuntimeCatalog(ContentValidationMode.Development, out ContentCatalog catalog, out var errors), Is.True, string.Join("\n", errors));
-            Assert.That(catalog.TryGetDiscovery(DiscoveryId.Parse("discovery.jungle.placeholder"), out DiscoveryDefinition discovery), Is.True);
-            Assert.That(discovery.Editorial.State, Is.EqualTo(EditorialState.Draft));
-            Assert.That(discovery.DevelopmentWatermark, Does.Contain("BORRADOR"));
-            Assert.That(discovery.DisplayName, Is.EqualTo(LocalizationKeys.DiscoveryPlaceholderName));
+            Assert.That(catalog.TryGetDiscovery(DiscoveryId.Parse(ContentFoundationSetup.DiscoveryId), out DiscoveryDefinition discovery), Is.True);
+            Assert.That(discovery.Editorial.State, Is.EqualTo(EditorialState.Approved));
+            Assert.That(discovery.Editorial.IsPlaceholder, Is.False);
+            Assert.That(discovery.DisplayName, Is.EqualTo(LocalizationKeys.KeelBilledToucanName));
+            Assert.That(catalog.TryResolveDiscovery(DiscoveryId.Parse(ContentFoundationSetup.RetiredDiscoveryId), out DiscoveryDefinition aliased), Is.True);
+            Assert.That(aliased.Id, Is.EqualTo(discovery.Id));
             Assert.That(catalog.TryGetCategory(discovery.CategoryId, out _), Is.True);
             Assert.That(catalog.TryGetTag(discovery.TagIds.Single(), out _), Is.True);
-            Assert.That(catalog.TryGetFact(discovery.FactIds.Single(), out EducationalFactDefinition fact), Is.True);
-            Assert.That(catalog.TryGetSource(fact.SourceIds.Single(), out _), Is.True);
+            Assert.That(discovery.FactIds, Has.Count.EqualTo(7));
+            Assert.That(catalog.TryGetFact(discovery.FactIds.First(), out EducationalFactDefinition fact), Is.True);
+            Assert.That(fact.SourceIds, Is.Not.Empty);
+            Assert.That(catalog.TryGetSource(fact.SourceIds.First(), out _), Is.True);
         }
 
         [Test]
@@ -65,7 +69,7 @@ namespace PequenoExplorador.Tests.EditMode
             DiscoveryDefinitionAsset discovery = original.Discoveries.Single();
             SetObjectArray(new SerializedObject(duplicateCatalog), "_discoveries", discovery, discovery);
             Assert.That(ContentCatalogCompiler.TryCompile(duplicateCatalog, ContentValidationMode.Development, new AcceptAllResolver(), out _, out var duplicateErrors), Is.False);
-            Assert.That(duplicateErrors.Any(error => error.Contains("DATA011") && error.Contains("discovery.jungle.placeholder")), Is.True);
+            Assert.That(duplicateErrors.Any(error => error.Contains("DATA011") && error.Contains(ContentFoundationSetup.DiscoveryId)), Is.True);
 
             DiscoveryDefinitionAsset missingCategory = Object.Instantiate(discovery);
             var discoverySerialized = new SerializedObject(missingCategory);
@@ -96,12 +100,13 @@ namespace PequenoExplorador.Tests.EditMode
         public void SourcedRecordWithoutTraceabilityIsRejected()
         {
             ContentCatalogAsset original = AssetDatabase.LoadAssetAtPath<ContentCatalogAsset>(ContentFoundationSetup.CatalogPath);
-            ContentSourceRecordAsset source = Object.Instantiate(original.Sources.Single());
+            ContentSourceRecordAsset source = Object.Instantiate(original.Sources.First());
             var sourceSerialized = new SerializedObject(source);
             SerializedProperty editorial = sourceSerialized.FindProperty("_editorial");
             editorial.FindPropertyRelative("_state").enumValueIndex = (int)EditorialState.Approved;
             editorial.FindPropertyRelative("_isPlaceholder").boolValue = false;
             editorial.FindPropertyRelative("_developmentWatermark").stringValue = string.Empty;
+            sourceSerialized.FindProperty("_institution").stringValue = string.Empty;
             sourceSerialized.ApplyModifiedPropertiesWithoutUndo();
             ContentCatalogAsset catalog = Object.Instantiate(original);
             SetObjectArray(new SerializedObject(catalog), "_sources", source);
@@ -112,14 +117,14 @@ namespace PequenoExplorador.Tests.EditMode
         }
 
         [Test]
-        public void ReleaseRejectsDraftAndDevelopmentReportIsWritten()
+        public void CanonicalToucanPassesReleaseAndDevelopmentValidation()
         {
             var releaseErrors = ContentCatalogValidationService.Validate(ContentValidationMode.Release, writeReports: true);
-            Assert.That(releaseErrors.Any(error => error.Contains("DATA025") && error.Contains("Assets/_Game/Content/Data/Definitions")), Is.True);
+            Assert.That(releaseErrors, Is.Empty);
             var developmentErrors = ContentCatalogValidationService.Validate(ContentValidationMode.Development, writeReports: true);
             Assert.That(developmentErrors, Is.Empty);
             Assert.That(File.Exists("artifacts/reports/content-catalog-development.json"), Is.True);
-            Assert.That(File.ReadAllText("artifacts/reports/content-catalog-release.md"), Does.Contain("`FAIL`"));
+            Assert.That(File.ReadAllText("artifacts/reports/content-catalog-release.md"), Does.Contain("`PASS`"));
         }
 
         [Test]

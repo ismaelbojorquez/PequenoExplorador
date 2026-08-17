@@ -22,7 +22,7 @@ Bootstrap: Save → Localization → Presentation
 Presentation: resuelve keys y refresca al evento LocaleChanged
 ```
 
-Domain no contiene copy localizada ni referencia Unity. `LocalizedKey` identifica `Table + Entry`; no usa el español como key. Bootstrap inicializa Save antes de Localization y Audio después de Localization. Cambiar `es`/`en` guarda mediante `ISaveService` schema v4, refresca vistas/subtítulos y selecciona el clip de voz correspondiente sin reinicio. Si el guardado falla, el servicio revierte el locale visible.
+Domain no contiene copy localizada ni referencia Unity. `LocalizedKey` identifica `Table + Entry`; no usa el español como key. Bootstrap inicializa Save antes de Localization y Audio después. Cambiar `es`/`en` guarda mediante `ISaveService` schema v5 y refresca vistas/subtítulos sin reinicio. Si el guardado falla, el servicio revierte el locale visible.
 
 Español (`es`) es locale de proyecto, startup y fallback humano. Inglés (`en`) es una baseline no vacía. `qps-ploc` expande español solo en Development, nunca se persiste y Release lo rechaza. No se consulta idioma del sistema, red, catálogo remoto ni backend.
 
@@ -62,6 +62,6 @@ Export: menú `Pequeño Explorador/Development/Localization/Export CSV to artifa
 
 ## Aceptación y límites
 
-EditMode prueba resolución, Smart Strings/plurales, persistencia schema v4, fallback Development/Release, keys de subtítulo/discovery y pseudo no persistible. PlayMode cambia ES→EN→pseudo→ES sin reinicio, verifica expansión/layout y selecciona cue EN. APK ES/EN demuestra compilación IL2CPP/ARM64 y contenido local; reproducción en dispositivo físico permanece `NOT RUN` cuando `adb` no lista hardware.
+EditMode prueba resolución, Smart Strings/plurales, persistencia schema v5, fallback Development/Release, keys de subtítulo/discovery/facts y pseudo no persistible. PlayMode cambia ES→EN→pseudo→ES sin reinicio. APK ES/EN demuestra IL2CPP/ARM64; dispositivo físico permanece `NOT RUN` cuando `adb` no lista hardware.
 
 El selector runtime actual es diagnóstico Development. El futuro selector parental deberá vivir tras el flujo adulto, conservar estas mismas preferencias y pasar Child UX/política; no se implementó ese flujo aquí. Traducción masiva, revisión lingüística humana, narraciones y assets localizados finales siguen pendientes.

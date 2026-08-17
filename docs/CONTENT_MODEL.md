@@ -1,6 +1,6 @@
 # Modelo data-driven de contenido
 
-Contrato canónico de Prompt 14, ampliado por Prompt 15 con manifests de mundo, Prompt 17 con authoring de interacción y Prompt 18 con progresión discovery. El único discovery runtime, el único mundo y las tres interacciones versionadas son neutrales, `Draft` y placeholder; todavía no representan contenido factual final. El visual del tucán es un asset `Approved` separado; sus definitions reales siguen pendientes de adopción.
+Contrato canónico de Prompt 14, ampliado por Prompt 15–18 y la adopción técnica de `VS-D-A01`. El único discovery animal runtime, sus siete facts, seis fuentes, categoría/tag e interacción son `Approved`; mundo, planta, objeto y audio final permanecen Draft/placeholder.
 
 ## Flujo y autoridades
 
@@ -19,23 +19,23 @@ IDs usan minúsculas ASCII, dígitos, puntos y guiones; el primer segmento fija 
 
 | Tipo | Forma | Ejemplo baseline |
 |---|---|---|
-| Discovery | `discovery.<mundo>.<slug>` | `discovery.jungle.placeholder` |
-| Category | `category.<dominio>.<slug>` | `category.nature.placeholder` |
-| Tag | `tag.<dominio>.<slug>` | `tag.jungle.placeholder` |
-| Fact | `fact.<dominio>.<slug>` | `fact.jungle.placeholder.pending` |
-| Source | `source.<owner>.<slug>` | `source.pending.human-review` |
+| Discovery | `discovery.<mundo>.<slug>` | `discovery.jungle.keel-billed-toucan` |
+| Category | `category.<dominio>.<slug>` | `category.discovery.animals` |
+| Tag | `tag.<dominio>.<slug>` | `tag.world.jungle` |
+| Fact | `fact.<dominio>.<slug>` | `fact.jungle.keel-billed-toucan.diet` |
+| Source | `source.<owner>.<slug>` | `source.conabio.ramphastos-sulfuratus-2025` |
 | World | `world.<slug>` | `world.jungle` |
 | Scene/catalog/spawn/checkpoint/requirement | `scene/*`, `catalog.*`, `spawn.*`, `checkpoint.*`, `requirement.*` | Contrato del manifest Selva |
 | Mission/activity/reward | `mission.*` / `activity.*` / `reward.*` | Solo contratos; sin instancias runtime |
-| Visual | `visual.<owner>.<slug>` | `visual.discovery.jungle.placeholder` |
-| Interaction | `interaction.<owner>.<slug>` | `interaction.fixture.animal` |
-| Discovery grant | `grant.<origen>.<slug>` | `grant.interaction.<ticks>.discovery.jungle.placeholder` |
+| Visual | `visual.<owner>.<slug>` | `visual.discovery.jungle.keel-billed-toucan` |
+| Interaction | `interaction.<owner>.<slug>` | `interaction.jungle.keel-billed-toucan` |
+| Discovery grant | `grant.<origen>.<slug>` | `grant.interaction.<ticks>.discovery.jungle.keel-billed-toucan` |
 
-`visual.discovery.jungle.keel-billed-toucan` es el primer ID visual concreto. Los IDs futuros `discovery.jungle.keel-billed-toucan` e `interaction.jungle.keel-billed-toucan` permanecen reservados: el mapping Development conserva `interaction.fixture.animal → discovery.jungle.placeholder` hasta migración y gates humanos.
+El mapping vigente es `interaction.jungle.keel-billed-toucan → discovery.jungle.keel-billed-toucan`. El alias `discovery.jungle.placeholder → discovery.jungle.keel-billed-toucan` resuelve referencias retiradas y save v5 normaliza progreso/grants v4.
 
 ## Candidato visual reproducible
 
-`ToucanReviewFixtureMetadata` vive en Content y declara identidad, autoría, estado `Approved`, aprobaciones visual/factual, bounds y referencias técnicas readonly. `ToucanFixtureSetup` compila primitives/materiales a un prefab determinista y lo conecta como hijo visual del interactable neutral; Application no conoce especie, path, prefab ni GameObject. El ledger JSON es la fuente de provenance. `H-008-IB-2026-08-16` cierra asset-specific y `H-009-IB-2026-08-16` la revisión factual humana; `ToucanFixtureValidationService` exige ambas. El catálogo general sigue bloqueado por definitions `PH_`, no por `TOUCAN019`.
+`ToucanReviewFixtureMetadata` declara identidad, autoría, estado `Approved`, aprobaciones visual/factual, bounds y referencias readonly. `ToucanFixtureSetup` conecta el prefab propio al interactable real; Application no conoce especie, path, prefab ni GameObject. `H-008`/`H-009` son exigidas por validator. Las definitions neutrales retiradas fueron eliminadas del catálogo y reemplazadas por assets `VS_`.
 
 Category/world/tag no son enums cerrados. El botón explícito `Generate stable ID if empty` crea un ID solo cuando el campo está vacío; nunca sobrescribe. Retirar un Discovery ID exige alias `previous → current` en el catálogo y migración de save cuando el ID ya se haya publicado. Un alias no puede colisionar con un ID vigente ni apuntar fuera del catálogo.
 
@@ -58,7 +58,7 @@ El catálogo de contenido mantiene diccionarios privados O(1) para category, tag
 
 `Draft → Sourced → Reviewed → Approved`; `Rejected` sale del catálogo. Development acepta Draft/placeholder solo con owner y watermark `BORRADOR · PH_`. Release acepta exclusivamente `Approved` y `isPlaceholder=false`; cada asset se valida por separado. Approved no concede licencia ni sustituye `ReleaseLocked` humano de [`CONTENT_SOURCES.md`](CONTENT_SOURCES.md).
 
-El ejemplo neutral usa la key `content.discovery.placeholder.name`, el cue no factual `audio.feedback.confirm` y metadata JSON propia como visual técnico. No afirma especie, conducta o rasgo. El candidato `Ramphastos sulfuratus` tiene un [expediente humano aprobado](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md), pero sus IDs del dossier siguen reservados hasta crear definitions, localización, aliases/migración y mapping verificable.
+`VS-D-A01` usa keys namespaced ES/EN y el cue no factual `audio.feedback.confirm` como confirmación temporal, no como voz de nombre. Conservación no se materializa como fact runtime. Audio específico continúa pendiente y no invalida el fallback silencioso.
 
 ## Validación y reportes
 
@@ -71,4 +71,4 @@ Se detectan: ID inválido/duplicado, alias inválido, referencia de catálogo au
 
 Para agregar un placeholder: crear definitions/metadata, asignar referencias, añadirlo al único `ContentCatalogAsset`, ejecutar validator y tests. No se modifica `ContentCatalog`, Bootstrap, un switch central ni sistemas de gameplay. Producir catálogo masivo continúa bloqueado por Gate B y P-008.
 
-Las interacciones usan un catálogo separado compilado una vez y el mismo `WorldInteractableView`, sin enums animal/planta/objeto. El enlace opcional a `DiscoveryId` se resuelve por datos; el adapter llama `DiscoverUseCase` y no cambia selección, detector o locomoción. Progress/count/grants viven en Save v4, no en ScriptableObjects ni catálogo.
+Las interacciones usan un catálogo separado compilado una vez y el mismo `WorldInteractableView`, sin enums animal/planta/objeto. El enlace opcional a `DiscoveryId` se resuelve por datos; el adapter llama `DiscoverUseCase` y no cambia selección, detector o locomoción. Progress/count/grants viven en Save v5, no en ScriptableObjects ni catálogo.

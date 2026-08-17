@@ -1,6 +1,6 @@
 # Índice documental
 
-Estado: foundation, scene flow local, persistencia schema v4, localización/audio/input, catálogo data-driven Draft, manifest Selva, locomoción, interacción y discovery directo `PH_` disponibles; todavía no existen fotografía, álbum/economía ni contenido final. Empezar siempre por [`../AGENTS.md`](../AGENTS.md) y [`STATUS.md`](STATUS.md).
+Estado: foundation, scene flow local, persistencia schema v5, localización/audio/input, `VS-D-A01` runtime Approved, manifest Selva, locomoción, interacción y discovery directo disponibles; todavía no existen fotografía, álbum/economía ni contenido masivo. Empezar siempre por [`../AGENTS.md`](../AGENTS.md) y [`STATUS.md`](STATUS.md).
 
 ## Fuentes de verdad
 
@@ -11,7 +11,7 @@ Estado: foundation, scene flow local, persistencia schema v4, localización/audi
 | Cantidades/prioridad | [`MVP_SCOPE.md`](MVP_SCOPE.md) | Única fuente para Vertical Slice, MVP, post-MVP y MoSCoW. |
 | Secuencia de trabajo | [`ROADMAP.md`](ROADMAP.md) | Único orden de Gates A–F y Fases 00–57. |
 | Hechos educativos | [`CONTENT_SOURCES.md`](CONTENT_SOURCES.md) | Ningún claim llega a Release sin trazabilidad y aprobación humana. |
-| Expediente factual del slice | [`VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md`](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md) | Claims Sourced del único animal; firmas humanas y assets Approved siguen bloqueados. |
+| Expediente factual del slice | [`VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md`](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md) | Claims/firmas del único animal runtime Approved; conservación/audio final/publicación siguen excluidos. |
 | Contenido runtime | [`CONTENT_PIPELINE.md`](CONTENT_PIPELINE.md) | Define grupos/perfiles locales, ownership y prohibición de remoto. |
 | Modelo de datos | [`CONTENT_MODEL.md`](CONTENT_MODEL.md) | IDs tipados, definitions, authoring, catálogo, aliases y gate editorial. |
 | Persistencia | [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md) | Schema, archivos, migración, atomicidad, privacidad y recovery. |
@@ -55,7 +55,7 @@ Los saltos numéricos reservan espacio para documentos técnicos futuros; no imp
 - [`DEPENDENCY_REGISTER.md`](DEPENDENCY_REGISTER.md): intake y pins de paquetes directos/transitivos.
 - [`CONTENT_PIPELINE.md`](CONTENT_PIPELINE.md): Addressables local, addresses/labels, ownership, build y evolución.
 - [`CONTENT_MODEL.md`](CONTENT_MODEL.md): catálogo O(1), ScriptableObjects, IDs, reports y bloqueo Release de Draft.
-- [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md): schema v4, DTOs, checksum, backup, migraciones, autosave y recuperación.
+- [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md): schema v5, DTOs, checksum, backup, migraciones, autosave y recuperación.
 - [`17_LOCALIZATION.md`](17_LOCALIZATION.md): paquete exacto, ES/EN, pseudo, tablas/keys y pipeline CSV local.
 - [`RUNTIME_CONFIGURATION.md`](RUNTIME_CONFIGURATION.md): AppConfig Development/Release, flags tipados y validación build.
 - [`INPUT_ACCESSIBILITY.md`](INPUT_ACCESSIBILITY.md): Input System `1.20.0`, action maps, gestures, safe area, haptics y device harness.

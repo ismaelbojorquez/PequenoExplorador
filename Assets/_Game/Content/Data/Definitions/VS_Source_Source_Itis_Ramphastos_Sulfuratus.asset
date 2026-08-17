@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4d66e136fecd4511ba860a6bc041eb3, type: 3}
+  m_Name: VS_Source_Source_Itis_Ramphastos_Sulfuratus
+  m_EditorClassIdentifier: PequenoExplorador.Content::PequenoExplorador.Content.Data.ContentSourceRecordAsset
+  _id: source.itis.ramphastos-sulfuratus
+  _editorial:
+    _state: 3
+    _isPlaceholder: 0
+    _owner: "Ismael Boj\xF3rquez \u2014 Investigador"
+    _developmentWatermark: 
+  _institution: Integrated Taxonomic Information System
+  _author: IOC World Bird List v10.2
+  _title: ITIS report TSN 685778
+  _reference: https://www.itis.gov/servlet/SingleRpt/SingleRpt?search_topic=TSN&search_value=685778
+  _consultedOn: 2026-08-16
+  _reviewer: "Ismael Boj\xF3rquez \u2014 Investigador; H-009-IB-2026-08-16"

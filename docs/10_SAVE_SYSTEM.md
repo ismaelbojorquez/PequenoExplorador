@@ -1,6 +1,6 @@
 # Sistema de guardado local
 
-Estado: schema v4 implementado en Prompt 18 sobre la foundation atómica de Prompt/Fase 09. Persiste discovery contado/idempotente; sigue sin cloud, cuentas ni entitlements.
+Estado: schema v5 implementado al adoptar `VS-D-A01` sobre la foundation atómica y schema v4 de Prompt 18. Persiste discovery contado/idempotente y migra el ID placeholder; sigue sin cloud, cuentas ni entitlements.
 
 ## Contrato y límites
 
@@ -8,7 +8,7 @@ Estado: schema v4 implementado en Prompt 18 sobre la foundation atómica de Prom
 Domain.PlayerProgress
         ↓ ISaveService / AutosaveCoordinator (Application)
 Infrastructure.LocalSaveService
-        ├─ UnityJsonSaveSerializer → SaveEnvelope + DTO v1/v2/v3/v4
+        ├─ UnityJsonSaveSerializer → SaveEnvelope + DTO v1/v2/v3/v4/v5
         ├─ ISaveMigration[] → pasos puros n→n+1
         └─ IFileStore → LocalFileStore(Application.persistentDataPath)
 Bootstrap compone; Presentation solo recibe SaveUserNotice.
@@ -18,7 +18,7 @@ Bootstrap compone; Presentation solo recibe SaveUserNotice.
 
 `AppConfig` y sus feature flags son runtime inmutable y no se copian al save. Save conserva solo preferencias adultas mutables; perfil de build, budgets, versión técnica y flags se vuelven a resolver desde Content/Bootstrap en cada arranque según [`RUNTIME_CONFIGURATION.md`](RUNTIME_CONFIGURATION.md).
 
-## Formato v4
+## Formato v5
 
 Serializador: `UnityEngine.JsonUtility`, provisto por el módulo builtin fijado `com.unity.modules.jsonserialize` `1.0.0`. No se añadió paquete. Es compatible con el Editor `6000.3.22f1`/IL2CPP y suficiente porque los DTOs son clases cerradas con campos explícitos y arrays. Cambiar serializador o representación requiere ADR y migración, no una sustitución silenciosa.
 
@@ -28,11 +28,11 @@ Envelope lógico:
 {
   "schemaVersion": 4,
   "checksum": "sha256-hex-del-payload-utf8",
-  "payload": "json-escapado-del-dto-v4"
+  "payload": "json-escapado-del-dto-v5"
 }
 ```
 
-El payload v4 contiene:
+El payload v5 contiene:
 
 | Campo | Propósito | Dato infantil/PII |
 |---|---|---|
@@ -63,9 +63,9 @@ La restauración de backup usa replace de primary **sin rotar primary sobre back
 
 ## Carga, migración y downgrade
 
-1. Sin primary/backup: crear `PlayerProgress` default en español y escribir schema v4.
-2. Primary v4 válido: validar checksum, DTO/invariantes y cargar.
-3. Primary antiguo: aplicar `v0→v1→v2→v3→v4`. v1→v2 añade locale; v2→v3 añade audio; v3→v4 transforma cada `discoveryId` histórico en record con count 1, fecha vacía y cero grants procesados. No inventa cuándo ni cómo ocurrió. Se reescribe v4 y se conserva el original como backup.
+1. Sin primary/backup: crear `PlayerProgress` default en español y escribir schema v5.
+2. Primary v5 válido: validar checksum, DTO/invariantes y cargar.
+3. Primary antiguo: aplicar `v0→v1→v2→v3→v4→v5`. v3→v4 crea records contados; v4→v5 sustituye `discovery.jungle.placeholder` por `discovery.jungle.keel-billed-toucan`, fusiona ambos records si coexistían, conserva la fecha válida más temprana y normaliza/deduplica grants con ese sufijo exacto. Se reescribe v5 y se conserva el original como backup.
 4. Primary corrupto: intentar backup; si pasa, cargarlo, emitir `ProgressRecovered` y reparar primary preservando backup.
 5. Schema futuro: entrar en modo read-only, emitir `NewerSaveVersionDetected` y bloquear save/reset. Nunca sobrescribirlo con el schema actual.
 6. Primary y backup inválidos: fallo recuperable; no pérdida/sobrescritura silenciosa.
@@ -102,12 +102,12 @@ No hay soporte cloud ni recuperación remota. Una copia manual puede contener pr
 
 | Caso | Evidencia |
 |---|---|
-| Default v4, idioma, audio settings, discovery records/grants y round-trip | EditMode. |
+| Default v5, idioma, audio settings, discovery records/grants y round-trip | EditMode. |
 | JSON determinista y sin campos de perfil personal | EditMode. |
 | Fallo write/flush/commit | Failpoints in-memory; primary/backup invariantes. |
 | Truncado/checksum | Rechazo de primary y recuperación de backup. |
 | Backup no reemplazado por corrupto | Comparación byte a byte tras reparación. |
-| v0→v1→v2→v3→v4, v2→v3, v3→v4 y migración ausente | Migración/backup o fallo conservador sin rewrite. |
+| v0→v1→v2→v3→v4→v5, v2→v3, v3→v4, v4→v5 y migración ausente | Migración/backup o fallo conservador sin rewrite. |
 | Schema futuro | Read-only; save bloqueado y bytes intactos. |
 | Cancelación antes de commit | Excepción de cancelación y último primary intacto. |
 | Requests múltiples | Coalescing al checkpoint más reciente. |

@@ -40,7 +40,7 @@ Estos assets fueron creados dentro del proyecto, sin descarga ni licencia extern
 
 | ID/path | Tipo | Estado | Reemplazo humano requerido |
 |---|---|---|---|
-| `PH_FIXTURE_ANIMAL` / `interaction.fixture.animal` | cápsula/material local | `Placeholder / ReleaseBlocked` | Silueta animal aprobada, collider/punto, states de foco y provenance. |
+| `visual.discovery.jungle.keel-billed-toucan` / `interaction.jungle.keel-billed-toucan` | prefab propio `VS_ToucanPicoCanoa` | `Approved H-008/H-009` | Conservar silueta, collider/punto, bounds y provenance; cambio material exige nueva revisión. |
 | `PH_FIXTURE_PLANT` / `interaction.fixture.plant` | cilindro/material local | `Placeholder / ReleaseBlocked` | Planta aprobada y factual, escala/contraste/collider/punto. |
 | `PH_FIXTURE_OBJECT` / `interaction.fixture.object` | cubo/material local | `Placeholder / ReleaseBlocked` | Prop final, razón de disponibilidad y feedback accesible. |
 | `PH_UI_INTERACTION_PROMPT` + indicador | uGUI/primitives locales | `Placeholder / ReleaseBlocked` | Iconografía sin lectura/color único, foco/acción/cancel y revisión en safe areas. |

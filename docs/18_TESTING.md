@@ -46,7 +46,7 @@ Fixture visual VS-D-A01: EditMode valida IDs, `Approved`/no-placeholder, metadat
 
 Mundos EditMode cubre mapping del manifest Selva, duplicate IDs, Release Draft, locked/missing sin carga ni mutación de progreso y una fixture in-memory `world.test-ocean`. Esa fixture usa `scene/test-ocean` a través del mismo `WorldLoadUseCase`/`SceneFlowService`, sin modificar el coordinador. PlayMode enumera Selva desde `IWorldCatalog` y ejecuta tres ciclos por `WorldId`, comprobando sesión activa, unload y handles.
 
-Save EditMode cubre default/round-trip, JSON determinista, write/flush/commit inyectados, truncado, checksum, backup preservado, v0→v1→v2→v3→v4, migraciones v2→v3/v3→v4, migración ausente, future schema read-only, cancelación, reset, `Latest`/coalescing y replace físico repetido. PlayMode recrea el servicio y valida discovery a través de flush/recarga de Selva. Los directorios físicos son temporales; no se usa `PlayerPrefs`, red, reloj real ni rutas versionadas. Detalle: [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md).
+Save EditMode cubre default/round-trip, JSON determinista, atomicidad/checksum/backup, v0→…→v5, migración v4→v5 del ID retirado, merge de records, fecha más temprana y grants deduplicadas, future schema read-only, cancelación y coalescing. PlayMode recrea el servicio y valida discovery a través de flush/recarga de Selva. No se usa `PlayerPrefs`, red, reloj real ni rutas versionadas. Detalle: [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md).
 
 Configuración EditMode cubre defaults, dos assets locales, mapping, IDs duplicados, budgets inválidos, cada flag prohibido en Release y override temporal restaurable. PlayMode comprueba que Bootstrap selecciona Development, muestra producto/versión del asset y conserva Ready/scene flow/save. `scripts/compile`/build llaman el validador de ambos perfiles; una fixture controlada Release+`MockAds` debe fallar `CONFIG008`. Contrato: [`RUNTIME_CONFIGURATION.md`](RUNTIME_CONFIGURATION.md).
 
@@ -62,7 +62,7 @@ Interacción EditMode cubre prioridad→distancia→ID, rango/approach, unavaila
 
 Discovery EditMode cubre first/repeat, misma grant idempotente, missing, Draft bloqueado, contenido retirado preservado, denominadores Approved por world/category y día local agregado con reloj/offset inyectados. Save prueba v3→v4 sin historia inventada. PlayMode conecta el fixture animal, guarda, recarga Selva y repite con count 2/sin segundo grant único. Economy/álbum/fotografía permanecen fuera de esta suite porque aún no existen.
 
-Contenido EditMode cubre parseo/igualdad de IDs, lookup/alias, orden determinista, duplicados, referencias ausentes, localización/audio/visual inexistentes, watermark, generador no destructivo y rechazo Release de Draft. PlayMode resuelve `discovery.jungle.placeholder` desde Bootstrap sin `AssetDatabase`. El reporte Release controlado es `FAIL` esperado mientras el placeholder no esté Approved.
+Contenido EditMode cubre IDs, lookup/alias, orden determinista, duplicados, referencias ausentes, localización/audio/visual, trazabilidad y gate Release. PlayMode resuelve `discovery.jungle.keel-billed-toucan` y su alias retirado sin `AssetDatabase`. El catálogo factual del tucán pasa Release; otros subsistemas Draft siguen bloqueando el proyecto Release.
 
 Los conteos, tiempos y artefactos canónicos de la última ejecución integral se registran en [`STATUS.md`](STATUS.md); cifras de fases anteriores no se heredan como evidencia.
 

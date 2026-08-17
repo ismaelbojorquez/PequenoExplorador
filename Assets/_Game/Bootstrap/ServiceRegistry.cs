@@ -103,7 +103,8 @@ namespace PequenoExplorador.Bootstrap
                     new LegacyV0ToV1Migration(),
                     new V1ToV2LocalizationMigration(),
                     new V2ToV3AudioMigration(),
-                    new V3ToV4DiscoveryMigration()
+                    new V3ToV4DiscoveryMigration(),
+                    new V4ToV5ToucanDiscoveryMigration()
                 });
             SaveCoordinator = new AutosaveCoordinator(save, logger, configuration.AutosaveDebounce);
             var discoveryRepository = new PlayerProgressDiscoveryRepository(save, SaveCoordinator);

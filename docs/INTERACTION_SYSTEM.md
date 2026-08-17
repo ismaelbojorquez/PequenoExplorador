@@ -38,7 +38,7 @@ El catálogo actual contiene exactamente tres fixtures `Draft / PH_ / ReleaseBlo
 
 | ID | Forma semántica | Prioridad | Disponibilidad |
 |---|---|---:|---|
-| `interaction.fixture.animal` | animal neutral | 70 | disponible |
+| `interaction.jungle.keel-billed-toucan` | tucán `VS-D-A01` Approved | 70 | disponible |
 | `interaction.fixture.plant` | planta neutral | 60 | disponible |
 | `interaction.fixture.object` | objeto neutral | 50 | no disponible, prueba de fallback |
 

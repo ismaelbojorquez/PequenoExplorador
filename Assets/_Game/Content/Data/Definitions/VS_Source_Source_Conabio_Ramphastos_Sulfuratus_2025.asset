@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4d66e136fecd4511ba860a6bc041eb3, type: 3}
+  m_Name: VS_Source_Source_Conabio_Ramphastos_Sulfuratus_2025
+  m_EditorClassIdentifier: PequenoExplorador.Content::PequenoExplorador.Content.Data.ContentSourceRecordAsset
+  _id: source.conabio.ramphastos-sulfuratus-2025
+  _editorial:
+    _state: 3
+    _isPlaceholder: 0
+    _owner: "Ismael Boj\xF3rquez \u2014 Investigador"
+    _developmentWatermark: 
+  _institution: CONABIO
+  _author: "Base t\xE9cnica con bibliograf\xEDa AOS 2025"
+  _title: "Tuc\xE1n pico canoa (Ramphastos sulfuratus)"
+  _reference: https://enciclovida.mx/especies/36504.pdf
+  _consultedOn: 2026-08-16
+  _reviewer: "Ismael Boj\xF3rquez \u2014 Investigador; H-009-IB-2026-08-16"

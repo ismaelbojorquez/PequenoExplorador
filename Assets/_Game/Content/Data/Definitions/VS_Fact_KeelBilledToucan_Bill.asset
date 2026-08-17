@@ -10,16 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1abe83877a24f48c2a30c2d688fdca05, type: 3}
-  m_Name: PH_Fact_PendingReview
+  m_Name: VS_Fact_KeelBilledToucan_Bill
   m_EditorClassIdentifier: PequenoExplorador.Content::PequenoExplorador.Content.Data.EducationalFactDefinitionAsset
-  _id: fact.jungle.placeholder.pending
+  _id: fact.jungle.keel-billed-toucan.bill
   _editorial:
-    _state: 0
-    _isPlaceholder: 1
-    _owner: Content Design
-    _developmentWatermark: "BORRADOR \xB7 PH_"
+    _state: 3
+    _isPlaceholder: 0
+    _owner: "Ismael Boj\xF3rquez \u2014 Product/Education; factual H-009"
+    _developmentWatermark: 
   _childCopyTable: Content
-  _childCopyKey: content.discovery.placeholder.name
-  _claimForReview: PH_PENDING_FACTUAL_REVIEW
+  _childCopyKey: content.fact.keel-billed-toucan.bill
+  _claimForReview: "Su pico diagn\xF3stico combina verde, naranja, rojo y azul."
   _sources:
-  - {fileID: 11400000, guid: 38aa48fc8d9214636bc3fedfd5ea911d, type: 2}
+  - {fileID: 11400000, guid: bcdf0b9f8c8504ab5bce93bbf4c37963, type: 2}
+  - {fileID: 11400000, guid: 3cebffa3e5b78408b995ad4cb529e087, type: 2}

@@ -1,6 +1,6 @@
 # VS-D-A01 — Expediente factual del tucán candidato
 
-Estado editorial: **Human factual/Product/visual Approved — technical adoption pending; not ReleaseLocked**. Consulta de fuentes: 2026-08-16 (`America/Mexico_City`). Ismael Bojórquez aprobó claims/copy/nombres en `H-007-IB-2026-08-16`, el asset visual y sus derechos en `H-008-IB-2026-08-16`, y realizó la revisión factual humana en `H-009-IB-2026-08-16`. Su competencia declarada es `Investigador — experiencia en búsqueda ampliada de información`; no se presenta como credencial ornitológica independiente. El prefab visual pasa a `EditorialState.Approved`, pero las definitions runtime reales aún deben crearse/adoptarse y validarse. Este expediente no constituye asesoría científica o legal ni autorización de publicación.
+Estado editorial: **Human factual/Product/visual Approved; runtime adopted; not ReleaseLocked**. Consulta de fuentes: 2026-08-16 (`America/Mexico_City`). H-007/H-008/H-009 cubren copy/nombres, visual/rights/QA y revisión factual humana. Su competencia declarada es `Investigador — experiencia en búsqueda ampliada de información`; no se presenta como credencial ornitológica independiente. Discovery, facts, fuentes e interacción reales están en `EditorialState.Approved`; conservación y audio final siguen excluidos. Este expediente no constituye asesoría científica/legal ni autorización de publicación.
 
 ## Identidad y límites
 
@@ -14,11 +14,11 @@ Estado editorial: **Human factual/Product/visual Approved — technical adoption
 | Fact IDs reservados | `fact.jungle.keel-billed-toucan.*` según la matriz de claims |
 | Nombre ES elegido por Product/Localization | `Tucán pico canoa` |
 | Nombre EN aprobado por Product/Localization | `Keel-billed Toucan` |
-| Runtime actual | Continúa `interaction.fixture.animal → discovery.jungle.placeholder`, Draft y `ReleaseBlocked`; Development sustituye solo la cápsula visual por `VS_ToucanPicoCanoa.prefab` `Approved`. |
-| Uso permitido ahora | Adoptar definitions reales del único contenido del Vertical Slice, mapear IDs, migrar aliases/save y ejecutar validadores antes de Prompt 19. |
+| Runtime actual | `interaction.jungle.keel-billed-toucan → discovery.jungle.keel-billed-toucan`, siete facts y seis fuentes `Approved`; alias desde el ID placeholder y save schema v5. |
+| Uso permitido ahora | Implementar Prompt 19 sobre este único contenido, sin extender aprobación a conservación, audio final, segundo animal o publicación. |
 | Uso prohibido ahora | Declarar `ReleaseLocked`, reutilizar imágenes/audio de las fuentes, inventar credenciales del revisor o usar el claim de conservación excluido. |
 
-Los IDs de discovery/interacción quedan reservados documentalmente y no se adoptan todavía como identidad runtime. Adoptarlos después exige validator, localización, aliases/migración si corresponde y diff explícito de contenido. El ID visual sí está materializado en el prefab candidato y no concede hechos, rewards ni comportamiento.
+Los IDs de discovery/interacción ya son identidad runtime. El ID retirado permanece solo como alias/migración; no debe volver a authoring vigente. El visual y facts aprobados no conceden rewards, fotografía, audio final ni autorización de publicación.
 
 ## Registro de fuentes
 
@@ -169,4 +169,4 @@ Campos editoriales requeridos tras las firmas:
 
 ## Condición para desbloquear Prompt 19
 
-Product/Education, Localization, representación visual y revisión factual humana quedaron aprobados por Ismael Bojórquez. El prefab visual puede adoptar `EditorialState.Approved`. Prompt 19 permanece bloqueado únicamente por trabajo técnico: crear/adoptar definitions no-`PH_`, mapear interaction/discovery/facts, preservar aliases/save y validar el catálogo. Este expediente no autoriza `ReleaseLocked`, audio final ni publicación.
+Product/Education, Localization, representación visual y revisión factual humana quedaron aprobados por Ismael Bojórquez. La adopción técnica creó definitions no-`PH_`, mapping, alias y migración save v5; los validators dirigidos pasan. Prompt 19 queda habilitado sobre este único animal. Este expediente no autoriza `ReleaseLocked`, audio final ni publicación.

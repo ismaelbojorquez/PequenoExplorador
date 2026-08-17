@@ -41,7 +41,7 @@ namespace PequenoExplorador.Editor.BuildTools
                 violations.Add($"INTERACTION102 Jungle requires at least three neutral baseline fixtures; found {targets.Length}.");
             foreach (string required in new[]
                      {
-                         "interaction.fixture.animal",
+                         InteractionFoundationSetup.AnimalId,
                          "interaction.fixture.plant",
                          "interaction.fixture.object"
                      })
@@ -53,8 +53,11 @@ namespace PequenoExplorador.Editor.BuildTools
                 violations.Add("INTERACTION103 fixture IDs must be unique.");
             foreach (WorldInteractableView target in targets)
             {
-                if (!target.name.StartsWith("PH_", StringComparison.Ordinal))
-                    violations.Add($"INTERACTION104 fixture '{target.name}' must retain PH_ prefix.");
+                bool isApprovedToucan = string.Equals(target.RawInteractionId, InteractionFoundationSetup.AnimalId, StringComparison.Ordinal);
+                if (!isApprovedToucan && !target.name.StartsWith("PH_", StringComparison.Ordinal))
+                    violations.Add($"INTERACTION104 placeholder fixture '{target.name}' must retain PH_ prefix.");
+                if (isApprovedToucan && target.name.StartsWith("PH_", StringComparison.Ordinal))
+                    violations.Add($"INTERACTION116 approved toucan fixture '{target.name}' cannot retain a PH_ prefix.");
                 if (target.InteractionPoint == null || target.TargetColliders.Count == 0)
                 {
                     violations.Add($"INTERACTION105 fixture '{target.name}' needs interaction point/collider.");

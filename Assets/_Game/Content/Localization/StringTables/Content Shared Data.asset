@@ -83,6 +83,38 @@ MonoBehaviour:
     m_Key: content.interaction.fixture.object.name
     m_Metadata:
       m_Items: []
+  - m_Id: 188305709719552
+    m_Key: content.discovery.keel-billed-toucan.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 188305726496768
+    m_Key: content.fact.keel-billed-toucan.identity
+    m_Metadata:
+      m_Items: []
+  - m_Id: 188305726496769
+    m_Key: content.fact.keel-billed-toucan.common-name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 188305726496770
+    m_Key: content.fact.keel-billed-toucan.range
+    m_Metadata:
+      m_Items: []
+  - m_Id: 188305726496771
+    m_Key: content.fact.keel-billed-toucan.habitat
+    m_Metadata:
+      m_Items: []
+  - m_Id: 188305726496772
+    m_Key: content.fact.keel-billed-toucan.diet
+    m_Metadata:
+      m_Items: []
+  - m_Id: 188305726496773
+    m_Key: content.fact.keel-billed-toucan.bill
+    m_Metadata:
+      m_Items: []
+  - m_Id: 188305726496774
+    m_Key: content.fact.keel-billed-toucan.voice
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

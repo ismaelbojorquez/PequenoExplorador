@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1abe83877a24f48c2a30c2d688fdca05, type: 3}
+  m_Name: VS_Fact_KeelBilledToucan_Range
+  m_EditorClassIdentifier: PequenoExplorador.Content::PequenoExplorador.Content.Data.EducationalFactDefinitionAsset
+  _id: fact.jungle.keel-billed-toucan.range
+  _editorial:
+    _state: 3
+    _isPlaceholder: 0
+    _owner: "Ismael Boj\xF3rquez \u2014 Product/Education; factual H-009"
+    _developmentWatermark: 
+  _childCopyTable: Content
+  _childCopyKey: content.fact.keel-billed-toucan.range
+  _claimForReview: "Ocurre desde el sur de M\xE9xico por Centroam\xE9rica hasta el
+    norte de Colombia y extremo noroeste de Venezuela."
+  _sources:
+  - {fileID: 11400000, guid: 6b00bb3ae44ef4c3d857f5af2c78f6bd, type: 2}
+  - {fileID: 11400000, guid: bcdf0b9f8c8504ab5bce93bbf4c37963, type: 2}

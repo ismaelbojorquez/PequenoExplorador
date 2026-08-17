@@ -47,9 +47,9 @@ Cambiar especie, claim, ilustración que comunica rasgos, voz o actividad despu�
 
 ## Vertical Slice
 
-[`VS-D-A01`](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md) reserva `Ramphastos sulfuratus`. Ismael Bojórquez aprobó Product/Education/copy/Localization en `H-007`, el asset visual/rights/QA en `H-008` y la revisión factual humana en `H-009`, con competencia declarada `Investigador — experiencia en búsqueda ampliada de información`. No se atribuye credencial ornitológica externa. El conflicto temporal de conservación queda excluido y bloqueado. El prefab visual es `Approved`; las definitions runtime continúan `Draft`/`PH_` hasta adopción técnica trazable.
+[`VS-D-A01`](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md) adopta `Ramphastos sulfuratus`. H-007/H-008/H-009 cubren Product/Education/Localization, visual/rights/QA y revisión factual humana, con competencia declarada `Investigador — experiencia en búsqueda ampliada de información`; no se atribuye credencial ornitológica externa. El conflicto de conservación queda excluido. Discovery, siete facts, seis fuentes e interacción son runtime `Approved`; audio final y `ReleaseLocked` siguen pendientes.
 
-Product/Localization eligió `Tucán pico canoa` y aprobó `Keel-billed Toucan` para EN. La variante `pico iris` permanece registrada como contexto regional, no como nombre del locale actual. La adopción debe crear records/facts/discovery/interacción no-`PH_` y conservar conservación fuera del runtime. `Approved` no equivale a `ReleaseLocked`: audio final, matriz efectiva y QA de la integración siguen separados.
+Product/Localization eligió `Tucán pico canoa` y aprobó `Keel-billed Toucan` para EN. La variante `pico iris` permanece como contexto regional. La adopción usa IDs no-`PH_`, alias/save v5 y mantiene conservación fuera del runtime. `Approved` no equivale a `ReleaseLocked`: audio final, matriz efectiva y QA de publicación siguen separados.
 
 ## Responsabilidades humanas
 

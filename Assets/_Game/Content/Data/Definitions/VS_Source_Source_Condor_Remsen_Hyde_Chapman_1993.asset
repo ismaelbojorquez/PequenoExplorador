@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4d66e136fecd4511ba860a6bc041eb3, type: 3}
+  m_Name: VS_Source_Source_Condor_Remsen_Hyde_Chapman_1993
+  m_EditorClassIdentifier: PequenoExplorador.Content::PequenoExplorador.Content.Data.ContentSourceRecordAsset
+  _id: source.condor.remsen-hyde-chapman-1993
+  _editorial:
+    _state: 3
+    _isPlaceholder: 0
+    _owner: "Ismael Boj\xF3rquez \u2014 Investigador"
+    _developmentWatermark: 
+  _institution: The Condor / University of South Florida Scholar Commons
+  _author: J. V. Remsen Jr., Mary Ann Hyde y Angela Chapman
+  _title: The Diets of Neotropical Trogons, Motmots, Barbets and Toucans
+  _reference: https://digitalcommons.usf.edu/condor/vol95/iss1/18/
+  _consultedOn: 2026-08-16
+  _reviewer: "Ismael Boj\xF3rquez \u2014 Investigador; H-009-IB-2026-08-16"

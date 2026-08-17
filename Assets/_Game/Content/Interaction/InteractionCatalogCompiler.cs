@@ -15,7 +15,7 @@ namespace PequenoExplorador.Content.Interaction
     {
         private static readonly string[] RequiredFixtureIds =
         {
-            "interaction.fixture.animal",
+            "interaction.jungle.keel-billed-toucan",
             "interaction.fixture.plant",
             "interaction.fixture.object"
         };
@@ -104,7 +104,7 @@ namespace PequenoExplorador.Content.Interaction
             foreach (string required in RequiredFixtureIds)
             {
                 if (!ids.Contains(InteractionId.Parse(required)))
-                    errors.Add($"INTERACTION007 Prompt 17 baseline is missing required neutral fixture '{required}'.");
+                    errors.Add($"INTERACTION007 interaction catalog is missing required fixture '{required}'.");
             }
             if (errors.Count == 0)
             {

@@ -66,6 +66,40 @@ MonoBehaviour:
     m_Localized: Objeto de exploraci\xF3n
     m_Metadata:
       m_Items: []
+  - m_Id: 188305709719552
+    m_Localized: "Tuc\xE1n pico canoa"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 188305726496768
+    m_Localized: "Este tuc\xE1n es un Ramphastos sulfuratus."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 188305726496769
+    m_Localized: "Tuc\xE1n pico canoa."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 188305726496770
+    m_Localized: "Vive desde el sur de M\xE9xico, a trav\xE9s de Centroam\xE9rica,
+      hasta una parte del norte de Sudam\xE9rica."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 188305726496771
+    m_Localized: "Vive entre los \xE1rboles de selvas c\xE1lidas y bosques que est\xE1n
+      creciendo de nuevo."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 188305726496772
+    m_Localized: Come sobre todo frutas.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 188305726496773
+    m_Localized: 'Su pico grande tiene varios colores: verde, naranja, rojo y azul.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 188305726496774
+    m_Localized: Su llamado se parece a un croar que se repite.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

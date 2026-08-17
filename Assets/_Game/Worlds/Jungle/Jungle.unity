@@ -1708,7 +1708,7 @@ GameObject:
   - component: {fileID: 1633265754}
   - component: {fileID: 1633265753}
   m_Layer: 0
-  m_Name: PH_FIXTURE_ANIMAL
+  m_Name: VS_TOUCAN_INTERACTABLE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1726,7 +1726,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca41d03f9eb814b9789ce424705f3f9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.Presentation::PequenoExplorador.Presentation.Interaction.WorldInteractableView
-  _interactionId: interaction.fixture.animal
+  _interactionId: interaction.jungle.keel-billed-toucan
   _interactionPoint: {fileID: 1918201345}
   _targetColliders:
   - {fileID: 1918201344}

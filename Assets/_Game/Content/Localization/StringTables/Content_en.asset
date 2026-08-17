@@ -66,6 +66,40 @@ MonoBehaviour:
     m_Localized: Exploration object
     m_Metadata:
       m_Items: []
+  - m_Id: 188305709719552
+    m_Localized: Keel-billed Toucan
+    m_Metadata:
+      m_Items: []
+  - m_Id: 188305726496768
+    m_Localized: This toucan is Ramphastos sulfuratus.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 188305726496769
+    m_Localized: Keel-billed Toucan.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 188305726496770
+    m_Localized: It lives from southern Mexico through Central America to part of
+      northern South America.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 188305726496771
+    m_Localized: It lives among the trees of warm forests, including forests that
+      are growing back.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 188305726496772
+    m_Localized: It mostly eats fruit.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 188305726496773
+    m_Localized: 'Its large bill has several colors: green, orange, red, and blue.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 188305726496774
+    m_Localized: Its call sounds like a repeated croak.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

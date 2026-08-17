@@ -1,5 +1,27 @@
 # Changelog
 
+## VS-D-A01 runtime adoption — 2026-08-16
+
+### Added
+
+- Catálogo `catalog.jungle.vertical-slice` con `discovery.jungle.keel-billed-toucan`, categoría/tag, siete facts y seis fuentes institucionales `Approved` derivados del dossier H-007/H-008/H-009.
+- Interacción `interaction.jungle.keel-billed-toucan`, localización ES/EN para nombre/claims y wrapper reproducible `scripts/adopt-vs-d-a01`.
+- Alias `discovery.jungle.placeholder → discovery.jungle.keel-billed-toucan` y save schema v5 con migración v4→v5 que fusiona records, conserva fecha más temprana y normaliza/deduplica grants.
+
+### Changed
+
+- Jungle y tests usan el ID animal real; se retiraron las definitions PH de animal/discovery/source/fact/category/tag sin aprobar planta, objeto, mundo o audio por arrastre.
+- Conservación continúa fuera del catálogo runtime; `audio.feedback.confirm` es feedback temporal, no voz factual ni audio final.
+- `STATUS`, arquitectura, discovery, save, sources, contenido, interacción, arte, localización, decisiones y riesgos habilitan Prompt 19 sin declarar Release completo.
+
+### Verified
+
+- `scripts/validate-content` pasó tras la adopción; EditMode pasó `107/107` y PlayMode `18/18`.
+- Un primer EditMode falló porque un test heredado asumía una sola fuente; el fixture controlado se corrigió y la suite completa se repitió en verde.
+- `scripts/validate` final pasó en `4:31.06`: repository/shell, compile/validadores, Addressables, EditMode `107/107`, PlayMode `18/18` y APK Development.
+- APK `105,983,639` bytes, SHA-256 `54876d08ce3de1b15b12f628471a23b17139f064dbdfdd92d278ca0bb333fdf9`, API 26/36, IL2CPP/ARM64; manifest sin `CAMERA`, micrófono, ubicación, contactos ni `AD_ID`.
+- `scripts/build-android-release` terminó con exit `2` esperado únicamente por planta/objeto Draft (`INTERACTION005`), mundo Draft (`WORLD018`) y signing; no reportó `DATA025` ni `TOUCAN` para VS-D-A01.
+
 ## Human factual review H-009 — 2026-08-16
 
 ### Recorded

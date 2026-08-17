@@ -44,7 +44,7 @@ namespace PequenoExplorador.Tests.PlayMode
             Mouse mouse = InputSystem.AddDevice<Mouse>();
             yield return LoadExpedition();
             DiagnosticBootstrap bootstrap = Object.FindFirstObjectByType<DiagnosticBootstrap>();
-            WorldInteractableView animal = Target(bootstrap, "interaction.fixture.animal");
+            WorldInteractableView animal = Target(bootstrap, "interaction.jungle.keel-billed-toucan");
             Assert.That(animal.transform.Find("VS_ToucanPicoCanoa"), Is.Not.Null);
             Assert.That(animal.GetComponentsInChildren<Renderer>(true).Length, Is.GreaterThanOrEqualTo(8));
             Assert.That(animal.transform.Find("PH_FIXTURE_ANIMAL_VISUAL"), Is.Null);
@@ -60,7 +60,7 @@ namespace PequenoExplorador.Tests.PlayMode
                 8f);
             Assert.That(bootstrap.InteractionPrompt.IsVisible, Is.True);
             Assert.That(bootstrap.InteractionPrompt.ActionButton.gameObject.activeSelf, Is.True);
-            Assert.That(bootstrap.InteractionPrompt.NameText, Is.EqualTo("Figura de animal"));
+            Assert.That(bootstrap.InteractionPrompt.NameText, Is.EqualTo("Tucán pico canoa"));
             for (int index = 0; index < 8; index++) bootstrap.InteractionPrompt.ActionButton.onClick.Invoke();
             yield return null;
             Assert.That(animal.ActivationCount, Is.EqualTo(1));
@@ -144,7 +144,7 @@ namespace PequenoExplorador.Tests.PlayMode
                 Is.EqualTo(InteractionOutcome.Missing));
             Assert.That(bootstrap.InteractionPrompt.IsVisible, Is.False);
 
-            WorldInteractableView animal = Target(bootstrap, "interaction.fixture.animal");
+            WorldInteractableView animal = Target(bootstrap, "interaction.jungle.keel-billed-toucan");
             screen = Camera.main.WorldToScreenPoint(animal.transform.position + Vector3.up * 0.7f);
             bootstrap.InteractionRoot.TryHandleTap(new ScreenPoint(screen.x, screen.y));
             Task<SceneTransitionResult> back = bootstrap.GoToCampAsync(CancellationToken.None);
@@ -172,7 +172,7 @@ namespace PequenoExplorador.Tests.PlayMode
 
         private static IEnumerator ActivateAnimal(DiagnosticBootstrap bootstrap)
         {
-            WorldInteractableView animal = Target(bootstrap, "interaction.fixture.animal");
+            WorldInteractableView animal = Target(bootstrap, "interaction.jungle.keel-billed-toucan");
             Vector3 screen = Camera.main.WorldToScreenPoint(animal.transform.position + Vector3.up * 0.7f);
             Assert.That(bootstrap.InteractionRoot.TryHandleTap(new ScreenPoint(screen.x, screen.y)), Is.True);
             yield return WaitForInteraction(bootstrap, InteractionOutcome.Ready, 8f);
