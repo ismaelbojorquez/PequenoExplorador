@@ -434,6 +434,79 @@ MonoBehaviour:
     m_Localized: "Descubrir qu\xE9 come"
     m_Metadata:
       m_Items: []
+  - m_Id: 261701088829440
+    m_Localized: "Campamento de exploraci\xF3n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800960
+    m_Localized: "Mapa de expedici\xF3n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800961
+    m_Localized: Elige la Selva y sal a explorar.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800962
+    m_Localized: "\xC1lbum"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800963
+    m_Localized: Mira los descubrimientos que encontraste.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800964
+    m_Localized: "Rinc\xF3n del explorador"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800965
+    m_Localized: "La personalizaci\xF3n llegar\xE1 despu\xE9s."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800966
+    m_Localized: Para personas adultas
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800967
+    m_Localized: "Pr\xF3ximamente, con acceso adulto seguro."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800968
+    m_Localized: "Rinc\xF3n de observaci\xF3n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800969
+    m_Localized: "Una mejora visual para tu mesa de exploraci\xF3n."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800970
+    m_Localized: "Convierte la mesa en un rinc\xF3n acogedor para recordar lo descubierto."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800971
+    m_Localized: 'Costo: {0:plural:una estrella|{} estrellas}'
+    m_Metadata:
+      m_Items:
+      - rid: 6219209779658358817
+  - m_Id: 261701109800972
+    m_Localized: Mejorar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800973
+    m_Localized: Ahora no
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800974
+    m_Localized: "\xA1Tu rinc\xF3n de observaci\xF3n est\xE1 listo!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800975
+    m_Localized: "Rinc\xF3n listo"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800976
+    m_Localized: "Esta mejora todav\xEDa no est\xE1 disponible."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
@@ -448,3 +521,4 @@ MonoBehaviour:
         - id: 210606354325506
         - id: 210606354325510
         - id: 229917835911172
+        - id: 261701109800971

@@ -25,6 +25,8 @@ La Selva convierte los objetivos educativos en motivos para explorar. Cada espac
 
 El campamento representa progreso sin convertirse en city builder.
 
+La baseline funcional distribuye cuatro anchors data-driven: Expedición y Álbum activos; Personalización reservada para el siguiente incremento; Personas adultas separada, no interactiva y marcada `parentRestricted` hasta existir un parental gate real. La primera mejora convierte una mesa placeholder en rincón de exploración por 3 Estrellas, con preview y persistencia, sin efecto sobre acceso educativo. IDs, acciones y ownership canónicos: [`CAMP_SYSTEM.md`](CAMP_SYSTEM.md).
+
 - Mejoras son deterministas, permanentes y visibles.
 - Personalización cosmética usa opciones ganadas dentro del juego; sin rarezas, cajas o comparación social.
 - La primera mejora del Vertical Slice es `Mesa de observación`, que habilita revisar el descubrimiento y evidencia persistencia.

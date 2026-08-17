@@ -487,6 +487,78 @@ MonoBehaviour:
     m_Key: ui.learning.activity.continue
     m_Metadata:
       m_Items: []
+  - m_Id: 261701088829440
+    m_Key: ui.camp.hub.title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800960
+    m_Key: ui.camp.station.expedition.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800961
+    m_Key: ui.camp.station.expedition.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800962
+    m_Key: ui.camp.station.album.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800963
+    m_Key: ui.camp.station.album.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800964
+    m_Key: ui.camp.station.customization.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800965
+    m_Key: ui.camp.station.customization.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800966
+    m_Key: ui.camp.station.parents.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800967
+    m_Key: ui.camp.station.parents.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800968
+    m_Key: ui.camp.upgrade.observation.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800969
+    m_Key: ui.camp.upgrade.observation.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800970
+    m_Key: ui.camp.upgrade.observation.preview
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800971
+    m_Key: ui.camp.upgrade.cost
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800972
+    m_Key: ui.camp.upgrade.confirm
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800973
+    m_Key: ui.camp.upgrade.cancel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800974
+    m_Key: ui.camp.upgrade.purchased
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800975
+    m_Key: ui.camp.upgrade.completed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800976
+    m_Key: ui.camp.upgrade.unavailable
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

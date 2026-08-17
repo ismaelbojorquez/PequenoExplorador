@@ -143,6 +143,18 @@ namespace PequenoExplorador.Editor
             AssetDatabase.SaveAssets();
         }
 
+        public static void ApplyCampEntries()
+        {
+            LocalizationSettings settings = AssetDatabase.LoadAssetAtPath<LocalizationSettings>(SettingsPath);
+            Locale spanish = AssetDatabase.LoadAssetAtPath<Locale>(SpanishLocalePath);
+            Locale english = AssetDatabase.LoadAssetAtPath<Locale>(EnglishLocalePath);
+            if (settings == null || spanish == null || english == null)
+                throw new InvalidOperationException("Localization foundation must exist before Camp setup.");
+            LocalizationEditorSettings.ActiveLocalizationSettings = settings;
+            UpsertStringCollection(LocalizationKeys.UiTable, new[] { spanish, english }, UiEntries);
+            AssetDatabase.SaveAssets();
+        }
+
         private static readonly Entry[] SharedEntries =
         {
             new Entry("shared.product.name", "Pequeño Explorador: Aprende Jugando", "Little Explorer: Learning Through Play"),
@@ -185,6 +197,24 @@ namespace PequenoExplorador.Editor
             new Entry("ui.economy.virtual_notice", "Estrellas virtuales · se ganan jugando y no se compran", "Virtual stars · earned by playing and never purchased"),
             new Entry("ui.economy.debug_grant", "DEBUG +1 estrella", "DEBUG +1 star"),
             new Entry("ui.economy.insufficient", "Todavía faltan algunas estrellas. Podemos seguir explorando.", "A few more stars are needed. We can keep exploring."),
+            new Entry("ui.camp.hub.title", "Campamento de exploración", "Explorer Camp"),
+            new Entry("ui.camp.station.expedition.name", "Mapa de expedición", "Expedition Map"),
+            new Entry("ui.camp.station.expedition.description", "Elige la Selva y sal a explorar.", "Choose the Jungle and head out to explore."),
+            new Entry("ui.camp.station.album.name", "Álbum", "Album"),
+            new Entry("ui.camp.station.album.description", "Mira los descubrimientos que encontraste.", "See the discoveries you found."),
+            new Entry("ui.camp.station.customization.name", "Rincón del explorador", "Explorer Corner"),
+            new Entry("ui.camp.station.customization.description", "La personalización llegará después.", "Customization is coming later."),
+            new Entry("ui.camp.station.parents.name", "Para personas adultas", "For Grown-ups"),
+            new Entry("ui.camp.station.parents.description", "Próximamente, con acceso adulto seguro.", "Coming later with a safe grown-up entry."),
+            new Entry("ui.camp.upgrade.observation.name", "Rincón de observación", "Observation Corner"),
+            new Entry("ui.camp.upgrade.observation.description", "Una mejora visual para tu mesa de exploración.", "A visual upgrade for your exploration table."),
+            new Entry("ui.camp.upgrade.observation.preview", "Convierte la mesa en un rincón acogedor para recordar lo descubierto.", "Turn the table into a cozy corner for remembering discoveries."),
+            new Entry("ui.camp.upgrade.cost", "Costo: {0:plural:una estrella|{} estrellas}", "Cost: {0:plural:one star|{} stars}", isSmart: true),
+            new Entry("ui.camp.upgrade.confirm", "Mejorar", "Upgrade"),
+            new Entry("ui.camp.upgrade.cancel", "Ahora no", "Not now"),
+            new Entry("ui.camp.upgrade.purchased", "¡Tu rincón de observación está listo!", "Your observation corner is ready!"),
+            new Entry("ui.camp.upgrade.completed", "Rincón listo", "Corner ready"),
+            new Entry("ui.camp.upgrade.unavailable", "Esta mejora todavía no está disponible.", "This upgrade is not available yet."),
             new Entry("ui.mission.photograph_toucan.title", "La foto del tucán", "The toucan photo"),
             new Entry("ui.mission.photograph_toucan.summary", "Busca al tucán y toma una foto.", "Find the toucan and take a photo."),
             new Entry("ui.mission.photograph_toucan.objective", "Fotografía al tucán pico canoa", "Photograph the Keel-billed Toucan"),

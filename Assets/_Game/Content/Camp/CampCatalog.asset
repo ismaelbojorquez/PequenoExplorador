@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5a10c02dafa4456e88424024bfc77b7, type: 3}
+  m_Name: CampCatalog
+  m_EditorClassIdentifier: PequenoExplorador.Content::PequenoExplorador.Content.Camp.CampCatalogAsset
+  _stations:
+  - {fileID: 11400000, guid: 0f7c02bbfc8d6431ca84cedcc4e911ea, type: 2}
+  - {fileID: 11400000, guid: 1d845173dc1524947a2ad151bfaaf991, type: 2}
+  - {fileID: 11400000, guid: 270c8baf0c568471baa85b69eb503696, type: 2}
+  - {fileID: 11400000, guid: 4da001d23ba2144b08b723ca745595b5, type: 2}
+  _upgrades:
+  - {fileID: 11400000, guid: 6f4e2d6ae4cf44b5c90619a8d3dbc91d, type: 2}

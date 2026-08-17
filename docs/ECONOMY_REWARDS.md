@@ -15,7 +15,7 @@ Estado: Prompt 21 implementado. Una sola moneda virtual ganable, local y sin rel
 
 | Uso permitido | Estado/límite |
 |---|---|
-| Mejora visual de Camp | Futuro Prompt 25; nunca bloquea aprendizaje esencial. |
+| Mejora visual de Camp | Prompt 25: rincón de exploración por 3 Estrellas provisionales; nunca bloquea aprendizaje esencial. |
 | Cosmético del explorador | Futuro Prompt 26; inclusivo y sin IAP. |
 | Compra, moneda premium, energía, racha, loot box, gacha, timer | **Prohibido**. |
 
@@ -30,15 +30,17 @@ Application.GrantRewardUseCase / SpendStarsUseCase
                 ↓
 Domain.ExplorerStars + PlayerProgress
                 ↓
-IEconomyRepository → AutosaveCoordinator.Latest → Save v9
+IEconomyRepository → AutosaveCoordinator.Latest → Save v10
 ```
 
 - `ExplorerStars` impide negativos y detecta overflow.
 - `RewardDefinition` es runtime readonly; `RewardDefinitionAsset`/`RewardCatalogAsset` son authoring Content.
 - Una `EconomyTransactionId` persistida es la autoridad durable de idempotencia. Un retry/crash no vuelve a aplicar grant/spend.
 - El ledger conserva solo las 32 transacciones recientes para diagnóstico; no guarda timestamps, taps, sesiones ni comportamiento granular. No sustituye el set durable de transaction keys.
-- Spend y unlock futuro deberán construir un único `PlayerProgress` antes de un checkpoint; este prompt implementa el spend wallet, no una compra de Camp.
+- `PurchaseCampUpgradeUseCase` construye spend + transaction key + ledger + unlock en un único `PlayerProgress` antes de un checkpoint. Un fallo de commit no deja gasto o unlock parcial; el retry no duplica.
 - Economy no referencia UI, IAP, ads, analytics, red ni UnityEngine.
+
+La compra de mejora es exclusivamente una transacción de moneda ganable; no es compra real ni entitlement. Definición, costo y variantes viven en Content; el saldo/unlock viven en Save. Véase [`CAMP_SYSTEM.md`](CAMP_SYSTEM.md).
 
 Fotografía intenta la reward determinista `economy-tx.discovery.discovery.jungle.keel-billed-toucan` después de registrar el discovery. La misión usa `economy-tx.mission.mission.vertical-slice.photograph-toucan`. Si el proceso cae entre estado y grant, cualquier repetición intenta la misma transaction key: aplica la reward faltante o devuelve `AlreadyProcessed`, nunca duplica.
 

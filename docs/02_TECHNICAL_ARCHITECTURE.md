@@ -1,6 +1,6 @@
 # Arquitectura técnica — fronteras modulares
 
-Estado: foundation, catálogo data-driven, scene flow, save v9, localización/audio/input, locomoción, interacción, discovery, fotografía, álbum, economía, misiones y motor learning implementados. No existe actividad animal integrada ni contenido masivo. `Bootstrap` persiste y entra a Camp placeholder.
+Estado: foundation, catálogo data-driven, scene flow, save v10, localización/audio/input, locomoción, interacción, discovery, fotografía, álbum, economía, misiones, learning, actividad integrada y Camp progresivo implementados. No existe contenido masivo ni arte final. `Bootstrap` persiste y entra al hub Camp.
 
 ## Grafo real de assemblies
 
@@ -204,7 +204,7 @@ Content DiscoveryDefinition ──→ DiscoverUseCase ←── IClock + grant.*
                     Infrastructure Save DTO/migration/file
 ```
 
-Domain posee `DiscoveryProgress` y value IDs; Application decide first/repeat/idempotencia/aprobación y calcula queries contra el catálogo; Infrastructure serializa DTO v9 y conserva las migraciones; Bootstrap compone. `DiscoverResult` no conoce Economy, UI ni Audio. El día local se reduce a `yyyy-MM-dd`; no se guarda hora/zona/identidad. Los denominadores se derivan de definitions Approved vigentes.
+Domain posee `DiscoveryProgress` y value IDs; Application decide first/repeat/idempotencia/aprobación y calcula queries contra el catálogo; Infrastructure serializa DTO v10 y conserva las migraciones; Bootstrap compone. `DiscoverResult` no conoce Economy, UI ni Audio. El día local se reduce a `yyyy-MM-dd`; no se guarda hora/zona/identidad. Los denominadores se derivan de definitions Approved vigentes.
 
 ### Fotografía asistida
 
@@ -223,7 +223,11 @@ Application combina catálogo, progreso y metadata sin conocer Unity. Una entry 
 
 ### Economía simple
 
-Features producen IDs semánticos; `GrantRewardUseCase`/`SpendStarsUseCase` operan sobre `ExplorerStars` y un `IEconomyRepository` explícito. Content compila `RewardDefinitionAsset` a catálogo readonly. `PlayerProgress` v9 persiste transaction keys durables y ledger diagnóstico de 32; Bootstrap es el único composition root. Presentation solo observa saldo/resultados y no conoce Save, IAP o Ads. Contrato: [`ECONOMY_REWARDS.md`](ECONOMY_REWARDS.md).
+Features producen IDs semánticos; `GrantRewardUseCase`/`SpendStarsUseCase` operan sobre `ExplorerStars` y un `IEconomyRepository` explícito. Content compila `RewardDefinitionAsset` a catálogo readonly. `PlayerProgress` v10 persiste transaction keys durables, ledger diagnóstico de 32 y unlocks Camp; Bootstrap es el único composition root. Presentation solo observa saldo/resultados y no conoce Save, IAP o Ads. Contrato: [`ECONOMY_REWARDS.md`](ECONOMY_REWARDS.md).
+
+### Camp progresivo
+
+`Content.Camp` compila estaciones/mejoras ScriptableObject a `CampCatalog` readonly. Application posee `PurchaseCampUpgradeUseCase`: valida prerequisitos/saldo y construye spend+transaction+ledger+unlock en un único `PlayerProgress`; no referencia Unity, IAP, ads ni filesystem. Presentation recibe acciones semánticas de Bootstrap, muestra preview y activa variantes mediante `CampSceneRoot`; no lee Save crudo ni carga escenas. Infrastructure solo persiste el nuevo array v10. El área adulta sigue deshabilitada hasta un parental gate real. Contrato: [`CAMP_SYSTEM.md`](CAMP_SYSTEM.md).
 
 ### Misiones data-driven
 
@@ -280,7 +284,7 @@ El bus en memoria solo cubre fan-out acotado. `Subscribe<T>` devuelve `IDisposab
 | Analytics | `NullAnalyticsService` | `NullAnalyticsService` |
 | Ads | `MockAdsService` si flag local ON; default ON | `NoAdsService`; `MockAds` prohibido |
 | Purchases | `MockPurchaseService` si flag local ON; default ON | `UnavailablePurchaseService`; `MockPurchases` prohibido |
-| Save/Photos/Economy/Missions/Learning | Local schema v9 + photo store + debug grant compilado | Igual; debug grant/simuladores/tooling excluidos; fixture Draft bloqueada |
+| Save/Photos/Economy/Missions/Learning/Camp | Local schema v10 + photo store + debug grant compilado | Igual; debug grant/simuladores/tooling/PH_ Camp excluidos; fixture Draft bloqueada |
 | Localization | ES/EN + pseudo y selector diagnóstico | ES/EN; pseudo/selector diagnóstico excluidos |
 | Audio | Mixer/cues PH_, panel y replay diagnóstico | Servicio local; panel oculto y placeholders bloquean Release de contenido |
 | Input/safe area | 5 mapas; Debug overlay local; presets de ratio | Mapas de producto, Debug deshabilitado; safe area local |
@@ -323,4 +327,4 @@ Subdividir un assembly requiere evidencia de tiempos de compilación, ownership,
 - Unity `6000.3.22f1`, Addressables `4.0.1`, AI Navigation `2.0.9`, URP `17.3.0`, Input System `1.20.0`, Test Framework `1.6.0`, uGUI `2.0.0`.
 - Bootstrap es la única escena habilitada en Build Settings; Camp/Jungle son locales Addressable. Development muestra navegación/fallo simulado; Release oculta controles Development.
 - Android sigue min API 26, target/compile 36, IL2CPP y ARM64; sin manifest/Gradle custom ni permiso sensible nuevo.
-- Existen locomoción, interacción, discovery, fotografía, álbum, economía, misión y learning abstracto; no existen actividad animal integrada/UI final, contenido remoto ni SDKs comerciales. Save schema v9 no guarda PII/cuentas/pixels/respuestas/taps; ads/IAP/analytics son únicamente Null/Mock/Unavailable locales sin red.
+- Existen locomoción, interacción, discovery, fotografía, álbum, economía, misión, learning, actividad integrada y Camp progresivo; no existen UI/arte final, contenido remoto ni SDKs comerciales. Save schema v10 no guarda PII/cuentas/pixels/respuestas/taps; ads/IAP/analytics son únicamente Null/Mock/Unavailable locales sin red.

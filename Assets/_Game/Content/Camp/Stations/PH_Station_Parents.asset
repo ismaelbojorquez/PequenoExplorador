@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee13f8917c4624eb2987d3b16c97f462, type: 3}
+  m_Name: PH_Station_Parents
+  m_EditorClassIdentifier: PequenoExplorador.Content::PequenoExplorador.Content.Camp.CampStationDefinitionAsset
+  _id: camp-station.parents
+  _actionId: camp-action.parents
+  _displayNameTable: UI
+  _displayNameKey: ui.camp.station.parents.name
+  _descriptionTable: UI
+  _descriptionKey: ui.camp.station.parents.description
+  _displayOrder: 3
+  _available: 0
+  _parentRestricted: 1

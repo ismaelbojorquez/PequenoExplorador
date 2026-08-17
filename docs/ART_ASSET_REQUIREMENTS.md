@@ -101,6 +101,17 @@ No se añadió fuente, ilustración, icono o media externa. La baseline reutiliz
 
 No se añadió media externa ni se modificó la geometría/material del prefab aprobado. El adapter anima temporalmente su transform y restaura posición/rotación; cualquier cambio visual material reabre H-008/H-009 y [`VS-A01`](VS_A01_TOUCAN_FEEDING_ACTIVITY.md).
 
+## Ledger temporal Prompt 25
+
+| ID lógico | Asset temporal | Estado | Reemplazo/revisión humana necesaria |
+|---|---|---|---|
+| `visual.camp.observation-table.before` | `PH_CampObservationTable_Before.prefab` | Placeholder propio | Mesa legible, escala infantil, materiales móviles y coherencia con Camp. |
+| `visual.camp.observation-corner.after` | `PH_CampObservationCorner_After.prefab` | Placeholder propio | Rincón claramente mejorado sin apariencia de tienda; revisar silueta, props y clipping. |
+| `visual.camp.layout` | `PH_CAMP_LAYOUT` + cuatro anchors | Placeholder propio | Level dressing, rutas/espacios táctiles, cámara y variantes de progreso. |
+| `visual.ui.camp-hub` | `PH_UI_CAMP_HUB` | Placeholder propio | Migrar al design system/TMP en Prompt 27 y aprobar contraste, jerarquía y ratios. |
+
+No se incorporó media externa. Estos assets son Development-only y el validator Release los bloquea hasta sustitución/aprobación.
+
 ## Git y organización futura
 
 - Fuentes grandes de formatos cubiertos irán a Git LFS; `.meta` siempre en Git normal.

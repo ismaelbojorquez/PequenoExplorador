@@ -22,6 +22,12 @@ MonoBehaviour:
     - audio-local
     - audio-placeholder
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0c284149892e147fc8300a3c5cf63c08
+    m_Address: camp/observation-table-before
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - shared-local
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 26a53aae0546046f5a6f2d2cd00698ef
     m_Address: audio/ambience/camp
     m_ReadOnly: 0
@@ -42,6 +48,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - audio-local
     - audio-placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4784f959211b443bc9c9cb8c657a089c
+    m_Address: camp/observation-corner-after
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - shared-local
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5708a5f68e0e847fdacae40f0f72125d
     m_Address: audio/voice/fact/toucan-fruit/es

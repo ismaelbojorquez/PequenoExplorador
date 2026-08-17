@@ -49,7 +49,10 @@ namespace PequenoExplorador.Tests.EditMode
                 {
                     new PhotoProgress(PequenoExplorador.Domain.Content.DiscoveryId.Parse("discovery.test"),
                         "discovery_test.png", 777, 384, 216, 12345)
-                });
+                })
+                .WithEconomyAndCampUpgrade(new PequenoExplorador.Domain.Economy.ExplorerStars(7),
+                    Array.Empty<string>(), Array.Empty<PequenoExplorador.Domain.Economy.EconomyLedgerEntry>(),
+                    new[] { "camp-upgrade.observation-corner" });
 
             Assert.That((await writer.SaveAsync(expected, CancellationToken.None)).IsSuccess, Is.True);
             LocalSaveService reader = CreateService(store);
@@ -429,7 +432,8 @@ namespace PequenoExplorador.Tests.EditMode
                     new V5ToV6PhotoProgressMigration(),
                     new V6ToV7EconomyMigration(),
                     new V7ToV8MissionMigration(),
-                    new V8ToV9LearningMigration()
+                    new V8ToV9LearningMigration(),
+                    new V9ToV10CampMigration()
                 });
         }
 
@@ -444,6 +448,7 @@ namespace PequenoExplorador.Tests.EditMode
                 Is.EqualTo(expected.Photos.Select(item => new { Id = item.DiscoveryId.Value, item.FileReference,
                     item.ScorePermille, item.Width, item.Height, item.ByteLength })));
             Assert.That(actual.ProcessedEconomyTransactionIds, Is.EqualTo(expected.ProcessedEconomyTransactionIds));
+            Assert.That(actual.UnlockedCampUpgradeIds, Is.EqualTo(expected.UnlockedCampUpgradeIds));
             Assert.That(actual.EconomyLedger.Select(item => new { Id = item.TransactionId.Value, item.Kind,
                     Reward = item.RewardId.Value, Amount = item.Amount.Value, Balance = item.BalanceAfter.Value }),
                 Is.EqualTo(expected.EconomyLedger.Select(item => new { Id = item.TransactionId.Value, item.Kind,

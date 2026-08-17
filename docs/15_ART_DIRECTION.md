@@ -25,6 +25,8 @@ Selva 2.5D/3D cálida y táctil: formas redondeadas, siluetas legibles, color na
 
 - Una representación candidata del tucán, pendiente de revisión factual.
 - Personaje/placeholders de exploración, claro de Selva y campamento modular.
+
+Prompt 25 usa únicamente geometría propia `PH_`: suelo/anchors, mesa de observación y rincón de exploración con notas, soporte de foto, lupa y maceta. Antes de Release requieren concept, modelado/materiales, revisión de escala/silueta, optimización móvil y aprobación asset-specific; el cambio debe leerse como progreso acogedor, nunca storefront.
 - Viewfinder, ficha de álbum, iconos de guía/pista/pausa y estados de actividad.
 - `Mesa de observación` antes/después y un set mínimo de feedback.
 

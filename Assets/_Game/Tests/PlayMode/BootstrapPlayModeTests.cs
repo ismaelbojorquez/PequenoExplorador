@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using PequenoExplorador.Application;
 using PequenoExplorador.Application.Audio;
+using PequenoExplorador.Application.Camp;
 using PequenoExplorador.Application.Configuration;
 using PequenoExplorador.Application.Lifecycle;
 using PequenoExplorador.Application.Localization;
@@ -20,6 +21,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityEngine.UI;
 using PequenoExplorador.Presentation.Learning;
+using PequenoExplorador.Presentation.Camp;
 
 namespace PequenoExplorador.Tests.PlayMode
 {
@@ -305,6 +307,72 @@ namespace PequenoExplorador.Tests.PlayMode
             yield return null;
             Assert.That(bootstrap.LearningView.IsVisible, Is.False);
             Assert.That(bootstrap.PhotographyRoot.IsActive, Is.True);
+        }
+
+        [UnityTest]
+        public IEnumerator CampUpgradePreviewsPurchasesPersistsAndSurvivesWorldRoundtrip()
+        {
+            SceneManager.LoadScene("Bootstrap", LoadSceneMode.Single);
+            yield return null;
+            yield return WaitForReady();
+            DiagnosticBootstrap bootstrap = Object.FindFirstObjectByType<DiagnosticBootstrap>();
+            bootstrap.ResetCampProgressForTests(3);
+            yield return null;
+
+            CampHubView hub = bootstrap.CampHubView;
+            Assert.That(hub.IsVisible, Is.True);
+            Assert.That(hub.StationButtons.Count, Is.EqualTo(4));
+            Assert.That(hub.StationButtons.Count(value => value.IsInteractable), Is.EqualTo(2));
+            Assert.That(hub.StationButtons.Single(value => value.StationId.Value == "camp-station.parents").IsInteractable, Is.False);
+            Assert.That(hub.StationButtons.Single(value => value.StationId.Value == "camp-station.customization").IsInteractable, Is.False);
+
+            CampUpgradeVisualView visual = Object.FindFirstObjectByType<CampUpgradeVisualView>();
+            Assert.That(visual, Is.Not.Null);
+            Assert.That(visual.IsShowingAfter, Is.False);
+            hub.OpenUpgradePreview();
+            Assert.That(hub.IsPreviewVisible, Is.True);
+            Assert.That(visual.IsShowingAfter, Is.True);
+            Assert.That(hub.TryHandleBack(), Is.True);
+            Assert.That(hub.IsPreviewVisible, Is.False);
+            Assert.That(visual.IsShowingAfter, Is.False);
+
+            hub.OpenUpgradePreview();
+            PurchaseCampUpgradeResult purchased = hub.ConfirmUpgradeForTests();
+            Assert.That(purchased.Outcome, Is.EqualTo(PurchaseCampUpgradeOutcome.Purchased));
+            Assert.That(purchased.Balance.Value, Is.Zero);
+            Assert.That(hub.CurrentUpgradeUnlocked, Is.True);
+            Assert.That(visual.IsShowingAfter, Is.True);
+            Assert.That(hub.ConfirmUpgradeForTests().Outcome, Is.EqualTo(PurchaseCampUpgradeOutcome.AlreadyUnlocked));
+
+            Task<SceneTransitionResult> expedition = bootstrap.GoToExpeditionAsync(CancellationToken.None);
+            yield return WaitForTask(expedition);
+            Assert.That(expedition.Result.Outcome, Is.EqualTo(SceneTransitionOutcome.Succeeded));
+            Task<SceneTransitionResult> camp = bootstrap.GoToCampAsync(CancellationToken.None);
+            yield return WaitForTask(camp);
+            Assert.That(camp.Result.Outcome, Is.EqualTo(SceneTransitionOutcome.Succeeded));
+            Assert.That(Object.FindFirstObjectByType<CampUpgradeVisualView>().IsShowingAfter, Is.True);
+
+            foreach ((int width, int height) in new[] { (1024, 768), (1920, 1080), (2400, 1080) })
+            {
+                Screen.SetResolution(width, height, FullScreenMode.Windowed);
+                yield return null;
+                Canvas.ForceUpdateCanvases();
+                foreach (Button button in hub.GetComponentsInChildren<Button>(true))
+                {
+                    Rect rect = ((RectTransform)button.transform).rect;
+                    Assert.That(rect.width, Is.GreaterThanOrEqualTo(64f), button.name + " width at " + width + "x" + height);
+                    Assert.That(rect.height, Is.GreaterThanOrEqualTo(64f), button.name + " height at " + width + "x" + height);
+                }
+            }
+
+            Task flush = bootstrap.FlushSaveAsync(CancellationToken.None);
+            yield return WaitForTask(flush);
+            SceneManager.LoadScene("Bootstrap", LoadSceneMode.Single);
+            yield return null;
+            yield return WaitForReady();
+            DiagnosticBootstrap reloaded = Object.FindFirstObjectByType<DiagnosticBootstrap>();
+            Assert.That(reloaded.CampHubView.CurrentUpgradeUnlocked, Is.True);
+            Assert.That(Object.FindFirstObjectByType<CampUpgradeVisualView>().IsShowingAfter, Is.True);
         }
 
         private static IEnumerator WaitForReady()

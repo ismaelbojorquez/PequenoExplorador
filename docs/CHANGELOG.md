@@ -1,5 +1,28 @@
 # Changelog
 
+## Prompt 25 — progressive explorer hub — 2026-08-17
+
+### Added
+
+- Catálogo Camp con cuatro estaciones data-driven y primera mejora `camp-upgrade.observation-corner` por 3 Estrellas provisionales.
+- Preview/confirm/cancel localizado, variantes visuales `PH_` antes/después, anchors de escena y navegación que reutiliza World/Album existentes.
+- Compra atómica e idempotente, save schema v10/migración v9→v10, setup/validator CLI y cobertura EditMode/PlayMode.
+
+### Changed
+
+- El import final normalizó el alias `_Color` de los materiales placeholder existentes de planta/objeto para igualarlo con `_BaseColor`; evita diffs recurrentes de Unity y no cambia reglas ni contenido aprobado.
+
+### Limits
+
+- Personalización y área adulta permanecen no interactivas; no hay parental gate, IAP, tienda, arte final ni publicación. Los assets `PH_` bloquean Release.
+- Costo, legibilidad visual y experiencia táctil requieren playtest/revisión en Android real; Gate B sigue `FAIL` hasta integración/auditoría posterior.
+
+### Verified
+
+- Catálogo/ciclos/referencias, atomicidad/insuficiente/retry, round-trip/migración, preview/compra/reload, Selva↔Camp y ratios automatizados.
+- `scripts/validate` final PASS: Markdown/config, compile/validadores, Addressables `4.0.1` con 47 locations/1,282,243 bytes, EditMode `147/147`, PlayMode `25/25` y APK ES final `106,873,974` bytes / SHA-256 `bc0117ceec68cc73821a8ae337286bc5625b69daf38d46ded76a5fac0fb8f925` en `15.980 s` incremental (`200.231 s` cold previo). El comando es reproducible; el APK Development cambió de hash entre runs por metadatos internos.
+- Manifest final: API 26/36, IL2CPP/ARM64, solo `INTERNET` heredado + receiver interno; sin CAMERA/micrófono/ubicación/contactos/AD_ID/BILLING. Android físico `NOT RUN`: `adb devices -l` vacío.
+
 ## Prompt 24 — integrated feeding/habitat activity — 2026-08-17
 
 ### Added

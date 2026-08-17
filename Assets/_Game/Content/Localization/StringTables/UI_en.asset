@@ -433,6 +433,79 @@ MonoBehaviour:
     m_Localized: Discover what it eats
     m_Metadata:
       m_Items: []
+  - m_Id: 261701088829440
+    m_Localized: Explorer Camp
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800960
+    m_Localized: Expedition Map
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800961
+    m_Localized: Choose the Jungle and head out to explore.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800962
+    m_Localized: Album
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800963
+    m_Localized: See the discoveries you found.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800964
+    m_Localized: Explorer Corner
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800965
+    m_Localized: Customization is coming later.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800966
+    m_Localized: For Grown-ups
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800967
+    m_Localized: Coming later with a safe grown-up entry.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800968
+    m_Localized: Observation Corner
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800969
+    m_Localized: A visual upgrade for your exploration table.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800970
+    m_Localized: Turn the table into a cozy corner for remembering discoveries.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800971
+    m_Localized: 'Cost: {0:plural:one star|{} stars}'
+    m_Metadata:
+      m_Items:
+      - rid: 6219209779658358820
+  - m_Id: 261701109800972
+    m_Localized: Upgrade
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800973
+    m_Localized: Not now
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800974
+    m_Localized: Your observation corner is ready!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800975
+    m_Localized: Corner ready
+    m_Metadata:
+      m_Items: []
+  - m_Id: 261701109800976
+    m_Localized: This upgrade is not available yet.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
@@ -447,3 +520,4 @@ MonoBehaviour:
         - id: 210606354325506
         - id: 210606354325510
         - id: 229917835911172
+        - id: 261701109800971

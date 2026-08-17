@@ -21,6 +21,7 @@ namespace PequenoExplorador.Domain.Progress
         private readonly string[] _processedMissionFactIds;
         private readonly LearningSession[] _learningSessions;
         private readonly LearningConceptDailyProgress[] _learningConcepts;
+        private readonly string[] _unlockedCampUpgradeIds;
 
         public PlayerProgress(
             int stars,
@@ -77,7 +78,8 @@ namespace PequenoExplorador.Domain.Progress
             IEnumerable<string> processedMissionFactIds = null,
             long lastMissionFactSequence = 0,
             IEnumerable<LearningSession> learningSessions = null,
-            IEnumerable<LearningConceptDailyProgress> learningConcepts = null)
+            IEnumerable<LearningConceptDailyProgress> learningConcepts = null,
+            IEnumerable<string> unlockedCampUpgradeIds = null)
         {
             if (stars < 0)
             {
@@ -102,6 +104,7 @@ namespace PequenoExplorador.Domain.Progress
             LastMissionFactSequence = lastMissionFactSequence;
             _learningSessions = CopyAndValidateLearningSessions(learningSessions ?? Array.Empty<LearningSession>());
             _learningConcepts = CopyAndValidateLearningConcepts(learningConcepts ?? Array.Empty<LearningConceptDailyProgress>());
+            _unlockedCampUpgradeIds = CopyAndValidateCampUpgradeIds(unlockedCampUpgradeIds ?? Array.Empty<string>());
             if (_missions.Where(item => item.IsCompleted).Any(item => !_completedMissionIds.Contains(item.Id.Value, StringComparer.Ordinal)))
                 throw new ArgumentException("Completed mission progress must appear in completed mission IDs.", nameof(missions));
         }
@@ -122,6 +125,7 @@ namespace PequenoExplorador.Domain.Progress
         public long LastMissionFactSequence { get; }
         public IReadOnlyList<LearningSession> LearningSessions => _learningSessions;
         public IReadOnlyList<LearningConceptDailyProgress> LearningConcepts => _learningConcepts;
+        public IReadOnlyList<string> UnlockedCampUpgradeIds => _unlockedCampUpgradeIds;
 
         public static PlayerProgress CreateDefault()
         {
@@ -149,7 +153,8 @@ namespace PequenoExplorador.Domain.Progress
                 _processedMissionFactIds,
                 LastMissionFactSequence,
                 _learningSessions,
-                _learningConcepts);
+                _learningConcepts,
+                _unlockedCampUpgradeIds);
         }
 
         public PlayerProgress WithPreferences(PlayerPreferences preferences)
@@ -168,7 +173,8 @@ namespace PequenoExplorador.Domain.Progress
                 _processedMissionFactIds,
                 LastMissionFactSequence,
                 _learningSessions,
-                _learningConcepts);
+                _learningConcepts,
+                _unlockedCampUpgradeIds);
         }
 
         public PlayerProgress WithDiscoveryState(
@@ -189,7 +195,8 @@ namespace PequenoExplorador.Domain.Progress
                 _processedMissionFactIds,
                 LastMissionFactSequence,
                 _learningSessions,
-                _learningConcepts);
+                _learningConcepts,
+                _unlockedCampUpgradeIds);
         }
 
         public PlayerProgress WithPhotos(IEnumerable<PhotoProgress> photos)
@@ -208,26 +215,48 @@ namespace PequenoExplorador.Domain.Progress
                 _processedMissionFactIds,
                 LastMissionFactSequence,
                 _learningSessions,
-                _learningConcepts);
+                _learningConcepts,
+                _unlockedCampUpgradeIds);
         }
 
         public PlayerProgress WithEconomy(ExplorerStars balance, IEnumerable<string> processedTransactionIds,
             IEnumerable<EconomyLedgerEntry> ledger) => new PlayerProgress(
             balance.Value, _worldIds, _discoveries, _processedDiscoveryGrantIds, _photos,
             _completedMissionIds, Preferences, processedTransactionIds, ledger,
-            _missions, _processedMissionFactIds, LastMissionFactSequence, _learningSessions, _learningConcepts);
+            _missions, _processedMissionFactIds, LastMissionFactSequence, _learningSessions, _learningConcepts,
+            _unlockedCampUpgradeIds);
 
         public PlayerProgress WithMissionState(IEnumerable<MissionProgress> missions,
             IEnumerable<string> completedMissionIds, IEnumerable<string> processedFactIds, long lastFactSequence) =>
             new PlayerProgress(Stars, _worldIds, _discoveries, _processedDiscoveryGrantIds, _photos,
                 completedMissionIds, Preferences, _processedEconomyTransactionIds, _economyLedger,
-                missions, processedFactIds, lastFactSequence, _learningSessions, _learningConcepts);
+                missions, processedFactIds, lastFactSequence, _learningSessions, _learningConcepts,
+                _unlockedCampUpgradeIds);
 
         public PlayerProgress WithLearningState(IEnumerable<LearningSession> sessions,
             IEnumerable<LearningConceptDailyProgress> concepts) =>
             new PlayerProgress(Stars, _worldIds, _discoveries, _processedDiscoveryGrantIds, _photos,
                 _completedMissionIds, Preferences, _processedEconomyTransactionIds, _economyLedger,
-                _missions, _processedMissionFactIds, LastMissionFactSequence, sessions, concepts);
+                _missions, _processedMissionFactIds, LastMissionFactSequence, sessions, concepts,
+                _unlockedCampUpgradeIds);
+
+        public PlayerProgress WithEconomyAndCampUpgrade(
+            ExplorerStars balance,
+            IEnumerable<string> processedTransactionIds,
+            IEnumerable<EconomyLedgerEntry> ledger,
+            IEnumerable<string> unlockedCampUpgradeIds) => new PlayerProgress(
+            balance.Value, _worldIds, _discoveries, _processedDiscoveryGrantIds, _photos,
+            _completedMissionIds, Preferences, processedTransactionIds, ledger,
+            _missions, _processedMissionFactIds, LastMissionFactSequence, _learningSessions,
+            _learningConcepts, unlockedCampUpgradeIds);
+
+        private static string[] CopyAndValidateCampUpgradeIds(IEnumerable<string> values)
+        {
+            string[] result = CopyAndValidateIds(values, nameof(values));
+            if (result.Any(value => !CampUpgradeId.TryParse(value, out _)))
+                throw new ArgumentException("Camp upgrade IDs are invalid.", nameof(values));
+            return result.OrderBy(value => value, StringComparer.Ordinal).ToArray();
+        }
 
         private static LearningSession[] CopyAndValidateLearningSessions(IEnumerable<LearningSession> values)
         {

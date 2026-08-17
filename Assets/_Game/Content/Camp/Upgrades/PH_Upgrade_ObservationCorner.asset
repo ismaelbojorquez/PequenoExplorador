@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e47f4f016d28445b8687f48cb9479b7, type: 3}
+  m_Name: PH_Upgrade_ObservationCorner
+  m_EditorClassIdentifier: PequenoExplorador.Content::PequenoExplorador.Content.Camp.CampUpgradeDefinitionAsset
+  _id: camp-upgrade.observation-corner
+  _stationId: camp-station.album
+  _displayNameTable: UI
+  _displayNameKey: ui.camp.upgrade.observation.name
+  _descriptionTable: UI
+  _descriptionKey: ui.camp.upgrade.observation.description
+  _previewTable: UI
+  _previewKey: ui.camp.upgrade.observation.preview
+  _starCost: 3
+  _spendReasonId: reward.camp-upgrade.observation-corner
+  _beforeVisualId: visual.camp.observation-table.before
+  _afterVisualId: visual.camp.observation-corner.after
+  _beforeVariant:
+    m_AssetGUID: 0c284149892e147fc8300a3c5cf63c08
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  _afterVariant:
+    m_AssetGUID: 4784f959211b443bc9c9cb8c657a089c
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  _prerequisiteIds: []
+  _editorial:
+    _state: 0
+    _isPlaceholder: 1
+    _owner: Camp Design
+    _developmentWatermark: "BORRADOR \xB7 PH_CAMP_UPGRADE"

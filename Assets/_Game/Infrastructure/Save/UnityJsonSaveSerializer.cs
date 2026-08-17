@@ -25,7 +25,7 @@ namespace PequenoExplorador.Infrastructure.Save
             }
 
             PlayerPreferences preferences = progress.Preferences;
-            PlayerProgressV9Dto payload = PlayerProgressV9Dto.Create(
+            PlayerProgressV10Dto payload = PlayerProgressV10Dto.Create(
                 appVersion,
                 progress.Stars,
                 progress.WorldIds.ToArray(),
@@ -61,6 +61,7 @@ namespace PequenoExplorador.Infrastructure.Save
                     item.ActivityId.Value, (int)item.Status, item.Attempts, item.HintLevel)).ToArray(),
                 progress.LearningConcepts.Select(item => LearningConceptDailyV9Dto.Create(
                     item.ConceptId.Value, item.LocalDate, item.SeenCount, item.CompletedCount)).ToArray(),
+                progress.UnlockedCampUpgradeIds.ToArray(),
                 SaveMetadataV1Dto.Create(saveSequence));
             string payloadJson = JsonUtility.ToJson(payload, false);
             return SerializeEnvelope(LocalSaveService.CurrentSchemaVersion, payloadJson);
@@ -117,10 +118,10 @@ namespace PequenoExplorador.Infrastructure.Save
 
         public DecodedSaveData DeserializeCurrentPayload(string payload)
         {
-            PlayerProgressV9Dto dto;
+            PlayerProgressV10Dto dto;
             try
             {
-                dto = JsonUtility.FromJson<PlayerProgressV9Dto>(payload);
+                dto = JsonUtility.FromJson<PlayerProgressV10Dto>(payload);
             }
             catch (Exception exception)
             {
@@ -131,7 +132,7 @@ namespace PequenoExplorador.Infrastructure.Save
                 dto.WorldIds == null || dto.Discoveries == null || dto.ProcessedDiscoveryGrantIds == null || dto.Photos == null ||
                 dto.CompletedMissionIds == null || dto.ProcessedEconomyTransactionIds == null || dto.EconomyLedger == null ||
                 dto.Missions == null || dto.ProcessedMissionFactIds == null || dto.LastMissionFactSequence < 0 ||
-                dto.LearningSessions == null || dto.LearningConcepts == null ||
+                dto.LearningSessions == null || dto.LearningConcepts == null || dto.UnlockedCampUpgradeIds == null ||
                 dto.Settings == null || dto.Metadata == null || dto.Metadata.SaveSequence < 0 ||
                 !Enum.IsDefined(typeof(GuidanceMode), dto.Settings.GuidanceMode) ||
                 !LocaleCode.IsSupported(dto.Settings.LocaleCode, includePseudo: false) ||
@@ -223,7 +224,8 @@ namespace PequenoExplorador.Infrastructure.Save
                     dto.ProcessedMissionFactIds,
                     dto.LastMissionFactSequence,
                     learningSessions,
-                    learningConcepts);
+                    learningConcepts,
+                    dto.UnlockedCampUpgradeIds);
                 return new DecodedSaveData(progress, dto.Metadata.SaveSequence);
             }
             catch (Exception exception)

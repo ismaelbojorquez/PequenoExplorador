@@ -53,7 +53,7 @@ Fixture visual VS-D-A01: EditMode valida IDs, `Approved`/no-placeholder, metadat
 
 Mundos EditMode cubre mapping del manifest Selva, duplicate IDs, Release Draft, locked/missing sin carga ni mutación de progreso y una fixture in-memory `world.test-ocean`. Esa fixture usa `scene/test-ocean` a través del mismo `WorldLoadUseCase`/`SceneFlowService`, sin modificar el coordinador. PlayMode enumera Selva desde `IWorldCatalog` y ejecuta tres ciclos por `WorldId`, comprobando sesión activa, unload y handles.
 
-Save EditMode cubre default/round-trip, JSON determinista, atomicidad/checksum/backup, v0→…→v9, migraciones hasta v8→v9, photos/economy/mission/learning metadata, future schema read-only, cancelación y coalescing. PlayMode recrea el servicio y valida discovery/foto/economía/misión/learning. No se usa `PlayerPrefs`, red, reloj real ni rutas versionadas. Detalle: [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md).
+Save EditMode cubre default/round-trip, JSON determinista, atomicidad/checksum/backup, v0→…→v10, migraciones hasta v9→v10, photos/economy/mission/learning/Camp metadata, future schema read-only, cancelación y coalescing. PlayMode recrea el servicio y valida discovery/foto/economía/misión/learning/Camp. No se usa `PlayerPrefs`, red, reloj real ni rutas versionadas. Detalle: [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md).
 
 Configuración EditMode cubre defaults, dos assets locales, mapping, IDs duplicados, budgets inválidos, cada flag prohibido en Release y override temporal restaurable. PlayMode comprueba que Bootstrap selecciona Development, muestra producto/versión del asset y conserva Ready/scene flow/save. `scripts/compile`/build llaman el validador de ambos perfiles; una fixture controlada Release+`MockAds` debe fallar `CONFIG008`. Contrato: [`RUNTIME_CONFIGURATION.md`](RUNTIME_CONFIGURATION.md).
 
@@ -69,6 +69,8 @@ Interacción EditMode cubre prioridad→distancia→ID, rango/approach, unavaila
 
 Discovery EditMode cubre first/repeat, grant idempotente, missing, Draft, retirado, denominadores y día agregado. Fotografía añade thresholds/scoring, best-photo, filenames/budgets, storage fallback, cancelación y shutter concurrente. Economy añade wallet, grant/spend, insuficiente, overflow, source mismatch, retry/crash y ledger 32. Missions cubre strategies/pre-event/idempotencia. Learning cubre correct/incorrect, `TryAgain`→pistas, retry, exit/resume/restart, reward/fact idempotentes, Draft Release gate, agregado concepto+día y v8→v9; PlayMode usa la UI real para ES→EN, replay, completion y reload. Android físico sigue pendiente.
 
+Camp EditMode cubre catálogo data-driven, duplicados, referencias, ciclos, prerequisitos, saldo suficiente/insuficiente, read-only, compra duplicada, commit fallido/retry, atomicidad y migración v9→v10. PlayMode cubre preview/cancel, compra por 3 Estrellas, variante visual, Selva→Camp, flush/reload y targets en `1024×768`, `1920×1080`, `2400×1080`. `scripts/validate-camp` comprueba cuatro estaciones/anchors, safe area, targets `≥64×64`, Addressables locales y bloqueo de parent area/PH_ Release. Hardware Android real sigue `NOT RUN`.
+
 Prompt 24 amplía Learning con solución por `TagId` independiente del orden, enlace al fact Approved, source/editorial gate, cues/reacciones y actividad Sourced bloqueada en Release. El PlayMode integrado conserva regresiones de foto/álbum y recorre interacción→captura válida→botón Learning→incorrecta/pista→ES/EN→correcta/replay/reward→retorno a fotografía, incluida reacción reduce-motion. Targets/safe area son automatizados; audio/UX/touch en Android real siguen `NOT RUN`.
 
 Álbum EditMode cubre conteos/filtro desde catálogo Approved, Draft oculto, locked sin fuga, detail/facts/photo, contenido retirado, facts/assets ausentes y lectura/cancelación de `LocalPhotoStore`. PlayMode abre desde Camp, comprueba actualización tras captura sin reinicio, foto/detail/replay deshabilitado, Back/cancel/cleanup, ES/EN/pseudo y targets/best-fit en `1024×768`, `1280×720`, `1600×720` y `1280×800`. `scripts/validate-album` bloquea metadata/wiring/pool/safe-area/targets y acceso directo de Presentation a storage/editor APIs. Android físico y fuente grande visual son `NOT RUN` sin hardware/revisión humana. Contrato: [`ALBUM_SYSTEM.md`](ALBUM_SYSTEM.md).
@@ -80,6 +82,8 @@ Los conteos, tiempos y artefactos canónicos de la última ejecución integral s
 Los wrappers son orquestadores: configuración, validación y build viven bajo `Assets/_Game/Editor/BuildTools`. Los logs sustituyen la raíz del proyecto, home y ejecutable del Editor por marcadores antes de conservarse.
 
 ## Diagnóstico y recuperación
+
+Para regenerar Camp: `scripts/setup-camp`. Para validar solo su authoring/wiring: `scripts/validate-camp`. Ambos escriben logs en `artifacts/logs/`; no se debe editar scene YAML o GUIDs manualmente.
 
 1. conservar `artifacts/` y abrir el log del primer comando fallido;
 2. buscar `error CS`, `Exception`, `FAILED`, `PE_` o el código indicado;

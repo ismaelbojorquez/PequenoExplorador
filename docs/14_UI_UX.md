@@ -34,6 +34,8 @@ Prompt 19 añade un Canvas `PH_UI_PHOTOGRAPHY` sobre safe area: retícula de `62
 
 Prompt 20 añade `PH_UI_ALBUM`: acceso exclusivo desde Camp, grid de ocho celdas reutilizables, filtro de categoría, detalle y estados loading/empty/error/locked/missing-photo. Targets son `≥64×64`, el root usa safe area y `Back` recorre detalle→grid→cerrar. Las entries bloqueadas no revelan nombre/facts; la foto/fact/audio faltante degrada a copy seguro. Baseline ES/EN/pseudo y ratios `4:3`, `16:9`, `20:9`, `16:10` están automatizados. El visual cromático y `UnityEngine.UI.Text` siguen siendo baseline `PH_`; TMP/componentes finales se migran en Prompt 27. Contrato: [`ALBUM_SYSTEM.md`](ALBUM_SYSTEM.md).
 
+Prompt 25 añade `PH_UI_CAMP_HUB`: cuatro estaciones grandes, preview modal con confirmación/cancelación y feedback localizado. Expedición/Álbum están activos; Personalización/Personas adultas son futuros no interactivos. `Back` cancela preview antes de abandonar otro estado. Targets `≥64×64`, safe area y `4:3`/`16:9`/`20:9` se validan; no existe CTA de dinero real. Contrato: [`CAMP_SYSTEM.md`](CAMP_SYSTEM.md).
+
 Prompt 21 añade `PH_UI_ECONOMY` dentro de safe area: saldo localizado, aclaración explícita de que las estrellas son virtuales/no comprables y pulso cancelable omitido con reduce-motion. `DEBUG +1` solo aparece en Development; no hay tienda, oferta o compra. El chrome sigue `PH_` hasta Prompt 27. Contrato: [`ECONOMY_REWARDS.md`](ECONOMY_REWARDS.md).
 
 Prompt 23 añade `PH_UI_LEARNING`: una instrucción, tres opciones grandes, pista, replay y salida segura. `TryAgain` invita a mirar de nuevo y nunca muestra fallo/vidas/nota; exit permite resume/restart sin costo. Sigue siendo baseline Draft para Prompt 27.
