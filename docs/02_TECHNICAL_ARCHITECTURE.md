@@ -1,6 +1,6 @@
 # Arquitectura técnica — fronteras modulares
 
-Estado: foundation, catálogo data-driven Draft, manifiesto local de Selva, scene flow, save v3, localización, audio, input, locomoción e interacción contextual `PH_` implementados. No existen discovery ni contenido final. `Bootstrap` persiste y entra a Camp placeholder.
+Estado: foundation, catálogo data-driven, manifiesto local de Selva, scene flow, save v6, localización, audio, input, locomoción, interacción, discovery y fotografía virtual implementados para `VS-D-A01`. No existen álbum/economía ni contenido masivo. `Bootstrap` persiste y entra a Camp placeholder.
 
 ## Grafo real de assemblies
 
@@ -99,14 +99,15 @@ DiagnosticBootstrap (Unity lifecycle)
       │   ├─ IContentCatalog [readonly, O(1), no lifecycle]
       │   ├─ IWorldCatalog / IWorldSession [readonly catalog + sesión explícita]
       │   ├─ ISaveService → IFileStore
+      │   ├─ IPhotoStore [inyección explícita a fotografía; no global]
       │   ├─ ILocalizationService → Unity Localization
       │   ├─ IAnalyticsService
       │   ├─ IAdsService
       │   ├─ IPurchaseService
       │   └─ ISceneFlowService → ISceneContentLoader
       └─ ApplicationHost
-          initialize: MessageBus → Input → SafeArea → Haptics → Save → Localization → Audio → Analytics → Ads → Purchases
-          shutdown:  Purchases → Ads → Analytics → Audio → Localization → Save → Haptics → SafeArea → Input → MessageBus
+          initialize: MessageBus → Input → SafeArea → Haptics → Save → Photos → Localization → Audio → Analytics → Ads → Purchases
+          shutdown:  Purchases → Ads → Analytics → Audio → Localization → Photos → Save → Haptics → SafeArea → Input → MessageBus
 ```
 
 `ApplicationHost.InitializeAsync` es secuencial, comparte la misma tarea ante llamadas concurrentes, acepta `CancellationToken`, permite retry después de fallo recuperable y hace cleanup inverso. `Shutdown`/`Dispose` son idempotentes; si llegan durante inicialización solicitan cancelación del host, impiden volver a `Ready` y limpian también el servicio que estaba inicializando. `AppContext` no es estático y no ofrece lookup; Bootstrap lo retiene para inyección explícita en futuras fachadas.
@@ -125,12 +126,14 @@ Domain.PlayerProgress
 Application.ISaveService / AutosaveCoordinator / IFileStore
           ↓
 Infrastructure.LocalSaveService
-  ├─ UnityJsonSaveSerializer → envelope/DTO v1/v2/v3 + SHA-256
+  ├─ UnityJsonSaveSerializer → envelope/DTO v1…v6 + SHA-256
   ├─ ISaveMigration[] → pasos n→n+1
   └─ LocalFileStore → persistentDataPath/Save
 ```
 
 Application y features no conocen JSON ni paths. Infrastructure referencia Domain directamente porque implementa firmas públicas que mapean `PlayerProgress`; la dirección sigue hacia adentro y el grafo permanece acíclico. Bootstrap es el único lugar que resuelve `Application.persistentDataPath`. Presentation solo consume `SaveUserNotice` para copy recuperable. Contrato, archivos, downgrade y recovery: [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md).
+
+Las thumbnails no entran al envelope: `IPhotoStore` posee `persistentDataPath/Photos`, PNG/manifest/temp; `PlayerProgress` v6 guarda solo metadata y referencia relativa. El store inicia después de Save y se inyecta al caso de uso desde Bootstrap.
 
 ### Localización
 
@@ -154,7 +157,7 @@ Domain no conoce audio ni archivos. El root Bootstrap posee exactamente siete so
 
 ### Input y adaptación móvil
 
-Application define `IInputService`, `ISafeAreaService` e `IHapticsService`; el clasificador de gestos es C# puro. Infrastructure concentra Input System/EnhancedTouch y `Screen.safeArea`; Presentation recibe intenciones y snapshots. Bootstrap selecciona `UI` para Camp/transición/pausa y `Explorer` para Expedition. `Photography`/`Parents` quedan preparados sin feature, mientras `Debug` es aditivo y Development-only. Haptics es no-op/desactivado. Contrato, thresholds, ratios y hardware pendiente: [`INPUT_ACCESSIBILITY.md`](INPUT_ACCESSIBILITY.md).
+Application define `IInputService`, `ISafeAreaService` e `IHapticsService`; el clasificador de gestos es C# puro. Infrastructure concentra Input System/EnhancedTouch y `Screen.safeArea`; Presentation recibe intenciones y snapshots. Bootstrap selecciona `UI` para Camp/transición/pausa, `Explorer` para Expedition y `Photography` durante el viewfinder. `Parents` queda preparado; `Debug` es aditivo Development-only. Haptics es no-op/desactivado. Contrato, thresholds, ratios y hardware pendiente: [`INPUT_ACCESSIBILITY.md`](INPUT_ACCESSIBILITY.md).
 
 ### Locomoción candidata
 
@@ -187,7 +190,7 @@ Content InteractionDefinitionAsset ──compile──→ readonly catalog
 Bootstrap enlaza catálogo + raíz de Selva + servicios localización/audio
 ```
 
-Presentation referencia Domain solo porque la definición pública expone el value ID tipado; la regla queda en la allowlist y no invierte dependencias. `InteractionCoordinator` conserva un foco, serializa approach/acción y limpia por UI, pause, target destruido o unload. El adapter de detección indexa colliders al bind y usa raycast non-alloc; no hay `GetComponent` por frame, categoría animal, service locator ni bus global. `DiscoveryInteractionAction` implementa la primera acción concreta mediante `DiscoverUseCase`; learning seguirá una conexión explícita posterior. Contrato: [`INTERACTION_SYSTEM.md`](INTERACTION_SYSTEM.md).
+Presentation referencia Domain solo porque la definición pública expone el value ID tipado; la regla queda en la allowlist y no invierte dependencias. `InteractionCoordinator` conserva un foco, serializa approach/acción y limpia por UI, pause, target destruido o unload. El adapter de detección indexa colliders al bind y usa raycast non-alloc; no hay `GetComponent` por frame, categoría animal, service locator ni bus global. `PhotographyInteractionAction` entrega el ID al coordinador de cámara y discovery se concede solo tras captura válida; learning seguirá una conexión explícita posterior. Contrato: [`INTERACTION_SYSTEM.md`](INTERACTION_SYSTEM.md).
 
 ### Discovery persistente
 
@@ -196,12 +199,16 @@ Content DiscoveryDefinition ──→ DiscoverUseCase ←── IClock + grant.*
                                       ↓
                          IDiscoveryProgressRepository
                                       ↓
-               PlayerProgress v5 → AutosaveCoordinator.Latest
+               PlayerProgress v6 → AutosaveCoordinator.Latest
                                       ↓
                     Infrastructure Save DTO/migration/file
 ```
 
-Domain posee `DiscoveryProgress` y value IDs; Application decide first/repeat/idempotencia/aprobación y calcula queries contra el catálogo; Infrastructure serializa DTO v5 y migra el alias del tucán; Bootstrap compone. `DiscoverResult` no contiene estrellas, UI ni Audio. El día local se reduce a `yyyy-MM-dd`; no se guarda hora/zona/identidad. Los denominadores se derivan de definitions Approved vigentes.
+Domain posee `DiscoveryProgress` y value IDs; Application decide first/repeat/idempotencia/aprobación y calcula queries contra el catálogo; Infrastructure serializa DTO v6 y conserva la migración del alias; Bootstrap compone. `DiscoverResult` no contiene estrellas, UI ni Audio. El día local se reduce a `yyyy-MM-dd`; no se guarda hora/zona/identidad. Los denominadores se derivan de definitions Approved vigentes.
+
+### Fotografía asistida
+
+`Presentation.PhotographableView` produce medidas viewport/distancia/LOS/orientación; `Application.PhotoTargetEvaluator` decide guía/score y `CapturePhotoUseCase` orquesta discovery → render → store → metadata. `UnityPhotoThumbnailRenderer` crea/libera RenderTexture `384×216`; `Infrastructure.LocalPhotoStore` limita PNG/manifest; save solo referencia la mejor foto. Un fallo de storage no revierte discovery. Contrato y budgets: [`PHOTOGRAPHY_SYSTEM.md`](PHOTOGRAPHY_SYSTEM.md).
 
 ## Scene flow y contenido local
 
@@ -234,7 +241,7 @@ El bus en memoria solo cubre fan-out acotado. `Subscribe<T>` devuelve `IDisposab
 | Analytics | `NullAnalyticsService` | `NullAnalyticsService` |
 | Ads | `MockAdsService` si flag local ON; default ON | `NoAdsService`; `MockAds` prohibido |
 | Purchases | `MockPurchaseService` si flag local ON; default ON | `UnavailablePurchaseService`; `MockPurchases` prohibido |
-| Save | Local schema v5 | Local schema v5; herramientas Editor excluidas |
+| Save/Photos | Local schema v6 + photo store local | Igual; simulador de fallo y tooling Editor excluidos |
 | Localization | ES/EN + pseudo y selector diagnóstico | ES/EN; pseudo/selector diagnóstico excluidos |
 | Audio | Mixer/cues PH_, panel y replay diagnóstico | Servicio local; panel oculto y placeholders bloquean Release de contenido |
 | Input/safe area | 5 mapas; Debug overlay local; presets de ratio | Mapas de producto, Debug deshabilitado; safe area local |
@@ -277,4 +284,4 @@ Subdividir un assembly requiere evidencia de tiempos de compilación, ownership,
 - Unity `6000.3.22f1`, Addressables `4.0.1`, AI Navigation `2.0.9`, URP `17.3.0`, Input System `1.20.0`, Test Framework `1.6.0`, uGUI `2.0.0`.
 - Bootstrap es la única escena habilitada en Build Settings; Camp/Jungle son locales Addressable. Development muestra navegación/fallo simulado; Release oculta controles Development.
 - Android sigue min API 26, target/compile 36, IL2CPP y ARM64; sin manifest/Gradle custom ni permiso sensible nuevo.
-- Existen locomoción, interacción y discovery directo Approved para `VS-D-A01`; no existen fotografía/álbum/economía/UI final, contenido remoto ni SDKs comerciales. Save schema v5 no guarda PII/cuentas; ads/IAP/analytics son únicamente Null/Mock/Unavailable locales sin red.
+- Existen locomoción, interacción, discovery y fotografía virtual Approved para `VS-D-A01`; no existen álbum/economía/UI final, contenido remoto ni SDKs comerciales. Save schema v6 no guarda PII/cuentas/pixels; ads/IAP/analytics son únicamente Null/Mock/Unavailable locales sin red.

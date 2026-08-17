@@ -65,9 +65,19 @@ El incremento visual crea `visual.discovery.jungle.keel-billed-toucan` como obra
 | Renders de review | `artifacts/review/toucan/`: frontal, lateral, tres cuartos, Jungle 20:9 y siluetas clara/oscura |
 | Aprobación visual | `H-008-IB-2026-08-16`: Art, Rights y QA del asset concreto `APPROVED`; commit revisado `427c09b0b48b0b8ec7348971db5eddbafc5d3707` |
 | Aprobación factual | `H-009-IB-2026-08-16`: revisión humana por Ismael Bojórquez — Investigador; competencia declarada en búsqueda ampliada, sin atribuir credencial ornitológica |
-| Pendiente | Definitions/mapping runtime, animación/audio final, validación ornitológica externa recomendada y profiling Android físico |
+| Pendiente | Animación/audio final, iconografía/card/viewfinder final, validación ornitológica externa recomendada y profiling Android físico |
 
 Cambiar especie/subespecie devuelve a revisión todo el modelo/ilustración, collider/bounds fotográficos, icono y thumbnail canónico. Cambiar rasgo visual o paleta devuelve esos assets y cualquier actividad de reconocimiento a `Reviewed`; no invalida dieta/sonido salvo que también cambie la especie.
+
+## Ledger temporal Prompt 19
+
+| ID/path | Tipo | Estado | Reemplazo humano requerido |
+|---|---|---|---|
+| `PH_UI_PHOTOGRAPHY` / `PH_ASSIST_RETICLE` | uGUI, retícula/flash/guía/shutter | `Placeholder / ReleaseBlocked` | Iconografía final no dependiente de color, revisión 4:3–20:9/tablet y reduce motion. |
+| `PH_DISCOVERY_CARD` | tarjeta localizada de resultado | `Placeholder / ReleaseBlocked` | Card/imagen canónica final, lectura prelectora y estados thumbnail/fallback. |
+| thumbnail `384×216` local | captura virtual del render Approved | Runtime derivado, privado/local | QA de encuadre/compresión/legibilidad y budgets en Android; no requiere licencia nueva mientras solo renderice assets propios/aprobados. |
+
+`VS_PhotoAnchor` y `CandidatePhotoBounds` aprobados se usan como authoring del `PhotoTarget`; no comunican medida zoológica. Cambiar bounds/anchor/visual de manera material reabre H-008/H-009 según el expediente. No se añadió media externa.
 
 ## Git y organización futura
 

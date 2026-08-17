@@ -7,6 +7,7 @@ using PequenoExplorador.Application.Input;
 using PequenoExplorador.Application.Discovery;
 using PequenoExplorador.Application.Interaction;
 using PequenoExplorador.Application.Lifecycle;
+using PequenoExplorador.Application.Photography;
 using PequenoExplorador.Application.SceneFlow;
 using PequenoExplorador.Bootstrap;
 using PequenoExplorador.Presentation.Interaction;
@@ -14,6 +15,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
+using UnityEngine.Profiling;
 
 namespace PequenoExplorador.Tests.PlayMode
 {
@@ -64,8 +66,10 @@ namespace PequenoExplorador.Tests.PlayMode
             for (int index = 0; index < 8; index++) bootstrap.InteractionPrompt.ActionButton.onClick.Invoke();
             yield return null;
             Assert.That(animal.ActivationCount, Is.EqualTo(1));
+            Assert.That(bootstrap.Input.CurrentMap, Is.EqualTo(InputMapId.Photography));
+            Assert.That(bootstrap.PhotographyView.IsVisible, Is.True);
             Assert.That(bootstrap.InteractionRoot.Coordinator.Snapshot.State,
-                Is.EqualTo(InteractionOutcome.Completed));
+                Is.EqualTo(InteractionOutcome.Suspended));
         }
 
         [UnityTest]
@@ -103,7 +107,7 @@ namespace PequenoExplorador.Tests.PlayMode
             Task reset = bootstrap.ResetProgressForTestsAsync(CancellationToken.None);
             yield return WaitForTask(reset);
 
-            yield return ActivateAnimal(bootstrap);
+            yield return ActivateAnimalAndCapture(bootstrap);
             Assert.That(bootstrap.LastDiscoveryResult.Outcome, Is.EqualTo(DiscoverOutcome.First));
             Assert.That(bootstrap.LastDiscoveryResult.GrantsUniqueReward, Is.True);
             Assert.That(bootstrap.LastDiscoveryResult.Count, Is.EqualTo(1));
@@ -116,10 +120,55 @@ namespace PequenoExplorador.Tests.PlayMode
             yield return WaitForTask(enter);
             Assert.That(enter.Result.IsSuccess, Is.True, enter.Result.ErrorCode);
 
-            yield return ActivateAnimal(bootstrap);
+            yield return ActivateAnimalAndCapture(bootstrap);
             Assert.That(bootstrap.LastDiscoveryResult.Outcome, Is.EqualTo(DiscoverOutcome.Repeated));
             Assert.That(bootstrap.LastDiscoveryResult.GrantsUniqueReward, Is.False);
             Assert.That(bootstrap.LastDiscoveryResult.Count, Is.EqualTo(2));
+        }
+
+        [UnityTest]
+        public IEnumerator InvalidShotPauseStorageFailureReduceMotionAndUnloadRemainRecoverable()
+        {
+            yield return LoadExpedition();
+            DiagnosticBootstrap bootstrap = Object.FindFirstObjectByType<DiagnosticBootstrap>();
+            Task reset = bootstrap.ResetProgressForTestsAsync(CancellationToken.None);
+            yield return WaitForTask(reset);
+            yield return ActivateAnimal(bootstrap);
+            Assert.That(bootstrap.PhotographyRoot.IsActive, Is.True);
+            bootstrap.PhotographyRoot.SetReduceMotion(true);
+            bootstrap.SetInputMap(InputMapId.UI);
+            yield return null;
+            Assert.That(bootstrap.PhotographyRoot.IsActive, Is.True, "Pause/UI does not discard camera context.");
+            Assert.That(bootstrap.ExplorerRoot.State, Is.EqualTo(PequenoExplorador.Application.Explorer.ExplorerLocomotionState.Suspended));
+            bootstrap.SetInputMap(InputMapId.Photography);
+
+            bootstrap.PhotographyRoot.ActiveTarget.SetSampleOverrideForEditorAndTests(
+                new PhotoFrameSample(0.01f, 20f, false, 1f, 0f));
+            int attempts = bootstrap.PhotographyRoot.CaptureAttemptCount;
+            bootstrap.PhotographyView.ShutterButton.onClick.Invoke();
+            yield return WaitForCaptureAttempt(bootstrap, attempts + 1);
+            Assert.That(bootstrap.PhotographyRoot.LastCapture.Outcome, Is.EqualTo(PhotoCaptureOutcome.NotReady));
+            Assert.That(bootstrap.LastDiscoveryResult.Count, Is.Zero);
+
+            bootstrap.PhotographyRoot.ActiveTarget.SetSampleOverrideForEditorAndTests(
+                new PhotoFrameSample(0.30f, 3f, true, 0.05f, 1f));
+            bootstrap.SimulateNextPhotoStorageFailureForDevelopment();
+            long allocatedBeforeCapture = Profiler.GetTotalAllocatedMemoryLong();
+            attempts = bootstrap.PhotographyRoot.CaptureAttemptCount;
+            for (int index = 0; index < 6; index++) bootstrap.PhotographyView.ShutterButton.onClick.Invoke();
+            yield return WaitForCaptureOutcome(bootstrap, PhotoCaptureOutcome.CapturedWithoutThumbnail);
+            Assert.That(bootstrap.PhotographyRoot.CaptureAttemptCount, Is.GreaterThanOrEqualTo(attempts + 1));
+            Assert.That(bootstrap.LastDiscoveryResult.Outcome, Is.EqualTo(DiscoverOutcome.First));
+            Assert.That(bootstrap.LastDiscoveryResult.Count, Is.EqualTo(1));
+            Assert.That(bootstrap.PhotographyView.FlashVisible, Is.False, "Reduce motion omits flash.");
+            Assert.That(PequenoExplorador.Presentation.Photography.UnityPhotoThumbnailRenderer.ActiveTemporaryResources, Is.Zero);
+            long allocatedAfterCapture = Profiler.GetTotalAllocatedMemoryLong();
+            Debug.Log($"PE_PHOTOGRAPHY_MEMORY thumbnail=384x216 estimatedPeakBytes={PequenoExplorador.Presentation.Photography.UnityPhotoThumbnailRenderer.LastEstimatedPeakBytes} totalAllocatedDeltaBytes={allocatedAfterCapture - allocatedBeforeCapture} activeTemporaryResources=0 environment=EditorBatch");
+
+            Task<SceneTransitionResult> back = bootstrap.GoToCampAsync(CancellationToken.None);
+            yield return WaitForTask(back);
+            Assert.That(bootstrap.PhotographyRoot, Is.Null);
+            Assert.That(PequenoExplorador.Presentation.Photography.UnityPhotoThumbnailRenderer.ActiveTemporaryResources, Is.Zero);
         }
 
         [UnityTest]
@@ -178,8 +227,43 @@ namespace PequenoExplorador.Tests.PlayMode
             yield return WaitForInteraction(bootstrap, InteractionOutcome.Ready, 8f);
             bootstrap.InteractionPrompt.ActionButton.onClick.Invoke();
             yield return null;
-            Assert.That(bootstrap.InteractionRoot.Coordinator.Snapshot.State,
-                Is.EqualTo(InteractionOutcome.Completed));
+            float deadline = Time.realtimeSinceStartup + 3f;
+            while (Time.realtimeSinceStartup < deadline && !bootstrap.PhotographyRoot.IsActive) yield return null;
+            Assert.That(bootstrap.PhotographyRoot.IsActive, Is.True);
+            Assert.That(bootstrap.Input.CurrentMap, Is.EqualTo(InputMapId.Photography));
+        }
+
+        private static IEnumerator ActivateAnimalAndCapture(DiagnosticBootstrap bootstrap)
+        {
+            yield return ActivateAnimal(bootstrap);
+            bootstrap.PhotographyRoot.ActiveTarget.SetSampleOverrideForEditorAndTests(
+                new PhotoFrameSample(0.30f, 3f, true, 0.05f, 1f));
+            int attempts = bootstrap.PhotographyRoot.CaptureAttemptCount;
+            bootstrap.PhotographyView.ShutterButton.onClick.Invoke();
+            yield return WaitForCaptureAttempt(bootstrap, attempts + 1);
+            yield return WaitForCaptureProgress(bootstrap);
+        }
+
+        private static IEnumerator WaitForCaptureAttempt(DiagnosticBootstrap bootstrap, int expected)
+        {
+            float deadline = Time.realtimeSinceStartup + 3f;
+            while (Time.realtimeSinceStartup < deadline && bootstrap.PhotographyRoot.CaptureAttemptCount < expected) yield return null;
+            Assert.That(bootstrap.PhotographyRoot.CaptureAttemptCount, Is.GreaterThanOrEqualTo(expected));
+            yield return null;
+        }
+
+        private static IEnumerator WaitForCaptureProgress(DiagnosticBootstrap bootstrap)
+        {
+            float deadline = Time.realtimeSinceStartup + 5f;
+            while (Time.realtimeSinceStartup < deadline && !bootstrap.PhotographyRoot.LastCapture.ProgressCaptured) yield return null;
+            Assert.That(bootstrap.PhotographyRoot.LastCapture.ProgressCaptured, Is.True);
+        }
+
+        private static IEnumerator WaitForCaptureOutcome(DiagnosticBootstrap bootstrap, PhotoCaptureOutcome expected)
+        {
+            float deadline = Time.realtimeSinceStartup + 5f;
+            while (Time.realtimeSinceStartup < deadline && bootstrap.PhotographyRoot.LastCapture.Outcome != expected) yield return null;
+            Assert.That(bootstrap.PhotographyRoot.LastCapture.Outcome, Is.EqualTo(expected));
         }
 
         private static IEnumerator WaitForInteraction(

@@ -12,6 +12,7 @@ using PequenoExplorador.Application.Lifecycle;
 using PequenoExplorador.Application.Logging;
 using PequenoExplorador.Application.Input;
 using PequenoExplorador.Application.Interaction;
+using PequenoExplorador.Application.Photography;
 using PequenoExplorador.Application.SceneFlow;
 using PequenoExplorador.Application.Save;
 using PequenoExplorador.Application.Worlds;
@@ -27,6 +28,7 @@ using PequenoExplorador.Presentation.Bootstrap;
 using PequenoExplorador.Presentation.Input;
 using PequenoExplorador.Presentation.Explorer;
 using PequenoExplorador.Presentation.Interaction;
+using PequenoExplorador.Presentation.Photography;
 using PequenoExplorador.Presentation.SceneFlow;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -58,6 +60,7 @@ namespace PequenoExplorador.Bootstrap
         [SerializeField] private DeviceAspectOverlay _aspectOverlay;
         [SerializeField] private Camera _worldCamera;
         [SerializeField] private InteractionPromptView _interactionPrompt;
+        [SerializeField] private PhotographyView _photographyView;
 
         private CancellationTokenSource _lifetimeCancellation;
         private IAppConfig _configuration;
@@ -70,6 +73,7 @@ namespace PequenoExplorador.Bootstrap
         private InputMapId _inputMapBeforePause = InputMapId.UI;
         private ExplorerLocomotionRoot _explorerRoot;
         private InteractionSceneRoot _interactionRoot;
+        private PhotographySceneRoot _photographyRoot;
         private InteractionCatalog _runtimeInteractions;
 
         public ApplicationState State => _services == null
@@ -107,9 +111,13 @@ namespace PequenoExplorador.Bootstrap
         public ExplorerLocomotionRoot ExplorerRoot => _explorerRoot;
         public InteractionSceneRoot InteractionRoot => _interactionRoot;
         public InteractionPromptView InteractionPrompt => _interactionPrompt;
+        public PhotographySceneRoot PhotographyRoot => _photographyRoot;
+        public PhotographyView PhotographyView => _photographyView;
         public DiscoverResult LastDiscoveryResult => _services == null
             ? default
-            : _services.DiscoveryInteraction.LastResult;
+            : _photographyRoot != null && _photographyRoot.LastCapture.ProgressCaptured
+                ? _photographyRoot.LastCapture.Discovery
+                : _services.DiscoveryInteraction.LastResult;
 
         private void Awake()
         {
@@ -130,7 +138,7 @@ namespace PequenoExplorador.Bootstrap
             }
             if (_inputActions == null || _gestureThresholds == null || _pauseView == null ||
                 _touchOverlay == null || _aspectOverlay == null || _safeAreaFitters.Length == 0 ||
-                _worldCamera == null || _interactionPrompt == null)
+                _worldCamera == null || _interactionPrompt == null || _photographyView == null)
             {
                 throw new InvalidOperationException("Input actions, thresholds, pause, overlays and safe-area fitters must be wired.");
             }
@@ -343,6 +351,7 @@ namespace PequenoExplorador.Bootstrap
             await _services.SaveCoordinator.FlushAsync(cancellationToken);
             SaveOperationResult result = await _services.Context.Save.ResetAsync(cancellationToken);
             if (!result.IsSuccess) throw new InvalidOperationException(result.ErrorCode);
+            await _services.PhotoStore.DeleteAllAsync(cancellationToken);
         }
 
         public void ConfigureInputForEditorAndTests(
@@ -371,7 +380,15 @@ namespace PequenoExplorador.Bootstrap
             _interactionPrompt = interactionPrompt;
         }
         public void ConfigureExplorerCameraForEditorAndTests(Camera worldCamera) => _worldCamera = worldCamera;
+        public void ConfigurePhotographyForEditorAndTests(PhotographyView photographyView) => _photographyView = photographyView;
 #endif
+
+        public void SimulateNextPhotoStorageFailureForDevelopment()
+        {
+#if UNITY_EDITOR || PE_DEVELOPMENT_SERVICES
+            if (_configuration.Profile == BuildProfile.Development) _services.PhotoFailure.FailNextSave();
+#endif
+        }
 
         private async void EnterWorld(WorldManifest manifest)
         {
@@ -439,6 +456,7 @@ namespace PequenoExplorador.Bootstrap
             UnbindExplorerScene();
             ExplorerLocomotionRoot found = null;
             InteractionSceneRoot interaction = null;
+            PhotographySceneRoot photography = null;
             for (int sceneIndex = 0; sceneIndex < SceneManager.sceneCount; sceneIndex++)
             {
                 Scene scene = SceneManager.GetSceneAt(sceneIndex);
@@ -460,6 +478,14 @@ namespace PequenoExplorador.Bootstrap
                             throw new InvalidOperationException("Expedition contains more than one interaction scene root.");
                         interaction = sceneInteraction;
                     }
+
+                    PhotographySceneRoot scenePhotography = root.GetComponentInChildren<PhotographySceneRoot>(true);
+                    if (scenePhotography != null)
+                    {
+                        if (photography != null)
+                            throw new InvalidOperationException("Expedition contains more than one photography scene root.");
+                        photography = scenePhotography;
+                    }
                 }
             }
 
@@ -467,6 +493,8 @@ namespace PequenoExplorador.Bootstrap
                 throw new InvalidOperationException("Expedition scene is missing PH_ explorer scene root.");
             if (interaction == null)
                 throw new InvalidOperationException("Expedition scene is missing PH_ interaction scene root.");
+            if (photography == null)
+                throw new InvalidOperationException("Expedition scene is missing photography scene root.");
             try
             {
                 found.Bind(_services.Context.Input, _worldCamera);
@@ -476,20 +504,35 @@ namespace PequenoExplorador.Bootstrap
                     _services.Context.Clock,
                     _services.Context.Input,
                     _worldCamera,
-                    _services.DiscoveryInteraction);
+                    _services.PhotographyInteraction);
                 found.SetTapHandler(interaction);
                 _interactionPrompt.Bind(
                     interaction.Coordinator,
                     _services.Context.Localization,
                     _services.Context.Audio,
-                    _services.DiscoveryInteraction,
+                    null,
                     _diagnosticsEnabled);
+                photography.Bind(
+                    _services.PhotographyInteraction,
+                    _services.Context.Input,
+                    _services.Context.Clock,
+                    _services.Context.Audio,
+                    found,
+                    _worldCamera,
+                    _services.PhotoStore,
+                    _services.PhotoRepository,
+                    _services.Discoveries,
+                    _services.Context.Localization,
+                    _photographyView,
+                    reduceMotion: false);
                 _explorerRoot = found;
                 _interactionRoot = interaction;
+                _photographyRoot = photography;
             }
             catch
             {
                 _interactionPrompt.Unbind();
+                photography.Unbind();
                 interaction.Unbind();
                 found.Unbind();
                 throw;
@@ -499,10 +542,12 @@ namespace PequenoExplorador.Bootstrap
         private void UnbindExplorerScene()
         {
             _interactionPrompt?.Unbind();
+            _photographyRoot?.Unbind();
             _explorerRoot?.SetTapHandler(null);
             _interactionRoot?.Unbind();
             _explorerRoot?.Unbind();
             _interactionRoot = null;
+            _photographyRoot = null;
             _explorerRoot = null;
         }
 

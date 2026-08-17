@@ -22,7 +22,7 @@ Bootstrap: Save → Localization → Presentation
 Presentation: resuelve keys y refresca al evento LocaleChanged
 ```
 
-Domain no contiene copy localizada ni referencia Unity. `LocalizedKey` identifica `Table + Entry`; no usa el español como key. Bootstrap inicializa Save antes de Localization y Audio después. Cambiar `es`/`en` guarda mediante `ISaveService` schema v5 y refresca vistas/subtítulos sin reinicio. Si el guardado falla, el servicio revierte el locale visible.
+Domain no contiene copy localizada ni referencia Unity. `LocalizedKey` identifica `Table + Entry`; no usa el español como key. Bootstrap inicializa Save/Photos antes de Localization y Audio después. Cambiar `es`/`en` guarda mediante `ISaveService` schema v6 y refresca vistas/subtítulos sin reinicio. Si el guardado falla, el servicio revierte el locale visible.
 
 Español (`es`) es locale de proyecto, startup y fallback humano. Inglés (`en`) es una baseline no vacía. `qps-ploc` expande español solo en Development, nunca se persiste y Release lo rechaza. No se consulta idioma del sistema, red, catálogo remoto ni backend.
 
@@ -36,7 +36,7 @@ Español (`es`) es locale de proyecto, startup y fallback humano. Inglés (`en`)
 | `Voice` | 5 slots conceptuales | Camp/Jungle más tres cues de voz ES/EN; clips finales pendientes. |
 | `Illustrations` | 2 slots conceptuales | Futuros fondos Camp/Jungle; sin assets finales. |
 
-Las 43 keys de texto son namespaced (`shared.*`, `ui.*`, `content.*`) y su catálogo canónico está en `LocalizationKeys.cs`. Incluyen feedback discovery nuevo/repetido y contador Development; voz y subtítulo comparten concepto, por ejemplo `content.audio.name.jungle`. Las tablas no conocen archivos y permanecen locales, sin `Remote*`, URL ni update-on-start.
+Las 56 keys públicas de texto son namespaced (`shared.*`, `ui.*`, `content.*`) y su catálogo canónico está en `LocalizationKeys.cs`. Incluyen las diez keys de fotografía (`abrir/acércate/centra/listo/capturar/salir/pista/nuevo/repetido/fallback`); voz y subtítulo comparten concepto. Las tablas no conocen archivos y permanecen locales, sin `Remote*`, URL ni update-on-start.
 
 Variables, números y plurales usan Smart Strings de Unity Localization. Están cubiertos `shared.build.version`, `shared.progress.stars` y `ui.transition.preparing`; no se concatenan frases traducibles en Presentation.
 
@@ -62,6 +62,6 @@ Export: menú `Pequeño Explorador/Development/Localization/Export CSV to artifa
 
 ## Aceptación y límites
 
-EditMode prueba resolución, Smart Strings/plurales, persistencia schema v5, fallback Development/Release, keys de subtítulo/discovery/facts y pseudo no persistible. PlayMode cambia ES→EN→pseudo→ES sin reinicio. APK ES/EN demuestra IL2CPP/ARM64; dispositivo físico permanece `NOT RUN` cuando `adb` no lista hardware.
+EditMode prueba resolución, Smart Strings/plurales, persistencia schema v6, fallback Development/Release, keys de subtítulo/discovery/fotografía/facts y pseudo no persistible. PlayMode cambia ES→EN→pseudo→ES sin reinicio; la cámara re-renderiza guía visible al cambiar locale. APK ES/EN demuestra IL2CPP/ARM64; dispositivo físico permanece `NOT RUN` cuando `adb` no lista hardware.
 
 El selector runtime actual es diagnóstico Development. El futuro selector parental deberá vivir tras el flujo adulto, conservar estas mismas preferencias y pasar Child UX/política; no se implementó ese flujo aquí. Traducción masiva, revisión lingüística humana, narraciones y assets localizados finales siguen pendientes.

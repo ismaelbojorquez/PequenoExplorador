@@ -14,7 +14,7 @@ Estado editorial: **Human factual/Product/visual Approved; runtime adopted; not 
 | Fact IDs reservados | `fact.jungle.keel-billed-toucan.*` según la matriz de claims |
 | Nombre ES elegido por Product/Localization | `Tucán pico canoa` |
 | Nombre EN aprobado por Product/Localization | `Keel-billed Toucan` |
-| Runtime actual | `interaction.jungle.keel-billed-toucan → discovery.jungle.keel-billed-toucan`, siete facts y seis fuentes `Approved`; alias desde el ID placeholder y save schema v5. |
+| Runtime actual | `interaction.jungle.keel-billed-toucan → fotografía virtual → discovery.jungle.keel-billed-toucan`, siete facts y seis fuentes `Approved`; alias histórico y save schema v6. |
 | Uso permitido ahora | Implementar Prompt 19 sobre este único contenido, sin extender aprobación a conservación, audio final, segundo animal o publicación. |
 | Uso prohibido ahora | Declarar `ReleaseLocked`, reutilizar imágenes/audio de las fuentes, inventar credenciales del revisor o usar el claim de conservación excluido. |
 

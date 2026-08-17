@@ -15,7 +15,7 @@ namespace PequenoExplorador.Tests.EditMode
     public sealed class SaveServiceTests
     {
         [Test]
-        public async Task FirstRunCreatesDefaultSchemaV5()
+        public async Task FirstRunCreatesDefaultSchemaV6()
         {
             var store = new InMemoryFileStore();
             LocalSaveService service = CreateService(store);
@@ -28,7 +28,8 @@ namespace PequenoExplorador.Tests.EditMode
             Assert.That(service.Current.WorldIds, Is.Empty);
             Assert.That(service.Current.DiscoveryIds, Is.Empty);
             Assert.That(service.Current.CompletedMissionIds, Is.Empty);
-            Assert.That(envelope.SchemaVersion, Is.EqualTo(5));
+            Assert.That(envelope.SchemaVersion, Is.EqualTo(6));
+            Assert.That(service.Current.Photos, Is.Empty);
             Assert.That(service.Current.Preferences.Language, Is.EqualTo(LanguagePreference.Spanish));
         }
 
@@ -43,7 +44,12 @@ namespace PequenoExplorador.Tests.EditMode
                 new[] { "world.jungle" },
                 new[] { "discovery.test" },
                 new[] { "mission.test" },
-                new PlayerPreferences(GuidanceMode.MoreGuidance, false, true, false));
+                new PlayerPreferences(GuidanceMode.MoreGuidance, false, true, false))
+                .WithPhotos(new[]
+                {
+                    new PhotoProgress(PequenoExplorador.Domain.Content.DiscoveryId.Parse("discovery.test"),
+                        "discovery_test.png", 777, 384, 216, 12345)
+                });
 
             Assert.That((await writer.SaveAsync(expected, CancellationToken.None)).IsSuccess, Is.True);
             LocalSaveService reader = CreateService(store);
@@ -142,7 +148,7 @@ namespace PequenoExplorador.Tests.EditMode
             Assert.That(service.LastLoadResult.Status, Is.EqualTo(SaveLoadStatus.Migrated));
             Assert.That(service.LastLoadResult.SourceSchemaVersion, Is.Zero);
             Assert.That(service.Current.Stars, Is.EqualTo(9));
-            Assert.That(current.SchemaVersion, Is.EqualTo(5));
+            Assert.That(current.SchemaVersion, Is.EqualTo(6));
             Assert.That(store.Backup, Is.EqualTo(legacy));
         }
 
@@ -188,7 +194,7 @@ namespace PequenoExplorador.Tests.EditMode
             Assert.That(service.Current.Preferences.EffectsVolume, Is.EqualTo(.75f));
             Assert.That(service.Current.Preferences.VoiceVolume, Is.Zero);
             Assert.That(service.Current.Preferences.SubtitlesEnabled, Is.True);
-            Assert.That(serializer.DeserializeEnvelope(store.Primary).SchemaVersion, Is.EqualTo(5));
+            Assert.That(serializer.DeserializeEnvelope(store.Primary).SchemaVersion, Is.EqualTo(6));
         }
 
         [Test]
@@ -225,7 +231,7 @@ namespace PequenoExplorador.Tests.EditMode
             Assert.That(service.Current.Discoveries[0].Count, Is.EqualTo(1));
             Assert.That(service.Current.Discoveries[0].FirstObservedLocalDate, Is.Empty);
             Assert.That(service.Current.ProcessedDiscoveryGrantIds, Is.Empty);
-            Assert.That(serializer.DeserializeEnvelope(store.Primary).SchemaVersion, Is.EqualTo(5));
+            Assert.That(serializer.DeserializeEnvelope(store.Primary).SchemaVersion, Is.EqualTo(6));
             Assert.That(store.Backup, Is.EqualTo(original));
         }
 
@@ -270,7 +276,36 @@ namespace PequenoExplorador.Tests.EditMode
             Assert.That(service.Current.ProcessedDiscoveryGrantIds.Count(value => value.EndsWith(
                 V4ToV5ToucanDiscoveryMigration.CurrentDiscoveryId, StringComparison.Ordinal)), Is.EqualTo(1));
             Assert.That(service.Current.ProcessedDiscoveryGrantIds, Does.Contain("grant.interaction.11.discovery.jungle.unrelated"));
-            Assert.That(serializer.DeserializeEnvelope(store.Primary).SchemaVersion, Is.EqualTo(5));
+            Assert.That(serializer.DeserializeEnvelope(store.Primary).SchemaVersion, Is.EqualTo(6));
+            Assert.That(store.Backup, Is.EqualTo(original));
+        }
+
+        [Test]
+        public async Task SchemaV5MigratesToEmptyPhotoMetadataWithoutInventingCapture()
+        {
+            var store = new InMemoryFileStore();
+            var serializer = new UnityJsonSaveSerializer();
+            PlayerProgressV5Dto v5 = PlayerProgressV5Dto.Create(
+                "0.1.0-test",
+                4,
+                new[] { "world.jungle" },
+                new[] { DiscoveryProgressV4Dto.Create(V4ToV5ToucanDiscoveryMigration.CurrentDiscoveryId, 2, "2026-08-16") },
+                new[] { "grant.interaction.1." + V4ToV5ToucanDiscoveryMigration.CurrentDiscoveryId },
+                Array.Empty<string>(),
+                PlayerPreferencesV3Dto.Create((int)GuidanceMode.Standard, "es", 1f, .7f, .7f, .8f, .9f, true),
+                SaveMetadataV1Dto.Create(7));
+            string original = serializer.SerializeEnvelope(5, JsonUtility.ToJson(v5, false));
+            store.SeedPrimary(original);
+
+            LocalSaveService service = CreateService(store);
+            await service.InitializeAsync(CancellationToken.None);
+
+            Assert.That(service.LastLoadResult.Status, Is.EqualTo(SaveLoadStatus.Migrated));
+            Assert.That(service.LastLoadResult.SourceSchemaVersion, Is.EqualTo(5));
+            Assert.That(service.Current.Stars, Is.EqualTo(4));
+            Assert.That(service.Current.Discoveries.Single().Count, Is.EqualTo(2));
+            Assert.That(service.Current.Photos, Is.Empty, "Migration cannot invent a rendered thumbnail.");
+            Assert.That(serializer.DeserializeEnvelope(store.Primary).SchemaVersion, Is.EqualTo(6));
             Assert.That(store.Backup, Is.EqualTo(original));
         }
 
@@ -331,6 +366,7 @@ namespace PequenoExplorador.Tests.EditMode
             Assert.That(first, Does.Not.Contain("randomSeed"));
             Assert.That(first, Does.Not.Contain("sceneTransitionTimeout"));
             Assert.That(first, Does.Not.Contain("autosaveDebounce"));
+            Assert.That(first, Does.Not.Contain("pngBytes"));
         }
 
         [Test]
@@ -389,7 +425,8 @@ namespace PequenoExplorador.Tests.EditMode
                     new V1ToV2LocalizationMigration(),
                     new V2ToV3AudioMigration(),
                     new V3ToV4DiscoveryMigration(),
-                    new V4ToV5ToucanDiscoveryMigration()
+                    new V4ToV5ToucanDiscoveryMigration(),
+                    new V5ToV6PhotoProgressMigration()
                 });
         }
 
@@ -399,6 +436,10 @@ namespace PequenoExplorador.Tests.EditMode
             Assert.That(actual.WorldIds, Is.EqualTo(expected.WorldIds));
             Assert.That(actual.DiscoveryIds, Is.EqualTo(expected.DiscoveryIds));
             Assert.That(actual.CompletedMissionIds, Is.EqualTo(expected.CompletedMissionIds));
+            Assert.That(actual.Photos.Select(item => new { Id = item.DiscoveryId.Value, item.FileReference,
+                    item.ScorePermille, item.Width, item.Height, item.ByteLength }),
+                Is.EqualTo(expected.Photos.Select(item => new { Id = item.DiscoveryId.Value, item.FileReference,
+                    item.ScorePermille, item.Width, item.Height, item.ByteLength })));
             Assert.That(actual.Preferences.GuidanceMode, Is.EqualTo(expected.Preferences.GuidanceMode));
             Assert.That(actual.Preferences.MusicEnabled, Is.EqualTo(expected.Preferences.MusicEnabled));
             Assert.That(actual.Preferences.SoundEffectsEnabled, Is.EqualTo(expected.Preferences.SoundEffectsEnabled));

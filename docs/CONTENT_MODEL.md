@@ -71,4 +71,4 @@ Se detectan: ID inválido/duplicado, alias inválido, referencia de catálogo au
 
 Para agregar un placeholder: crear definitions/metadata, asignar referencias, añadirlo al único `ContentCatalogAsset`, ejecutar validator y tests. No se modifica `ContentCatalog`, Bootstrap, un switch central ni sistemas de gameplay. Producir catálogo masivo continúa bloqueado por Gate B y P-008.
 
-Las interacciones usan un catálogo separado compilado una vez y el mismo `WorldInteractableView`, sin enums animal/planta/objeto. El enlace opcional a `DiscoveryId` se resuelve por datos; el adapter llama `DiscoverUseCase` y no cambia selección, detector o locomoción. Progress/count/grants viven en Save v5, no en ScriptableObjects ni catálogo.
+Las interacciones usan un catálogo separado compilado una vez y el mismo `WorldInteractableView`, sin enums animal/planta/objeto. El enlace opcional a `DiscoveryId` se resuelve por datos; el adapter animal abre fotografía y el caso de captura llama `DiscoverUseCase` sin cambiar selección/detector. Progress/count/grants/photo metadata viven en Save v6, no en ScriptableObjects ni catálogo.

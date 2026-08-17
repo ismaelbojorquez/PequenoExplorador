@@ -13,6 +13,7 @@ using PequenoExplorador.Application.Messaging;
 using PequenoExplorador.Application.Save;
 using PequenoExplorador.Application.Services;
 using PequenoExplorador.Application.Input;
+using PequenoExplorador.Application.Photography;
 using PequenoExplorador.Application.SceneFlow;
 using PequenoExplorador.Application.Worlds;
 using PequenoExplorador.Content.Audio;
@@ -29,6 +30,7 @@ using PequenoExplorador.Infrastructure.Purchases;
 using PequenoExplorador.Infrastructure.Random;
 using PequenoExplorador.Infrastructure.Save;
 using PequenoExplorador.Infrastructure.Time;
+using PequenoExplorador.Infrastructure.Photography;
 using PequenoExplorador.Infrastructure.SceneFlow;
 using ApplicationContext = PequenoExplorador.Application.AppContext;
 using UnityEngine.InputSystem;
@@ -40,7 +42,7 @@ namespace PequenoExplorador.Bootstrap
         private readonly IDisposable _fileStoreLifetime;
 
         public ServiceRegistry(IAppConfig configuration, IFileStore fileStore = null)
-            : this(configuration, ContentCatalog.Empty, WorldCatalog.Empty, null, null, null, null, fileStore)
+            : this(configuration, ContentCatalog.Empty, WorldCatalog.Empty, null, null, null, null, fileStore, null)
         {
         }
 
@@ -52,7 +54,8 @@ namespace PequenoExplorador.Bootstrap
             AudioCueCatalogAsset audioCatalog,
             InputActionAsset inputActions,
             GestureThresholdsAsset gestureThresholds,
-            IFileStore fileStore = null)
+            IFileStore fileStore = null,
+            IPhotoStore photoStore = null)
         {
             if (configuration == null)
             {
@@ -104,10 +107,21 @@ namespace PequenoExplorador.Bootstrap
                     new V1ToV2LocalizationMigration(),
                     new V2ToV3AudioMigration(),
                     new V3ToV4DiscoveryMigration(),
-                    new V4ToV5ToucanDiscoveryMigration()
+                    new V4ToV5ToucanDiscoveryMigration(),
+                    new V5ToV6PhotoProgressMigration()
                 });
             SaveCoordinator = new AutosaveCoordinator(save, logger, configuration.AutosaveDebounce);
+            IPhotoStore resolvedPhotoStore = photoStore ?? (audioHost != null
+                ? new LocalPhotoStore(System.IO.Path.Combine(UnityEngine.Application.persistentDataPath, "Photos"))
+                : new MemoryPhotoStore());
+#if UNITY_EDITOR || PE_DEVELOPMENT_SERVICES
+            PhotoFailure = new DevelopmentPhotoStoreFailure(resolvedPhotoStore);
+            PhotoStore = PhotoFailure;
+#else
+            PhotoStore = resolvedPhotoStore;
+#endif
             var discoveryRepository = new PlayerProgressDiscoveryRepository(save, SaveCoordinator);
+            PhotoRepository = new PlayerProgressPhotoRepository(save, SaveCoordinator);
             bool allowUnapprovedDiscovery = configuration.Profile == BuildProfile.Development;
             TimeSpan localOffset = TimeZoneInfo.Local.GetUtcOffset(clock.UtcNow.UtcDateTime);
             Discoveries = new DiscoverUseCase(
@@ -118,6 +132,7 @@ namespace PequenoExplorador.Bootstrap
                 localOffset);
             DiscoveryQueries = new DiscoveryProgressQueries(contentCatalog, discoveryRepository);
             DiscoveryInteraction = new DiscoveryInteractionAction(Discoveries);
+            PhotographyInteraction = new PhotographyInteractionAction();
             ILocalizationService localization = new UnityLocalizationService(
                 save,
                 logger,
@@ -185,6 +200,7 @@ namespace PequenoExplorador.Bootstrap
                     safeArea,
                     haptics,
                     save,
+                    PhotoStore,
                     localization,
                     audio,
                     analytics,
@@ -202,6 +218,12 @@ namespace PequenoExplorador.Bootstrap
         public DiscoverUseCase Discoveries { get; }
         public DiscoveryProgressQueries DiscoveryQueries { get; }
         public DiscoveryInteractionAction DiscoveryInteraction { get; }
+        public PhotographyInteractionAction PhotographyInteraction { get; }
+        public IPhotoStore PhotoStore { get; }
+        public IPhotoProgressRepository PhotoRepository { get; }
+#if UNITY_EDITOR || PE_DEVELOPMENT_SERVICES
+        public DevelopmentPhotoStoreFailure PhotoFailure { get; }
+#endif
 
         private static IAudioService CreateAudioService(
             UnityEngine.GameObject host,

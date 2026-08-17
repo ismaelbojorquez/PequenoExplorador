@@ -133,10 +133,50 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 77211284529153
-    m_Localized: '{0} · Observations: {1}'
+    m_Localized: "{0} \xB7 Observations: {1}"
     m_Metadata:
       m_Items:
       - rid: 6219209779658358820
+  - m_Id: 197791753166848
+    m_Localized: "Let\u2019s take a photo."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 197791786721280
+    m_Localized: Move a little closer.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 197791786721281
+    m_Localized: Place the toucan inside the frame.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 197791786721282
+    m_Localized: Ready for the photo!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 197791786721283
+    m_Localized: Photo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 197791786721284
+    m_Localized: Exit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 197791786721285
+    m_Localized: "Almost. Let\u2019s try from another spot."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 197791790915584
+    m_Localized: New discovery!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 197791790915585
+    m_Localized: Great observation!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 197791790915586
+    m_Localized: "Discovery saved! We\u2019ll use its illustration."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

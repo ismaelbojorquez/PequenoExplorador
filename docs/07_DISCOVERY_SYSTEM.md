@@ -15,7 +15,7 @@ Cada descubrimiento data-driven necesita:
 - recompensa determinista y estado persistente;
 - fallback si el contenido factual o visual no está aprobado.
 
-El contrato técnico base está en [`CONTENT_MODEL.md`](CONTENT_MODEL.md): `DiscoveryDefinitionAsset` se mapea a `DiscoveryDefinition` readonly y se resuelve mediante `DiscoveryId` en O(1). El único contenido adoptado es `discovery.jungle.keel-billed-toucan`, `Approved`, con siete facts y seis fuentes; todavía no implementa detección, fotografía ni álbum.
+El contrato técnico base está en [`CONTENT_MODEL.md`](CONTENT_MODEL.md): `DiscoveryDefinitionAsset` se mapea a `DiscoveryDefinition` readonly y se resuelve mediante `DiscoveryId` en O(1). El único contenido adoptado es `discovery.jungle.keel-billed-toucan`, `Approved`, con siete facts y seis fuentes; Prompt 19 implementa fotografía, no álbum.
 
 ## Progresión persistente implementada
 
@@ -30,9 +30,9 @@ El contrato técnico base está en [`CONTENT_MODEL.md`](CONTENT_MODEL.md): `Disc
 | `UnapprovedContent` | Ninguna en perfiles que no admiten Draft. | No. |
 | `SaveReadOnly` | Ninguna ante schema futuro protegido. | No. |
 
-La clave `grant.*` pertenece al origen semántico (interacción ahora, captura después). Economy, álbum y UI consumirán `DiscoverResult`; Discovery no conoce estrellas, vistas ni archivos de audio. `DiscoveryProgressQueries` calcula descubierto/total por world/category exclusivamente desde definitions `Approved` del catálogo. No hay números de contenido hardcodeados ni porcentaje guardado.
+La clave `grant.photo.*` pertenece a cada captura semántica; reintentar el mismo ID no duplica y una captura nueva solo incrementa estadística, nunca recompensa única. Economy, álbum y UI consumirán `DiscoverResult`; Discovery no conoce estrellas, vistas ni archivos de audio. `DiscoveryProgressQueries` calcula descubierto/total por world/category exclusivamente desde definitions `Approved` del catálogo. No hay números de contenido hardcodeados ni porcentaje guardado.
 
-El fixture animal enlaza `interaction.jungle.keel-billed-toucan → discovery.jungle.keel-billed-toucan` mediante authoring. `DiscoveryInteractionAction` es el adapter de Application; planta/objeto siguen neutrales. El ID retirado se resuelve por alias y la migración save v4→v5 converge records/grants al ID vigente.
+El fixture animal enlaza `interaction.jungle.keel-billed-toucan → PhotographyInteractionAction → discovery.jungle.keel-billed-toucan`. Captura válida ejecuta `DiscoverUseCase`; planta/objeto siguen neutrales. El ID retirado se resuelve por alias y la migración save v4→v5 converge records/grants al ID vigente.
 
 ## Estados
 
@@ -43,7 +43,7 @@ El fixture animal enlaza `interaction.jungle.keel-billed-toucan → discovery.ju
 - **Explorado:** completó la actividad relacionada o revisó la ficha, según contrato.
 - Los estados no bajan ni expiran; pedir pistas no reduce recompensa.
 
-Estos estados ricos siguen siendo contrato futuro. El schema v5 solo distingue existencia, count, primer día local agregado y grants procesados; no inventa `Detectado/Fotografiado/Explorado` antes de implementar sus reglas.
+Schema v6 conserva discovery contado, grants y metadata de mejor foto. No persiste todavía una máquina separada `Detectado/Fotografiado/Explorado`; `PhotoProgress` prueba captura guardada, mientras una captura sin thumbnail conserva discovery pero usa fallback canónico.
 
 ## Fotografía dentro del juego
 
@@ -52,6 +52,8 @@ Estos estados ricos siguen siendo contrato futuro. El schema v5 solo distingue e
 - `Más guía` muestra marco, dirección y autoenfoque más evidentes.
 - `Guía estándar` conserva confirmación y pista bajo demanda.
 - Si hay dificultad motriz, una opción permite captura asistida al mantener el objetivo visible brevemente.
+
+La implementación actual usa cobertura `0.08`, distancia `10`, centro `0.36`, orientación `0.35` y línea de visión, con guía `acércate/centra/listo`. No califica estética ni castiga. Ver [`PHOTOGRAPHY_SYSTEM.md`](PHOTOGRAPHY_SYSTEM.md).
 
 ## Álbum
 
@@ -62,7 +64,7 @@ Estos estados ricos siguen siendo contrato futuro. El schema v5 solo distingue e
 
 ## Vertical Slice
 
-Discovery adoptado: **`Ramphastos sulfuratus`**, expediente [`VS-D-A01`](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md), nombre `Tucán pico canoa` / `Keel-billed Toucan`. H-007/H-008/H-009 sustentan los assets runtime `Approved`. Conservación permanece excluida y el nombre científico es detalle opcional. No hay todavía foto, álbum ni recompensa.
+Discovery adoptado: **`Ramphastos sulfuratus`**, expediente [`VS-D-A01`](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md), nombre `Tucán pico canoa` / `Keel-billed Toucan`. H-007/H-008/H-009 sustentan los assets runtime `Approved`. Conservación permanece excluida. Hay captura virtual y fallback; no hay todavía álbum ni recompensa/economía.
 
 ## Aceptación del sistema
 
@@ -71,4 +73,4 @@ Discovery adoptado: **`Ramphastos sulfuratus`**, expediente [`VS-D-A01`](VS_D_A0
 - Ningún hecho llega a estado Release sin `Approved` en [`CONTENT_SOURCES.md`](CONTENT_SOURCES.md).
 - Descubrimiento y recompensa siguen funcionando offline y sin monetización.
 - Repetir una misma grant key no incrementa count ni vuelve a habilitar la recompensa única.
-- Save v3 migra a v4; v4 migra a v5, reemplaza/mezcla el ID placeholder y normaliza grants exactos sin inventar fecha ni duplicar progreso.
+- Save v4 migra a v5 y v5 a v6; reemplaza/mezcla el ID placeholder, normaliza grants y añade fotos vacías sin inventar captura.

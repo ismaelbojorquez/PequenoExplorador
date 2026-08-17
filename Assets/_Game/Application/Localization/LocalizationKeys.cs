@@ -42,6 +42,16 @@ namespace PequenoExplorador.Application.Localization
         public static readonly LocalizedKey DiscoveryNew = new LocalizedKey(UiTable, "ui.discovery.new");
         public static readonly LocalizedKey DiscoveryRepeated = new LocalizedKey(UiTable, "ui.discovery.repeated");
         public static readonly LocalizedKey DiscoveryDebugCount = new LocalizedKey(UiTable, "ui.discovery.debug_count");
+        public static readonly LocalizedKey PhotographyOpen = new LocalizedKey(UiTable, "ui.photography.open");
+        public static readonly LocalizedKey PhotographyMoveCloser = new LocalizedKey(UiTable, "ui.photography.move_closer");
+        public static readonly LocalizedKey PhotographyCenter = new LocalizedKey(UiTable, "ui.photography.center");
+        public static readonly LocalizedKey PhotographyReady = new LocalizedKey(UiTable, "ui.photography.ready");
+        public static readonly LocalizedKey PhotographyCapture = new LocalizedKey(UiTable, "ui.photography.capture");
+        public static readonly LocalizedKey PhotographyExit = new LocalizedKey(UiTable, "ui.photography.exit");
+        public static readonly LocalizedKey PhotographyPositiveHint = new LocalizedKey(UiTable, "ui.photography.positive_hint");
+        public static readonly LocalizedKey PhotographyCapturedNew = new LocalizedKey(UiTable, "ui.photography.captured_new");
+        public static readonly LocalizedKey PhotographyCapturedRepeated = new LocalizedKey(UiTable, "ui.photography.captured_repeated");
+        public static readonly LocalizedKey PhotographyStorageFallback = new LocalizedKey(UiTable, "ui.photography.storage_fallback");
 
         public static readonly LocalizedKey WorldBoot = new LocalizedKey(ContentTable, "content.world.boot.name");
         public static readonly LocalizedKey WorldCamp = new LocalizedKey(ContentTable, "content.world.camp.name");

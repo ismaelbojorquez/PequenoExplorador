@@ -133,10 +133,50 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 77211284529153
-    m_Localized: '{0} · Observaciones: {1}'
+    m_Localized: "{0} \xB7 Observaciones: {1}"
     m_Metadata:
       m_Items:
       - rid: 6219209779658358817
+  - m_Id: 197791753166848
+    m_Localized: Vamos a tomar una foto.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 197791786721280
+    m_Localized: "Ac\xE9rcate un poquito."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 197791786721281
+    m_Localized: "Pon al tuc\xE1n dentro del marco."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 197791786721282
+    m_Localized: "\xA1Listo para la foto!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 197791786721283
+    m_Localized: Foto
+    m_Metadata:
+      m_Items: []
+  - m_Id: 197791786721284
+    m_Localized: Salir
+    m_Metadata:
+      m_Items: []
+  - m_Id: 197791786721285
+    m_Localized: Casi. Probemos desde otro lugar.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 197791790915584
+    m_Localized: "\xA1Nuevo descubrimiento!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 197791790915585
+    m_Localized: "\xA1Qu\xE9 buena observaci\xF3n!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 197791790915586
+    m_Localized: "\xA1Descubrimiento guardado! Usaremos su ilustraci\xF3n."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

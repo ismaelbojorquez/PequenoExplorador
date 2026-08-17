@@ -195,6 +195,46 @@ MonoBehaviour:
     m_Key: ui.discovery.debug_count
     m_Metadata:
       m_Items: []
+  - m_Id: 197791753166848
+    m_Key: ui.photography.open
+    m_Metadata:
+      m_Items: []
+  - m_Id: 197791786721280
+    m_Key: ui.photography.move_closer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 197791786721281
+    m_Key: ui.photography.center
+    m_Metadata:
+      m_Items: []
+  - m_Id: 197791786721282
+    m_Key: ui.photography.ready
+    m_Metadata:
+      m_Items: []
+  - m_Id: 197791786721283
+    m_Key: ui.photography.capture
+    m_Metadata:
+      m_Items: []
+  - m_Id: 197791786721284
+    m_Key: ui.photography.exit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 197791786721285
+    m_Key: ui.photography.positive_hint
+    m_Metadata:
+      m_Items: []
+  - m_Id: 197791790915584
+    m_Key: ui.photography.captured_new
+    m_Metadata:
+      m_Items: []
+  - m_Id: 197791790915585
+    m_Key: ui.photography.captured_repeated
+    m_Metadata:
+      m_Items: []
+  - m_Id: 197791790915586
+    m_Key: ui.photography.storage_fallback
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

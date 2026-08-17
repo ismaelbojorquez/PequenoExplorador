@@ -9,6 +9,7 @@ using PequenoExplorador.Application.Content;
 using PequenoExplorador.Content.Visuals;
 using PequenoExplorador.Editor.BuildTools;
 using PequenoExplorador.Presentation.Interaction;
+using PequenoExplorador.Presentation.Photography;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -19,7 +20,7 @@ namespace PequenoExplorador.Editor
 {
     public static class ToucanFixtureSetup
     {
-        public const string GeneratorVersion = "1.2.0";
+        public const string GeneratorVersion = "1.3.0";
         public const string GeneratedDate = "2026-08-16";
         public const string VisualApprovalReference = "H-008-IB-2026-08-16";
         public const string FactualApprovalReference = "H-009-IB-2026-08-16";
@@ -236,6 +237,18 @@ namespace PequenoExplorador.Editor
                 serialized.FindProperty("_interactionPoint").objectReferenceValue = point.transform;
                 serialized.FindProperty("_touchCollider").objectReferenceValue = collider;
                 serialized.ApplyModifiedPropertiesWithoutUndo();
+
+                PhotographableView photographable = root.AddComponent<PhotographableView>();
+                var photographableSerialized = new SerializedObject(photographable);
+                photographableSerialized.FindProperty("_discoveryId").stringValue = FutureDiscoveryId;
+                photographableSerialized.FindProperty("_photoAnchor").objectReferenceValue = photoAnchor.transform;
+                photographableSerialized.FindProperty("_facingTransform").objectReferenceValue = visualRoot.transform;
+                photographableSerialized.FindProperty("_candidateLocalBounds").boundsValue = bounds;
+                photographableSerialized.FindProperty("_minimumCoverage").floatValue = 0.08f;
+                photographableSerialized.FindProperty("_maximumDistance").floatValue = 10f;
+                photographableSerialized.FindProperty("_maximumCenterOffset").floatValue = 0.36f;
+                photographableSerialized.FindProperty("_minimumOrientationAlignment").floatValue = 0.35f;
+                photographableSerialized.ApplyModifiedPropertiesWithoutUndo();
 
                 PrefabUtility.SaveAsPrefabAsset(root, PrefabPath);
             }

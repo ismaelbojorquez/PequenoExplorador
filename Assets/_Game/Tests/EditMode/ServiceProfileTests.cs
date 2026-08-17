@@ -114,6 +114,7 @@ namespace PequenoExplorador.Tests.EditMode
                 "SafeArea",
                 "Haptics",
                 "Save",
+                "Photos",
                 "Localization",
                 "Audio",
                 "Analytics",

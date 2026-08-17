@@ -23,12 +23,14 @@ No se pregunta edad/fecha de nacimiento, no se recomienda modo según comportami
 
 - Tap-to-move con indicador de destino, camino válido y cancelar mediante nuevo toque.
 - Interacción contextual con toque: foco visible, auto-acercamiento si hace falta, acción iconográfica grande y cancelación siempre disponible; mantener pulsado no es requisito principal.
-- Viewfinder de fotografía con zona de éxito generosa y captura asistida opcional.
+- Viewfinder de fotografía con zona de éxito generosa, guía `acércate/centra/listo`, shutter grande y salida reversible.
 - Prompt 16 implementa el candidato como `PH_` medible; P-006 aún exige compararlo con control directo simplificado antes de implementación definitiva.
 
 La foundation ejecutable está en [`INPUT_ACCESSIBILITY.md`](INPUT_ACCESSIBILITY.md). `Explorer` mueve un avatar `PH_` solo sobre suelo válido, con marker verde/ámbar y cámara automática; `Photography` sigue siendo el único contexto de producto que acepta pinch. Abrir UI/fotografía, pausar o perder focus detiene movimiento. Android Back abre pausa reversible y checkpoint, no salida destructiva.
 
 El prompt contextual vive en un Canvas dedicado con safe area y targets mínimos `64×64`. Solo existe un foco. En overlaps gobiernan prioridad, distancia e ID estable; nunca “animal primero” por hardcode. `Unavailable` muestra “Todavía no podemos…” y cue suave, no términos técnicos, cruz roja ni castigo. Detalle: [`INTERACTION_SYSTEM.md`](INTERACTION_SYSTEM.md).
+
+Prompt 19 añade un Canvas `PH_UI_PHOTOGRAPHY` sobre safe area: retícula de `620×390`, shutter `170×170`, salida `180×110`, guía ES/EN y tarjeta de resultado. Color acompaña al icono/copy y no es la única señal. Una toma inválida mantiene cámara y ofrece pista; storage fallido conserva discovery y muestra fallback no alarmante. `reduce motion` desactiva flash; pinch sigue reservado, pero zoom visual final no se implementa aún. Contrato: [`PHOTOGRAPHY_SYSTEM.md`](PHOTOGRAPHY_SYSTEM.md).
 
 ## Jerarquía de pantallas
 
@@ -52,7 +54,7 @@ El prompt contextual vive en un Canvas dedicado con safe area y targets mínimos
 - Cada Canvas actual tiene un solo root de safe area; los targets actuales miden al menos `64×64` píxeles de referencia. Los presets 4:3, 16:9, 20:9 y tablet 16:10 no sustituyen hardware.
 - Subtítulos/copy para voz; audio repetible; pistas visuales para sonidos.
 - Prompt 12 activa subtítulos por defecto, replay gratuito y volúmenes separados; cambiar idioma actualiza texto/cue sin pedir edad ni inferir perfil.
-- Reducir movimiento y flashes; cámara estable. El prototipo ofrece snap sin bob, pero la preferencia adulta aún no está persistida/cableada.
+- Reducir movimiento y flashes; cámara estable. El prototipo ofrece snap sin bob y el modo cámara omite flash cuando se activa la preferencia; el control adulto final aún no está persistido/cableado.
 - No exigir velocidad, precisión fina, lectura, audio, percepción de color o multitouch.
 - Tiempo suficiente y descansos neutrales; reentrada conserva contexto.
 

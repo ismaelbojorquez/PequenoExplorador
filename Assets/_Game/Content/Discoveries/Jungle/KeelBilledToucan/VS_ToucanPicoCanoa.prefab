@@ -1560,6 +1560,7 @@ GameObject:
   - component: {fileID: 360667652180368990}
   - component: {fileID: 4348491189864672631}
   - component: {fileID: 2848705910748337647}
+  - component: {fileID: 6222462237881398231}
   m_Layer: 0
   m_Name: VS_ToucanPicoCanoa
   m_TagString: Untagged
@@ -1624,7 +1625,7 @@ MonoBehaviour:
   _author: "Ismael Boj\xF3rquez"
   _sourceType: "Creaci\xF3n propia mediante primitives y tooling Unity"
   _licenseDeclaration: "Propia \u2014 asset-specific approved H-008-IB-2026-08-16"
-  _generatorVersion: 1.2.0
+  _generatorVersion: 1.3.0
   _generatedDate: 2026-08-16
   _editorialState: 3
   _isPlaceholder: 0
@@ -1643,3 +1644,25 @@ MonoBehaviour:
   _visualRoot: {fileID: 1408675852685617674}
   _interactionPoint: {fileID: 1622193551015865328}
   _touchCollider: {fileID: 4348491189864672631}
+--- !u!114 &6222462237881398231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8663744004205896581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3942eb7c40d6b49c58523fb60a542f3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PequenoExplorador.Presentation::PequenoExplorador.Presentation.Photography.PhotographableView
+  _discoveryId: discovery.jungle.keel-billed-toucan
+  _photoAnchor: {fileID: 3856171442507663189}
+  _facingTransform: {fileID: 1408675852685617674}
+  _candidateLocalBounds:
+    m_Center: {x: 0.43829906, y: 1.2983035, z: 0}
+    m_Extent: {x: 1.4864793, y: 1.2127318, z: 0.55}
+  _minimumCoverage: 0.08
+  _maximumDistance: 10
+  _maximumCenterOffset: 0.36
+  _minimumOrientationAlignment: 0.35

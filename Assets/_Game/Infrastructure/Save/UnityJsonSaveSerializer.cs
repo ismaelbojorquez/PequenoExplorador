@@ -23,7 +23,7 @@ namespace PequenoExplorador.Infrastructure.Save
             }
 
             PlayerPreferences preferences = progress.Preferences;
-            PlayerProgressV5Dto payload = PlayerProgressV5Dto.Create(
+            PlayerProgressV6Dto payload = PlayerProgressV6Dto.Create(
                 appVersion,
                 progress.Stars,
                 progress.WorldIds.ToArray(),
@@ -32,6 +32,9 @@ namespace PequenoExplorador.Infrastructure.Save
                     item.Count,
                     item.FirstObservedLocalDate)).ToArray(),
                 progress.ProcessedDiscoveryGrantIds.ToArray(),
+                progress.Photos.Select(item => PhotoProgressV6Dto.Create(
+                    item.DiscoveryId.Value, item.FileReference, item.ScorePermille,
+                    item.Width, item.Height, item.ByteLength)).ToArray(),
                 progress.CompletedMissionIds.ToArray(),
                 PlayerPreferencesV3Dto.Create(
                     (int)preferences.GuidanceMode,
@@ -98,10 +101,10 @@ namespace PequenoExplorador.Infrastructure.Save
 
         public DecodedSaveData DeserializeCurrentPayload(string payload)
         {
-            PlayerProgressV5Dto dto;
+            PlayerProgressV6Dto dto;
             try
             {
-                dto = JsonUtility.FromJson<PlayerProgressV5Dto>(payload);
+                dto = JsonUtility.FromJson<PlayerProgressV6Dto>(payload);
             }
             catch (Exception exception)
             {
@@ -109,7 +112,7 @@ namespace PequenoExplorador.Infrastructure.Save
             }
 
             if (dto == null || string.IsNullOrWhiteSpace(dto.AppVersion) || dto.Stars < 0 ||
-                dto.WorldIds == null || dto.Discoveries == null || dto.ProcessedDiscoveryGrantIds == null ||
+                dto.WorldIds == null || dto.Discoveries == null || dto.ProcessedDiscoveryGrantIds == null || dto.Photos == null ||
                 dto.CompletedMissionIds == null ||
                 dto.Settings == null || dto.Metadata == null || dto.Metadata.SaveSequence < 0 ||
                 !Enum.IsDefined(typeof(GuidanceMode), dto.Settings.GuidanceMode) ||
@@ -143,11 +146,23 @@ namespace PequenoExplorador.Infrastructure.Save
                         item.Count,
                         item.FirstObservedLocalDate);
                 }).ToArray();
+                var photos = dto.Photos.Select(item =>
+                {
+                    if (item == null) throw new SaveDataException("SavePayloadInvalid");
+                    return new PhotoProgress(
+                        PequenoExplorador.Domain.Content.DiscoveryId.Parse(item.DiscoveryId),
+                        item.FileReference,
+                        item.ScorePermille,
+                        item.Width,
+                        item.Height,
+                        item.ByteLength);
+                }).ToArray();
                 var progress = new PlayerProgress(
                     dto.Stars,
                     dto.WorldIds,
                     discoveries,
                     dto.ProcessedDiscoveryGrantIds,
+                    photos,
                     dto.CompletedMissionIds,
                     preferences);
                 return new DecodedSaveData(progress, dto.Metadata.SaveSequence);

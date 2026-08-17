@@ -94,6 +94,18 @@ namespace PequenoExplorador.Editor
             AssetDatabase.SaveAssets();
         }
 
+        public static void ApplyPhotographyEntries()
+        {
+            LocalizationSettings settings = AssetDatabase.LoadAssetAtPath<LocalizationSettings>(SettingsPath);
+            Locale spanish = AssetDatabase.LoadAssetAtPath<Locale>(SpanishLocalePath);
+            Locale english = AssetDatabase.LoadAssetAtPath<Locale>(EnglishLocalePath);
+            if (settings == null || spanish == null || english == null)
+                throw new InvalidOperationException("Localization foundation must exist before photography setup.");
+            LocalizationEditorSettings.ActiveLocalizationSettings = settings;
+            UpsertStringCollection(LocalizationKeys.UiTable, new[] { spanish, english }, UiEntries);
+            AssetDatabase.SaveAssets();
+        }
+
         private static readonly Entry[] SharedEntries =
         {
             new Entry("shared.product.name", "Pequeño Explorador: Aprende Jugando", "Little Explorer: Learning Through Play"),
@@ -132,7 +144,17 @@ namespace PequenoExplorador.Editor
             new Entry("ui.interaction.wait", "Esperemos un momento para volver a mirar.", "Let’s wait a moment before looking again."),
             new Entry("ui.discovery.new", "¡Nuevo descubrimiento!", "New discovery!"),
             new Entry("ui.discovery.repeated", "¡Lo observaste otra vez!", "You spotted it again!"),
-            new Entry("ui.discovery.debug_count", "{0} · Observaciones: {1}", "{0} · Observations: {1}", isSmart: true)
+            new Entry("ui.discovery.debug_count", "{0} · Observaciones: {1}", "{0} · Observations: {1}", isSmart: true),
+            new Entry("ui.photography.open", "Vamos a tomar una foto.", "Let’s take a photo."),
+            new Entry("ui.photography.move_closer", "Acércate un poquito.", "Move a little closer."),
+            new Entry("ui.photography.center", "Pon al tucán dentro del marco.", "Place the toucan inside the frame."),
+            new Entry("ui.photography.ready", "¡Listo para la foto!", "Ready for the photo!"),
+            new Entry("ui.photography.capture", "Foto", "Photo"),
+            new Entry("ui.photography.exit", "Salir", "Exit"),
+            new Entry("ui.photography.positive_hint", "Casi. Probemos desde otro lugar.", "Almost. Let’s try from another spot."),
+            new Entry("ui.photography.captured_new", "¡Nuevo descubrimiento!", "New discovery!"),
+            new Entry("ui.photography.captured_repeated", "¡Qué buena observación!", "Great observation!"),
+            new Entry("ui.photography.storage_fallback", "¡Descubrimiento guardado! Usaremos su ilustración.", "Discovery saved! We’ll use its illustration.")
         };
 
         private static readonly Entry[] ContentEntries =

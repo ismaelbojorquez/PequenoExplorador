@@ -40,6 +40,8 @@ Todos los WAV son PCM mono, 48 kHz/16-bit, `DecompressOnLoad`, generados por `Au
 
 Los tonos de voz no pretenden sonar humanos y nunca muestran al niño un mensaje técnico. Los keys de subtítulo son `content.audio.instruction.explore`, `content.audio.name.jungle` y `content.audio.narration.welcome`; los slots conceptuales `Voice` usan los IDs del cue.
 
+Prompt 19 reutiliza únicamente `audio.feedback.confirm` para toma aceptada y `audio.feedback.retry` para pista/resultado no listo. No inventa vocalización, shutter real ni narración de especie. Ambos son tonos `PH_` suaves y ReleaseBlocked; la experiencia conserva retícula/copy aun sin audio. Un cue final de shutter/guía deberá registrar ID, derechos, idioma/emoción/duración y prueba auditiva, sin copiar grabaciones científicas referenciadas.
+
 ## Entrega final humana
 
 Cada reemplazo debe registrar ID, locale, texto exacto aprobado, actor/compositor, emoción, pronunciación, duración, formato/master, licencia/release, fecha, edición, loop points y owner. Masters finales: WAV PCM sin pérdida, preferentemente 48 kHz/24-bit; import/load/compression se decide con medición móvil en F15. Voz ES/EN no se traduce automáticamente sin revisión lingüística y factual.

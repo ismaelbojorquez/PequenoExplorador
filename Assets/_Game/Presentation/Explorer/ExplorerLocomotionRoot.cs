@@ -43,6 +43,7 @@ namespace PequenoExplorador.Presentation.Explorer
         private bool _applicationFocused = true;
         private bool _bound;
         private IExplorerTapHandler _tapHandler;
+        private Transform _photographyFocus;
 
         public ExplorerLocomotionState State => _controller?.State ?? ExplorerLocomotionState.Idle;
         public bool IsBound => _bound;
@@ -85,6 +86,7 @@ namespace PequenoExplorador.Presentation.Explorer
             _controller?.Cancel();
             _controller = null;
             _tapHandler = null;
+            _photographyFocus = null;
             _input = null;
             _camera = null;
             _bound = false;
@@ -98,6 +100,12 @@ namespace PequenoExplorador.Presentation.Explorer
         }
 
         public void SetTapHandler(IExplorerTapHandler tapHandler) => _tapHandler = tapHandler;
+
+        public void SetPhotographyFocus(Transform focus)
+        {
+            _photographyFocus = focus;
+            if (focus != null) CancelMovement();
+        }
 
         public bool TryMoveTo(WorldPosition destination)
         {
@@ -149,7 +157,9 @@ namespace PequenoExplorador.Presentation.Explorer
                     _cameraDampingSeconds,
                     Mathf.Infinity,
                     Time.unscaledDeltaTime);
-            _camera.transform.LookAt(_agent.transform.position + _cameraLookOffset, Vector3.up);
+            _camera.transform.LookAt(_photographyFocus != null
+                ? _photographyFocus.position
+                : _agent.transform.position + _cameraLookOffset, Vector3.up);
         }
 
         private void HandleIntent(InputIntent intent)
@@ -225,7 +235,9 @@ namespace PequenoExplorador.Presentation.Explorer
             if (_camera == null || _agent == null) return;
             _cameraVelocity = Vector3.zero;
             _camera.transform.position = ClampCameraPosition(_agent.transform.position + _cameraOffset);
-            _camera.transform.LookAt(_agent.transform.position + _cameraLookOffset, Vector3.up);
+            _camera.transform.LookAt(_photographyFocus != null
+                ? _photographyFocus.position
+                : _agent.transform.position + _cameraLookOffset, Vector3.up);
         }
 
         private Vector3 ClampCameraPosition(Vector3 value)

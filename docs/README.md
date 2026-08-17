@@ -1,6 +1,6 @@
 # Índice documental
 
-Estado: foundation, scene flow local, persistencia schema v5, localización/audio/input, `VS-D-A01` runtime Approved, manifest Selva, locomoción, interacción y discovery directo disponibles; todavía no existen fotografía, álbum/economía ni contenido masivo. Empezar siempre por [`../AGENTS.md`](../AGENTS.md) y [`STATUS.md`](STATUS.md).
+Estado: foundation, scene flow local, persistencia schema v6, localización/audio/input, `VS-D-A01` runtime Approved, manifest Selva, locomoción, interacción, discovery y fotografía virtual disponibles; todavía no existen álbum/economía ni contenido masivo. Empezar siempre por [`../AGENTS.md`](../AGENTS.md) y [`STATUS.md`](STATUS.md).
 
 ## Fuentes de verdad
 
@@ -15,6 +15,7 @@ Estado: foundation, scene flow local, persistencia schema v5, localización/audi
 | Contenido runtime | [`CONTENT_PIPELINE.md`](CONTENT_PIPELINE.md) | Define grupos/perfiles locales, ownership y prohibición de remoto. |
 | Modelo de datos | [`CONTENT_MODEL.md`](CONTENT_MODEL.md) | IDs tipados, definitions, authoring, catálogo, aliases y gate editorial. |
 | Persistencia | [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md) | Schema, archivos, migración, atomicidad, privacidad y recovery. |
+| Fotografía ficticia | [`PHOTOGRAPHY_SYSTEM.md`](PHOTOGRAPHY_SYSTEM.md) | Evaluación asistida, captura virtual, thumbnail/store, fallos, privacidad y budgets. |
 | Configuración runtime | [`RUNTIME_CONFIGURATION.md`](RUNTIME_CONFIGURATION.md) | Perfiles/flags locales, autoridades, mapping y guardrails Release. |
 | Localización | [`17_LOCALIZATION.md`](17_LOCALIZATION.md) | Locales ES/EN, pseudo Development, keys/tablas, fallback, CSV y validación. |
 | Input y locomoción | [`INPUT_ACCESSIBILITY.md`](INPUT_ACCESSIBILITY.md) | Mapas semánticos, gestos, tap-to-move candidato, cámara asistida, safe area, Back, haptics y límites de hardware. |
@@ -55,7 +56,9 @@ Los saltos numéricos reservan espacio para documentos técnicos futuros; no imp
 - [`DEPENDENCY_REGISTER.md`](DEPENDENCY_REGISTER.md): intake y pins de paquetes directos/transitivos.
 - [`CONTENT_PIPELINE.md`](CONTENT_PIPELINE.md): Addressables local, addresses/labels, ownership, build y evolución.
 - [`CONTENT_MODEL.md`](CONTENT_MODEL.md): catálogo O(1), ScriptableObjects, IDs, reports y bloqueo Release de Draft.
-- [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md): schema v5, DTOs, checksum, backup, migraciones, autosave y recuperación.
+- [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md): schema v6, DTOs, checksum, backup, migraciones, autosave y recuperación.
+- [`PHOTOGRAPHY_SYSTEM.md`](PHOTOGRAPHY_SYSTEM.md): cámara del explorador sin cámara física, evaluator, thumbnail acotada y store local.
+- [`PRIVACY_ENGINEERING.md`](PRIVACY_ENGINEERING.md): inventario técnico de datos/permisos y controles offline; no es asesoría legal.
 - [`17_LOCALIZATION.md`](17_LOCALIZATION.md): paquete exacto, ES/EN, pseudo, tablas/keys y pipeline CSV local.
 - [`RUNTIME_CONFIGURATION.md`](RUNTIME_CONFIGURATION.md): AppConfig Development/Release, flags tipados y validación build.
 - [`INPUT_ACCESSIBILITY.md`](INPUT_ACCESSIBILITY.md): Input System `1.20.0`, action maps, gestures, safe area, haptics y device harness.

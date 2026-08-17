@@ -1,5 +1,22 @@
 # Changelog
 
+## Prompt 19 — assisted in-game photography — 2026-08-17
+
+### Added
+
+- Contratos `PhotoTarget/PhotoEvaluation/IPhotographable`, evaluator puro, `CapturePhotoUseCase`, viewfinder `PH_`, retícula/guías ES/EN, integración interaction→Photography y fallback amable.
+- Renderer `384×216` con RenderTexture temporal; `LocalPhotoStore` atómico/acotado con manifest, failure injector Development y validator build/CLI sin permiso CAMERA o `ScreenCapture`.
+- Save schema v6, `PhotoProgress` metadata-only y migración pura v5→v6; EditMode/PlayMode cubren límites, best-photo, idempotencia, storage failure, spam, pausa, reduce motion y unload.
+
+### Changed
+
+- El tucán Approved conserva `VS_PhotoAnchor`/bounds y ahora implementa target fotográfico; interacción entra a cámara en vez de conceder discovery directo.
+- Bootstrap inicializa `Photos` después de Save y reset Development limpia ambos stores. Arquitectura, discovery, save, privacidad, UI, arte/audio, testing, decisiones, riesgos y estado reflejan Prompt 19.
+
+### Limits
+
+- La UI/cues siguen `PH_`; Android físico y profiling de memoria/disco permanecen `NOT RUN`. No se añadió cámara física, CAMERA, galería, compartir, red, álbum/economía ni contenido nuevo. Gate B continúa `FAIL` hasta Fases 20–29 y nueva auditoría.
+
 ## VS-D-A01 runtime adoption — 2026-08-16
 
 ### Added

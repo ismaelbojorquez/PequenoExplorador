@@ -3,7 +3,7 @@
     "author": "Ismael Bojórquez",
     "sourceType": "Creación propia mediante primitives y tooling Unity",
     "generator": "PequenoExplorador.Editor.ToucanFixtureSetup",
-    "generatorVersion": "1.2.0",
+    "generatorVersion": "1.3.0",
     "generatedDate": "2026-08-16",
     "sourceComponents": "Unity built-in Sphere/Cube/Cylinder meshes; project-authored URP materials",
     "runtimePrefab": "Assets/_Game/Content/Discoveries/Jungle/KeelBilledToucan/VS_ToucanPicoCanoa.prefab",
@@ -32,7 +32,7 @@
     "files": [
         {
             "path": "Assets/_Game/Content/Discoveries/Jungle/KeelBilledToucan/VS_ToucanPicoCanoa.prefab",
-            "sha256": "5221edf3bfc6bc00835a40e87c670e7513840b613a872c970a3266abb775ddfa"
+            "sha256": "aaaec96c524e782b7bf43b8c4c5d56a50f5302ce6223b8c3fe1970fa143587e6"
         },
         {
             "path": "Assets/_Game/Content/Discoveries/Jungle/KeelBilledToucan/Materials/Toucan_Dark.mat",
@@ -64,7 +64,7 @@
         },
         {
             "path": "Assets/_Game/Editor/ToucanFixtureSetup.cs",
-            "sha256": "5620053b32c424c757adbe1f175b9e4f978a93db3c56d9b2901c47e4e369d3f8"
+            "sha256": "e0a3e845e2f0a2fe40558a3adda958e391ac99b6792263e1ed65088678743440"
         }
     ],
     "metrics": {

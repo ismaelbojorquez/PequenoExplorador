@@ -123,7 +123,8 @@ namespace PequenoExplorador.Tests.EditMode
                     new V1ToV2LocalizationMigration(),
                     new V2ToV3AudioMigration(),
                     new V3ToV4DiscoveryMigration(),
-                    new V4ToV5ToucanDiscoveryMigration()
+                    new V4ToV5ToucanDiscoveryMigration(),
+                    new V5ToV6PhotoProgressMigration()
                 });
             await save.InitializeAsync(CancellationToken.None);
             return save;
