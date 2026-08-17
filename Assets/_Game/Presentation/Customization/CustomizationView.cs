@@ -49,6 +49,7 @@ namespace PequenoExplorador.Presentation.Customization
         public IReadOnlyList<CustomizationSlotButtonView> SlotButtons => _slotButtons ?? Array.Empty<CustomizationSlotButtonView>();
         public IReadOnlyList<CustomizationOptionButtonView> OptionButtons => _optionButtons ?? Array.Empty<CustomizationOptionButtonView>();
         public string FeedbackText => _feedback == null ? string.Empty : _feedback.text;
+        public event Action<bool> VisibilityChanged;
 
         private void Awake()
         {
@@ -74,7 +75,7 @@ namespace PequenoExplorador.Presentation.Customization
             _repository.Changed += HandleProgressChanged;
             _localization.LocaleChanged += HandleLocaleChanged;
             _sceneFlow.Changed += HandleSceneChanged;
-            _debugUnlockAllButton?.gameObject.SetActive(diagnosticsEnabled && debugUnlockAll != null);
+            _debugUnlockAllButton?.gameObject.SetActive(false);
             _selectedSlot = _catalog.Slots.FirstOrDefault()?.Id ?? default;
             Close();
         }
@@ -96,15 +97,19 @@ namespace PequenoExplorador.Presentation.Customization
         public void Open()
         {
             if (_sceneFlow?.Snapshot.Current != SceneFlowState.Camp || _sceneFlow.Snapshot.IsTransitioning) return;
+            bool wasVisible = IsVisible;
             _panel?.SetActive(true);
+            if (!wasVisible) VisibilityChanged?.Invoke(true);
             BindSlots();
             SelectSlot(_selectedSlot);
         }
 
         public void Close()
         {
+            bool wasVisible = IsVisible;
             _previewRig?.ClearPreview();
             _panel?.SetActive(false);
+            if (wasVisible) VisibilityChanged?.Invoke(false);
         }
 
         public bool TryHandleBack() { if (!IsVisible) return false; Close(); return true; }

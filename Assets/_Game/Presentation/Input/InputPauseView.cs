@@ -14,6 +14,7 @@ namespace PequenoExplorador.Presentation.Input
         private ILocalizationService _localization;
 
         public event Action ResumeRequested;
+        public event Action<bool> VisibilityChanged;
         public bool IsVisible => _panel != null && _panel.activeSelf;
 
         private void Awake() => _resumeButton?.onClick.AddListener(RequestResume);
@@ -29,8 +30,10 @@ namespace PequenoExplorador.Presentation.Input
 
         public void Show(bool visible)
         {
+            bool changed = IsVisible != visible;
             if (visible) RefreshCopy();
             _panel?.SetActive(visible);
+            if (changed) VisibilityChanged?.Invoke(visible);
         }
 
         public void Unbind()

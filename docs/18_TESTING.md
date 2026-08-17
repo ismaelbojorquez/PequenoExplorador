@@ -129,3 +129,11 @@ La reparación 2026-08-17 pasó `scripts/validate` con EditMode `169/169`, PlayM
 El APK exacto `5c382e6c3340f569350ef9ee765566fd0f0377d9403b847df5ae411c33253b80` fue extraído del HONOR DNY-NX9 y comparado byte a byte. Cinco startups entregados y cinco rechecks independientes pasan Ready→Camp sin fatal. Offline boot, Back→pausa y background/resume pasan solo a nivel parcial.
 
 El Gate falla: capturas muestran roots/paneles incompatibles simultáneamente visibles/raycastables; SceneFlow llega a Expedition pero Selva queda oculta, un tap de locale activa Tutorial y rotación en caliente deja el framebuffer negro. Los tests actuales validan vistas aisladas y ratios sintéticos, no composición de framebuffer, exclusión de roots ni overlap de hitboxes. Añadir esas regresiones y repetir hardware antes de playtest. Evidencia y matriz: [`audits/GATE_B_2026-08-17_PHYSICAL_AND_CHILD_UX.md`](audits/GATE_B_2026-08-17_PHYSICAL_AND_CHILD_UX.md).
+
+## Regresiones de composición UI/lifecycle Gate B
+
+EditMode recorre todos los `AppUiState`, exige como máximo un primario, mapping de input y política Back exhaustivos, Camp fail-closed y Tutorial/diagnostics solo en coexistencias autorizadas. El validador integrado a compile/build abre Bootstrap y exige un coordinator, un EventSystem, trece bindings únicos, Canvas/CanvasGroup/GraphicRaycaster exclusivos y cero roots legacy en Camp.
+
+PlayMode aplica la policy a trece roots controlados y verifica `alpha`, interacción, raycasts y raycaster. La escena real prueba Camp→Selva→Camp, EventSystem único, Camp oculto durante Expedition y reflow/reactivación de cámara en 4:3, 16:9, 20:9 y tablet 16:10. La suite además conserva los tres ciclos SceneFlow, pause/Back, ES/EN/pseudo, tutorial, journey y teardown; una carrera encontrada entre `PhotographyView.OnDestroy` y una `LearningActivityView` ya destruida quedó cubierta con guards de shutdown.
+
+Estas regresiones prueban composición y resize simulado, no touch, framebuffer, cutout, térmica ni comprensión infantil reales. Esas filas solo cambian con el APK identificado y evidencia física/humana requerida por el ExecPlan activo.

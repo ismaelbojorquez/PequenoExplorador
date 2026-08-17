@@ -104,3 +104,7 @@ La prueba pasa solo si las respuestas son inequívocas, los enlaces resuelven y 
 Registrar comandos, target, fecha cuando sea temporal, resultado y limitaciones. El reporte de fase usa los 14 apartados estándar: resultado; estado inicial; cambios; arquitectura; archivos; pruebas; resultados; build/artefactos; riesgos; deuda; pendientes humanos; hash; status Git; siguiente fase.
 
 Antes de declarar terminado: implementación/entregable, tests, build requerido, documentación, Git y reporte deben satisfacer el DoD de `AGENTS`. Lo no aplicable se distingue de lo no ejecutado.
+
+## Remediación de composición/lifecycle móvil
+
+Todo cambio en `AppUiState`, root, overlay o diagnostics ejecuta policy exhaustiva de estado/input/Back, validator de CanvasGroup/raycaster/EventSystem, PlayMode Camp↔Selva y resize/resume, seguido de `scripts/validate`. La simulación solo prueba composición/reflow; LandscapeLeft↔Right, framebuffer, lock/unlock, cutout y touch permanecen `NOT RUN` hasta usar un APK identificado en hardware.

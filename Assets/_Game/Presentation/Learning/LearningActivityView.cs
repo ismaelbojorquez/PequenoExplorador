@@ -42,6 +42,7 @@ namespace PequenoExplorador.Presentation.Learning
 
         public event Action<LearningReactionId, bool> ReactionRequested;
         public event Action<LearningActivityResult> ActivityCompleted;
+        public event Action<bool> VisibilityChanged;
         public ActivityOutcome LastOutcome { get; private set; }
         public string FeedbackText => _feedback == null ? string.Empty : _feedback.text;
         public string TitleText => _title == null ? string.Empty : _title.text;
@@ -86,9 +87,11 @@ namespace PequenoExplorador.Presentation.Learning
         {
             if (_catalog == null || !_catalog.TryGetActivity(activityId, out _definition))
                 return default;
+            bool wasVisible = IsVisible;
             _activeActivityId = activityId;
             _continuationDiscoveryId = continuationDiscoveryId;
             gameObject.SetActive(true);
+            if (!wasVisible) VisibilityChanged?.Invoke(true);
             _input?.SetMap(InputMapId.UI);
             RenderDefinition();
             LearningActivityResult result = _coordinator.Start(activityId);
@@ -140,10 +143,14 @@ namespace PequenoExplorador.Presentation.Learning
             if (completed && continuation.IsValid) _photography?.Request(continuation);
         }
 
+        public void Close() => HandleExit();
+
         private void Hide()
         {
+            bool wasVisible = IsVisible;
             _input?.SetMap(InputMapId.Explorer);
             gameObject.SetActive(false);
+            if (wasVisible) VisibilityChanged?.Invoke(false);
             _definition = null;
             _activeActivityId = default;
             _continuationDiscoveryId = default;

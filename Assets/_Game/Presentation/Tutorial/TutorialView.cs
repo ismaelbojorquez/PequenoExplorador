@@ -47,6 +47,7 @@ namespace PequenoExplorador.Presentation.Tutorial
         public Button StandardGuidanceButton => _standardGuidanceButton;
         public Button ReplayTutorialButton => _replayTutorialButton;
         public bool GestureVisible => _gesture != null && _gesture.activeSelf;
+        public event Action<bool> VisibilityChanged;
         public void SetReplayEntryVisible(bool visible)
         {
             _replayEntryAvailable = visible;
@@ -102,6 +103,7 @@ namespace PequenoExplorador.Presentation.Tutorial
             {
                 ResetGesture();
                 RenderStaticLabels();
+                VisibilityChanged?.Invoke(choose);
                 return;
             }
             _instruction.text = Resolve(snapshot.Step.Instruction);
@@ -111,6 +113,7 @@ namespace PequenoExplorador.Presentation.Tutorial
             if (_gesture != null) _gesture.SetActive(!continueStep && (snapshot.HelpLevel > 0 || snapshot.GuidanceMode == GuidanceMode.MoreGuidance));
             if (_gestureIcon != null) _gestureIcon.SetKind(IconFor(snapshot.Step.Spotlight));
             RenderStaticLabels();
+            VisibilityChanged?.Invoke(true);
             if (playVoice) _audio.Play(snapshot.Step.VoiceCue);
         }
 
@@ -158,6 +161,7 @@ namespace PequenoExplorador.Presentation.Tutorial
             _coordinator = null; _localization = null; _audio = null; _snapshot = null;
             if (_instructionPanel != null) _instructionPanel.SetActive(false);
             if (_guideChoicePanel != null) _guideChoicePanel.SetActive(false);
+            VisibilityChanged?.Invoke(false);
             ResetGesture();
         }
 

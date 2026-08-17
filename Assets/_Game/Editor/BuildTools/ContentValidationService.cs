@@ -13,6 +13,7 @@ namespace PequenoExplorador.Editor.BuildTools
         {
             var violations = new List<string>();
             violations.AddRange(RuntimeSceneSerializationValidationService.Validate());
+            violations.AddRange(UiCompositionValidationService.Validate());
             violations.AddRange(ContentCatalogValidationService.Validate(mode));
             violations.AddRange(InteractionCatalogValidationService.Validate(mode));
             violations.AddRange(WorldCatalogValidationService.Validate(mode));

@@ -50,6 +50,7 @@ namespace PequenoExplorador.Presentation.Camp
         public bool CurrentUpgradeUnlocked => _selectedUpgrade != null && _repository != null &&
             _repository.Current.UnlockedCampUpgradeIds.Contains(_selectedUpgrade.Id.Value, StringComparer.Ordinal);
         public event Action<PurchaseCampUpgradeResult> UpgradePurchased;
+        public event Action<bool> PreviewVisibilityChanged;
 
         private void Awake()
         {
@@ -105,7 +106,9 @@ namespace PequenoExplorador.Presentation.Camp
         {
             if (_selectedUpgrade == null || _repository == null || CurrentUpgradeUnlocked ||
                 !(_tutorialNavigationAvailable?.Invoke() ?? true)) return;
+            bool wasVisible = IsPreviewVisible;
             _previewPanel?.SetActive(true);
+            if (!wasVisible) PreviewVisibilityChanged?.Invoke(true);
             Render(_repository.Current);
             if (_sceneRoot != null) _sceneRoot.Preview(_selectedUpgrade.Id);
         }
@@ -139,8 +142,10 @@ namespace PequenoExplorador.Presentation.Camp
 
         private void ClosePreview()
         {
+            bool wasVisible = IsPreviewVisible;
             if (_selectedUpgrade != null && _sceneRoot != null) _sceneRoot.ClearPreview(_selectedUpgrade.Id);
             _previewPanel?.SetActive(false);
+            if (wasVisible) PreviewVisibilityChanged?.Invoke(false);
         }
 
         private void BindStations()

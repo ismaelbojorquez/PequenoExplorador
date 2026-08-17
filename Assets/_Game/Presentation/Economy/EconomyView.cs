@@ -40,7 +40,7 @@ namespace PequenoExplorador.Presentation.Economy
             _repository.Changed += HandleChanged;
             _localization.LocaleChanged += HandleLocaleChanged;
 #if UNITY_EDITOR || PE_DEVELOPMENT_SERVICES
-            if (_debugGrant != null) _debugGrant.gameObject.SetActive(developmentDiagnostics);
+            if (_debugGrant != null) _debugGrant.gameObject.SetActive(false);
 #else
             if (_debugGrant != null) _debugGrant.gameObject.SetActive(false);
 #endif

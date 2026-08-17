@@ -30,6 +30,7 @@ namespace PequenoExplorador.Presentation.Audio
         private bool _binding;
 
         public string CurrentSubtitle => _subtitleText == null ? string.Empty : _subtitleText.text;
+        private bool _developmentAllowed;
 
         public void Bind(IAudioService audio, ILocalizationService localization, bool developmentVisible)
         {
@@ -38,7 +39,8 @@ namespace PequenoExplorador.Presentation.Audio
             _localization = localization ?? throw new ArgumentNullException(nameof(localization));
             _lifetime = new CancellationTokenSource();
             _binding = true;
-            _developmentPanel?.SetActive(developmentVisible);
+            _developmentAllowed = developmentVisible;
+            _developmentPanel?.SetActive(false);
             if (developmentVisible)
             {
                 SetDevelopmentLabel(_playInstructionButton, "INSTRUCCIÓN");
@@ -58,6 +60,8 @@ namespace PequenoExplorador.Presentation.Audio
             _binding = false;
             RenderSubtitle();
         }
+
+        public void SetDevelopmentVisible(bool visible) => _developmentPanel?.SetActive(_developmentAllowed && visible);
 
         public void Unbind()
         {
@@ -79,6 +83,7 @@ namespace PequenoExplorador.Presentation.Audio
             _lifetime = null;
             _audio = null;
             _localization = null;
+            _developmentAllowed = false;
             _subtitle = SubtitleModel.Hidden;
             if (_subtitleText != null) _subtitleText.text = string.Empty;
         }

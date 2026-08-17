@@ -356,3 +356,11 @@ CampHub → WorldLoadUseCase → Explorer/Interaction → LearningCoordinator
 ```
 
 Cada feature muta `PlayerProgress` mediante su repository Application. `AutosaveCoordinator.Latest` resuelve `pending → in-flight → persisted`; el snapshot in-flight permanece autoritativo hasta que `ISaveService` confirma la escritura. Cambios de locale/audio usan `UpdateAndFlushAsync`, que fusiona la preferencia sobre ese mismo ownership. Esto elimina la carrera observada entre captura, pause/transición y una preferencia persistida sin inventar transacciones UI→archivo. `PE_VERTICAL_SLICE_P29`/journey version `1` identifica builds y reportes Development; no es un feature flag ni una autorización Release.
+
+## Ownership de presentación y lifecycle Android — remediación Gate B
+
+Application expone `AppUiState`, la acción semántica de Back y el action map requerido. Presentation posee `UiCompositionPolicy` y `UiCompositionCoordinator`: trece superficies serializadas, cada una con Canvas, CanvasGroup y GraphicRaycaster propios. Bootstrap traduce SceneFlow y outcomes de views a estado; ninguna feature consulta otras pantallas, Save o nombres de GameObjects.
+
+La transición es fail-closed: el coordinador recorre todas las superficies y deja cualquier root no autorizado en `alpha=0`, `interactable=false`, `blocksRaycasts=false` y raycaster deshabilitado. Solo puede existir un primario; Interaction y Tutorial son overlays explícitos. Sorting runtime es 100 primario, 200 Interaction, 300 Tutorial y 400 diagnostics. Development diagnostics abre deliberadamente mediante el mapa Debug, reemplaza producto, inicia cerrado y Release carece del flag que permite esa entrada.
+
+`SurfaceLifecycleAdapter` escucha el snapshot central de safe area y reanudación. Coalesce cambios, espera un frame para que Android recree la surface, fuerza layout de los Canvas, reinicia aspect/projection y reactiva la cámara en el frame siguiente. Focus/pause conserva services, checkpoint e input; no reinicia Activity ni procesa datos infantiles. `UiCompositionValidationService` bloquea superficies ausentes/duplicadas, componentes compartidos, más de un EventSystem, múltiples primarios y Camp con roots legacy/diagnóstico.

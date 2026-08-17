@@ -103,3 +103,24 @@ Boot/loading, Camp, fotografía/tarjeta, álbum, actividad, misión, personaliza
 ## FTUE contextual
 
 `PH_UI_TUTORIAL` usa un selector modal completo para los dos modos de guía y después una banda contextual no bloqueante. Muestra una instrucción, progreso `n/7`, gesto/icono, replay, skip y Continue solo en la tarjeta discovery/reward. El gating deshabilita estaciones/upgrade y acciones no pertinentes sin atrapar Back/pausa. Targets son `≥64`, safe area es única y reduce-motion elimina pulso. Copy ES/EN y pseudo pasan por Localization; no hay texto largo ni error técnico para el niño.
+
+## Matriz canónica de composición runtime
+
+La fuente ejecutable es `AppUiStatePolicy` (estado/input/Back) + `UiCompositionPolicy` (roots/sorting). `UiCompositionCoordinator` es el único owner de visibilidad/raycast; `Show` de una view no autoriza su Canvas por sí solo.
+
+| Estado | Primario | Overlay permitido | Input | Back |
+|---|---|---|---|---|
+| Boot / ErrorRecovery | Status | ninguno | UI | ignorar / retry seguro |
+| Transition | SceneFlow | ninguno | UI | ignorar mientras carga |
+| Camp | Camp | Tutorial explícito | UI | pausa |
+| Expedition / Interaction | mundo 3D, sin Canvas primario | Interaction + Tutorial | Explorer | pausa/cancelación contextual |
+| LearningActivity | Learning | Tutorial explícito | UI | cerrar actividad |
+| Photography / DiscoveryResult | Photography | Tutorial explícito | Photography | cerrar cámara/tarjeta |
+| Album | Album | Tutorial explícito | UI | detalle→grid→Camp |
+| Missions | Missions | ninguno | UI | Camp |
+| CampUpgrade | Camp | Tutorial explícito | UI | cancelar preview |
+| Customization | Customization | Tutorial explícito | UI | Camp |
+| Pause | InputFoundation | ninguno | UI | reanudar |
+| DevelopmentDiagnostics | InputFoundation | diagnóstico solicitado | UI+Debug | cerrar diagnóstico |
+
+Todos los otros roots quedan invisibles y no raycastables. Audio diagnostics, debug grant, unlock-all, viewport/touch harness y controles SceneFlow Development empiezan cerrados; no interceptan la experiencia infantil. Cada Canvas tiene safe-area ownership existente, sorting explícito y un raycaster exclusivo. LandscapeLeft/Right, focus y resume disparan reflow y recuperación de cámara; la comprobación física sigue siendo obligatoria porque la simulación de resolución no certifica framebuffer Android.

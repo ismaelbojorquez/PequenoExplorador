@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-08-17 — Remediación UI/lifecycle Gate B (implementación)
+
+- Añadidos `AppUiState`/input/Back semánticos y policy Presentation fail-closed para trece superficies persistentes.
+- Bootstrap ahora aplica composición al arrancar, cambiar Camp/Selva, abrir/cerrar features, pausar, recuperar error y alternar diagnostics deliberadamente.
+- Cada superficie usa Canvas/CanvasGroup/GraphicRaycaster exclusivo, sorting explícito y safe area; diagnostics, debug grant/unlock y SceneFlow Development inician cerrados.
+- Añadido recovery de safe area/surface/cámara para resize, orientación, focus y resume, sin reiniciar Activity.
+- Validator de composición integrado al pipeline y regresiones EditMode/PlayMode sobre escena real, multiratio, EventSystem y teardown.
+- La matriz física, APK identificado y playtest humano se registrarán por separado; Gate B sigue `FAIL` y Prompt 31 bloqueado.
+
 ## 2026-08-17 — Gate B physical/Child UX audit
 
 - `GATE B: FAIL`: APK exacto `5c382e…` verificado byte a byte en HONOR DNY-NX9/Android 16; cinco logs entregados y cinco rechecks llegan Ready→Camp sin fatal, confirmando que el crash `level0` sigue cerrado.

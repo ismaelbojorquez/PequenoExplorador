@@ -62,6 +62,7 @@ namespace PequenoExplorador.Presentation.Album
         private int _generation;
         private Func<TutorialAction, bool> _tutorialGate;
         public event Action Opened;
+        public event Action<bool> VisibilityChanged;
 
         public bool IsVisible => _panel != null && _panel.activeSelf;
         public bool IsDetailVisible => _detailPanel != null && _detailPanel.activeSelf;
@@ -114,20 +115,24 @@ namespace PequenoExplorador.Presentation.Album
         {
             if (_sceneFlow == null || _sceneFlow.Snapshot.Current != SceneFlowState.Camp || _sceneFlow.Snapshot.IsTransitioning) return;
             if (_tutorialGate != null && !_tutorialGate(TutorialAction.OpenAlbum)) return;
+            bool wasVisible = IsVisible;
             if (_panel != null) _panel.SetActive(true);
             if (_detailPanel != null) _detailPanel.SetActive(false);
             _selectedEntry = null;
             _page = 0;
             Refresh();
             Opened?.Invoke();
+            if (!wasVisible) VisibilityChanged?.Invoke(true);
         }
 
         public void Close()
         {
+            bool wasVisible = IsVisible;
             CancelLoads();
             if (_panel != null) _panel.SetActive(false);
             if (_detailPanel != null) _detailPanel.SetActive(false);
             _selectedEntry = null;
+            if (wasVisible) VisibilityChanged?.Invoke(false);
         }
 
         public bool TryHandleBack()

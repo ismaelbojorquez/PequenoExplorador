@@ -138,6 +138,7 @@ namespace PequenoExplorador.Presentation.Photography
             }
         }
         private void ExitRequested() => End(true);
+        public void Cancel() => End(true);
         private void LearnRequested()
         {
             if (_active == null || _learningEntry == null || _interactions == null) return;

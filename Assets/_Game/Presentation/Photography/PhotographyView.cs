@@ -33,6 +33,7 @@ namespace PequenoExplorador.Presentation.Photography
         public event Action ShutterRequested;
         public event Action ExitRequested;
         public event Action LearnRequested;
+        public event Action VisibilityChanged;
         public bool IsVisible => _panel != null && _panel.activeSelf;
         public string GuidanceText => _guidance == null ? string.Empty : _guidance.text;
         public bool CardVisible => _card != null && _card.activeSelf;
@@ -53,7 +54,7 @@ namespace PequenoExplorador.Presentation.Photography
         public bool FlashVisible => _flash != null && _flash.gameObject.activeSelf;
         public void SetCaptureBusy(bool busy) { _captureBusy = busy; if (_shutter != null) _shutter.interactable = !busy; }
         public void SetReduceMotion(bool enabled) => _reduceMotion = enabled;
-        public void Show(PhotoEvaluation evaluation) { if (_panel != null) _panel.SetActive(true); if (_card != null) _card.SetActive(false); _hasCapture = false; _hasEvaluation = false; UpdateEvaluation(evaluation); }
+        public void Show(PhotoEvaluation evaluation) { bool wasVisible = IsVisible; if (_panel != null) _panel.SetActive(true); if (_card != null) _card.SetActive(false); _hasCapture = false; _hasEvaluation = false; UpdateEvaluation(evaluation); if (!wasVisible) VisibilityChanged?.Invoke(); }
         public void UpdateEvaluation(PhotoEvaluation evaluation)
         {
             bool changed = !_hasEvaluation || _lastEvaluation.Guidance != evaluation.Guidance ||
@@ -69,6 +70,7 @@ namespace PequenoExplorador.Presentation.Photography
             if (_card != null) _card.SetActive(true);
             if (_cardText != null) _cardText.text = Resolve(CaptureKey(result.Outcome));
             if (_learn != null) _learn.gameObject.SetActive(result.ProgressCaptured);
+            VisibilityChanged?.Invoke();
             if (!_reduceMotion && _flash != null)
             {
                 if (_flashRoutine != null) StopCoroutine(_flashRoutine);
@@ -77,11 +79,13 @@ namespace PequenoExplorador.Presentation.Photography
         }
         public void Hide()
         {
+            bool wasVisible = IsVisible || CardVisible;
             if (_flashRoutine != null) { StopCoroutine(_flashRoutine); _flashRoutine = null; }
             if (_panel != null) _panel.SetActive(false);
             if (_card != null) _card.SetActive(false);
             if (_learn != null) _learn.gameObject.SetActive(false);
             if (_flash != null) _flash.gameObject.SetActive(false);
+            if (wasVisible) VisibilityChanged?.Invoke();
         }
         public void Unbind()
         {

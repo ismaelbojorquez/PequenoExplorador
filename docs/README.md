@@ -29,6 +29,7 @@ Estado: foundation, scene flow local, persistencia schema v12, localización/aud
 | Decisiones | [`DECISIONS.md`](DECISIONS.md) | Separa decisiones técnicas/producto de pendientes humanos. |
 | Estado operativo | [`STATUS.md`](STATUS.md) | Fase/Gate, capacidades, plan activo, bloqueos y siguiente acción. |
 | Ejecución | [`../.agent/PLANS.md`](../.agent/PLANS.md) | Decide cuándo y cómo mantener un ExecPlan vivo. |
+| Remediación activa Gate B | [`.agent/execplans/gate-b-ui-android-lifecycle-remediation.md`](../.agent/execplans/gate-b-ui-android-lifecycle-remediation.md) | Ownership UI/lifecycle, APK físico, matriz Android y playtest; no autoriza Prompt 31. |
 
 ## Especificación de producto
 

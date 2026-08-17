@@ -9,9 +9,9 @@ Actualizado: 2026-08-17 (`America/Mexico_City`). Git, implementación y evidenci
 - **Auditoría actual:** [Gate B física/Child UX 2026-08-17](audits/GATE_B_2026-08-17_PHYSICAL_AND_CHILD_UX.md) — `FAIL`. Diez arranques físicos pasan y el crash `level0` sigue resuelto, pero UI/diagnósticos se superponen, Selva queda oculta, rotación en caliente produce pantalla negra y no existe playtest infantil/no lector. Las auditorías [condicional](audits/GATE_B_2026-08-17.md) y [reparación de arranque](audits/GATE_B_2026-08-17_ANDROID_BOOTSTRAP_FIX.md) quedan como evidencia histórica.
 - **Gate actual:** B — `FAIL`. No escalar contenido ni ejecutar Prompt 31 hasta remediar composición/lifecycle UI Android y repetir hardware + playtest.
 - **Gate A:** [`audits/GATE_A_2026-08-15.md`](audits/GATE_A_2026-08-15.md) — `PASS`, sin Critical/Major abierto.
-- **Fase en curso:** remediación requerida posterior a la auditoría física de Gate B.
-- **Siguiente acción:** crear ExecPlan para ownership de roots UI, exclusión visual/raycast, diagnostics opt-in y recuperación de surface al rotar; después repetir suite, APK exacto, matriz física y solo entonces playtest consentido/no lector. Prompt 31 permanece bloqueado.
-- **ExecPlan activo:** ninguno. Último plan cerrado: [reparación de serialización Android](../.agent/execplans/gate-b-android-bootstrap-serialization-repair.md).
+- **Fase en curso:** remediación UI/lifecycle Android posterior a la auditoría física de Gate B. La implementación fail-closed y sus regresiones ya compilan/pasan de forma acotada; validación integral, APK exacto y hardware están pendientes.
+- **Siguiente acción:** ejecutar `scripts/validate`, crear el primer commit técnico, construir/identificar/instalar el APK remediado sin borrar datos, completar la matriz física posible y dejar el journey limpio/playtest en `BLOCKED/NOT RUN` mientras falten autorización o facilitador. Prompt 31 permanece bloqueado.
+- **ExecPlan activo:** [remediación UI/lifecycle Android](../.agent/execplans/gate-b-ui-android-lifecycle-remediation.md). Gate B sigue `FAIL`; el plan no autoriza Prompt 31 ni sustituye la reauditoría independiente.
 
 ## Capacidades verificadas
 
@@ -19,7 +19,7 @@ Actualizado: 2026-08-17 (`America/Mexico_City`). Git, implementación y evidenci
 |---|---|---|
 | Git/producto/contrato | Verificado | Fases 00–06 auditadas; visión/GDD/MVP Selva y AGENTS canónicos. Cada preflight debe volver a contrastarlos. |
 | Unity y assemblies | `PASS` | Unity `6000.3.22f1`, URP, diez asmdefs incluido DesignSystem, grafo acíclico; Domain/Application sin engine. |
-| Pipeline local | `PASS` | Auditoría física: `scripts/validate` pasó repository/shell, compile/validadores, Addressables, EditMode `169/169`, PlayMode `29/29` y APK Development; el rebuild no sustituye el APK físico exacto auditado. |
+| Pipeline local | `PASS` | Remediación: `scripts/validate` pasó repository/shell, compile/validadores, Addressables 61 locations/1,920,120 bytes, EditMode `172/172`, PlayMode `31/31` y APK Development 67,462,171 bytes. El APK pre-commit no es todavía el candidato físico identificado. |
 | Bootstrap/servicios | `PASS` | MessageBus→Input→SafeArea→Haptics→Save→Photos→Localization→Audio→Analytics→Ads→Purchases; shutdown inverso y perfiles fail-closed. |
 | Scene flow / Addressables | `PASS` | `4.0.1`; Boot→Camp↔Selva por `WorldManifest`, tres ciclos, sesión/handles controlados, 61 locations/1,920,120 bytes; sin endpoint/catálogo remoto. |
 | Save local | `PASS` automatizado; dispositivo `PARTIAL/CONTAMINATED` | Schema v12 y migraciones pasan. En HONOR, cinco+cinco arranques cargan save; no hay discovery/foto completados. Hitboxes superpuestos añadieron grants `economy-tx.debug.8/.9` y reiniciaron tutorial durante auditoría; no restaurar/borrar sin autorización. |
@@ -40,8 +40,8 @@ Actualizado: 2026-08-17 (`America/Mexico_City`). Git, implementación y evidenci
 | Expediente factual VS-D-A01 | Runtime `APPROVED` | H-007/H-008/H-009 cubren claims/copy, nombres, visual/rights/QA y revisión factual humana. Conservación excluida; no se atribuye credencial ornitológica externa. |
 | Visual tucán VS-D-A01 | Runtime `APPROVED` | `visual.discovery.jungle.keel-billed-toucan`, prefab/materiales propios y ledger; discovery/interacción reales lo referencian sin `PH_`. |
 | Mundos data-driven | Development `PASS`; Release `BLOCKED` | `world.jungle` compila desde manifest con escena/labels/spawn/checkpoint/catálogos/cues/version/tamaño. Fixture `world.test-ocean` prueba expansión sin switch; Release devuelve `WORLD018` por Draft/PH_. |
-| DesignSystem UI | Automatizado `PASS`; hardware `FAIL` | Roots/paneles incompatibles quedan simultáneamente visibles/raycastables en Camp/Expedition; texto cortado, controles solapados y Selva oculta. Rotación en caliente queda negra. Requiere ownership/layer state estructural y regresión de framebuffer/hitboxes. |
-| Tests Unity | `PASS`, insuficientes para Gate B | EditMode `169/169` (5.479 s), PlayMode `29/29` (28.055 s). No detectan composición simultánea de roots ni framebuffer negro físico. |
+| DesignSystem UI | Remediación automatizada `PASS`; hardware remediado pendiente | `AppUiState` + coordinator controlan 13 roots fail-closed, sorting/overlays explícitos y diagnostics cerrados. La regresión de escena demuestra Camp→Selva y resize, pero el framebuffer/touch del APK remediado aún no se ha probado físicamente. |
+| Tests Unity | Acotados `PASS`; integral pendiente | Compile pasa; EditMode `172/172` y PlayMode `31/31`, incluidos policy completa, EventSystem, roots/raycasts, Camp→Selva, multiratio y teardown. `scripts/validate` posterior y hardware siguen pendientes. |
 | Android | Startup/binary `PASS`; UX/journey `FAIL`; Release `BLOCKED` | APK evaluado exacto `5c382e…`, HONOR DNY-NX9 Android 16: diez arranques Ready→Camp sin fatal, offline boot y Back/background parciales. Camp/Expedition no son jugables por Canvas solapados; rotación deja negro. API 26/36, ARM64, 16 KB; sin permisos sensibles. PSS Camp 362,196 KiB/RSS 513,416 KiB, sin perfil journey. |
 | iOS/CI remota | `NOT RUN` | Sin Xcode/módulo iOS local. `origin` existe, pero runner/licencia/checks remotos no se ejecutaron; no hubo push. |
 | Paquetes | Verificado | AI Navigation `2.0.9`, Audio builtin `1.0.0`, Localization `1.5.12`, AndroidJNI `1.0.0`, Addressables `4.0.1`; exactos, sin preview/SDK comercial. |
