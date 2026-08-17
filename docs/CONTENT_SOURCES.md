@@ -47,7 +47,9 @@ Cambiar especie, claim, ilustración que comunica rasgos, voz o actividad despu�
 
 ## Vertical Slice
 
-`VS-D-A01` reserva el candidato tucán pico iris. Especie, nombre común regional, rasgo visual, distribución, sonido, arte y copy permanecen `Draft` hasta registrar fuentes y revisor. El slice puede usar placeholder sin afirmaciones; no puede declarar content complete ni Release.
+[`VS-D-A01`](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md) reserva `Ramphastos sulfuratus` y ya tiene expediente **Sourced** por claim. Las fuentes sostienen taxonomía, nombres regionales, distribución, hábitat, dieta, rasgo visual y vocalización; el conflicto temporal de conservación queda bloqueado. Esto no cambia los assets runtime: especie, copy, arte/audio y representación permanecen `Draft`/`PH_` hasta revisión y firmas humanas.
+
+El nombre requiere decisión regional explícita: CONABIO/Cornell usan `Tucán pico canoa` para México, mientras Cornell registra `Tucán pico iris` para Costa Rica/Panamá. No sustituir uno por otro sin owner de Localization/Product. El slice puede usar el placeholder neutral sin afirmaciones; no puede declarar contenido completo, `Approved` ni Release.
 
 ## Responsabilidades humanas
 

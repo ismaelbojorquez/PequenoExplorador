@@ -1,5 +1,22 @@
 # Changelog
 
+## Content sourcing H-007 — 2026-08-16
+
+### Added
+
+- Expediente `VS-D-A01` para `Ramphastos sulfuratus`: seis fuentes institucionales/académicas, ocho claims atómicos, copy ES/EN propuesto, límites, conflictos y checklist de firmas humanas.
+- IDs documentales reservados para discovery/facts futuros y matriz de qué arte, audio, actividad, foto, álbum y localización vuelve a revisión si cambia especie/claim.
+
+### Changed
+
+- Fuentes, MVP, discovery, modelo/pipeline, arte, audio, decisiones, riesgos, índice y status distinguen `Sourced` de `Reviewed/Approved/ReleaseLocked`.
+- Se preservan dos incertidumbres: `pico canoa` para México vs. `pico iris` para Costa Rica/Panamá, y ADW histórico `LC` vs. CONABIO/IUCN 2025-2 `NT`.
+
+### Verified
+
+- Baseline antes de editar: `scripts/validate` código `0` en `1:29.98`; EditMode `103/103`, PlayMode `18/18` y APK Development.
+- Assets Unity, catálogo, localización y placeholders permanecen sin cambios; el expediente no autoaprueba contenido ni concede derechos de media.
+
 ## Gate B — 2026-08-16
 
 ### Audited

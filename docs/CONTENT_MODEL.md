@@ -52,7 +52,7 @@ El catálogo de contenido mantiene diccionarios privados O(1) para category, tag
 
 `Draft → Sourced → Reviewed → Approved`; `Rejected` sale del catálogo. Development acepta Draft/placeholder solo con owner y watermark `BORRADOR · PH_`. Release acepta exclusivamente `Approved` y `isPlaceholder=false`; cada asset se valida por separado. Approved no concede licencia ni sustituye `ReleaseLocked` humano de [`CONTENT_SOURCES.md`](CONTENT_SOURCES.md).
 
-El ejemplo neutral usa la key `content.discovery.placeholder.name`, el cue no factual `audio.feedback.confirm` y metadata JSON propia como visual técnico. No afirma especie, conducta o rasgo. El candidato tucán sigue fuera de runtime hasta fuente y revisión humana.
+El ejemplo neutral usa la key `content.discovery.placeholder.name`, el cue no factual `audio.feedback.confirm` y metadata JSON propia como visual técnico. No afirma especie, conducta o rasgo. El candidato `Ramphastos sulfuratus` tiene un [expediente Sourced](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md), pero sigue fuera de runtime hasta revisión, aprobación y derechos humanos. Los IDs del dossier están reservados documentalmente; no sustituyen assets ni migración.
 
 ## Validación y reportes
 

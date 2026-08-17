@@ -46,6 +46,12 @@ Cada reemplazo debe registrar ID, locale, texto exacto aprobado, actor/composito
 
 Release queda bloqueado mientras cualquier cue sea `IsPlaceholder=true`, su ID no empiece `PH_`, falte licencia/revisión o el asset tenga `ReleaseBlocked`. `scripts/validate-audio` valida estructura, buses, IDs, clips, addresses, mono/48 kHz, clipping y metadata; registra `PE_AUDIO_RELEASE_PENDING` sin convertirlo en PASS comercial.
 
+## Revisión de vocalización VS-D-A01
+
+Cornell eBird/Merlin describe la voz de `Ramphastos sulfuratus` como un croar lejano y repetitivo; el [expediente Sourced](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md) conserva el claim y su límite. La descripción no concede licencia sobre las grabaciones de Macaulay/eBird. Audio debe obtener o producir un asset con derechos, verificar especie/localidad/calidad, documentar recordista/licencia y someter la analogía, cue, subtítulo y pronunciación regional a especialista factual y Localization.
+
+Cambiar especie, vocalización o nombre regional devuelve a `Reviewed` la grabación, voice name, subtítulo, replay y cualquier pista sonora. Cambiar mezcla/formato sin alterar contenido requiere QA técnico, pero no reabre facts salvo que modifique inteligibilidad o significado.
+
 ## Aceptación pendiente
 
 - Sin clipping/clicks/DC offset perceptible ni loops defectuosos en dispositivo físico.

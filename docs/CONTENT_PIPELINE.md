@@ -1,6 +1,6 @@
 # Pipeline técnico de contenido local
 
-Estado: navegación local F07, catálogo data-driven Prompt 14 y manifiesto extensible de mundos Prompt 15; no autoriza producción masiva ni contenido factual sin aprobación.
+Estado: navegación local F07, catálogo data-driven Prompt 14 y manifiesto extensible de mundos Prompt 15. El único animal candidato tiene [dossier Sourced](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md), que no autoriza producción masiva, assets runtime ni contenido factual sin aprobación humana.
 
 ## Contrato Addressables
 

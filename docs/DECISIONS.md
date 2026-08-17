@@ -69,5 +69,5 @@ Estados: **Provisional** requiere validación de fase; **Aceptada** gobierna el 
 | H-004 | Países de lanzamiento y revisión COPPA/GDPR/leyes locales. | Negocio + privacidad/legal | Antes de pruebas externas con menores. |
 | H-005 | Política de privacidad pública y datos de contacto. | Titular + legal | Antes de fichas de tienda. |
 | H-006 | Si alguna vez habrá ads/analytics/IAP y proveedores aprobados. | Producto + legal + ingeniería | ADR separada; no antes de Gate D. |
-| H-007 | Especialista factual y responsables de aprobación de contenido. | Producto + educación | Antes de producir contenido del slice. |
+| H-007 | Especialista factual y responsables de aprobación de contenido. El [dossier VS-D-A01](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md) está Sourced; Reviewer/ApprovedBy/Rights/QA siguen vacíos. | Producto + educación | Antes de producir contenido del slice o iniciar Prompt 19. |
 | H-008 | Protocolo, consentimiento y reclutamiento de playtests con menores. | Research + legal/privacidad | Antes de playtest con participantes. |

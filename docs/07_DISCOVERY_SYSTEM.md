@@ -62,7 +62,7 @@ Estos estados ricos siguen siendo contrato futuro. El schema v4 solo distingue e
 
 ## Vertical Slice
 
-Discovery candidato: **tucán pico iris (`Ramphastos sulfuratus`)**, con especie y hechos pendientes de aprobación factual antes de producción. Debe poder detectarse, fotografiarse, asociarse visualmente en una actividad, aparecer en álbum y persistir. El nombre científico no se presenta obligatoriamente al niño.
+Discovery candidato: **`Ramphastos sulfuratus`**, con expediente [`VS-D-A01`](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md) en estado `Sourced` y aprobación humana pendiente. `Tucán pico canoa` es el nombre documentado para México y `Tucán pico iris` para Costa Rica/Panamá; Product/Localization debe resolver el territorio visible. Debe poder detectarse, fotografiarse, asociarse visualmente en una actividad, aparecer en álbum y persistir. El nombre científico no se presenta obligatoriamente al niño.
 
 ## Aceptación del sistema
 

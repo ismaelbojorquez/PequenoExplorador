@@ -47,6 +47,12 @@ Estos assets fueron creados dentro del proyecto, sin descarga ni licencia extern
 
 Los tres fixtures comparten el mismo núcleo y no representan especies/hechos. Materiales, geometría e icono se crearon dentro del proyecto; no se descargaron assets ni se asumió licencia externa. Copy y cues también siguen sujetos a revisión humana.
 
+## Revisión visual VS-D-A01
+
+El [expediente factual](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md) documenta un pico verde/naranja/rojo/azul, pero no autoriza copiar fotografías ni fija paleta, patrón, sexo, edad o subespecie. Antes de reemplazar `PH_FIXTURE_ANIMAL`, Art y especialista factual deben aprobar silhouette, pico, coloración, escala y PhotoTarget; Legal/Rights debe aprobar source files y runtime exports.
+
+Cambiar especie/subespecie devuelve a revisión todo el modelo/ilustración, collider/bounds fotográficos, icono y thumbnail canónico. Cambiar rasgo visual o paleta devuelve esos assets y cualquier actividad de reconocimiento a `Reviewed`; no invalida dieta/sonido salvo que también cambie la especie.
+
 ## Git y organización futura
 
 - Fuentes grandes de formatos cubiertos irán a Git LFS; `.meta` siempre en Git normal.
