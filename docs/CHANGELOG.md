@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-08-17 — Android Bootstrap serialization repair
+
+- Reproducido en HONOR DNY-NX9 el cierre tras splash: Unity abortaba con `SIGTRAP`, `CachedReader::OutOfBoundsError` y `level0 is corrupted` al deserializar Bootstrap; el APK instalado y local eran idénticos e íntegros.
+- Reparadas 191 referencias a seis `MonoScript` incrustados en `Bootstrap.unity`; `CustomizationSlotButtonView` y `CustomizationOptionButtonView` ahora viven en archivos homónimos sin perder el GUID anterior.
+- Nuevo gate `SCENE002/SCENE003` inspecciona toda escena runtime habilitada y bloquea compile/build ante documentos `!u!115` o `m_Script` locales; EditMode incluye fixture inválida y regresión sobre la escena real.
+- `scripts/validate` final PASS: EditMode `169/169`, PlayMode `29/29`, Addressables local y APK `67,444,690` bytes, SHA-256 `5c382e6c3340f569350ef9ee765566fd0f0377d9403b847df5ae411c33253b80`.
+- Primer arranque físico del artefacto runtime-equivalente `a7173c…` PASS hasta Camp, sin firmas fatales; el rebuild final solo cambió tooling Editor portable/metadata. Segundo rearranque `NOT RUN` porque el teléfono se desconectó. Gate B vuelve a `CONDITIONAL`: matriz touch y playtest infantil/no lector continúan pendientes.
+
 ## 2026-08-17 — Gate B (Prompt 30)
 
 - Auditoría independiente del loop P29: `GATE B: CONDITIONAL`; software/journey 5/5, Android físico y playtest infantil/no lector `NOT RUN`.

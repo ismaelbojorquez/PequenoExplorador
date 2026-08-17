@@ -840,21 +840,6 @@ MonoBehaviour:
   _role: 4
   _colorRole: 9
   _bold: 1
---- !u!115 &59362273
-MonoScript:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  serializedVersion: 7
-  m_DefaultReferences: {}
-  m_Icon: {fileID: 0}
-  m_Type: 0
-  m_ExecutionOrder: 0
-  m_ClassName: UIThemedText
-  m_Namespace: PequenoExplorador.DesignSystem
-  m_AssemblyName: PequenoExplorador.DesignSystem
 --- !u!1 &65570792
 GameObject:
   m_ObjectHideFlags: 0
@@ -1168,7 +1153,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 96439030}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -1263,7 +1248,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 98676140}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -1405,7 +1390,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 110323767}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1890456959}
+  m_Script: {fileID: 11500000, guid: e053016a188b452d9d8551a4d1fadb4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.Presentation::PequenoExplorador.Presentation.Customization.CustomizationOptionButtonView
   _button: {fileID: 110323769}
@@ -1624,7 +1609,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 128917585}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 3
@@ -1811,7 +1796,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 137297082}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -2349,7 +2334,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 157380343}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -2667,7 +2652,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 171484834}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 3
@@ -2959,7 +2944,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 192626559}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -3448,7 +3433,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 211367633}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 3
@@ -4427,7 +4412,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 261226534}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 3
@@ -4976,7 +4961,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 286415353}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -5151,7 +5136,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 293890612}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -5307,21 +5292,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 1
   _recommendedChildTarget: 1
---- !u!115 &307213233
-MonoScript:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  serializedVersion: 7
-  m_DefaultReferences: {}
-  m_Icon: {fileID: 0}
-  m_Type: 0
-  m_ExecutionOrder: 0
-  m_ClassName: UIThemedButton
-  m_Namespace: PequenoExplorador.DesignSystem
-  m_AssemblyName: PequenoExplorador.DesignSystem
 --- !u!1 &329690929
 GameObject:
   m_ObjectHideFlags: 0
@@ -5635,7 +5605,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 359182317}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -5730,7 +5700,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 367444384}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -5959,7 +5929,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 376205423}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -6110,7 +6080,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 382511587}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 3
@@ -6204,7 +6174,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 382707543}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -6335,7 +6305,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 401329579}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 3
@@ -6430,7 +6400,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 403332693}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -7227,7 +7197,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 445673763}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 0
@@ -7534,7 +7504,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 472395296}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 0
@@ -7911,7 +7881,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 478606523}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 1
@@ -8005,27 +7975,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 481401651}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 0
   _colorRole: 9
   _bold: 1
---- !u!115 &482782274
-MonoScript:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  serializedVersion: 7
-  m_DefaultReferences: {}
-  m_Icon: {fileID: 0}
-  m_Type: 0
-  m_ExecutionOrder: 0
-  m_ClassName: UIDesignSystemRoot
-  m_Namespace: PequenoExplorador.DesignSystem
-  m_AssemblyName: PequenoExplorador.DesignSystem
 --- !u!1 &483610485
 GameObject:
   m_ObjectHideFlags: 0
@@ -8171,7 +8126,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 483610485}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 2
@@ -8455,7 +8410,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 509750412}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 1
@@ -8736,7 +8691,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 539246415}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 3
@@ -9039,7 +8994,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 555888003}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 1
@@ -9133,7 +9088,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 557070362}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -9307,7 +9262,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 567827957}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -9458,7 +9413,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 570632767}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 1
@@ -9829,7 +9784,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 591672830}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 0
@@ -10059,7 +10014,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 642762160}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 3
@@ -10491,7 +10446,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 649334929}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -10656,7 +10611,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 650906776}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 2
@@ -10864,7 +10819,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 661804985}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 1
@@ -10958,7 +10913,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 667431820}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -11145,7 +11100,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 676157286}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 1
@@ -11239,7 +11194,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 691142290}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 3
@@ -11402,21 +11357,6 @@ RectTransform:
   m_AnchoredPosition: {x: -5, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!115 &704959342
-MonoScript:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  serializedVersion: 7
-  m_DefaultReferences: {}
-  m_Icon: {fileID: 0}
-  m_Type: 0
-  m_ExecutionOrder: 0
-  m_ClassName: UIThemedPanel
-  m_Namespace: PequenoExplorador.DesignSystem
-  m_AssemblyName: PequenoExplorador.DesignSystem
 --- !u!1 &708506950
 GameObject:
   m_ObjectHideFlags: 0
@@ -11715,7 +11655,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 711351655}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 3
@@ -11809,7 +11749,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 723868312}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -12198,7 +12138,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 734699770}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 2
@@ -12368,7 +12308,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 743372642}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -12612,7 +12552,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 756243501}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 704959342}
+  m_Script: {fileID: 11500000, guid: b58d3ba42fa6e465c93a3ea75f9b82ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedPanel
   _colorRole: 1
@@ -12860,7 +12800,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 768451824}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 3
@@ -13448,7 +13388,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 828427545}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 3
@@ -13542,7 +13482,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 832838396}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 3
@@ -13791,7 +13731,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 846377092}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -13922,7 +13862,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 866872734}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -14336,7 +14276,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 889135661}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -14506,7 +14446,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 902754024}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -15044,7 +14984,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 943013339}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 2
@@ -15403,7 +15343,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 949673379}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 1
@@ -15556,7 +15496,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 957189165}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -15876,7 +15816,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 997652747}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 1
@@ -16060,7 +16000,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1001454599}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 0
@@ -16155,7 +16095,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1002398205}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -16250,7 +16190,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1002784513}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -16479,7 +16419,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1009200773}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -16818,7 +16758,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1027639757}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 1
@@ -16912,7 +16852,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1035979981}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 2
@@ -17062,7 +17002,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1047816026}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 3
@@ -17245,7 +17185,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1068234385}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 482782274}
+  m_Script: {fileID: 11500000, guid: 4e8d2eceb9e03473fbf7735f3ab48104, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIDesignSystemRoot
   _tokens: {fileID: 11400000, guid: 3b17aa592d5d74d2591ab3091d4b15cf, type: 2}
@@ -17340,7 +17280,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1082118375}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -18007,7 +17947,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1104515561}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 1
@@ -18352,7 +18292,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1112566330}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 1
@@ -18446,27 +18386,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1131621381}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
   _colorRole: 9
   _bold: 1
---- !u!115 &1133146360
-MonoScript:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  serializedVersion: 7
-  m_DefaultReferences: {}
-  m_Icon: {fileID: 0}
-  m_Type: 0
-  m_ExecutionOrder: 0
-  m_ClassName: UICancelableMotion
-  m_Namespace: PequenoExplorador.DesignSystem
-  m_AssemblyName: PequenoExplorador.DesignSystem
 --- !u!1 &1140347436
 GameObject:
   m_ObjectHideFlags: 0
@@ -19034,7 +18959,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1182587845}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -19268,7 +19193,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1195657572}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1133146360}
+  m_Script: {fileID: 11500000, guid: 6c914ebb61cae4c9db2683053a9987b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UICancelableMotion
 --- !u!114 &1195657579
@@ -19280,7 +19205,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1195657572}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 1
@@ -19418,7 +19343,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1197619839}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1133146360}
+  m_Script: {fileID: 11500000, guid: 6c914ebb61cae4c9db2683053a9987b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UICancelableMotion
 --- !u!114 &1197619845
@@ -19430,7 +19355,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1197619839}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 2
@@ -19583,7 +19508,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1203550350}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 2
@@ -19722,7 +19647,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1211929424}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1133146360}
+  m_Script: {fileID: 11500000, guid: 6c914ebb61cae4c9db2683053a9987b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UICancelableMotion
 --- !u!114 &1211929430
@@ -19734,7 +19659,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1211929424}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 2
@@ -19828,7 +19753,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1217353307}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -20118,7 +20043,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1238800206}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 482782274}
+  m_Script: {fileID: 11500000, guid: 4e8d2eceb9e03473fbf7735f3ab48104, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIDesignSystemRoot
   _tokens: {fileID: 11400000, guid: 3b17aa592d5d74d2591ab3091d4b15cf, type: 2}
@@ -20257,7 +20182,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1239060592}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1133146360}
+  m_Script: {fileID: 11500000, guid: 6c914ebb61cae4c9db2683053a9987b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UICancelableMotion
 --- !u!114 &1239060598
@@ -20269,7 +20194,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1239060592}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 1
@@ -20406,7 +20331,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1239347601}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1133146360}
+  m_Script: {fileID: 11500000, guid: 6c914ebb61cae4c9db2683053a9987b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UICancelableMotion
 --- !u!114 &1239347607
@@ -20418,7 +20343,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1239347601}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 3
@@ -20846,7 +20771,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1267702037}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -21268,7 +21193,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1282831334}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1133146360}
+  m_Script: {fileID: 11500000, guid: 6c914ebb61cae4c9db2683053a9987b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UICancelableMotion
 --- !u!114 &1282831340
@@ -21280,7 +21205,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1282831334}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 2
@@ -21433,7 +21358,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1308822624}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -21528,7 +21453,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1311492559}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -21623,7 +21548,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1315861601}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -21718,7 +21643,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1320565273}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 1
@@ -21854,7 +21779,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1328926631}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 5
@@ -21949,7 +21874,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1332193273}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -22044,7 +21969,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1332547659}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 3
@@ -22220,7 +22145,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1333052916}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 482782274}
+  m_Script: {fileID: 11500000, guid: 4e8d2eceb9e03473fbf7735f3ab48104, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIDesignSystemRoot
   _tokens: {fileID: 11400000, guid: 3b17aa592d5d74d2591ab3091d4b15cf, type: 2}
@@ -22359,7 +22284,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1340776421}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1133146360}
+  m_Script: {fileID: 11500000, guid: 6c914ebb61cae4c9db2683053a9987b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UICancelableMotion
 --- !u!114 &1340776427
@@ -22371,7 +22296,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1340776421}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 2
@@ -22678,7 +22603,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1376191530}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1133146360}
+  m_Script: {fileID: 11500000, guid: 6c914ebb61cae4c9db2683053a9987b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UICancelableMotion
 --- !u!114 &1376191537
@@ -22690,7 +22615,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1376191530}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 1
@@ -22859,7 +22784,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1385161426}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 1
@@ -23029,7 +22954,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1390821292}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 3
@@ -23124,7 +23049,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1392078528}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -23298,7 +23223,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1400470104}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -23393,7 +23318,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1400862493}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -23551,7 +23476,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1401643422}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1133146360}
+  m_Script: {fileID: 11500000, guid: 6c914ebb61cae4c9db2683053a9987b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UICancelableMotion
 --- !u!114 &1401643429
@@ -23563,7 +23488,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1401643422}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 1
@@ -23842,7 +23767,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1433983227}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -23937,7 +23862,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1434360731}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -24107,7 +24032,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1439875005}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 2
@@ -24202,7 +24127,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1445190605}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -24297,7 +24222,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1447106328}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 3
@@ -24392,7 +24317,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1448819351}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -24487,7 +24412,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1449228536}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 1
@@ -24645,7 +24570,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1465167089}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1133146360}
+  m_Script: {fileID: 11500000, guid: 6c914ebb61cae4c9db2683053a9987b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UICancelableMotion
 --- !u!114 &1465167096
@@ -24657,7 +24582,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1465167089}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 1
@@ -24751,7 +24676,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1469482067}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -24905,7 +24830,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1477952817}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 3
@@ -25063,7 +24988,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1482021045}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1133146360}
+  m_Script: {fileID: 11500000, guid: 6c914ebb61cae4c9db2683053a9987b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UICancelableMotion
 --- !u!114 &1482021052
@@ -25075,7 +25000,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1482021045}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 1
@@ -25262,7 +25187,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1486914432}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1133146360}
+  m_Script: {fileID: 11500000, guid: 6c914ebb61cae4c9db2683053a9987b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UICancelableMotion
 --- !u!114 &1486914438
@@ -25274,7 +25199,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1486914432}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 3
@@ -25521,7 +25446,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1497909008}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -25616,7 +25541,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1512785834}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -25711,7 +25636,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1514695473}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -25850,7 +25775,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1515826396}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1133146360}
+  m_Script: {fileID: 11500000, guid: 6c914ebb61cae4c9db2683053a9987b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UICancelableMotion
 --- !u!114 &1515826402
@@ -25862,7 +25787,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1515826396}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 1
@@ -26033,7 +25958,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1520912305}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 704959342}
+  m_Script: {fileID: 11500000, guid: b58d3ba42fa6e465c93a3ea75f9b82ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedPanel
   _colorRole: 1
@@ -26295,7 +26220,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1532583341}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -26390,7 +26315,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1540541872}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 1
@@ -26560,7 +26485,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1551787659}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -26702,7 +26627,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1552157322}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 482782274}
+  m_Script: {fileID: 11500000, guid: 4e8d2eceb9e03473fbf7735f3ab48104, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIDesignSystemRoot
   _tokens: {fileID: 11400000, guid: 3b17aa592d5d74d2591ab3091d4b15cf, type: 2}
@@ -26846,7 +26771,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1566976229}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 2
@@ -26941,7 +26866,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1576755927}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -27111,7 +27036,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1580186410}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -27206,7 +27131,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1595221542}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 0
@@ -27376,7 +27301,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1601250196}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -27700,7 +27625,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1617899490}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -27830,7 +27755,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1626479846}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -27972,7 +27897,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1629750376}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1890456959}
+  m_Script: {fileID: 11500000, guid: e053016a188b452d9d8551a4d1fadb4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.Presentation::PequenoExplorador.Presentation.Customization.CustomizationOptionButtonView
   _button: {fileID: 1629750378}
@@ -27989,7 +27914,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1629750376}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1133146360}
+  m_Script: {fileID: 11500000, guid: 6c914ebb61cae4c9db2683053a9987b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UICancelableMotion
 --- !u!114 &1629750383
@@ -28001,7 +27926,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1629750376}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 3
@@ -28144,7 +28069,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1640000644}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -28239,7 +28164,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1641807671}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -28334,7 +28259,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1659845745}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -28579,7 +28504,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1669994657}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 1
@@ -28733,7 +28658,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1694008449}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 2
@@ -28886,7 +28811,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1702776114}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 704959342}
+  m_Script: {fileID: 11500000, guid: b58d3ba42fa6e465c93a3ea75f9b82ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedPanel
   _colorRole: 1
@@ -28981,7 +28906,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1708140937}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -29505,7 +29430,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1732412563}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1133146360}
+  m_Script: {fileID: 11500000, guid: 6c914ebb61cae4c9db2683053a9987b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UICancelableMotion
 --- !u!114 &1732412570
@@ -29517,7 +29442,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1732412563}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 1
@@ -29772,7 +29697,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1775621234}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -30093,7 +30018,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1790402964}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 482782274}
+  m_Script: {fileID: 11500000, guid: 4e8d2eceb9e03473fbf7735f3ab48104, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIDesignSystemRoot
   _tokens: {fileID: 11400000, guid: 3b17aa592d5d74d2591ab3091d4b15cf, type: 2}
@@ -30188,7 +30113,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1792547453}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 3
@@ -30409,7 +30334,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1803146262}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1890456959}
+  m_Script: {fileID: 11500000, guid: e053016a188b452d9d8551a4d1fadb4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.Presentation::PequenoExplorador.Presentation.Customization.CustomizationOptionButtonView
   _button: {fileID: 1803146264}
@@ -30426,7 +30351,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1803146262}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1133146360}
+  m_Script: {fileID: 11500000, guid: 6c914ebb61cae4c9db2683053a9987b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UICancelableMotion
 --- !u!114 &1803146269
@@ -30438,7 +30363,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1803146262}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 3
@@ -30590,7 +30515,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1809149590}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1133146360}
+  m_Script: {fileID: 11500000, guid: 6c914ebb61cae4c9db2683053a9987b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UICancelableMotion
 --- !u!114 &1809149597
@@ -30602,7 +30527,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1809149590}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 2
@@ -30802,7 +30727,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1816318543}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1890456959}
+  m_Script: {fileID: 11500000, guid: e053016a188b452d9d8551a4d1fadb4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.Presentation::PequenoExplorador.Presentation.Customization.CustomizationOptionButtonView
   _button: {fileID: 1816318545}
@@ -30819,7 +30744,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1816318543}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1133146360}
+  m_Script: {fileID: 11500000, guid: 6c914ebb61cae4c9db2683053a9987b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UICancelableMotion
 --- !u!114 &1816318550
@@ -30831,7 +30756,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1816318543}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 3
@@ -30983,7 +30908,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1817060358}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1133146360}
+  m_Script: {fileID: 11500000, guid: 6c914ebb61cae4c9db2683053a9987b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UICancelableMotion
 --- !u!114 &1817060365
@@ -30995,7 +30920,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1817060358}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 2
@@ -31237,7 +31162,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1833647016}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1133146360}
+  m_Script: {fileID: 11500000, guid: 6c914ebb61cae4c9db2683053a9987b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UICancelableMotion
 --- !u!114 &1833647023
@@ -31249,7 +31174,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1833647016}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 2
@@ -31343,7 +31268,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1834253118}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -31438,7 +31363,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1837537053}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -31683,7 +31608,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1863107049}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -31885,7 +31810,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1864542332}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 704959342}
+  m_Script: {fileID: 11500000, guid: b58d3ba42fa6e465c93a3ea75f9b82ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedPanel
   _colorRole: 1
@@ -32107,7 +32032,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1880202748}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 704959342}
+  m_Script: {fileID: 11500000, guid: b58d3ba42fa6e465c93a3ea75f9b82ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedPanel
   _colorRole: 1
@@ -32340,7 +32265,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1883958319}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1133146360}
+  m_Script: {fileID: 11500000, guid: 6c914ebb61cae4c9db2683053a9987b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UICancelableMotion
 --- !u!114 &1883958326
@@ -32352,7 +32277,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1883958319}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 2
@@ -32490,7 +32415,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1884375377}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1133146360}
+  m_Script: {fileID: 11500000, guid: 6c914ebb61cae4c9db2683053a9987b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UICancelableMotion
 --- !u!114 &1884375383
@@ -32502,7 +32427,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1884375377}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 0
@@ -32596,27 +32521,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1887128183}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
   _colorRole: 9
   _bold: 1
---- !u!115 &1890456959
-MonoScript:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  serializedVersion: 7
-  m_DefaultReferences: {}
-  m_Icon: {fileID: 0}
-  m_Type: 0
-  m_ExecutionOrder: 0
-  m_ClassName: CustomizationOptionButtonView
-  m_Namespace: PequenoExplorador.Presentation.Customization
-  m_AssemblyName: PequenoExplorador.Presentation
 --- !u!1 &1894357495
 GameObject:
   m_ObjectHideFlags: 0
@@ -32903,7 +32813,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1899208945}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -33123,7 +33033,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1915647520}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 2
@@ -33586,7 +33496,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1956305839}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1133146360}
+  m_Script: {fileID: 11500000, guid: 6c914ebb61cae4c9db2683053a9987b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UICancelableMotion
 --- !u!114 &1956305846
@@ -33598,7 +33508,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1956305839}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 2
@@ -33692,7 +33602,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1957172771}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -33823,7 +33733,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1968752673}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -34126,7 +34036,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1976845334}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -34475,7 +34385,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1987458464}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1133146360}
+  m_Script: {fileID: 11500000, guid: 6c914ebb61cae4c9db2683053a9987b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UICancelableMotion
 --- !u!114 &1987458470
@@ -34487,7 +34397,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1987458464}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 1
@@ -34581,7 +34491,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1992513782}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -34833,7 +34743,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2017206364}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 2
@@ -34987,7 +34897,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2053199846}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -35082,7 +34992,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2053658344}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -35257,7 +35167,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2054574142}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1133146360}
+  m_Script: {fileID: 11500000, guid: 6c914ebb61cae4c9db2683053a9987b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UICancelableMotion
 --- !u!114 &2054574150
@@ -35269,7 +35179,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2054574142}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 1
@@ -35399,7 +35309,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2068494648}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -35605,7 +35515,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2097417598}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4
@@ -35863,7 +35773,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2131586168}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1133146360}
+  m_Script: {fileID: 11500000, guid: 6c914ebb61cae4c9db2683053a9987b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UICancelableMotion
 --- !u!114 &2131586174
@@ -35875,7 +35785,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2131586168}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 307213233}
+  m_Script: {fileID: 11500000, guid: 4325cc32ad87b49f6bbe465da5f3a14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedButton
   _style: 0
@@ -36028,7 +35938,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2147096785}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 59362273}
+  m_Script: {fileID: 11500000, guid: 4729977dc9b734229940085a605ecd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIThemedText
   _role: 4

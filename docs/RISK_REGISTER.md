@@ -57,6 +57,7 @@ Escala: probabilidad (P) e impacto (I) de 1–5; severidad = P×I. `Owner humano
 
 | R-051 | FTUE se desincroniza del loop, produce soft lock, sobreexplica o guarda conducta infantil granular. | 2 | 5 | 10 | Siete triggers semánticos versionados, una instrucción, skip/replay, Back/pausa libres, ayuda 6/12 sin autoavance, save mínimo v12 y suites de resume/duplicate/wrong action/ratios. Voz humana, hardware y playtest 4–9 siguen pendientes. | FTUE + Child UX + QA | Prompt 28 / Gate B-C |
 | R-052 | Mutaciones concurrentes de features, preferencias, lifecycle o transición reintroducen un snapshot viejo, duplican reward o dejan journey bloqueado. | 2 | 5 | 10 | Ownership único pending/in-flight/current, preferencias fusionadas, checkpoints de outcomes, mission activation idempotente y journey P29 con pause, locale, tres repeats, reload y corrupt recovery. Android real/OS kill/filesystem lleno siguen pendientes. | Integration + Save + QA | Prompt 29 / Gate B-C |
+| R-053 | Una escena runtime contiene `MonoScript` incrustados/referencias locales y el Player aborta al deserializar aunque el build termine. | 1 | 5 | 5 | Bootstrap reparado (6 documentos/191 refs), componentes persistidos en archivos homónimos, validator fail-closed `SCENE002/003`, fixture EditMode y APK físico iniciado hasta Camp. Repetir arranque tras cambios de escena/Unity; la matriz completa sigue pendiente. | Unity + Build + QA | Cada escena/build / Gate B-C |
 
 ## Riesgo residual tras Gate A
 

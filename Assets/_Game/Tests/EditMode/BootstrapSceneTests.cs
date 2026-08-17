@@ -2,6 +2,7 @@ using System.Linq;
 using NUnit.Framework;
 using PequenoExplorador.Bootstrap;
 using PequenoExplorador.Application.Configuration;
+using PequenoExplorador.Editor.BuildTools;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -48,6 +49,34 @@ namespace PequenoExplorador.Tests.EditMode
                 .ToArray();
 
             Assert.That(enabledScenes, Is.EqualTo(new[] { ScenePath }));
+        }
+
+        [Test]
+        public void EnabledRuntimeSceneHasNoEmbeddedMonoScripts()
+        {
+            Assert.That(RuntimeSceneSerializationValidationService.Validate(), Is.Empty);
+        }
+
+        [Test]
+        public void RuntimeSceneValidatorRejectsEmbeddedMonoScriptFixture()
+        {
+            const string invalidScene =
+                "--- !u!115 &42\n" +
+                "MonoScript:\n" +
+                "  m_ClassName: FixtureView\n" +
+                "  m_Namespace: Fixture\n" +
+                "  m_AssemblyName: Fixture\n" +
+                "--- !u!114 &43\n" +
+                "MonoBehaviour:\n" +
+                "  m_Script: {fileID: 42}\n";
+
+            string[] violations = RuntimeSceneSerializationValidationService
+                .ValidateSceneText("Assets/Fixture.unity", invalidScene)
+                .ToArray();
+
+            Assert.That(violations, Has.Length.EqualTo(2));
+            Assert.That(violations[0], Does.StartWith("SCENE002"));
+            Assert.That(violations[1], Does.StartWith("SCENE003"));
         }
     }
 }

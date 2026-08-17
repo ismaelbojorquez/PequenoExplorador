@@ -81,7 +81,7 @@ scripts/build-android-release  # fallo esperado: signing externo requerido
 | AppConfig/perfiles | Validar ambos assets, mapping/rangos/duplicados, flags Release, override Editor, PlayMode del perfil seleccionado y ambos paths de build/guard. |
 | Save/Infrastructure | Tests de round-trip, versión, migración, corrupción, cancelación/interrupción y PII. |
 | Dependencia/SDK/permisos | Intake completo, diff de manifests/permisos/tráfico, licencia/SBOM, 16 KB y revisión infantil. |
-| Android/iOS/build | Target/configuración/hash del artefacto, warnings, arquitectura, tamaño y prueba de dispositivo aplicable. |
+| Android/iOS/build | Target/configuración/hash del artefacto, warnings, arquitectura, tamaño, escenas runtime sin `MonoScript` incrustado/referencia local y prueba de dispositivo aplicable. Un build correcto no prueba deserialización del Player. |
 | Release/política | Binario final, permisos/tráfico/SBOM, metadata, fuentes con fecha y aprobación humana; un documento solo no da PASS. |
 
 Si la herramienta necesaria no existe, registrar `NOT RUN` o `BLOCKED`; no sustituirla por una comprobación más débil sin aclararlo.

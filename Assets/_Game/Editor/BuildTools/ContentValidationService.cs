@@ -12,6 +12,7 @@ namespace PequenoExplorador.Editor.BuildTools
         public static IReadOnlyList<string> Validate(ContentValidationMode mode = ContentValidationMode.Development)
         {
             var violations = new List<string>();
+            violations.AddRange(RuntimeSceneSerializationValidationService.Validate());
             violations.AddRange(ContentCatalogValidationService.Validate(mode));
             violations.AddRange(InteractionCatalogValidationService.Validate(mode));
             violations.AddRange(WorldCatalogValidationService.Validate(mode));
