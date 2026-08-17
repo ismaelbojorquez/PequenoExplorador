@@ -235,6 +235,106 @@ MonoBehaviour:
     m_Key: ui.photography.storage_fallback
     m_Metadata:
       m_Items: []
+  - m_Id: 210606312382464
+    m_Key: ui.album.open
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606345936896
+    m_Key: ui.album.title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606345936897
+    m_Key: ui.album.back
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606345936898
+    m_Key: ui.album.locked_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606350131200
+    m_Key: ui.album.locked_hint
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325504
+    m_Key: ui.album.discovered
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325505
+    m_Key: ui.album.category_progress
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325506
+    m_Key: ui.album.world_progress
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325507
+    m_Key: ui.album.loading
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325508
+    m_Key: ui.album.empty
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325509
+    m_Key: ui.album.error
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325510
+    m_Key: ui.album.page
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325511
+    m_Key: ui.album.previous
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325512
+    m_Key: ui.album.next
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325513
+    m_Key: ui.album.field.habitat
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325514
+    m_Key: ui.album.field.diet
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325515
+    m_Key: ui.album.field.size
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325516
+    m_Key: ui.album.field.curiosity
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325517
+    m_Key: ui.album.field.sound
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325518
+    m_Key: ui.album.fact_pending
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325519
+    m_Key: ui.album.replay
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325520
+    m_Key: ui.album.audio_pending
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325521
+    m_Key: ui.album.photo_loading
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325522
+    m_Key: ui.album.canonical_fallback
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325523
+    m_Key: ui.album.best_photo
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

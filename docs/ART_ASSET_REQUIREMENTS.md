@@ -79,6 +79,17 @@ Cambiar especie/subespecie devuelve a revisión todo el modelo/ilustración, col
 
 `VS_PhotoAnchor` y `CandidatePhotoBounds` aprobados se usan como authoring del `PhotoTarget`; no comunican medida zoológica. Cambiar bounds/anchor/visual de manera material reabre H-008/H-009 según el expediente. No se añadió media externa.
 
+## Ledger temporal Prompt 20
+
+| ID/path | Tipo | Estado | Reemplazo humano requerido |
+|---|---|---|---|
+| `PH_UI_ALBUM` | Canvas uGUI, grid/categorías/detalle/estados | `Placeholder / ReleaseBlocked` | Componentes de design system/TMP, iconografía final, contraste y revisión infantil en hardware. |
+| `PH_ALBUM_ENTRY_*` | ocho cards reutilizables | `Placeholder / ReleaseBlocked` | Silueta locked no reveladora, imagen canónica e identidad visual final por categoría. |
+| fallback cromático de ficha | `Image` sin sprite | `Placeholder / ReleaseBlocked` | Ilustración canónica Approved; no debe copiar la mejor foto ni revelar Draft. |
+| mejor foto local | Sprite runtime desde PNG `384×216` | Derivado local, no versionado | QA de crop/compresión/legibilidad y profiling en Android; no introduce derechos externos. |
+
+No se añadió fuente, ilustración, icono o media externa. La baseline reutiliza `LegacyRuntime.ttf` y primitives uGUI; la decisión T-006 de TMP queda por materializar dentro del design system de Prompt 27 con fuente licenciada/cobertura ES-EN-pseudo. Cambiar el visual Approved del tucán o su representación canónica reabre el alcance H-008/H-009 aplicable; cambiar solo el chrome `PH_` del álbum exige UI/Accessibility/QA, no aprobación zoológica.
+
 ## Git y organización futura
 
 - Fuentes grandes de formatos cubiertos irán a Git LFS; `.meta` siempre en Git normal.

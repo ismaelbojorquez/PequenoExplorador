@@ -1,6 +1,6 @@
 # Índice documental
 
-Estado: foundation, scene flow local, persistencia schema v6, localización/audio/input, `VS-D-A01` runtime Approved, manifest Selva, locomoción, interacción, discovery y fotografía virtual disponibles; todavía no existen álbum/economía ni contenido masivo. Empezar siempre por [`../AGENTS.md`](../AGENTS.md) y [`STATUS.md`](STATUS.md).
+Estado: foundation, scene flow local, persistencia schema v6, localización/audio/input, `VS-D-A01` runtime Approved, manifest Selva, locomoción, interacción, discovery, fotografía virtual y álbum baseline disponibles; todavía no existen economía ni contenido masivo. Empezar siempre por [`../AGENTS.md`](../AGENTS.md) y [`STATUS.md`](STATUS.md).
 
 ## Fuentes de verdad
 
@@ -32,15 +32,16 @@ Estado: foundation, scene flow local, persistencia schema v6, localización/audi
 4. [`04_EDUCATIONAL_DESIGN.md`](04_EDUCATIONAL_DESIGN.md)
 5. [`06_WORLD_DESIGN.md`](06_WORLD_DESIGN.md)
 6. [`07_DISCOVERY_SYSTEM.md`](07_DISCOVERY_SYSTEM.md)
-7. [`08_LEARNING_SYSTEM.md`](08_LEARNING_SYSTEM.md)
-8. [`09_MISSION_SYSTEM.md`](09_MISSION_SYSTEM.md)
-9. [`14_UI_UX.md`](14_UI_UX.md)
-10. [`15_ART_DIRECTION.md`](15_ART_DIRECTION.md)
-11. [`16_AUDIO.md`](16_AUDIO.md)
-12. [`MVP_SCOPE.md`](MVP_SCOPE.md)
-13. [`PLAYTEST_PLAN.md`](PLAYTEST_PLAN.md)
-14. [`CONTENT_SOURCES.md`](CONTENT_SOURCES.md)
-15. [`VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md`](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md)
+7. [`ALBUM_SYSTEM.md`](ALBUM_SYSTEM.md)
+8. [`08_LEARNING_SYSTEM.md`](08_LEARNING_SYSTEM.md)
+9. [`09_MISSION_SYSTEM.md`](09_MISSION_SYSTEM.md)
+10. [`14_UI_UX.md`](14_UI_UX.md)
+11. [`15_ART_DIRECTION.md`](15_ART_DIRECTION.md)
+12. [`16_AUDIO.md`](16_AUDIO.md)
+13. [`MVP_SCOPE.md`](MVP_SCOPE.md)
+14. [`PLAYTEST_PLAN.md`](PLAYTEST_PLAN.md)
+15. [`CONTENT_SOURCES.md`](CONTENT_SOURCES.md)
+16. [`VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md`](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md)
 
 Los saltos numéricos reservan espacio para documentos técnicos futuros; no implican archivos ausentes requeridos en esta fase.
 

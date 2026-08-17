@@ -18,3 +18,5 @@ MonoBehaviour:
     _isPlaceholder: 0
     _owner: "Ismael Boj\xF3rquez \u2014 Product/Education"
     _developmentWatermark: 
+  _displayNameTable: Content
+  _displayNameKey: content.category.discovery.animals

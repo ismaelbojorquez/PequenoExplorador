@@ -74,6 +74,11 @@ namespace PequenoExplorador.Editor
             CategoryDefinitionAsset category = LoadOrCreate<CategoryDefinitionAsset>(CategoryPath);
             TagDefinitionAsset tag = LoadOrCreate<TagDefinitionAsset>(TagPath);
             ConfigureApproved(category, "category.discovery.animals", "Ismael Bojórquez — Product/Education");
+            var categorySerialized = new SerializedObject(category);
+            categorySerialized.FindProperty("_displayNameTable").stringValue = "Content";
+            categorySerialized.FindProperty("_displayNameKey").stringValue = "content.category.discovery.animals";
+            categorySerialized.ApplyModifiedPropertiesWithoutUndo();
+            EditorUtility.SetDirty(category);
             ConfigureApproved(tag, "tag.world.jungle", "Ismael Bojórquez — Product/Education");
 
             ContentSourceRecordAsset[] sources = SourceSpecs.Select(EnsureSource).ToArray();
@@ -153,8 +158,21 @@ namespace PequenoExplorador.Editor
             serialized.FindProperty("_nameAudioCueId").stringValue = "audio.feedback.confirm";
             serialized.FindProperty("_visualAssetId").stringValue = ToucanFixtureSetup.VisualId;
             serialized.FindProperty("_visualAsset").objectReferenceValue = AssetDatabase.LoadAssetAtPath<GameObject>(ToucanFixtureSetup.PrefabPath);
+            serialized.FindProperty("_albumHabitatFact").objectReferenceValue = FindFact(facts, "habitat");
+            serialized.FindProperty("_albumDietFact").objectReferenceValue = FindFact(facts, "diet");
+            serialized.FindProperty("_albumSizeFact").objectReferenceValue = null;
+            serialized.FindProperty("_albumCuriosityFact").objectReferenceValue = FindFact(facts, "bill");
+            serialized.FindProperty("_albumSoundFact").objectReferenceValue = FindFact(facts, "voice");
+            serialized.FindProperty("_albumHasPlayableAudio").boolValue = false;
             serialized.ApplyModifiedPropertiesWithoutUndo();
             EditorUtility.SetDirty(discovery);
+        }
+
+        private static EducationalFactDefinitionAsset FindFact(
+            IEnumerable<EducationalFactDefinitionAsset> facts,
+            string suffix)
+        {
+            return facts.Single(fact => fact.RawId.EndsWith("." + suffix, StringComparison.Ordinal));
         }
 
         private static void ConfigureCatalog(ContentCatalogAsset catalog, CategoryDefinitionAsset category, TagDefinitionAsset tag, ContentSourceRecordAsset[] sources, EducationalFactDefinitionAsset[] facts, DiscoveryDefinitionAsset discovery)

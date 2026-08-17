@@ -35,3 +35,9 @@ MonoBehaviour:
   _nameAudioCueId: audio.feedback.confirm
   _visualAssetId: visual.discovery.jungle.keel-billed-toucan
   _visualAsset: {fileID: 8663744004205896581, guid: 619b67f73cd03403faddb89767f893fd, type: 3}
+  _albumHabitatFact: {fileID: 11400000, guid: 1675e0d6f73f5430fbc05313470dd07f, type: 2}
+  _albumDietFact: {fileID: 11400000, guid: bd6209f650ef74f1892f9f9dda7ef65c, type: 2}
+  _albumSizeFact: {fileID: 0}
+  _albumCuriosityFact: {fileID: 11400000, guid: 806bbf59a41e04ac6a493e115ee4ad34, type: 2}
+  _albumSoundFact: {fileID: 11400000, guid: 16c60f391502545abb3ac42697f90a08, type: 2}
+  _albumHasPlayableAudio: 0

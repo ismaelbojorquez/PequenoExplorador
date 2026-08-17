@@ -1,5 +1,29 @@
 # Changelog
 
+## Prompt 20 — visual explorer album — 2026-08-17
+
+### Added
+
+- `AlbumQueryService` y read models por mundo/categoría desde catálogo Approved, discovery y foto; locked no filtra nombre/facts/visual/audio/photo.
+- UI `PH_UI_ALBUM` con acceso Camp, filtro, pool de ocho cards, detalle, loading/empty/error/missing states, Back y cargas/caché cancelables/acotadas.
+- Metadata authoring de álbum, categoría localizada, lectura manifest-validada de `IPhotoStore`, 26 keys ES/EN/pseudo, validador CLI/build y tests EditMode/PlayMode.
+
+### Changed
+
+- Bootstrap compone la query read-only y la UI; `LocalPhotoStore`/memory/failure adapters soportan lectura sin exponer paths a Presentation.
+- VS-D-A01 referencia facts Approved de hábitat/dieta/pico/sonido. Tamaño permanece vacío y replay deshabilitado porque no hay claim/cue factual final aprobado.
+- Arquitectura, discovery, UI, localización, accesibilidad, arte/audio, testing, decisiones, riesgos, AGENTS, índice y estado reflejan Prompt 20.
+
+### Limits
+
+- El chrome/silueta/fallback y fuente siguen baseline `PH_`; TMP, arte/audio final, fuente grande humana y Android físico permanecen pendientes. No se añadió contenido, economía, red ni permiso. Gate B continúa `FAIL` hasta Fases 21–29 y nueva auditoría.
+
+### Verified
+
+- `scripts/validate-album` pasó; `scripts/validate` final pasó en `275.58 s` con compile/validadores, Addressables local, EditMode `117/117`, PlayMode `21/21` y APK Development.
+- APK `81,220,004` bytes, SHA-256 `bdc75a504968502ae09e82fc177ded8751a5f33e1ef66e08afc542722d34f200`, API 26/36, IL2CPP/ARM64; manifest sin CAMERA, micrófono, ubicación, contactos ni AD_ID.
+- `adb devices` no listó hardware: touch, notch/cutout, fuente grande, legibilidad, FPS/memoria y audio físico son `NOT RUN`, no PASS.
+
 ## Prompt 19 — assisted in-game photography — 2026-08-17
 
 ### Added

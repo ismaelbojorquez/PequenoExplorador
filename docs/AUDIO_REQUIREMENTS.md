@@ -42,6 +42,8 @@ Los tonos de voz no pretenden sonar humanos y nunca muestran al niño un mensaje
 
 Prompt 19 reutiliza únicamente `audio.feedback.confirm` para toma aceptada y `audio.feedback.retry` para pista/resultado no listo. No inventa vocalización, shutter real ni narración de especie. Ambos son tonos `PH_` suaves y ReleaseBlocked; la experiencia conserva retícula/copy aun sin audio. Un cue final de shutter/guía deberá registrar ID, derechos, idioma/emoción/duración y prueba auditiva, sin copiar grabaciones científicas referenciadas.
 
+Prompt 20 no expone esos tonos como sonido del tucán. `AlbumEntryMetadata.HasPlayableAudio=false`, por lo que el detalle muestra `Audio por preparar` y replay queda deshabilitado. Cuando exista un cue factual propio/aprobado, Content podrá habilitarlo sin cambiar la query o UI; debe completar el ledger, derechos, especie/localidad, revisión factual, ES/EN y prueba auditiva. La ficha sigue siendo utilizable mediante copy/imagen sin audio.
+
 ## Entrega final humana
 
 Cada reemplazo debe registrar ID, locale, texto exacto aprobado, actor/compositor, emoción, pronunciación, duración, formato/master, licencia/release, fecha, edición, loop points y owner. Masters finales: WAV PCM sin pérdida, preferentemente 48 kHz/24-bit; import/load/compression se decide con medición móvil en F15. Voz ES/EN no se traduce automáticamente sin revisión lingüística y factual.

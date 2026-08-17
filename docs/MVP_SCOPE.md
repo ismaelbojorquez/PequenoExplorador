@@ -14,7 +14,7 @@ Esta es la única fuente de verdad para cantidades y prioridad. Todos los estado
 
 | Elemento | Cantidad | Contenido | Dependencia | Estado | Criterio de aceptación |
 |---|---:|---|---|---|---|
-| Animal | 1 | `Ramphastos sulfuratus`; nombre regional visible pendiente (`pico canoa` México / `pico iris` Costa Rica-Panamá). | Expediente Sourced + revisor factual/Product/Rights. | Pending factual approval; [dossier Sourced](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md) | Detectar, fotografiar, mostrar en álbum y usar en actividad sin claim no aprobado. |
+| Animal | 1 | `Ramphastos sulfuratus`; nombre aprobado `Tucán pico canoa` / `Keel-billed Toucan`. | Expediente y firmas H-007/H-008/H-009; reabrir si cambia claim/asset. | Runtime `Approved`; conservación excluida y audio final pendiente. [Dossier](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md) | Detectar, fotografiar y mostrar en álbum; actividad todavía pendiente sin claim nuevo. |
 | Actividad | 1 tipo / 1 instancia | Asociación visual `Reconoce al tucán`. | Animal aprobado, ambos modos de guía. | Specified | Se completa sin lectura, sin castigo y con pistas graduadas. |
 | Misión | 1 | `VS-M01 — Conoce al tucán`. | World, Discovery, Activity, Reward. | Specified | Loop completo en 3–8 min y mismo resultado en ambas guías. |
 | Mejora de campamento | 1 | `Mesa de observación`. | Misión y economía determinista. | Specified | Cambio visible, permanente y restaurado al reabrir. |

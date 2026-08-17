@@ -16,6 +16,13 @@ namespace PequenoExplorador.Content.Data
         [SerializeField] private string _nameAudioCueId;
         [SerializeField] private string _visualAssetId;
         [SerializeField] private UnityEngine.Object _visualAsset;
+        [Header("Album")]
+        [SerializeField] private EducationalFactDefinitionAsset _albumHabitatFact;
+        [SerializeField] private EducationalFactDefinitionAsset _albumDietFact;
+        [SerializeField] private EducationalFactDefinitionAsset _albumSizeFact;
+        [SerializeField] private EducationalFactDefinitionAsset _albumCuriosityFact;
+        [SerializeField] private EducationalFactDefinitionAsset _albumSoundFact;
+        [SerializeField] private bool _albumHasPlayableAudio;
 
         public string WorldId => _worldId;
         public CategoryDefinitionAsset Category => _category;
@@ -26,5 +33,11 @@ namespace PequenoExplorador.Content.Data
         public string NameAudioCueId => _nameAudioCueId;
         public string VisualAssetId => _visualAssetId;
         public UnityEngine.Object VisualAsset => _visualAsset;
+        public EducationalFactDefinitionAsset AlbumHabitatFact => _albumHabitatFact;
+        public EducationalFactDefinitionAsset AlbumDietFact => _albumDietFact;
+        public EducationalFactDefinitionAsset AlbumSizeFact => _albumSizeFact;
+        public EducationalFactDefinitionAsset AlbumCuriosityFact => _albumCuriosityFact;
+        public EducationalFactDefinitionAsset AlbumSoundFact => _albumSoundFact;
+        public bool AlbumHasPlayableAudio => _albumHasPlayableAudio;
     }
 }

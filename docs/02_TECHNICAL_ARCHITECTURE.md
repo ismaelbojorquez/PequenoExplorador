@@ -1,6 +1,6 @@
 # Arquitectura técnica — fronteras modulares
 
-Estado: foundation, catálogo data-driven, manifiesto local de Selva, scene flow, save v6, localización, audio, input, locomoción, interacción, discovery y fotografía virtual implementados para `VS-D-A01`. No existen álbum/economía ni contenido masivo. `Bootstrap` persiste y entra a Camp placeholder.
+Estado: foundation, catálogo data-driven, manifiesto local de Selva, scene flow, save v6, localización, audio, input, locomoción, interacción, discovery, fotografía virtual y álbum read-only implementados para `VS-D-A01`. No existen economía ni contenido masivo. `Bootstrap` persiste y entra a Camp placeholder.
 
 ## Grafo real de assemblies
 
@@ -210,6 +210,17 @@ Domain posee `DiscoveryProgress` y value IDs; Application decide first/repeat/id
 
 `Presentation.PhotographableView` produce medidas viewport/distancia/LOS/orientación; `Application.PhotoTargetEvaluator` decide guía/score y `CapturePhotoUseCase` orquesta discovery → render → store → metadata. `UnityPhotoThumbnailRenderer` crea/libera RenderTexture `384×216`; `Infrastructure.LocalPhotoStore` limita PNG/manifest; save solo referencia la mejor foto. Un fallo de storage no revierte discovery. Contrato y budgets: [`PHOTOGRAPHY_SYSTEM.md`](PHOTOGRAPHY_SYSTEM.md).
 
+### Álbum read-only
+
+```text
+ContentCatalog Approved ─┐
+Discovery repository ────┼─→ Application.AlbumQueryService → snapshot/view models
+Photo repository ────────┘                                  ↓
+Infrastructure IPhotoStore.LoadAsync ←──────────── Presentation.AlbumView
+```
+
+Application combina catálogo, progreso y metadata sin conocer Unity. Una entry locked entrega valores sensibles vacíos; facts se resuelven solo si siguen Approved. Infrastructure valida el archivo contra el manifest antes de devolver bytes. Presentation posee el pool de ocho celdas, caché acotada de ocho sprites, tokens/generaciones y fallback visual; no accede a Save/filesystem/`AssetDatabase` ni muta progreso. Bootstrap compone `AlbumQueryService`, foto/localización/audio/scene flow y expone el acceso únicamente en Camp. Contrato: [`ALBUM_SYSTEM.md`](ALBUM_SYSTEM.md).
+
 ## Scene flow y contenido local
 
 ```text
@@ -284,4 +295,4 @@ Subdividir un assembly requiere evidencia de tiempos de compilación, ownership,
 - Unity `6000.3.22f1`, Addressables `4.0.1`, AI Navigation `2.0.9`, URP `17.3.0`, Input System `1.20.0`, Test Framework `1.6.0`, uGUI `2.0.0`.
 - Bootstrap es la única escena habilitada en Build Settings; Camp/Jungle son locales Addressable. Development muestra navegación/fallo simulado; Release oculta controles Development.
 - Android sigue min API 26, target/compile 36, IL2CPP y ARM64; sin manifest/Gradle custom ni permiso sensible nuevo.
-- Existen locomoción, interacción, discovery y fotografía virtual Approved para `VS-D-A01`; no existen álbum/economía/UI final, contenido remoto ni SDKs comerciales. Save schema v6 no guarda PII/cuentas/pixels; ads/IAP/analytics son únicamente Null/Mock/Unavailable locales sin red.
+- Existen locomoción, interacción, discovery, fotografía virtual y álbum baseline para `VS-D-A01`; no existen economía/UI final, contenido remoto ni SDKs comerciales. Save schema v6 no guarda PII/cuentas/pixels; ads/IAP/analytics son únicamente Null/Mock/Unavailable locales sin red.

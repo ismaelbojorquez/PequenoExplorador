@@ -19,7 +19,8 @@ namespace PequenoExplorador.Application.Content
             LocalizedKey displayName,
             AudioCueId nameAudioCueId,
             VisualAssetId visualAssetId,
-            EditorialMetadata editorial)
+            EditorialMetadata editorial,
+            AlbumEntryMetadata album = null)
         {
             if (!id.IsValid || !worldId.IsValid || !categoryId.IsValid || !visualAssetId.IsValid)
                 throw new ArgumentException("Discovery references contain an invalid typed ID.");
@@ -32,6 +33,7 @@ namespace PequenoExplorador.Application.Content
             NameAudioCueId = nameAudioCueId;
             VisualAssetId = visualAssetId;
             Editorial = editorial ?? throw new ArgumentNullException(nameof(editorial));
+            Album = album ?? AlbumEntryMetadata.Empty;
         }
         public DiscoveryId Id { get; }
         public WorldId WorldId { get; }
@@ -42,6 +44,7 @@ namespace PequenoExplorador.Application.Content
         public AudioCueId NameAudioCueId { get; }
         public VisualAssetId VisualAssetId { get; }
         public EditorialMetadata Editorial { get; }
+        public AlbumEntryMetadata Album { get; }
         public string DevelopmentWatermark => Editorial.DevelopmentWatermark;
     }
 }

@@ -177,6 +177,109 @@ MonoBehaviour:
     m_Localized: "Discovery saved! We\u2019ll use its illustration."
     m_Metadata:
       m_Items: []
+  - m_Id: 210606312382464
+    m_Localized: Album
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606345936896
+    m_Localized: Jungle Album
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606345936897
+    m_Localized: Back
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606345936898
+    m_Localized: Waiting to be discovered
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606350131200
+    m_Localized: Explore the jungle to find it.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325504
+    m_Localized: Discovered
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325505
+    m_Localized: '{0}: {1} of {2}'
+    m_Metadata:
+      m_Items:
+      - rid: 6219209779658358820
+  - m_Id: 210606354325506
+    m_Localized: 'Found: {0} of {1}'
+    m_Metadata:
+      m_Items:
+      - rid: 6219209779658358820
+  - m_Id: 210606354325507
+    m_Localized: "Preparing the album\u2026"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325508
+    m_Localized: There are no entries here yet.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325509
+    m_Localized: We could not open this page. You can go back and try again.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325510
+    m_Localized: Page {0} of {1}
+    m_Metadata:
+      m_Items:
+      - rid: 6219209779658358820
+  - m_Id: 210606354325511
+    m_Localized: Previous
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325512
+    m_Localized: Next
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325513
+    m_Localized: Where it lives
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325514
+    m_Localized: What it eats
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325515
+    m_Localized: Size
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325516
+    m_Localized: Something curious
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325517
+    m_Localized: How it sounds
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325518
+    m_Localized: This fact is still being checked.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325519
+    m_Localized: Listen again
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325520
+    m_Localized: Audio is being prepared
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325521
+    m_Localized: "Finding your best photo\u2026"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325522
+    m_Localized: Using its album picture.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325523
+    m_Localized: Your best photo
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
@@ -187,3 +290,6 @@ MonoBehaviour:
         m_SharedEntries:
         - id: 116383752
         - id: 77211284529153
+        - id: 210606354325505
+        - id: 210606354325506
+        - id: 210606354325510

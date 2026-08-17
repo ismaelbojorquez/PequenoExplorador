@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using PequenoExplorador.Application;
+using PequenoExplorador.Application.Album;
 using PequenoExplorador.Application.Audio;
 using PequenoExplorador.Application.Accessibility;
 using PequenoExplorador.Application.Configuration;
@@ -131,6 +132,7 @@ namespace PequenoExplorador.Bootstrap
                 allowUnapprovedDiscovery,
                 localOffset);
             DiscoveryQueries = new DiscoveryProgressQueries(contentCatalog, discoveryRepository);
+            AlbumQueries = new AlbumQueryService(contentCatalog, discoveryRepository, PhotoRepository);
             DiscoveryInteraction = new DiscoveryInteractionAction(Discoveries);
             PhotographyInteraction = new PhotographyInteractionAction();
             ILocalizationService localization = new UnityLocalizationService(
@@ -217,6 +219,7 @@ namespace PequenoExplorador.Bootstrap
         public AutosaveCoordinator SaveCoordinator { get; }
         public DiscoverUseCase Discoveries { get; }
         public DiscoveryProgressQueries DiscoveryQueries { get; }
+        public AlbumQueryService AlbumQueries { get; }
         public DiscoveryInteractionAction DiscoveryInteraction { get; }
         public PhotographyInteractionAction PhotographyInteraction { get; }
         public IPhotoStore PhotoStore { get; }

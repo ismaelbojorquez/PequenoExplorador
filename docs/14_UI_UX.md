@@ -32,6 +32,8 @@ El prompt contextual vive en un Canvas dedicado con safe area y targets mínimos
 
 Prompt 19 añade un Canvas `PH_UI_PHOTOGRAPHY` sobre safe area: retícula de `620×390`, shutter `170×170`, salida `180×110`, guía ES/EN y tarjeta de resultado. Color acompaña al icono/copy y no es la única señal. Una toma inválida mantiene cámara y ofrece pista; storage fallido conserva discovery y muestra fallback no alarmante. `reduce motion` desactiva flash; pinch sigue reservado, pero zoom visual final no se implementa aún. Contrato: [`PHOTOGRAPHY_SYSTEM.md`](PHOTOGRAPHY_SYSTEM.md).
 
+Prompt 20 añade `PH_UI_ALBUM`: acceso exclusivo desde Camp, grid de ocho celdas reutilizables, filtro de categoría, detalle y estados loading/empty/error/locked/missing-photo. Targets son `≥64×64`, el root usa safe area y `Back` recorre detalle→grid→cerrar. Las entries bloqueadas no revelan nombre/facts; la foto/fact/audio faltante degrada a copy seguro. Baseline ES/EN/pseudo y ratios `4:3`, `16:9`, `20:9`, `16:10` están automatizados. El visual cromático y `UnityEngine.UI.Text` siguen siendo baseline `PH_`; TMP/componentes finales se migran en Prompt 27. Contrato: [`ALBUM_SYSTEM.md`](ALBUM_SYSTEM.md).
+
 ## Jerarquía de pantallas
 
 1. Inicio/continuar y acceso adulto discreto.

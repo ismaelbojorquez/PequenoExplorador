@@ -106,6 +106,19 @@ namespace PequenoExplorador.Editor
             AssetDatabase.SaveAssets();
         }
 
+        public static void ApplyAlbumEntries()
+        {
+            LocalizationSettings settings = AssetDatabase.LoadAssetAtPath<LocalizationSettings>(SettingsPath);
+            Locale spanish = AssetDatabase.LoadAssetAtPath<Locale>(SpanishLocalePath);
+            Locale english = AssetDatabase.LoadAssetAtPath<Locale>(EnglishLocalePath);
+            if (settings == null || spanish == null || english == null)
+                throw new InvalidOperationException("Localization foundation must exist before album setup.");
+            LocalizationEditorSettings.ActiveLocalizationSettings = settings;
+            UpsertStringCollection(LocalizationKeys.UiTable, new[] { spanish, english }, UiEntries);
+            UpsertStringCollection(LocalizationKeys.ContentTable, new[] { spanish, english }, ContentEntries);
+            AssetDatabase.SaveAssets();
+        }
+
         private static readonly Entry[] SharedEntries =
         {
             new Entry("shared.product.name", "Pequeño Explorador: Aprende Jugando", "Little Explorer: Learning Through Play"),
@@ -154,7 +167,32 @@ namespace PequenoExplorador.Editor
             new Entry("ui.photography.positive_hint", "Casi. Probemos desde otro lugar.", "Almost. Let’s try from another spot."),
             new Entry("ui.photography.captured_new", "¡Nuevo descubrimiento!", "New discovery!"),
             new Entry("ui.photography.captured_repeated", "¡Qué buena observación!", "Great observation!"),
-            new Entry("ui.photography.storage_fallback", "¡Descubrimiento guardado! Usaremos su ilustración.", "Discovery saved! We’ll use its illustration.")
+            new Entry("ui.photography.storage_fallback", "¡Descubrimiento guardado! Usaremos su ilustración.", "Discovery saved! We’ll use its illustration."),
+            new Entry("ui.album.open", "Álbum", "Album"),
+            new Entry("ui.album.title", "Álbum de la Selva", "Jungle Album"),
+            new Entry("ui.album.back", "Volver", "Back"),
+            new Entry("ui.album.locked_name", "Por descubrir", "Waiting to be discovered"),
+            new Entry("ui.album.locked_hint", "Explora la selva para encontrarlo.", "Explore the jungle to find it."),
+            new Entry("ui.album.discovered", "Descubierto", "Discovered"),
+            new Entry("ui.album.category_progress", "{0}: {1} de {2}", "{0}: {1} of {2}", isSmart: true),
+            new Entry("ui.album.world_progress", "Encontrados: {0} de {1}", "Found: {0} of {1}", isSmart: true),
+            new Entry("ui.album.loading", "Preparando el álbum…", "Preparing the album…"),
+            new Entry("ui.album.empty", "Todavía no hay entradas aquí.", "There are no entries here yet."),
+            new Entry("ui.album.error", "No pudimos abrir esta página. Puedes volver e intentar otra vez.", "We could not open this page. You can go back and try again."),
+            new Entry("ui.album.page", "Página {0} de {1}", "Page {0} of {1}", isSmart: true),
+            new Entry("ui.album.previous", "Anterior", "Previous"),
+            new Entry("ui.album.next", "Siguiente", "Next"),
+            new Entry("ui.album.field.habitat", "Dónde vive", "Where it lives"),
+            new Entry("ui.album.field.diet", "Qué come", "What it eats"),
+            new Entry("ui.album.field.size", "Tamaño", "Size"),
+            new Entry("ui.album.field.curiosity", "Algo curioso", "Something curious"),
+            new Entry("ui.album.field.sound", "Cómo suena", "How it sounds"),
+            new Entry("ui.album.fact_pending", "Este dato está por confirmar.", "This fact is still being checked."),
+            new Entry("ui.album.replay", "Escuchar otra vez", "Listen again"),
+            new Entry("ui.album.audio_pending", "Audio por preparar", "Audio is being prepared"),
+            new Entry("ui.album.photo_loading", "Buscando tu mejor foto…", "Finding your best photo…"),
+            new Entry("ui.album.canonical_fallback", "Usamos su imagen del álbum.", "Using its album picture."),
+            new Entry("ui.album.best_photo", "Tu mejor foto", "Your best photo")
         };
 
         private static readonly Entry[] ContentEntries =
@@ -166,6 +204,7 @@ namespace PequenoExplorador.Editor
             new Entry("content.world.jungle.placeholder", "Expedición Selva · PLACEHOLDER", "Jungle Expedition · PLACEHOLDER"),
             new Entry("content.discovery.placeholder.name", "Descubrimiento de prueba", "Test discovery"),
             new Entry("content.discovery.keel-billed-toucan.name", "Tucán pico canoa", "Keel-billed Toucan"),
+            new Entry("content.category.discovery.animals", "Animales", "Animals"),
             new Entry("content.fact.keel-billed-toucan.identity", "Este tucán es un Ramphastos sulfuratus.", "This toucan is Ramphastos sulfuratus."),
             new Entry("content.fact.keel-billed-toucan.common-name", "Tucán pico canoa.", "Keel-billed Toucan."),
             new Entry("content.fact.keel-billed-toucan.range", "Vive desde el sur de México, a través de Centroamérica, hasta una parte del norte de Sudamérica.", "It lives from southern Mexico through Central America to part of northern South America."),

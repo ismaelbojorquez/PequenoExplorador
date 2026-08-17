@@ -107,6 +107,21 @@ namespace PequenoExplorador.Tests.EditMode
                 Assert.That(Directory.GetFiles(directory, "*.tmp"), Is.Empty);
                 Assert.That(Directory.GetFiles(directory, "*.png").Length, Is.EqualTo(1), "Orphan and retired photo are cleaned.");
                 Assert.That(store.EntryCount, Is.EqualTo(1));
+                PhotoLoadResult loaded = await store.LoadAsync(improved.FileReference, CancellationToken.None);
+                PhotoLoadResult missing = await store.LoadAsync("missing.png", CancellationToken.None);
+                Assert.That(loaded.Status, Is.EqualTo(PhotoLoadStatus.Loaded));
+                Assert.That(loaded.PngBytes.Length, Is.EqualTo(300));
+                Assert.That(missing.Status, Is.EqualTo(PhotoLoadStatus.Missing));
+                var cancelled = new CancellationTokenSource(); cancelled.Cancel();
+                try
+                {
+                    await store.LoadAsync(improved.FileReference, cancelled.Token);
+                    Assert.Fail("Cancelled photo load must not complete.");
+                }
+                catch (OperationCanceledException)
+                {
+                    // Expected: TaskCanceledException is a valid cancellation subtype.
+                }
                 Assert.Throws<ArgumentException>(() => LocalPhotoStore.SafeFileName(default));
                 Assert.Throws<ArgumentOutOfRangeException>(() =>
                     new PhotoThumbnail(new byte[LocalPhotoStore.MaximumFileBytes + 1], 384, 216));
@@ -153,6 +168,8 @@ namespace PequenoExplorador.Tests.EditMode
             public Task InitializeAsync(CancellationToken token) => Task.CompletedTask;
             public void Shutdown() { }
             public Task DeleteAllAsync(CancellationToken token) => Task.CompletedTask;
+            public Task<PhotoLoadResult> LoadAsync(string fileReference, CancellationToken token) =>
+                Task.FromResult(PhotoLoadResult.Missing());
             public Task<PhotoStoreResult> SaveAsync(DiscoveryId id, int score, PhotoThumbnail thumbnail, CancellationToken token)
             {
                 if (Fail) throw new IOException("Injected");

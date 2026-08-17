@@ -19,6 +19,7 @@ namespace PequenoExplorador.Editor.BuildTools
                 ValidateExplorerInternal();
                 ValidateInteractionInternal();
                 ValidatePhotographyInternal();
+                ValidateAlbumInternal();
                 ArtifactReportWriter.WriteEnvironmentReport();
                 Debug.Log("PE_COMPILE_OK");
             });
@@ -55,7 +56,7 @@ namespace PequenoExplorador.Editor.BuildTools
                         "Localization validation failed:\n" + string.Join("\n", violations));
                 }
 
-                Debug.Log("PE_LOCALIZATION_OK package=1.5.12 locales=es,en,pseudo keys=56 stringTables=3 assetTables=2");
+                Debug.Log("PE_LOCALIZATION_OK package=1.5.12 locales=es,en,pseudo keys=82 stringTables=3 assetTables=2");
             });
         }
 
@@ -74,6 +75,11 @@ namespace PequenoExplorador.Editor.BuildTools
             });
         }
 
+        public static void ValidateAlbum()
+        {
+            Run(ValidateAlbumInternal);
+        }
+
         public static void BuildAddressablesLocal()
         {
             Run(() =>
@@ -85,6 +91,7 @@ namespace PequenoExplorador.Editor.BuildTools
                 ValidateExplorerInternal();
                 ValidateInteractionInternal();
                 ValidatePhotographyInternal();
+                ValidateAlbumInternal();
                 LocalAddressablesBuildService.BuildDevelopment();
             });
         }
@@ -100,6 +107,7 @@ namespace PequenoExplorador.Editor.BuildTools
                 ValidateExplorerInternal();
                 ValidateInteractionInternal();
                 ValidatePhotographyInternal();
+                ValidateAlbumInternal();
                 LocalAddressablesBuildService.BuildDevelopment();
                 AndroidBuildService.BuildDevelopment();
             });
@@ -116,6 +124,7 @@ namespace PequenoExplorador.Editor.BuildTools
                 ValidateExplorerInternal();
                 ValidateInteractionInternal();
                 ValidatePhotographyInternal();
+                ValidateAlbumInternal();
                 const string reason =
                     "PE_RELEASE_SIGNING_REQUIRED: Release is intentionally blocked until an authorized human supplies external signing and approves bundle identity.";
                 ArtifactReportWriter.WriteReleaseBlockedReport(reason);
@@ -154,7 +163,7 @@ namespace PequenoExplorador.Editor.BuildTools
             Debug.Log($"PE_CONTENT_VALIDATION_OK mode={mode} discoveries=1 catalog=O1");
             Debug.Log("PE_TOUCAN_FIXTURE_OK visual=Approved visualReview=approved placeholder=false externalMedia=0 factualReview=approved");
             Debug.Log("PE_RUNTIME_CONFIG_OK profiles=2 remote=false releaseUnsafeFlags=0");
-            Debug.Log("PE_LOCALIZATION_OK package=1.5.12 locales=es,en,pseudo keys=56 stringTables=3 assetTables=2");
+            Debug.Log("PE_LOCALIZATION_OK package=1.5.12 locales=es,en,pseudo keys=82 stringTables=3 assetTables=2");
             Debug.Log("PE_AUDIO_OK buses=5 cues=7 clips=10 placeholders=10 sampleRate=48000 releaseFinal=0");
             Debug.LogWarning("PE_AUDIO_RELEASE_PENDING finalAssets=10 humanVoiceReview=required");
         }
@@ -202,6 +211,14 @@ namespace PequenoExplorador.Editor.BuildTools
             if (violations.Count > 0)
                 throw new InvalidOperationException("Photography validation failed:\n" + string.Join("\n", violations));
             Debug.Log("PE_PHOTOGRAPHY_FOUNDATION_OK targets=1 thumbnail=384x216 screenCapture=false cameraPermission=false");
+        }
+
+        private static void ValidateAlbumInternal()
+        {
+            IReadOnlyList<string> violations = AlbumValidationService.Validate();
+            if (violations.Count > 0)
+                throw new InvalidOperationException("Album validation failed:\n" + string.Join("\n", violations));
+            Debug.Log("PE_ALBUM_FOUNDATION_OK world=world.jungle approved=1 pool=8 pageSize=8 audioFinal=false");
         }
 
         private static void Run(Action action)

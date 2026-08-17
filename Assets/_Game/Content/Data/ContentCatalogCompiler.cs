@@ -34,7 +34,13 @@ namespace PequenoExplorador.Content.Data
 
             CategoryDefinition[] categories = MapUnique(
                 source.Categories, asset => CategoryId.Parse(asset.RawId),
-                (asset, id) => new CategoryDefinition(id, MapEditorial(asset, mode, resolver, errors)),
+                (asset, id) =>
+                {
+                    var displayName = new LocalizedKey(asset.DisplayNameTable, asset.DisplayNameKey);
+                    if (resolver != null && !resolver.HasLocalization(displayName))
+                        errors.Add($"DATA032 missing category localization '{displayName}' referenced by {Describe(asset, resolver)}; add ES/EN entries.");
+                    return new CategoryDefinition(id, displayName, MapEditorial(asset, mode, resolver, errors));
+                },
                 "category", resolver, errors);
             TagDefinition[] tags = MapUnique(
                 source.Tags, asset => TagId.Parse(asset.RawId),
@@ -168,9 +174,10 @@ namespace PequenoExplorador.Content.Data
                     EditorialMetadata editorial = MapEditorial(asset, mode, resolver, errors);
                     if (editorial.State == EditorialState.Approved && factIds.Length == 0)
                         errors.Add($"DATA027 Approved discovery '{id}' at {path} requires at least one approved fact reference.");
+                    AlbumEntryMetadata album = MapAlbumMetadata(asset, factIds, path, errors);
                     result.Add(new DiscoveryDefinition(
                         id, WorldId.Parse(asset.WorldId), category, tagIds, factIds, displayName, audio, visual,
-                        editorial));
+                        editorial, album));
                 }
                 catch (Exception exception) when (exception is FormatException || exception is ArgumentException)
                 {
@@ -178,6 +185,34 @@ namespace PequenoExplorador.Content.Data
                 }
             }
             return result.ToArray();
+        }
+
+        private static AlbumEntryMetadata MapAlbumMetadata(
+            DiscoveryDefinitionAsset asset,
+            IReadOnlyCollection<EducationalFactId> discoveryFacts,
+            string path,
+            ICollection<string> errors)
+        {
+            EducationalFactId habitat = ParseOptionalAlbumFact(asset.AlbumHabitatFact, discoveryFacts, "habitat", path, errors);
+            EducationalFactId diet = ParseOptionalAlbumFact(asset.AlbumDietFact, discoveryFacts, "diet", path, errors);
+            EducationalFactId size = ParseOptionalAlbumFact(asset.AlbumSizeFact, discoveryFacts, "size", path, errors);
+            EducationalFactId curiosity = ParseOptionalAlbumFact(asset.AlbumCuriosityFact, discoveryFacts, "curiosity", path, errors);
+            EducationalFactId sound = ParseOptionalAlbumFact(asset.AlbumSoundFact, discoveryFacts, "sound", path, errors);
+            return new AlbumEntryMetadata(habitat, diet, size, curiosity, sound, asset.AlbumHasPlayableAudio);
+        }
+
+        private static EducationalFactId ParseOptionalAlbumFact(
+            EducationalFactDefinitionAsset asset,
+            IReadOnlyCollection<EducationalFactId> discoveryFacts,
+            string slot,
+            string ownerPath,
+            ICollection<string> errors)
+        {
+            if (asset == null) return default;
+            EducationalFactId id = EducationalFactId.Parse(asset.RawId);
+            if (!discoveryFacts.Contains(id))
+                errors.Add($"DATA033 album {slot} fact '{id}' at {ownerPath} is not included in the discovery facts; add it or clear the slot.");
+            return id;
         }
 
         private static TId[] ParseReferences<TAsset, TId>(

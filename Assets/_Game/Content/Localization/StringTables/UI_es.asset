@@ -177,6 +177,110 @@ MonoBehaviour:
     m_Localized: "\xA1Descubrimiento guardado! Usaremos su ilustraci\xF3n."
     m_Metadata:
       m_Items: []
+  - m_Id: 210606312382464
+    m_Localized: "\xC1lbum"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606345936896
+    m_Localized: "\xC1lbum de la Selva"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606345936897
+    m_Localized: Volver
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606345936898
+    m_Localized: Por descubrir
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606350131200
+    m_Localized: Explora la selva para encontrarlo.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325504
+    m_Localized: Descubierto
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325505
+    m_Localized: '{0}: {1} de {2}'
+    m_Metadata:
+      m_Items:
+      - rid: 6219209779658358817
+  - m_Id: 210606354325506
+    m_Localized: 'Encontrados: {0} de {1}'
+    m_Metadata:
+      m_Items:
+      - rid: 6219209779658358817
+  - m_Id: 210606354325507
+    m_Localized: "Preparando el \xE1lbum\u2026"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325508
+    m_Localized: "Todav\xEDa no hay entradas aqu\xED."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325509
+    m_Localized: "No pudimos abrir esta p\xE1gina. Puedes volver e intentar otra
+      vez."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325510
+    m_Localized: "P\xE1gina {0} de {1}"
+    m_Metadata:
+      m_Items:
+      - rid: 6219209779658358817
+  - m_Id: 210606354325511
+    m_Localized: Anterior
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325512
+    m_Localized: Siguiente
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325513
+    m_Localized: "D\xF3nde vive"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325514
+    m_Localized: "Qu\xE9 come"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325515
+    m_Localized: "Tama\xF1o"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325516
+    m_Localized: Algo curioso
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325517
+    m_Localized: "C\xF3mo suena"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325518
+    m_Localized: "Este dato est\xE1 por confirmar."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325519
+    m_Localized: Escuchar otra vez
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325520
+    m_Localized: Audio por preparar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325521
+    m_Localized: "Buscando tu mejor foto\u2026"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325522
+    m_Localized: "Usamos su imagen del \xE1lbum."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 210606354325523
+    m_Localized: Tu mejor foto
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
@@ -187,3 +291,6 @@ MonoBehaviour:
         m_SharedEntries:
         - id: 116383752
         - id: 77211284529153
+        - id: 210606354325505
+        - id: 210606354325506
+        - id: 210606354325510

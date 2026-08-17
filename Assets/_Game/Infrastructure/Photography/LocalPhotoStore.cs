@@ -116,6 +116,30 @@ namespace PequenoExplorador.Infrastructure.Photography
             finally { _operation.Release(); }
         }
 
+        public async Task<PhotoLoadResult> LoadAsync(string fileReference, CancellationToken cancellationToken)
+        {
+            if (string.IsNullOrWhiteSpace(fileReference)) return PhotoLoadResult.Missing();
+            await _operation.WaitAsync(cancellationToken);
+            try
+            {
+                EnsureInitialized();
+                PhotoManifestEntryDto entry = _manifest.Entries.FirstOrDefault(item =>
+                    string.Equals(item.FileReference, fileReference, StringComparison.Ordinal));
+                if (entry == null) return PhotoLoadResult.Missing();
+                string path = Path.Combine(_directory, entry.FileReference);
+                if (!File.Exists(path)) return PhotoLoadResult.Missing();
+                byte[] bytes = await ReadAllBytesAsync(path, cancellationToken);
+                if (bytes.Length != entry.ByteLength || bytes.Length < 1 || bytes.Length > MaximumFileBytes)
+                    return PhotoLoadResult.Invalid();
+                return PhotoLoadResult.Loaded(bytes);
+            }
+            catch (IOException)
+            {
+                return PhotoLoadResult.Invalid();
+            }
+            finally { _operation.Release(); }
+        }
+
         public static string SafeFileName(DiscoveryId id, int scorePermille = 0)
         {
             if (!id.IsValid) throw new ArgumentException("Discovery ID is invalid.", nameof(id));
@@ -141,6 +165,21 @@ namespace PequenoExplorador.Infrastructure.Photography
             string text = await reader.ReadToEndAsync();
             token.ThrowIfCancellationRequested();
             return text;
+        }
+
+        private static async Task<byte[]> ReadAllBytesAsync(string path, CancellationToken token)
+        {
+            using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, true);
+            if (stream.Length < 1 || stream.Length > MaximumFileBytes) return Array.Empty<byte>();
+            var bytes = new byte[stream.Length];
+            int offset = 0;
+            while (offset < bytes.Length)
+            {
+                int read = await stream.ReadAsync(bytes, offset, bytes.Length - offset, token);
+                if (read == 0) break;
+                offset += read;
+            }
+            return offset == bytes.Length ? bytes : Array.Empty<byte>();
         }
 
         private static async Task WriteBytesFlushedAsync(string path, byte[] bytes, CancellationToken token)

@@ -30,7 +30,7 @@ El contrato técnico base está en [`CONTENT_MODEL.md`](CONTENT_MODEL.md): `Disc
 | `UnapprovedContent` | Ninguna en perfiles que no admiten Draft. | No. |
 | `SaveReadOnly` | Ninguna ante schema futuro protegido. | No. |
 
-La clave `grant.photo.*` pertenece a cada captura semántica; reintentar el mismo ID no duplica y una captura nueva solo incrementa estadística, nunca recompensa única. Economy, álbum y UI consumirán `DiscoverResult`; Discovery no conoce estrellas, vistas ni archivos de audio. `DiscoveryProgressQueries` calcula descubierto/total por world/category exclusivamente desde definitions `Approved` del catálogo. No hay números de contenido hardcodeados ni porcentaje guardado.
+La clave `grant.photo.*` pertenece a cada captura semántica; reintentar el mismo ID no duplica y una captura nueva solo incrementa estadística, nunca recompensa única. Álbum/UI consumen repositorios/read models y Economy consumirá outcomes sin que Discovery conozca estrellas, vistas ni archivos de audio. `DiscoveryProgressQueries` calcula descubierto/total por world/category exclusivamente desde definitions `Approved` del catálogo. No hay números de contenido hardcodeados ni porcentaje guardado.
 
 El fixture animal enlaza `interaction.jungle.keel-billed-toucan → PhotographyInteractionAction → discovery.jungle.keel-billed-toucan`. Captura válida ejecuta `DiscoverUseCase`; planta/objeto siguen neutrales. El ID retirado se resuelve por alias y la migración save v4→v5 converge records/grants al ID vigente.
 
@@ -57,14 +57,19 @@ La implementación actual usa cobertura `0.08`, distancia `10`, centro `0.36`, o
 
 ## Álbum
 
-- Organiza por categorías sin porcentajes que generen presión.
-- Fichas bloqueadas no muestran siluetas alarmantes ni fechas límite.
-- Una ficha aprobada permite escuchar nombre, ver imagen y revisar hechos; texto nunca es el único canal.
-- El área adulta puede ver conceptos explorados y contenido encontrado, no notas o inferencias sobre capacidad.
+Prompt 20 implementa el contrato de [`ALBUM_SYSTEM.md`](ALBUM_SYSTEM.md): `AlbumQueryService` combina `IContentCatalog` Approved, `DiscoveryProgress` y metadata de `PhotoProgress`; Presentation nunca lee Save o filesystem crudos ni muta progreso.
+
+- Organiza por mundo/categoría con contadores derivados del catálogo, sin porcentajes, fechas límite ni presión.
+- Fichas bloqueadas no reciben nombre, facts, visual, audio o foto en su view model; muestran una silueta/pista general.
+- Una ficha descubierta muestra nombre, mejor foto local o fallback canónico y facts Approved. Tamaño usa fallback porque VS-D-A01 no tiene ese claim aprobado.
+- Replay se habilita solo con cue factual Approved; el cue `PH_` de confirmación no se presenta como vocalización.
+- El pool fijo de ocho celdas y caché de ocho sprites evitan cargas/instanciación repetidas; toda carga es cancelable.
+- Un discovery capturado aparece al abrir/refrescar el álbum sin reiniciar. Back recorre detalle→grid→Camp.
+- El área adulta futura podrá leer conceptos explorados, no notas o inferencias sobre capacidad.
 
 ## Vertical Slice
 
-Discovery adoptado: **`Ramphastos sulfuratus`**, expediente [`VS-D-A01`](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md), nombre `Tucán pico canoa` / `Keel-billed Toucan`. H-007/H-008/H-009 sustentan los assets runtime `Approved`. Conservación permanece excluida. Hay captura virtual y fallback; no hay todavía álbum ni recompensa/economía.
+Discovery adoptado: **`Ramphastos sulfuratus`**, expediente [`VS-D-A01`](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md), nombre `Tucán pico canoa` / `Keel-billed Toucan`. H-007/H-008/H-009 sustentan los assets runtime `Approved`. Conservación permanece excluida. Hay captura virtual, álbum y fallback local; no hay todavía economía/recompensa.
 
 ## Aceptación del sistema
 

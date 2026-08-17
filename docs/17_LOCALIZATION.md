@@ -28,15 +28,15 @@ Español (`es`) es locale de proyecto, startup y fallback humano. Inglés (`en`)
 
 ## Tablas y claves
 
-| Tabla | Claves | Responsabilidad |
+| Tabla | Baseline canónica | Responsabilidad |
 |---|---:|---|
 | `Shared` | 4 | Nombre, versión Smart, fallback seguro y plural Smart de estrellas. |
-| `UI` | 16 | Estados, errores, transición, acciones y selector Development. |
-| `Content` | 9 | Nombres/placeholder de mundos/discovery y tres subtítulos de audio. |
+| `UI` | Incluye 25 `ui.album.*` | Estados, errores, transición, acciones, fotografía, álbum y selector Development. |
+| `Content` | Incluye 1 categoría + 7 facts VS-D-A01 | Nombres de mundo/discovery/categoría, facts Approved y tres subtítulos de audio. |
 | `Voice` | 5 slots conceptuales | Camp/Jungle más tres cues de voz ES/EN; clips finales pendientes. |
 | `Illustrations` | 2 slots conceptuales | Futuros fondos Camp/Jungle; sin assets finales. |
 
-Las 56 keys públicas de texto son namespaced (`shared.*`, `ui.*`, `content.*`) y su catálogo canónico está en `LocalizationKeys.cs`. Incluyen las diez keys de fotografía (`abrir/acércate/centra/listo/capturar/salir/pista/nuevo/repetido/fallback`); voz y subtítulo comparten concepto. Las tablas no conocen archivos y permanecen locales, sin `Remote*`, URL ni update-on-start.
+El validador recorre 82 `LocalizedKey` públicos tras Prompt 20: la baseline previa, diez keys de fotografía, 25 `ui.album.*` y `content.category.discovery.animals`. Todos son namespaced (`shared.*`, `ui.*`, `content.*`); `LocalizationKeys.cs` es el catálogo de uso runtime y las definitions aportan las keys factuales Approved. Voz y subtítulo comparten concepto. Las tablas no conocen archivos y permanecen locales, sin `Remote*`, URL ni update-on-start.
 
 Variables, números y plurales usan Smart Strings de Unity Localization. Están cubiertos `shared.build.version`, `shared.progress.stars` y `ui.transition.preparing`; no se concatenan frases traducibles en Presentation.
 
@@ -62,6 +62,6 @@ Export: menú `Pequeño Explorador/Development/Localization/Export CSV to artifa
 
 ## Aceptación y límites
 
-EditMode prueba resolución, Smart Strings/plurales, persistencia schema v6, fallback Development/Release, keys de subtítulo/discovery/fotografía/facts y pseudo no persistible. PlayMode cambia ES→EN→pseudo→ES sin reinicio; la cámara re-renderiza guía visible al cambiar locale. APK ES/EN demuestra IL2CPP/ARM64; dispositivo físico permanece `NOT RUN` cuando `adb` no lista hardware.
+EditMode prueba resolución, Smart Strings/plurales, persistencia schema v6, fallback Development/Release, keys de subtítulo/discovery/fotografía/álbum/facts y pseudo no persistible. PlayMode cambia ES→EN→pseudo sin reinicio; cámara y álbum re-renderizan copy visible. El álbum también prueba cuatro ratios y best-fit. APK ES/EN demuestra IL2CPP/ARM64 cuando se ejecuta el comando dual; dispositivo físico permanece `NOT RUN` cuando `adb` no lista hardware.
 
 El selector runtime actual es diagnóstico Development. El futuro selector parental deberá vivir tras el flujo adulto, conservar estas mismas preferencias y pasar Child UX/política; no se implementó ese flujo aquí. Traducción masiva, revisión lingüística humana, narraciones y assets localizados finales siguen pendientes.

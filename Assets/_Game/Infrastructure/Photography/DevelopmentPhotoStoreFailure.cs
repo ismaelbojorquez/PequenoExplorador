@@ -16,6 +16,8 @@ namespace PequenoExplorador.Infrastructure.Photography
         public Task InitializeAsync(CancellationToken cancellationToken) => _inner.InitializeAsync(cancellationToken);
         public void Shutdown() => _inner.Shutdown();
         public Task DeleteAllAsync(CancellationToken cancellationToken) => _inner.DeleteAllAsync(cancellationToken);
+        public Task<PhotoLoadResult> LoadAsync(string fileReference, CancellationToken cancellationToken) =>
+            _inner.LoadAsync(fileReference, cancellationToken);
         public Task<PhotoStoreResult> SaveAsync(DiscoveryId discoveryId, int scorePermille, PhotoThumbnail thumbnail, CancellationToken cancellationToken)
         {
             if (Interlocked.Exchange(ref _failNext, 0) == 1) throw new IOException("InjectedPhotoStorageFailure");

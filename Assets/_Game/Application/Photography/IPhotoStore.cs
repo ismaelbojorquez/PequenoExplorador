@@ -8,6 +8,7 @@ namespace PequenoExplorador.Application.Photography
     public interface IPhotoStore : IApplicationService
     {
         Task<PhotoStoreResult> SaveAsync(DiscoveryId discoveryId, int scorePermille, PhotoThumbnail thumbnail, CancellationToken cancellationToken);
+        Task<PhotoLoadResult> LoadAsync(string fileReference, CancellationToken cancellationToken);
         Task DeleteAllAsync(CancellationToken cancellationToken);
     }
 }

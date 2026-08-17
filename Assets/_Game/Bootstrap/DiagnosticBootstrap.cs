@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using PequenoExplorador.Application;
+using PequenoExplorador.Application.Album;
 using PequenoExplorador.Application.Audio;
 using PequenoExplorador.Application.Accessibility;
 using PequenoExplorador.Application.Configuration;
@@ -23,6 +24,7 @@ using PequenoExplorador.Content.Interaction;
 using PequenoExplorador.Content.Worlds;
 using PequenoExplorador.Domain.Content;
 using PequenoExplorador.Presentation.Accessibility;
+using PequenoExplorador.Presentation.Album;
 using PequenoExplorador.Presentation.Audio;
 using PequenoExplorador.Presentation.Bootstrap;
 using PequenoExplorador.Presentation.Input;
@@ -61,6 +63,7 @@ namespace PequenoExplorador.Bootstrap
         [SerializeField] private Camera _worldCamera;
         [SerializeField] private InteractionPromptView _interactionPrompt;
         [SerializeField] private PhotographyView _photographyView;
+        [SerializeField] private AlbumView _albumView;
 
         private CancellationTokenSource _lifetimeCancellation;
         private IAppConfig _configuration;
@@ -113,6 +116,7 @@ namespace PequenoExplorador.Bootstrap
         public InteractionPromptView InteractionPrompt => _interactionPrompt;
         public PhotographySceneRoot PhotographyRoot => _photographyRoot;
         public PhotographyView PhotographyView => _photographyView;
+        public AlbumView AlbumView => _albumView;
         public DiscoverResult LastDiscoveryResult => _services == null
             ? default
             : _photographyRoot != null && _photographyRoot.LastCapture.ProgressCaptured
@@ -138,7 +142,7 @@ namespace PequenoExplorador.Bootstrap
             }
             if (_inputActions == null || _gestureThresholds == null || _pauseView == null ||
                 _touchOverlay == null || _aspectOverlay == null || _safeAreaFitters.Length == 0 ||
-                _worldCamera == null || _interactionPrompt == null || _photographyView == null)
+                _worldCamera == null || _interactionPrompt == null || _photographyView == null || _albumView == null)
             {
                 throw new InvalidOperationException("Input actions, thresholds, pause, overlays and safe-area fitters must be wired.");
             }
@@ -187,6 +191,13 @@ namespace PequenoExplorador.Bootstrap
             _sceneFlowView.ReturnCampRequested += ReturnCamp;
             _sceneFlowView.RetryRequested += RetrySceneTransition;
             _sceneFlowView.SimulateFailureRequested += SimulateNextSceneFailure;
+            _albumView.Bind(
+                _services.AlbumQueries,
+                _services.PhotoStore,
+                _services.Context.Localization,
+                _services.Context.Audio,
+                _services.Context.SceneFlow,
+                WorldId.Parse("world.jungle"));
         }
 
         private async void Start()
@@ -381,6 +392,7 @@ namespace PequenoExplorador.Bootstrap
         }
         public void ConfigureExplorerCameraForEditorAndTests(Camera worldCamera) => _worldCamera = worldCamera;
         public void ConfigurePhotographyForEditorAndTests(PhotographyView photographyView) => _photographyView = photographyView;
+        public void ConfigureAlbumForEditorAndTests(AlbumView albumView) => _albumView = albumView;
 #endif
 
         public void SimulateNextPhotoStorageFailureForDevelopment()
@@ -425,6 +437,7 @@ namespace PequenoExplorador.Bootstrap
 
         private void HandleBackRequested()
         {
+            if (_albumView != null && _albumView.TryHandleBack()) return;
             if (_pauseView.IsVisible)
             {
                 ResumeFromPause();
@@ -637,6 +650,7 @@ namespace PequenoExplorador.Bootstrap
                 _sceneFlowView.Unbind();
             }
             _audioView?.Unbind();
+            _albumView?.Unbind();
             if (_services != null)
             {
                 _services.Context.Input.BackRequested -= HandleBackRequested;
