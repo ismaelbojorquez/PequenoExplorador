@@ -51,6 +51,8 @@ Los tres fixtures comparten el mismo núcleo y no representan especies/hechos. M
 
 El [expediente factual](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md) documenta un pico verde/naranja/rojo/azul, pero no autoriza copiar fotografías ni fija paleta, patrón, sexo, edad o subespecie. Antes de reemplazar `PH_FIXTURE_ANIMAL`, Art y especialista factual deben aprobar silhouette, pico, coloración, escala y PhotoTarget; Legal/Rights debe aprobar source files y runtime exports.
 
+Ismael Bojórquez declaró `Arte: APPROVED`, `Rights: APPROVED` y referencia `Propia` el 2026-08-16. La declaración se conserva en `H-007-IB-2026-08-16`, pero todavía no existe un asset no-`PH_` con ID, source file, runtime export y ledger al que aplicarla. Por tanto, aprueba la intención/especificación y ownership declarado, no el fixture cápsula ni un entregable final inexistente.
+
 Cambiar especie/subespecie devuelve a revisión todo el modelo/ilustración, collider/bounds fotográficos, icono y thumbnail canónico. Cambiar rasgo visual o paleta devuelve esos assets y cualquier actividad de reconocimiento a `Reviewed`; no invalida dieta/sonido salvo que también cambie la especie.
 
 ## Git y organización futura

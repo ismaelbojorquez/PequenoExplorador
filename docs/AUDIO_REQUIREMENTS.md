@@ -50,6 +50,8 @@ Release queda bloqueado mientras cualquier cue sea `IsPlaceholder=true`, su ID n
 
 Cornell eBird/Merlin describe la voz de `Ramphastos sulfuratus` como un croar lejano y repetitivo; el [expediente Sourced](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md) conserva el claim y su límite. La descripción no concede licencia sobre las grabaciones de Macaulay/eBird. Audio debe obtener o producir un asset con derechos, verificar especie/localidad/calidad, documentar recordista/licencia y someter la analogía, cue, subtítulo y pronunciación regional a especialista factual y Localization.
 
+Ismael Bojórquez declaró `Audio: APPROVED`, `Rights: APPROVED` y referencia `Propia` el 2026-08-16. No se proporcionó todavía un cue/clip no-`PH_`, source master, recordista/actor, pronunciación o ledger técnico; la declaración no convierte los tonos actuales en vocalización del tucán ni permite reutilizar grabaciones de las fuentes.
+
 Cambiar especie, vocalización o nombre regional devuelve a `Reviewed` la grabación, voice name, subtítulo, replay y cualquier pista sonora. Cambiar mezcla/formato sin alterar contenido requiere QA técnico, pero no reabre facts salvo que modifique inteligibilidad o significado.
 
 ## Aceptación pendiente

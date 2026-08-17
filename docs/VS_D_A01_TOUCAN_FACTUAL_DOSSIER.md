@@ -1,6 +1,6 @@
 # VS-D-A01 — Expediente factual del tucán candidato
 
-Estado editorial: **Sourced — Blocked for human review/approval**. Consulta: 2026-08-16 (`America/Mexico_City`). Este expediente prepara evidencia; no constituye aprobación científica, pedagógica, cultural, legal ni de derechos.
+Estado editorial: **Sourced + Owner/Product Approved — pending factual specialist and assets**. Consulta de fuentes: 2026-08-16 (`America/Mexico_City`). Ismael Bojórquez registró aprobación humana como Creador el 2026-08-16 para claims, copy, nombres y especificaciones; no declaró competencia de especialista factual y todavía no existen assets no-`PH_` identificables. Este expediente no constituye asesoría científica o legal ni `ReleaseLocked`.
 
 ## Identidad y límites
 
@@ -10,11 +10,11 @@ Estado editorial: **Sourced — Blocked for human review/approval**. Consulta: 2
 | Especie candidata | `Ramphastos sulfuratus` R. Lesson, 1830 |
 | Discovery ID reservado | `discovery.jungle.keel-billed-toucan` |
 | Fact IDs reservados | `fact.jungle.keel-billed-toucan.*` según la matriz de claims |
-| Nombre ES para revisar | `Tucán pico canoa` en México; `Tucán pico iris` es regional en Costa Rica/Panamá. |
-| Nombre EN para revisar | `Keel-billed Toucan` |
+| Nombre ES elegido por Product/Localization | `Tucán pico canoa` |
+| Nombre EN aprobado por Product/Localization | `Keel-billed Toucan` |
 | Runtime actual | Continúa `discovery.jungle.placeholder` + `fact.jungle.placeholder.pending`, `Draft`, `PH_` y `ReleaseBlocked`. |
-| Uso permitido ahora | Revisión humana y planificación del único contenido del Vertical Slice. |
-| Uso prohibido ahora | Marcar assets `Approved`, eliminar watermark, presentar copy al niño como final o usar imágenes/audio de las fuentes. |
+| Uso permitido ahora | Usar claims/copy/nombres aprobados por el Creador para preparar el único contenido del Vertical Slice, conservando el gate factual y de assets. |
+| Uso prohibido ahora | Marcar assets runtime `Approved`, eliminar watermark, declarar revisión de especialista factual o reutilizar imágenes/audio de las fuentes. |
 
 Los IDs quedan reservados documentalmente, pero no se crean ni enlazan assets runtime en este incremento. Adoptarlos después exige validator, localización, aliases/migración si corresponde y diff explícito de contenido.
 
@@ -31,12 +31,12 @@ Los IDs quedan reservados documentalmente, pero no se crean ni enlazan assets ru
 
 ## Matriz de claims para revisión
 
-Todo copy es **propuesta no aprobada**. `Sourced` significa que existe evidencia trazable; no significa que el lenguaje, la traducción o la representación estén aprobados.
+El copy de la matriz quedó aprobado por Product/Education en `H-007-IB-2026-08-16`. Los claims permanecen `Sourced` hasta revisión factual especializada; la aprobación de lenguaje no aprueba por sí sola exactitud especializada, representación o media.
 
 | Claim ID / Content ID | Claim atómico | Fuentes | Contexto y límites | Copy ES propuesto | Baseline EN | Conflicto o incertidumbre | Estado |
 |---|---|---|---|---|---|---|---|
 | `fact.jungle.keel-billed-toucan.identity` | La especie candidata es `Ramphastos sulfuratus`, familia Ramphastidae. | CONABIO, ITIS, Cornell BOW | Especie; no fijar subespecie para el fixture. | “Este tucán es un *Ramphastos sulfuratus*.” El nombre científico será detalle opcional, no instrucción. | “This toucan is *Ramphastos sulfuratus*.” Scientific name remains optional detail. | ITIS URL consultado abre la subespecie nominal; el slice solo reserva especie. | Sourced |
-| `fact.jungle.keel-billed-toucan.common-name` | En México el nombre oficial usado es `Tucán pico canoa`; Cornell registra `Tucán pico iris` para Costa Rica/Panamá. | CONABIO, ITIS, Cornell BOW | Locale actual es `es`, no `es-MX`; requiere decisión de alcance regional. | “Tucán pico canoa” como baseline mexicana. | “Keel-billed Toucan.” | El brief dice “pico iris”; no sustituirlo silenciosamente. Localization/Product debe elegir por territorio. | Sourced — human localization decision |
+| `fact.jungle.keel-billed-toucan.common-name` | En México el nombre oficial usado es `Tucán pico canoa`; Cornell registra `Tucán pico iris` para Costa Rica/Panamá. | CONABIO, ITIS, Cornell BOW | El locale actual `es` adopta la baseline mexicana por decisión humana del 2026-08-16. | “Tucán pico canoa.” | “Keel-billed Toucan.” | `Pico iris` permanece como variante regional documentada y requeriría locale/decisión territorial propios. | Sourced; Product/Localization Approved |
 | `fact.jungle.keel-billed-toucan.range` | Ocurre desde el sur de México por Centroamérica hasta el norte de Colombia y extremo noroeste de Venezuela. | Cornell BOW; CONABIO confirma México nativo | Distribución general; evitar afirmar presencia en cada localidad del juego. | “Vive desde el sur de México, a través de Centroamérica, hasta una parte del norte de Sudamérica.” | “It lives from southern Mexico through Central America to part of northern South America.” | Copy simplifica el extremo venezolano; revisor debe confirmar si el alcance es apropiado para 4–9. | Sourced |
 | `fact.jungle.keel-billed-toucan.habitat` | Habita bosques tropicales perennifolios de tierras bajas y bosques secundarios. | Cornell BOW | No implica que toda selva tropical contenga la especie. | “Vive entre los árboles de selvas cálidas y bosques que están creciendo de nuevo.” | “It lives among the trees of warm forests, including forests that are growing back.” | “Bosque secundario” se parafrasea; Education debe validar comprensión. | Sourced |
 | `fact.jungle.keel-billed-toucan.diet` | Su dieta es mayormente fruta; artrópodos y pequeños vertebrados son complementos, no la base. | Remsen et al. 1993; Cornell BOW | Dieta silvestre general. No usar dieta de zoológico ni inferir una fruta exclusiva. | “Come sobre todo frutas.” | “It mostly eats fruit.” | Las observaciones llamativas de alimento animal pueden sobrerrepresentar su frecuencia; no diseñar actividad como si fuera carnívoro. | Sourced |
@@ -45,6 +45,27 @@ Todo copy es **propuesta no aprobada**. `Sourced` significa que existe evidencia
 | `fact.jungle.keel-billed-toucan.conservation` | CONABIO muestra IUCN 2025-2 `Casi amenazado`, NOM-059 `Amenazada` y CITES II. | CONABIO | No se propone como fact infantil del slice; es metadata temporal y jurisdiccional. | No usar todavía. | Do not use yet. | ADW antiguo muestra `Least Concern`. La autoridad actual difiere y puede cambiar; revalidar con especialista/IUCN antes de publicación. | **Blocked — conflict/temporal review** |
 
 No se propone una longitud exacta: fuentes secundarias consultadas difieren y algunas se apoyan en referencias antiguas/no autorizables. El Vertical Slice no la necesita.
+
+## Declaración humana H-007-IB-2026-08-16
+
+Esta sección registra la declaración proporcionada directamente por la persona identificada; Codex no la emitió, amplió ni convirtió en competencia profesional no declarada.
+
+| Campo | Declaración registrada |
+|---|---|
+| Nombre | Ismael Bojórquez |
+| Rol/organización | Ismael Bojórquez |
+| Competencia o autoridad declarada | Creador |
+| Fecha declarada | 2026-08-16 |
+| Autorización | Confirma estar autorizado para emitir las aprobaciones indicadas. |
+| Claims aprobados | Especie, distribución, hábitat, alimentación, rasgo visual y sonido con el copy de esta matriz. |
+| Conservación | Excluida del Vertical Slice; el conflicto temporal permanece documentado y bloqueado para uso. |
+| Nombre ES / EN | `Tucán pico canoa` / `Keel-billed Toucan` |
+| Product/Education | `APPROVED` |
+| Localization | `APPROVED` |
+| Art / Audio / Rights / QA | Declarados `APPROVED`; arte y audio de referencia declarados `Propia`. La efectividad por asset queda pendiente porque no se proporcionó ID, source file, export, autoría técnica o ledger de un asset no-`PH_`. |
+| Cambios solicitados | Ninguno. |
+
+La aprobación del Creador resuelve intención de producto, copy y nombre regional. No satisface por sí sola el paso `Reviewed` factual definido en [`CONTENT_SOURCES.md`](CONTENT_SOURCES.md), cuyo gate exige competencia de especialista factual declarada. Tampoco convierte el fixture cápsula ni los tonos `PH_` en representación aprobada de la especie.
 
 ## Impacto de cambios y nueva revisión
 
@@ -66,25 +87,25 @@ Los campos vacíos son bloqueos intencionales; no deben completarse por automati
 
 | Gate | Nombre y rol humano | Competencia / alcance | Resultado | Fecha | Firma o referencia |
 |---|---|---|---|---|---|
-| Especialista factual |  |  | `PENDING` |  |  |
-| Product/Education — copy 4–9 |  |  | `PENDING` |  |  |
-| Localization — nombre regional ES/EN |  |  | `PENDING` |  |  |
-| Art — fidelidad visual |  |  | `PENDING` |  |  |
-| Audio — vocalización/pronunciación |  |  | `PENDING` |  |  |
-| Legal/Rights — assets y territorios |  |  | `PENDING` |  |  |
-| QA/Release — matriz asset/claim |  |  | `PENDING` |  |  |
+| Especialista factual |  | Competencia factual sobre Aves/Ramphastidae o fuente institucional equivalente. | `PENDING` |  |  |
+| Product/Education — copy 4–9 | Ismael Bojórquez — Creador | Intención de producto y copy infantil. | `APPROVED` | 2026-08-16 | `H-007-IB-2026-08-16` |
+| Localization — nombre regional ES/EN | Ismael Bojórquez — Creador | Selecciona `Tucán pico canoa` / `Keel-billed Toucan`. | `APPROVED` | 2026-08-16 | `H-007-IB-2026-08-16` |
+| Art — fidelidad visual | Ismael Bojórquez — Creador | Declara arte `Propia`; no hay asset no-`PH_` ni ledger que inspeccionar. | `DECLARED APPROVED — ASSET PENDING` | 2026-08-16 | `H-007-IB-2026-08-16` |
+| Audio — vocalización/pronunciación | Ismael Bojórquez — Creador | Declara audio `Propia`; no hay cue/clip no-`PH_` ni ledger que inspeccionar. | `DECLARED APPROVED — ASSET PENDING` | 2026-08-16 | `H-007-IB-2026-08-16` |
+| Legal/Rights — assets y territorios | Ismael Bojórquez — Creador | Declara referencias propias; faltan archivos concretos, titularidad por asset y alcance territorial/plataforma. | `OWNER DECLARATION — EVIDENCE PENDING` | 2026-08-16 | `H-007-IB-2026-08-16` |
+| QA/Release — matriz asset/claim | Ismael Bojórquez — Creador | Declara aprobación; no existe matriz sobre assets finales. | `DECLARED APPROVED — RELEASE BLOCKED` | 2026-08-16 | `H-007-IB-2026-08-16` |
 
 Campos editoriales requeridos tras las firmas:
 
 | Campo | Valor actual |
 |---|---|
-| `Reviewer` |  |
-| `ReviewedOn` |  |
-| `ApprovedBy` |  |
-| `ApprovalDate` |  |
-| `RightsOwner` / licencia |  |
+| `Reviewer` | Ismael Bojórquez — Creador; especialista factual pendiente. |
+| `ReviewedOn` | 2026-08-16 |
+| `ApprovedBy` | Ismael Bojórquez — Creador, para Product/Education, Localization y especificaciones declaradas. |
+| `ApprovalDate` | 2026-08-16 |
+| `RightsOwner` / licencia | Declaración: `Propia`; evidencia y mapping por asset pendientes. |
 | `ReleaseLockedBy` / fecha |  |
 
 ## Condición para desbloquear Prompt 19
 
-Prompt 19 continúa bloqueado hasta que, como mínimo, especialista factual y Product/Education firmen los claims que fotografía mostrará, Localization cierre el nombre visible, y Art/Rights aprueben una representación no-placeholder o una excepción explícita de Vertical Slice que siga bloqueada para Release. Después se crean assets separados no-`PH_`; este expediente por sí solo no autoriza cambiar `EditorialState.Approved`.
+Product/Education y Localization quedaron aprobados por Ismael Bojórquez. Prompt 19 continúa bloqueado hasta que un especialista factual identificado declare competencia y revise los claims que fotografía mostrará, y hasta que exista una representación no-`PH_` con ID/source/export/rights ledger verificables. Después se crean definitions separadas y se valida su mapping; este expediente por sí solo no autoriza cambiar `EditorialState.Approved` ni `ReleaseLocked`.

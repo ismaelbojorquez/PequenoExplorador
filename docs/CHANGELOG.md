@@ -1,5 +1,16 @@
 # Changelog
 
+## Human review record H-007 — 2026-08-16
+
+### Recorded
+
+- Ismael Bojórquez, competencia/autoridad declarada `Creador`, aprobó claims, Product/Education y Localization de `VS-D-A01`; eligió `Tucán pico canoa` / `Keel-billed Toucan` y excluyó conservación del Vertical Slice.
+- Declaró Art, Audio, Rights y QA aprobados con referencias propias. El expediente conserva el alcance humano sin atribuir competencia de especialista factual ni aprobación a assets inexistentes.
+
+### Still blocked
+
+- Especialista factual identificado y asset ledger no-`PH_` siguen pendientes; los runtime assets permanecen Draft/placeholder y Prompt 19 no se desbloquea todavía.
+
 ## Content sourcing H-007 — 2026-08-16
 
 ### Added
