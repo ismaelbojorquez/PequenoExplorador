@@ -74,4 +74,4 @@ EditMode cubre contadores/filtros, Draft oculto, locked sin fuga, missing fact/p
 - No hay scroll masivo, 40 entradas, arte final, narración ni audio de especie final.
 - No existe porcentaje, fecha límite, racha, presión por completar o acción comercial.
 - El fallback cromático no es la ilustración canónica final; queda `PH_`/ReleaseBlocked.
-- Gate B permanece `FAIL` hasta completar Fases 21–29 y repetir la auditoría end-to-end.
+- Gate B 2026-08-17 es `CONDITIONAL`; el journey end-to-end incluye álbum, pero Android físico y comprensión infantil/no lectora siguen pendientes antes de escalar.

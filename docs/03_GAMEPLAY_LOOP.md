@@ -40,7 +40,7 @@ El contrato técnico y sus límites están en [`INTERACTION_SYSTEM.md`](INTERACT
 
 ## Vertical Slice — recorrido canónico
 
-El contenido exacto está en [`MVP_SCOPE.md`](MVP_SCOPE.md). El recorrido implementado en Prompt 29 es `Camp → Selva → mover → enfocar tucán → actividad amable → fotografía virtual → discovery/fact → Estrellas → misión automática → álbum → mejora del rincón → Camp → checkpoint`. Usa un único tucán, una actividad, una misión y una mejora. La actividad y varios visuales/audio siguen `Sourced`/`PH_`, por lo que el APK Development es jugable pero Release continúa bloqueado. No se escala contenido hasta que Prompt 30 vuelva a auditar Gate B.
+El contenido exacto está en [`MVP_SCOPE.md`](MVP_SCOPE.md). El recorrido implementado en Prompt 29 es `Camp → Selva → mover → enfocar tucán → actividad amable → fotografía virtual → discovery/fact → Estrellas → misión automática → álbum → mejora del rincón → Camp → checkpoint`. Usa un único tucán, una actividad, una misión y una mejora. La actividad y varios visuales/audio siguen `Sourced`/`PH_`, por lo que el APK Development es jugable pero Release continúa bloqueado. Gate B 2026-08-17 es `CONDITIONAL`: no se escala contenido hasta cerrar Android físico y playtest infantil/no lector.
 
 Los checkpoints se solicitan después de actividad/captura ya reconciliada, misión/reward, compra de mejora y retorno. Todos los repositorios convergen en un solo `AutosaveCoordinator`: `pending → in-flight → ISaveService.Current`; preferencias de idioma/audio se fusionan sobre el snapshot más reciente. Así, pause, locale, transición y retry no pueden reintroducir un snapshot anterior. La segunda sesión conserva FTUE completado y permite repetir actividad/foto sin volver a otorgar rewards únicos.
 

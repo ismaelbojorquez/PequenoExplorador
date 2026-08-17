@@ -37,7 +37,7 @@ Ejecuta en orden y se detiene al primer fallo: `check-repository`, `compile`, bu
 | `scripts/setup-customization` | Regenera catálogo de 8 slots/20 opciones, rig, preview Camp, UI y localización. | `artifacts/logs/setup-customization.log`. |
 | `scripts/validate-customization` | Valida defaults/costos/localización, rig/materiales, Camp, UI, capas y targets. | `artifacts/logs/validate-customization.log`. |
 | `scripts/setup-design-system` | Regenera tokens, sprite redondeado, galería y tema de ocho roots críticos. | `artifacts/logs/setup-design-system.log`. |
-| `scripts/validate-design-system` | Valida assembly, tokens, TMP, galería, contraste AA, Canvas y targets 64/72. | `artifacts/logs/validate-design-system.log`. |
+| `scripts/validate-design-system` | Valida assembly, tokens, TMP, galería, contraste AA, superficie Paper del detalle de álbum (`UI012`), Canvas y targets 64/72. | `artifacts/logs/validate-design-system.log`. |
 | `scripts/capture-ui-review before|after` | Renderiza diez superficies en 4:3, 16:9, 20:9 y 16:10. | 40 PNG por fase en `artifacts/ui-review/`. |
 | `scripts/build-addressables-local` | Valida perfiles/grupos/labels/dependencias y construye catálogo Android local. | Log + `artifacts/reports/addressables-local.json`; runtime data ignorada bajo `Library`. |
 | `scripts/test-editmode` | Suite EditMode. | XML NUnit y JUnit en `artifacts/test-results/`. |

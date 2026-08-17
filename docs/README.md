@@ -82,7 +82,8 @@ Los saltos numéricos reservan espacio para documentos técnicos futuros; no imp
 - [`16_AUDIO.md`](16_AUDIO.md) y [`AUDIO_REQUIREMENTS.md`](AUDIO_REQUIREMENTS.md): dirección, framework, buses, cues, ledger `PH_` y blockers humanos.
 - [`CHANGELOG.md`](CHANGELOG.md): cambios por fase.
 - [`audits/GATE_A_2026-08-15.md`](audits/GATE_A_2026-08-15.md): auditoría independiente de foundation, hallazgos y evidencia ejecutada.
-- [`audits/GATE_B_2026-08-16.md`](audits/GATE_B_2026-08-16.md): auditoría independiente del loop mínimo; `FAIL` porque HEAD sigue en Prompt 18 y el journey de Fase 29 no existe.
+- [`audits/GATE_B_2026-08-17.md`](audits/GATE_B_2026-08-17.md): auditoría vigente del loop P29; `CONDITIONAL` por Android físico y playtest infantil/no lector `NOT RUN`, con integración técnica 5/5.
+- [`audits/GATE_B_2026-08-16.md`](audits/GATE_B_2026-08-16.md): auditoría histórica sobre Prompt 18; su `FAIL` documentó correctamente que el journey todavía no existía.
 
 ## Evidencia de preflight
 

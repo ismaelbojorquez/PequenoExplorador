@@ -10,6 +10,8 @@ namespace PequenoExplorador.DesignSystem
         [SerializeField] private bool _paperCard;
         [SerializeField] private bool _shadow;
 
+        public bool IsPaperCard => _paperCard;
+
         public void ApplyTheme(UIDesignTokens tokens, float textScale, bool reduceMotion)
         {
             Image image = GetComponent<Image>();

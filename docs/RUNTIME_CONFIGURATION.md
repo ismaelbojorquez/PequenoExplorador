@@ -61,7 +61,7 @@ En compilación Release las clases Mock/fallo simulado siguen excluidas por defi
 scripts/validate-content
 scripts/compile
 scripts/validate
-scripts/build-android-release  # valida perfiles y luego devuelve 3 por signing
+scripts/build-android-release  # devuelve 2 por gates Release o 3 por signing; nunca PASS
 ```
 
 `RuntimeConfigurationValidationService` exige dos assets, exactamente un Development/Release, ubicación local correcta, campos/rangos válidos, IDs sin duplicados y cero flags Release. `BuildToolsCli.ValidateRuntimeConfiguration` permite invocación CLI aislada. Compile, Addressables y ambos paths Android llaman validación de contenido antes de construir.

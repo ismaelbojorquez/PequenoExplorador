@@ -49,7 +49,7 @@ scripts/build-android-locales
 scripts/build-android-release  # fallo esperado: signing externo requerido
 ```
 
-`scripts/validate` ejecuta checks estáticos, compile con fronteras/contenido, EditMode, PlayMode y APK Development. Localiza el Editor fijado o respeta `UNITY_EDITOR`; toda salida queda en `artifacts/` ignorado y los logs sustituyen rutas de máquina. Cada subcomando devuelve código no cero al fallar. Release devuelve `3` deliberadamente y permanece `BLOCKED`, no `PASS`. Formatos, archivos y recuperación detallados: [`18_TESTING.md`](18_TESTING.md) y [`20_ANDROID_RELEASE.md`](20_ANDROID_RELEASE.md).
+`scripts/validate` ejecuta checks estáticos, compile con fronteras/contenido, EditMode, PlayMode y APK Development. Localiza el Editor fijado o respeta `UNITY_EDITOR`; toda salida queda en `artifacts/` ignorado y los logs sustituyen rutas de máquina. Cada subcomando devuelve código no cero al fallar. Release permanece `BLOCKED`, no `PASS`: devuelve `2` si un validador de contenido/configuración falla antes del signing y `3` si esos gates pasan pero falta signing autorizado. Formatos, archivos y recuperación detallados: [`18_TESTING.md`](18_TESTING.md) y [`20_ANDROID_RELEASE.md`](20_ANDROID_RELEASE.md).
 
 ## Secuencia mínima por cambio
 

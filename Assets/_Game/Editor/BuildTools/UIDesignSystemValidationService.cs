@@ -27,6 +27,12 @@ namespace PequenoExplorador.Editor.BuildTools
             if (AssetDatabase.LoadAssetAtPath<GameObject>(UIDesignSystemSetup.GalleryPath) == null) violations.Add("UI005 component gallery prefab is missing.");
 
             Scene scene = EditorSceneManager.OpenScene(ProjectFoundationSetup.BootstrapScenePath, OpenSceneMode.Single);
+            Transform albumDetail = scene.GetRootGameObjects()
+                .SelectMany(value => value.GetComponentsInChildren<Transform>(true))
+                .FirstOrDefault(value => value.name == "PH_ALBUM_DETAIL");
+            UIThemedPanel albumDetailPanel = albumDetail == null ? null : albumDetail.GetComponent<UIThemedPanel>();
+            if (albumDetailPanel == null || !albumDetailPanel.IsPaperCard)
+                violations.Add("UI012 album detail must provide a paper surface behind ink text.");
             UIDesignSystemRoot[] roots = scene.GetRootGameObjects().SelectMany(value => value.GetComponentsInChildren<UIDesignSystemRoot>(true)).ToArray();
             if (roots.Length != 9) violations.Add($"UI006 expected 9 themed critical roots; found {roots.Length}: {string.Join(",", roots.Select(value => value.gameObject.name))}.");
             Canvas.ForceUpdateCanvases();

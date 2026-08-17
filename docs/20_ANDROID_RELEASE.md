@@ -22,7 +22,7 @@ Fecha de baseline: 2026-08-14. Este pipeline no firma, sube ni publica.
 scripts/build-android-release
 ```
 
-Es un placeholder seguro: crea un reporte `BLOCKED`, imprime `PE_RELEASE_SIGNING_REQUIRED` y sale con código `3` antes de invocar BuildPipeline. El perfil Release no recibe `PE_DEVELOPMENT_SERVICES`; las clases Mock quedan excluidas por preprocesador y la composición selecciona `NullAnalytics`/`NoAds`/`UnavailablePurchase`. Habilitar Release requiere decisión humana sobre titular/bundle ID y un mecanismo externo de signing que no exponga keystore, passwords ni rutas personales. AAB, Play App Signing, upload key y publicación siguen `NOT RUN`; se abordan en F12/F46–F52.
+Es un placeholder seguro y siempre termina antes de invocar BuildPipeline. Primero ejecuta validadores Release: si contenido/configuración siguen Draft/`PH_`, devuelve `2` y el log enumera bloqueos accionables. Solo cuando esos gates pasan crea un reporte `BLOCKED`, imprime `PE_RELEASE_SIGNING_REQUIRED` y devuelve `3` por falta de signing autorizado. Ninguno equivale a `PASS`. El perfil Release no recibe `PE_DEVELOPMENT_SERVICES`; las clases Mock quedan excluidas por preprocesador y la composición selecciona `NullAnalytics`/`NoAds`/`UnavailablePurchase`. Habilitar Release requiere decisión humana sobre titular/bundle ID y un mecanismo externo de signing que no exponga keystore, passwords ni rutas personales. AAB, Play App Signing, upload key y publicación siguen `NOT RUN`; se abordan en F12/F46–F52.
 
 ## Controles exigidos al habilitar AAB
 

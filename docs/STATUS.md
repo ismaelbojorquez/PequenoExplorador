@@ -6,11 +6,11 @@ Actualizado: 2026-08-17 (`America/Mexico_City`). Git, implementación y evidenci
 
 - **Fase implementada más reciente:** Prompt 29 — loop mínimo Vertical Slice integrado de extremo a extremo.
 - **Preparación editorial H-007/H-008/H-009:** [`VS-D-A01`](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md) con Product/Localization, visual/rights/QA y revisión factual humana aprobados. La competencia factual declarada es investigación/búsqueda ampliada, no credencial ornitológica externa. Conservación y audio final permanecen fuera del contenido adoptado.
-- **Auditoría actual:** el informe histórico de Prompt 30 — [`Gate B`](audits/GATE_B_2026-08-16.md) — permanece `FAIL` porque se ejecutó antes de completar Fases 19–29. Prompt 29 ya aporta journey automatizado, pero no se autoaprueba el Gate.
-- **Gate actual:** B — `FAIL`; no ejecutar Prompt 31 hasta completar y volver a auditar el loop mínimo.
+- **Auditoría actual:** [`Gate B 2026-08-17`](audits/GATE_B_2026-08-17.md) — `CONDITIONAL`; integración técnica 5/5, pero Android físico y playtest infantil/no lector están `NOT RUN`. El informe [`2026-08-16`](audits/GATE_B_2026-08-16.md) queda histórico sobre Prompt 18.
+- **Gate actual:** B — `CONDITIONAL`; no escalar contenido ni ejecutar Prompt 31 hasta cerrar hardware/comprensión y emitir adenda o reauditoría explícita.
 - **Gate A:** [`audits/GATE_A_2026-08-15.md`](audits/GATE_A_2026-08-15.md) — `PASS`, sin Critical/Major abierto.
-- **Fase en curso:** ninguna; Prompt 29 cerrado y pendiente de auditoría independiente.
-- **Siguiente fase:** Prompt 30 — repetir Gate B de forma independiente después de cerrar Prompt 29.
+- **Fase en curso:** Prompt 30 cerrado con resultado condicional.
+- **Siguiente acción:** validar el mismo journey en Android físico y mediante playtest consentido/no lector; después reemitir Gate B. Prompt 31 permanece bloqueado.
 - **Último ExecPlan cerrado:** [`.agent/execplans/p29-minimum-exploration-loop-integration.md`](../.agent/execplans/p29-minimum-exploration-loop-integration.md).
 
 ## Capacidades verificadas
@@ -40,15 +40,15 @@ Actualizado: 2026-08-17 (`America/Mexico_City`). Git, implementación y evidenci
 | Expediente factual VS-D-A01 | Runtime `APPROVED` | H-007/H-008/H-009 cubren claims/copy, nombres, visual/rights/QA y revisión factual humana. Conservación excluida; no se atribuye credencial ornitológica externa. |
 | Visual tucán VS-D-A01 | Runtime `APPROVED` | `visual.discovery.jungle.keel-billed-toucan`, prefab/materiales propios y ledger; discovery/interacción reales lo referencian sin `PH_`. |
 | Mundos data-driven | Development `PASS`; Release `BLOCKED` | `world.jungle` compila desde manifest con escena/labels/spawn/checkpoint/catálogos/cues/version/tamaño. Fixture `world.test-ocean` prueba expansión sin switch; Release devuelve `WORLD018` por Draft/PH_. |
-| DesignSystem UI | `PASS` automatizado/visual; hardware pendiente | 9 roots incluido Tutorial, galería TMP, tokens, 64/72, contraste AA y motion cancelable. Bridge legacy, escala 1.25 humana, lector de pantalla y Android físico pendientes. |
+| DesignSystem UI | `PASS` automatizado/visual; hardware pendiente | 9 roots incluido Tutorial, galería TMP, tokens, 64/72, contraste AA y motion cancelable. Gate B corrigió la ficha de álbum Ink/superficie oscura con `Paper` + regla `UI012`; 40 capturas en cuatro ratios. Bridge legacy, escala 1.25 humana, lector de pantalla y Android físico pendientes. |
 | Tests Unity | `PASS` | EditMode `167/167`; PlayMode `29/29`. P29 añade regresiones de autosave in-flight/preferencias y journey Camp→Selva→actividad→foto→discovery→estrellas→misión→álbum→mejora→reload/recovery, con tres repeticiones, ES/EN y cuatro ratios. |
-| Android | Development `PASS`; Release `BLOCKED` | APK ES `67,443,923` bytes, SHA-256 `770b2d855e485dfbf2cd23528002328ec3cae5199ec715c888eac434f0b2b08f`, `100.038 s`, marker `PE_VERTICAL_SLICE_P29`, API 26/36, IL2CPP/ARM64. Sin CAMERA/micrófono/ubicación/contactos/AD_ID/BILLING. Release sigue bloqueado por signing/contenido `PH_`. |
+| Android | Development `PASS`; Release `BLOCKED` | Gate B final: ES `67,444,733` bytes / SHA-256 `a633aace2f34449c69e848ed0adcf73585d88c742953cb30c3d0a3a809d88148` / `88.041 s`; EN `67,444,686` bytes / `80f5ae9f0aba2437767f77ae9cb53c70394f2619b0a171ce94ff4933a8c81892` / `158.293 s`. Marker `PE_VERTICAL_SLICE_P29`, API 26/36, IL2CPP/ARM64. Sin CAMERA/micrófono/ubicación/contactos/AD_ID/BILLING; `INTERNET` solo Development. Release exit 2 por contenido/`PH_` antes de signing. |
 | iOS/CI remota | `NOT RUN` | Sin Xcode/módulo iOS local. `origin` existe, pero runner/licencia/checks remotos no se ejecutaron; no hubo push. |
 | Paquetes | Verificado | AI Navigation `2.0.9`, Audio builtin `1.0.0`, Localization `1.5.12`, AndroidJNI `1.0.0`, Addressables `4.0.1`; exactos, sin preview/SDK comercial. |
-| Fotografía memory/storage | Editor `PASS`; dispositivo `NOT RUN` | Peak estimado `582,182` bytes, delta global orientativo `289,481`, cero temporales; store 512 KiB/archivo, 64/32 MiB. Falta presión real de memoria/disco Android. |
+| Fotografía memory/storage | Editor `PASS`; dispositivo `NOT RUN` | Peak estimado `582,182` bytes, delta global orientativo `313,787`, cero temporales; store 512 KiB/archivo, 64/32 MiB. Falta presión real de memoria/disco Android. |
 | Gameplay/assets finales | Foto/álbum/economía/misión/learning/actividad/Camp/customization funcionales con UI/cues `PH_` | No existen assets finales. Actividad VS-A01 requiere firma asset-specific; Camp/Jungle/UI/audio/personaje/cosméticos/fixtures restantes siguen placeholders. |
 | FTUE | `PASS` automatizado; voz/hardware/playtest pendientes | Dos modos sin edad, siete pasos semánticos, ayuda a 6/12 s, skip/replay/recovery, input gating sin atrapar Back/pause y save v12. Catorce voces ES/EN son tonos `PH_`; Android físico y comprensión infantil siguen `NOT RUN`. |
-| Gate B journey | Automatizado `PASS`; Gate histórico `FAIL` | Journey normal sin botones debug: primera sesión guiada, segunda silenciosa, actividad→foto, 4 estrellas únicas, misión autoactivada, álbum, mejora por 3, tres recapturas sin duplicación, pause/reload/corrupt recovery, ES/EN y ratios. Cinco runs y UX touch/no lectora humana en Android real: `NOT RUN`; Prompt 30 debe decidir PASS/FAIL/CONDITIONAL. |
+| Gate B journey | **`CONDITIONAL`** | Journey normal 5/5 sin botones debug: primera sesión guiada, segunda silenciosa, actividad→foto, 4 estrellas únicas, misión autoactivada, álbum, mejora por 3, tres recapturas sin duplicación, pause/reload/corrupt recovery, ES/EN y ratios. UX touch Android y comprensión infantil/no lectora: `NOT RUN`; ver auditoría 2026-08-17. |
 
 ## Lectura para reanudar
 
@@ -75,4 +75,4 @@ Actualizado: 2026-08-17 (`America/Mexico_City`). Git, implementación y evidenci
 
 ## Reanudación inmediata
 
-Ejecutar Prompt 30 como auditoría independiente de Gate B. No escalar contenido ni interpretar el journey automatizado como playtest infantil/touch físico; conservar límites `PH_`, Release bloqueado y la prohibición de IAP/remote/signing/push/publicación.
+Conectar un Android físico representativo y ejecutar instalación, journey primera/segunda sesión, Back/pause/force-stop, rotación/notch, audio, storage y profiling. Después ejecutar un playtest consentido/minimizado con participante no lector y bandas 4–5/6–9 según [`PLAYTEST_PLAN.md`](PLAYTEST_PLAN.md). Adjuntar evidencia y reemitir Gate B; no escalar contenido ni interpretar automatización como playtest. Conservar límites `PH_`, Release bloqueado y prohibición de IAP/remote/signing/push/publicación.

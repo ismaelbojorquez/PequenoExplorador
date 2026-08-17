@@ -135,7 +135,8 @@ namespace PequenoExplorador.Editor
                 if (image.GetComponent<Button>() != null || image.type == Image.Type.Filled) continue;
                 string normalized = image.name.ToLowerInvariant();
                 bool panel = normalized.Contains("panel") || normalized.Contains("card") || normalized.Contains("preview") ||
-                    normalized.Contains("hud") || normalized.Contains("state") || normalized.Contains("cell");
+                    normalized == "ph_album_detail" || normalized.Contains("hud") || normalized.Contains("state") ||
+                    normalized.Contains("cell");
                 if (!panel) continue;
                 UIThemedPanel themed = image.GetComponent<UIThemedPanel>() ?? image.gameObject.AddComponent<UIThemedPanel>();
                 bool paper = normalized.Contains("card") || normalized.Contains("preview") || normalized.Contains("detail");

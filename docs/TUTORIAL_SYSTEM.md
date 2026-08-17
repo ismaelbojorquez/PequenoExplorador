@@ -1,6 +1,6 @@
 # Tutorial contextual de la primera expedición
 
-Estado: implementado en Prompt 28 como FTUE local y versionado. Es un sistema de guía, no un requisito punitivo ni una fuente de analytics remoto. Gate B permanece `FAIL` hasta integrar y auditar el journey de Prompt 29.
+Estado: implementado en Prompt 28 como FTUE local y versionado. Es un sistema de guía, no un requisito punitivo ni una fuente de analytics remoto. Gate B 2026-08-17 es `CONDITIONAL`: integración automatizada 5/5, hardware y comprensión infantil/no lectora pendientes.
 
 ## Contrato y ownership
 

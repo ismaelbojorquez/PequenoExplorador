@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-08-17 — Gate B (Prompt 30)
+
+- Auditoría independiente del loop P29: `GATE B: CONDITIONAL`; software/journey 5/5, Android físico y playtest infantil/no lector `NOT RUN`.
+- `scripts/validate` final pasó 167 EditMode, 29 PlayMode, Addressables local y APK ES `67,444,733` bytes (`a633aace2f34449c69e848ed0adcf73585d88c742953cb30c3d0a3a809d88148`); APK EN `67,444,686` bytes (`80f5ae9f0aba2437767f77ae9cb53c70394f2619b0a171ce94ff4933a8c81892`). Primera/segunda sesión, retry/pista, pause, reload, corrupt recovery y tres recapturas quedaron verificadas sin rewards duplicados.
+- La inspección de 40 capturas detectó contraste ilegible en Album Detail; se añadió superficie `Paper` y guard `UI012`, con matriz visual corregida en cuatro ratios.
+- GDD y `MVP_SCOPE` se alinearon al flujo real actividad→foto, misión de fotografía, save v12 y límites editoriales `Sourced`/`PH_` de VS-A01.
+- Sin dispositivo ni participantes autorizados no se concede `PASS` pleno ni se habilita Prompt 31/escala de contenido. Release, signing, audio/arte final, IAP/ads/remote/publicación siguen bloqueados.
+
 ## 2026-08-17 — Prompt 29
 
 - Integrado el journey normal Camp→Selva→actividad→foto→discovery/fact→estrellas→misión→álbum→mejora→Camp, sin botones debug ni atajos Presentation→Save.

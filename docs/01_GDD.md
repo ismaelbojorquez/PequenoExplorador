@@ -21,7 +21,7 @@ Documento canónico de experiencia. Visión: [`00_PRODUCT_VISION.md`](00_PRODUCT
 1. Pantalla de entrada accesible y elección manual entre `Más guía` y `Guía estándar`.
 2. Llegada al campamento y misión corta con demostración audiovisual.
 3. Exploración de un espacio pequeño usando control candidato tap-to-move.
-4. Encuentro, fotografía dentro del juego y actividad contextual.
+4. Encuentro, actividad contextual amable y fotografía dentro del juego.
 5. Registro en álbum, recompensa determinista y una mejora del campamento.
 6. Opción neutral: continuar, revisar álbum, descansar o salir.
 
