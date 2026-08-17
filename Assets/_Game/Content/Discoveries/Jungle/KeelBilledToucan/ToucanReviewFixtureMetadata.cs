@@ -16,6 +16,10 @@ namespace PequenoExplorador.Content.Visuals
         [SerializeField] private string _generatedDate;
         [SerializeField] private EditorialState _editorialState;
         [SerializeField] private bool _isPlaceholder;
+        [SerializeField] private string _visualReviewState;
+        [SerializeField] private string _visualApprovedBy;
+        [SerializeField] private string _visualApprovalDate;
+        [SerializeField] private string _visualApprovalReference;
         [SerializeField] private string _factualReviewState;
         [SerializeField] private Bounds _candidatePhotoBounds;
         [SerializeField] private Transform _visualRoot;
@@ -32,6 +36,10 @@ namespace PequenoExplorador.Content.Visuals
         public string GeneratedDate => _generatedDate;
         public EditorialState EditorialState => _editorialState;
         public bool IsPlaceholder => _isPlaceholder;
+        public string VisualReviewState => _visualReviewState;
+        public string VisualApprovedBy => _visualApprovedBy;
+        public string VisualApprovalDate => _visualApprovalDate;
+        public string VisualApprovalReference => _visualApprovalReference;
         public string FactualReviewState => _factualReviewState;
         public Bounds CandidatePhotoBounds => _candidatePhotoBounds;
         public Transform VisualRoot => _visualRoot;

@@ -24,6 +24,10 @@ namespace PequenoExplorador.Tests.EditMode
             Assert.That(metadata.FutureInteractionId, Is.EqualTo(ToucanFixtureSetup.FutureInteractionId));
             Assert.That(metadata.EditorialState, Is.EqualTo(EditorialState.Sourced));
             Assert.That(metadata.IsPlaceholder, Is.False);
+            Assert.That(metadata.VisualReviewState, Is.EqualTo("APPROVED"));
+            Assert.That(metadata.VisualApprovedBy, Is.EqualTo("Ismael Bojórquez — Creador/Propietario"));
+            Assert.That(metadata.VisualApprovalDate, Is.EqualTo("2026-08-16"));
+            Assert.That(metadata.VisualApprovalReference, Is.EqualTo(ToucanFixtureSetup.VisualApprovalReference));
             Assert.That(metadata.FactualReviewState, Is.EqualTo("PENDING_SPECIALIST_SIGNOFF"));
             Assert.That(metadata.TouchCollider.isTrigger, Is.True);
             Assert.That(metadata.CandidatePhotoBounds.size.magnitude, Is.GreaterThan(1f));
@@ -63,6 +67,8 @@ namespace PequenoExplorador.Tests.EditMode
             string ledger = File.ReadAllText(ToucanFixtureSetup.ProvenancePath);
             StringAssert.Contains("\"externalMedia\": false", ledger);
             StringAssert.Contains("\"editorialState\": \"Sourced\"", ledger);
+            StringAssert.Contains("\"visualReview\": \"APPROVED\"", ledger);
+            StringAssert.Contains(ToucanFixtureSetup.VisualApprovalReference, ledger);
             StringAssert.Contains("PENDING_SPECIALIST_SIGNOFF", ledger);
         }
     }

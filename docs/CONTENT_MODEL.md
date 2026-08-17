@@ -35,7 +35,7 @@ IDs usan minúsculas ASCII, dígitos, puntos y guiones; el primer segmento fija 
 
 ## Candidato visual reproducible
 
-`ToucanReviewFixtureMetadata` vive en Content y declara identidad, autoría, estado `Sourced`, bounds y referencias técnicas readonly. `ToucanFixtureSetup` compila primitives/materiales a un prefab determinista y lo conecta como hijo visual del interactable neutral; Application no conoce especie, path, prefab ni GameObject. El ledger JSON es la fuente de provenance del asset. `ToucanFixtureValidationService` permite Development y añade `TOUCAN019` en Release mientras falten especialista factual y aprobación asset-specific.
+`ToucanReviewFixtureMetadata` vive en Content y declara identidad, autoría, estado `Sourced`, aprobación visual, bounds y referencias técnicas readonly. `ToucanFixtureSetup` compila primitives/materiales a un prefab determinista y lo conecta como hijo visual del interactable neutral; Application no conoce especie, path, prefab ni GameObject. El ledger JSON es la fuente de provenance del asset. `H-008-IB-2026-08-16` cierra la aprobación asset-specific; `ToucanFixtureValidationService` permite Development y añade `TOUCAN019` en Release mientras falte especialista factual.
 
 Category/world/tag no son enums cerrados. El botón explícito `Generate stable ID if empty` crea un ID solo cuando el campo está vacío; nunca sobrescribe. Retirar un Discovery ID exige alias `previous → current` en el catálogo y migración de save cuando el ID ya se haya publicado. Un alias no puede colisionar con un ID vigente ni apuntar fuera del catálogo.
 

@@ -1,5 +1,23 @@
 # Changelog
 
+## Human visual approval H-008 — 2026-08-16
+
+### Recorded
+
+- Ismael Bojórquez, Creador/Propietario y responsable del producto, aprobó el asset `visual.discovery.jungle.keel-billed-toucan`, prefab `VS_ToucanPicoCanoa.prefab`, sobre el commit `427c09b0b48b0b8ec7348971db5eddbafc5d3707`.
+- La firma cubre silueta, pico/paleta, expresión 4–9, proporciones, lectura 16:9/20:9, collider/interaction point/bounds, integración Jungle, autoría propia, rights/licencia y QA visual; no solicitó cambios.
+- Metadata, ledger, generator, validator y tests registran `H-008-IB-2026-08-16` sin cambiar el `EditorialState.Sourced` global.
+
+### Verified
+
+- `scripts/validate` pasó: repository/shell checks, compile, Addressables local, EditMode `106/106`, PlayMode `18/18` y APK Development.
+- APK `105,939,892` bytes, SHA-256 `0f6be8637a2c005b769fc914646deda8afcfe0d3226214cde4f08efe7dc6b0a0`, API 26/36 e IL2CPP/ARM64; manifest inspeccionado sin `CAMERA`, micrófono, ubicación, contactos ni `AD_ID`.
+- El ledger reproduce todos sus hashes. `scripts/build-android-release` terminó con el código esperado `2` y `TOUCAN019` indica únicamente el gate factual pendiente.
+
+### Still blocked
+
+- Falta revisión factual de especialista identificado. Audio final, publicación y adopción de definitions runtime no fueron aprobados por esta firma; Prompt 19 y Release permanecen bloqueados.
+
 ## Toucan visual review fixture — 2026-08-16
 
 ### Added
@@ -22,7 +40,7 @@
 
 ### Still blocked
 
-- Especialista factual y firma visual asset-specific de Ismael Bojórquez. No se añadió fotografía, audio/animación final, fact/discovery aprobado, permiso sensible, paquete, red, signing, push ni publicación.
+- Especialista factual. La firma visual asset-specific se completó posteriormente en `H-008-IB-2026-08-16`. No se añadió fotografía, audio/animación final, fact/discovery aprobado, permiso sensible, paquete, red, signing, push ni publicación.
 
 ## Human review record H-007 — 2026-08-16
 
@@ -33,7 +51,7 @@
 
 ### Still blocked
 
-- Especialista factual y aprobación asset-specific siguen pendientes. El visual no-`PH_`/ledger se añadió después; discovery e interacción permanecen Draft neutrales y Prompt 19 no se desbloquea todavía.
+- Especialista factual sigue pendiente. La aprobación asset-specific se completó después en `H-008-IB-2026-08-16`; discovery e interacción permanecen Draft neutrales y Prompt 19 no se desbloquea todavía.
 
 ## Content sourcing H-007 — 2026-08-16
 

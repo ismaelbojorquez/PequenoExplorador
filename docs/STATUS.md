@@ -1,15 +1,15 @@
 # Estado vivo del proyecto
 
-Actualizado: 2026-08-16 22:20 (`America/Mexico_City`). Git, implementación y evidencia ejecutada prevalecen si contradicen este resumen.
+Actualizado: 2026-08-16 22:32 (`America/Mexico_City`). Git, implementación y evidencia ejecutada prevalecen si contradicen este resumen.
 
 ## Fase y Gate
 
 - **Fase implementada más reciente:** Prompt 18 — discovery persistente e idempotente completado y validado.
-- **Preparación editorial H-007:** [`VS-D-A01`](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md) en `Sourced + Owner/Product Approved`; existe visual propio verificable `Sourced`, pero especialista factual y firma asset-specific siguen pendientes. Discovery/interacción runtime permanecen Draft neutrales.
+- **Preparación editorial H-007/H-008:** [`VS-D-A01`](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md) en `Sourced + Owner/Product + visual asset-specific Approved`; especialista factual pendiente. Discovery/interacción runtime permanecen Draft neutrales.
 - **Auditoría actual:** Prompt 30 — [`Gate B`](audits/GATE_B_2026-08-16.md) ejecutado sobre HEAD real; `FAIL` por ausencia estructural de Fases 19–29 y del journey end-to-end.
 - **Gate actual:** B — `FAIL`; no ejecutar Prompt 31 hasta completar y volver a auditar el loop mínimo.
 - **Gate A:** [`audits/GATE_A_2026-08-15.md`](audits/GATE_A_2026-08-15.md) — `PASS`, sin Critical/Major abierto.
-- **Siguiente fase:** especialista factual + revisión humana de renders/firma asset-specific; después adoptar definitions aprobadas y ejecutar Prompt 19. No iniciar fotografía mientras discovery/interacción sigan Draft.
+- **Siguiente fase:** revisión de especialista factual; después adoptar definitions aprobadas y ejecutar Prompt 19. No iniciar fotografía mientras discovery/interacción sigan Draft.
 - **ExecPlan completo:** [`p18b-toucan-review-fixture.md`](../.agent/execplans/p18b-toucan-review-fixture.md), fixture visual previo a Prompt 19.
 
 ## Capacidades verificadas
@@ -18,7 +18,7 @@ Actualizado: 2026-08-16 22:20 (`America/Mexico_City`). Git, implementación y ev
 |---|---|---|
 | Git/producto/contrato | Verificado | Fases 00–06 auditadas; visión/GDD/MVP Selva y AGENTS canónicos. Cada preflight debe volver a contrastarlos. |
 | Unity y assemblies | `PASS` | Unity `6000.3.22f1`, URP, nueve asmdefs, grafo acíclico; Domain/Application sin engine. |
-| Pipeline local | `PASS` | `scripts/validate` final código `0` en `1:27.92`: checks, compile/validadores, Addressables, EditMode `106/106`, PlayMode `18/18` y APK Development. |
+| Pipeline local | `PASS` | `scripts/validate` final código `0`: checks, compile/validadores, Addressables, EditMode `106/106`, PlayMode `18/18` y APK Development. |
 | Bootstrap/servicios | `PASS` | MessageBus→Input→SafeArea→Haptics→Save→Localization→Audio→Analytics→Ads→Purchases; shutdown inverso y perfiles fail-closed. |
 | Scene flow / Addressables | `PASS` | `4.0.1`; Boot→Camp↔Selva por `WorldManifest`, tres ciclos, sesión/handles controlados, 41 locations/896,909 bytes; sin endpoint/catálogo remoto. |
 | Save local | `PASS` automatizado; dispositivo `NOT RUN` | Schema v4, JSON builtin, SHA-256, atomicidad/backup, v0→v1→v2→v3→v4, future read-only, discovery records/grants y preferencias; sin PII/red. |
@@ -30,11 +30,11 @@ Actualizado: 2026-08-16 22:20 (`America/Mexico_City`). Git, implementación y ev
 | Interacción contextual | `PASS` automatizado; hardware pendiente | Foco único, selección prioridad/distancia/ID, auto-approach, prompt safe-area ES/EN, cooldown y tres fixtures genéricos `PH_`; animal aporta discovery directo por datos. Touch Android `NOT RUN`. |
 | Discovery progression | `PASS` automatizado; contenido final bloqueado | First/repeat/already/missing/unapproved, count/día local agregado, grants idempotentes, denominadores Approved y persistencia reload. Fixture neutral sigue Draft Development; no hay reward/economía/foto/álbum. |
 | Contenido data-driven | Development `PASS`; Release `BLOCKED` | Un discovery neutral Draft resuelve por `DiscoveryId` en catálogo O(1); IDs/referencias/aliases/editorial generan reports. Release devuelve `DATA025` por cinco assets Draft. |
-| Expediente factual VS-D-A01 | Owner/Product aprobado; gates técnicos `BLOCKED` | Ismael Bojórquez aprobó claims/copy y eligió `Tucán pico canoa`; conservación excluida. Competencia declarada `Creador`, no especialista factual. El visual tiene ledger, pero su firma concreta y revisión factual siguen pendientes. |
-| Visual tucán VS-D-A01 | Development `PASS`; Release `BLOCKED` | `visual.discovery.jungle.keel-billed-toucan`, prefab/materiales propios, ledger+hashes, 16 meshes/renderers, 7 materiales y renders de review. Estado `Sourced`; `TOUCAN019` hasta especialista factual/signoff asset-specific. |
+| Expediente factual VS-D-A01 | Owner/Product/Visual aprobado; gate factual `BLOCKED` | Ismael Bojórquez aprobó claims/copy, eligió `Tucán pico canoa` y firmó el asset visual concreto en `H-008`; conservación excluida. Competencia declarada no cubre especialista factual. |
+| Visual tucán VS-D-A01 | Development `PASS`; visual `APPROVED`; Release factual `BLOCKED` | `visual.discovery.jungle.keel-billed-toucan`, prefab/materiales propios, ledger+hashes, 16 meshes/renderers, 7 materiales y seis renders revisados. Estado editorial global `Sourced`; `TOUCAN019` exige especialista factual. |
 | Mundos data-driven | Development `PASS`; Release `BLOCKED` | `world.jungle` compila desde manifest con escena/labels/spawn/checkpoint/catálogos/cues/version/tamaño. Fixture `world.test-ocean` prueba expansión sin switch; Release devuelve `WORLD018` por Draft/PH_. |
 | Tests Unity | `PASS` | EditMode `106/106`; PlayMode `18/18`. Añade tres tests del fixture/generator/Release y conserva interacción, discovery, save y tres ciclos Selva. |
-| Android | Development `PASS`; Release `BLOCKED` | APK ES `105,939,602` bytes, SHA-256 `7ee333517ecbff71bf3a47a74eab189460c87bacb7f0f709171326b6b06bbdd3`, `16.190 s` Unity, API 26/36, IL2CPP/ARM64 y zipalign 16 KB. Manifest final: `INTERNET` heredado + permiso interno receiver; sin `CAMERA`, micrófono, ubicación, contactos ni `AD_ID`. |
+| Android | Development `PASS`; Release `BLOCKED` | APK ES `105,939,892` bytes, SHA-256 `0f6be8637a2c005b769fc914646deda8afcfe0d3226214cde4f08efe7dc6b0a0`, `57.240 s` Unity, API 26/36, IL2CPP/ARM64 y zipalign 16 KB. Manifest final: `INTERNET` heredado + permiso interno receiver; sin `CAMERA`, micrófono, ubicación, contactos ni `AD_ID`. Release termina `2` con `TOUCAN019` por especialista factual pendiente. |
 | iOS/CI remota | `NOT RUN` | Sin Xcode/módulo iOS local. `origin` existe, pero runner/licencia/checks remotos no se ejecutaron; no hubo push. |
 | Paquetes | Verificado | AI Navigation `2.0.9`, Audio builtin `1.0.0`, Localization `1.5.12`, AndroidJNI `1.0.0`, Addressables `4.0.1`; exactos, sin preview/SDK comercial. |
 | Gameplay/assets finales | Locomoción + interacción + discovery directo `PH_` | No existen fotografía/álbum/economía ni assets finales. Camp/Jungle/UI/audio/personaje/fixtures son placeholders; prohibido escalar contenido antes del Vertical Slice. |
@@ -58,9 +58,9 @@ Actualizado: 2026-08-16 22:20 (`America/Mexico_City`). Git, implementación y ev
 - Save v4 persiste grants sin compactación; medir crecimiento al añadir orígenes/catálogo real. IDs retirados se preservan y no cuentan en denominadores; alias/migración siguen obligatorios al renombrar contenido publicado.
 - Tap-to-move/cámara necesitan playtest comparativo P-006; reduce-motion existe runtime pero todavía no está conectado a preferencia adulta/Save.
 - Las tres interacciones y su UI son `PH_` Draft: no son contenido final; el animal concede solo discovery neutral Development. Target size, overlap, approach, audio y cancelación necesitan Android físico/playtest infantil antes de Gate C.
-- Prompt 19 exige un animal fixture Approved, pero discovery/interacción siguen neutrales Draft. El visual propio ya tiene ledger y evidencia; faltan especialista factual y aprobación concreta de sus renders/bounds antes de cambiar states/IDs.
+- Prompt 19 exige un animal fixture Approved, pero discovery/interacción siguen neutrales Draft. El visual propio tiene ledger y aprobación concreta `H-008`; falta especialista factual antes de cambiar states/IDs.
 - El APK final mide `25,011,428` bytes más que Prompt 17; la mayor parte visible está en binarios nativos comprimidos. No se atribuye causalidad a Discovery sin profiling; investigar reproducibilidad/strip/budget antes de Gate C.
 
 ## Reanudación inmediata
 
-Obtener revisión de especialista factual para [`VS-D-A01`](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md) y revisión asset-specific de los renders `artifacts/review/toucan/`; registrar las firmas sin autoaprobar. Después crear/adoptar definitions y aliases/migración aplicables, revalidar y solo entonces ejecutar Prompt 19. No marcar Draft como Approved, introducir contenido masivo, cámara física/permisos, segundo mundo, remote, signing, push o publicación.
+Obtener revisión de especialista factual para [`VS-D-A01`](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md) y registrar esa firma sin autoaprobar. La revisión asset-specific ya quedó cerrada en `H-008-IB-2026-08-16`. Después crear/adoptar definitions y aliases/migración aplicables, revalidar y solo entonces ejecutar Prompt 19. No marcar Draft como Approved, introducir contenido masivo, cámara física/permisos, segundo mundo, remote, signing, push o publicación.

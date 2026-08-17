@@ -37,6 +37,11 @@ namespace PequenoExplorador.Editor.BuildTools
                 if (metadata.Author != "Ismael Bojórquez") violations.Add("TOUCAN004 declared author is missing.");
                 if (metadata.EditorialState != EditorialState.Sourced || metadata.IsPlaceholder)
                     violations.Add("TOUCAN005 review asset must be Sourced and non-placeholder.");
+                if (metadata.VisualReviewState != "APPROVED" ||
+                    metadata.VisualApprovedBy != "Ismael Bojórquez — Creador/Propietario" ||
+                    metadata.VisualApprovalDate != "2026-08-16" ||
+                    metadata.VisualApprovalReference != ToucanFixtureSetup.VisualApprovalReference)
+                    violations.Add("TOUCAN017 asset-specific visual approval H-008 is missing or inconsistent.");
                 if (metadata.FactualReviewState != "PENDING_SPECIALIST_SIGNOFF")
                     violations.Add("TOUCAN006 factual specialist signoff must remain pending.");
                 if (metadata.VisualRoot == null || metadata.InteractionPoint == null ||
@@ -58,7 +63,7 @@ namespace PequenoExplorador.Editor.BuildTools
 
             if (mode == ContentValidationMode.Release)
                 violations.Add(ReleaseBlockCode +
-                    " toucan visual is Sourced; factual specialist and asset-specific human signoff are required for Release.");
+                    " toucan visual is asset-specific approved but remains Sourced; factual specialist signoff is required for Release.");
             return violations;
         }
 

@@ -148,7 +148,7 @@ namespace PequenoExplorador.Editor.BuildTools
             }
 
             Debug.Log($"PE_CONTENT_VALIDATION_OK mode={mode} discoveries=1 catalog=O1");
-            Debug.Log("PE_TOUCAN_FIXTURE_OK visual=Sourced placeholder=false externalMedia=0 factualReview=pending");
+            Debug.Log("PE_TOUCAN_FIXTURE_OK visual=Sourced visualReview=approved placeholder=false externalMedia=0 factualReview=pending");
             Debug.Log("PE_RUNTIME_CONFIG_OK profiles=2 remote=false releaseUnsafeFlags=0");
             Debug.Log("PE_LOCALIZATION_OK package=1.5.12 locales=es,en,pseudo keys=40 stringTables=3 assetTables=2");
             Debug.Log("PE_AUDIO_OK buses=5 cues=7 clips=10 placeholders=10 sampleRate=48000 releaseFinal=0");

@@ -3,7 +3,7 @@
     "author": "Ismael Bojórquez",
     "sourceType": "Creación propia mediante primitives y tooling Unity",
     "generator": "PequenoExplorador.Editor.ToucanFixtureSetup",
-    "generatorVersion": "1.0.0",
+    "generatorVersion": "1.1.0",
     "generatedDate": "2026-08-16",
     "sourceComponents": "Unity built-in Sphere/Cube/Cylinder meshes; project-authored URP materials",
     "runtimePrefab": "Assets/_Game/Content/Discoveries/Jungle/KeelBilledToucan/VS_ToucanPicoCanoa.prefab",
@@ -16,15 +16,19 @@
         "Assets/_Game/Content/Discoveries/Jungle/KeelBilledToucan/Materials/Toucan_BillBlue.mat",
         "Assets/_Game/Content/Discoveries/Jungle/KeelBilledToucan/Materials/Toucan_EyeWhite.mat"
     ],
-    "licenseDeclaration": "Propia — pendiente de confirmación asset-specific",
+    "licenseDeclaration": "Propia — asset-specific approved H-008-IB-2026-08-16",
     "externalMedia": false,
     "editorialState": "Sourced",
+    "visualReview": "APPROVED",
+    "visualApprovedBy": "Ismael Bojórquez — Creador/Propietario",
+    "visualApprovalDate": "2026-08-16",
+    "visualApprovalReference": "H-008-IB-2026-08-16",
     "factualReview": "PENDING_SPECIALIST_SIGNOFF",
     "legalNotice": "Registro técnico de procedencia; no es un dictamen legal definitivo.",
     "files": [
         {
             "path": "Assets/_Game/Content/Discoveries/Jungle/KeelBilledToucan/VS_ToucanPicoCanoa.prefab",
-            "sha256": "1d87d717d49f925f6eb5bf5cc766d2ced0ec90336e7e04656b599891aef4957b"
+            "sha256": "3ce28ac7a87ed1b809b81939c2e4ad64cae691b30790427ac25355bde8555103"
         },
         {
             "path": "Assets/_Game/Content/Discoveries/Jungle/KeelBilledToucan/Materials/Toucan_Dark.mat",
@@ -56,7 +60,7 @@
         },
         {
             "path": "Assets/_Game/Editor/ToucanFixtureSetup.cs",
-            "sha256": "b9faed009126096de38fc5919a1e44086fe46414412d5e43ce029c456839959f"
+            "sha256": "8e909bf9bd4174588aa979db8930c936b740d3d7d3db19b76df3bb01ce4d9665"
         }
     ],
     "metrics": {

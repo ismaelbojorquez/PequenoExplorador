@@ -1623,11 +1623,15 @@ MonoBehaviour:
   _futureInteractionId: interaction.jungle.keel-billed-toucan
   _author: "Ismael Boj\xF3rquez"
   _sourceType: "Creaci\xF3n propia mediante primitives y tooling Unity"
-  _licenseDeclaration: "Propia \u2014 pendiente de confirmaci\xF3n asset-specific"
-  _generatorVersion: 1.0.0
+  _licenseDeclaration: "Propia \u2014 asset-specific approved H-008-IB-2026-08-16"
+  _generatorVersion: 1.1.0
   _generatedDate: 2026-08-16
   _editorialState: 1
   _isPlaceholder: 0
+  _visualReviewState: APPROVED
+  _visualApprovedBy: "Ismael Boj\xF3rquez \u2014 Creador/Propietario"
+  _visualApprovalDate: 2026-08-16
+  _visualApprovalReference: H-008-IB-2026-08-16
   _factualReviewState: PENDING_SPECIALIST_SIGNOFF
   _candidatePhotoBounds:
     m_Center: {x: 0.43829906, y: 1.2983035, z: 0}
