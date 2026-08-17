@@ -274,17 +274,6 @@ namespace PequenoExplorador.Tests.PlayMode
                 new System.DateTimeOffset(2026, 8, 17, 12, 0, 0, System.TimeSpan.Zero)));
             Assert.That(opened.IsSuccess, Is.True);
             yield return null;
-            Assert.That(bootstrap.PhotographyRoot.IsActive, Is.True);
-            bootstrap.PhotographyRoot.ActiveTarget.SetSampleOverrideForEditorAndTests(
-                new PequenoExplorador.Application.Photography.PhotoFrameSample(0.30f, 3f, true, 0.05f, 1f));
-            bootstrap.PhotographyView.ShutterButton.onClick.Invoke();
-            float deadline = Time.realtimeSinceStartup + 6f;
-            while (Time.realtimeSinceStartup < deadline && !bootstrap.PhotographyRoot.LastCapture.ProgressCaptured)
-                yield return null;
-            Assert.That(bootstrap.PhotographyRoot.LastCapture.ProgressCaptured, Is.True);
-            Assert.That(bootstrap.PhotographyView.LearnButton.gameObject.activeSelf, Is.True);
-            bootstrap.PhotographyView.LearnButton.onClick.Invoke();
-            yield return null;
             Assert.That(bootstrap.LearningView.IsVisible, Is.True);
             Assert.That(bootstrap.LearningView.ActiveActivityId, Is.EqualTo(LearningActivityView.ToucanActivityId));
 
@@ -309,6 +298,13 @@ namespace PequenoExplorador.Tests.PlayMode
             yield return null;
             Assert.That(bootstrap.LearningView.IsVisible, Is.False);
             Assert.That(bootstrap.PhotographyRoot.IsActive, Is.True);
+            bootstrap.PhotographyRoot.ActiveTarget.SetSampleOverrideForEditorAndTests(
+                new PequenoExplorador.Application.Photography.PhotoFrameSample(0.30f, 3f, true, 0.05f, 1f));
+            bootstrap.PhotographyView.ShutterButton.onClick.Invoke();
+            float deadline = Time.realtimeSinceStartup + 6f;
+            while (Time.realtimeSinceStartup < deadline && !bootstrap.PhotographyRoot.LastCapture.ProgressCaptured)
+                yield return null;
+            Assert.That(bootstrap.PhotographyRoot.LastCapture.ProgressCaptured, Is.True);
         }
 
         [UnityTest]

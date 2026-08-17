@@ -344,3 +344,15 @@ Subdividir un assembly requiere evidencia de tiempos de compilación, ownership,
 ## Flujo de tutorial
 
 `Content/TutorialDefinitionAsset → Application/TutorialCoordinator → Presentation/TutorialView`; Bootstrap traduce outcomes de scene flow, locomoción, interacción, fotografía y álbum a `TutorialTrigger`. El coordinador es el único owner del estado y gating; no hay polling, reflection, bus paralelo ni acceso a Save desde Presentation. Los repositorios trabajan sobre el mismo `PlayerProgress`/autosave y la migración pura v11→v12 agrega solo `TutorialProgress` default.
+
+## Integración Vertical Slice Prompt 29
+
+`DiagnosticBootstrap` sigue siendo el único composition root. Activa idempotentemente la misión al entrar a Selva, enlaza el resultado de Learning con Photography, observa outcomes de captura/upgrade y solicita checkpoints; no entrega Save a Presentation ni crea un bus paralelo. El journey normal queda:
+
+```text
+CampHub → WorldLoadUseCase → Explorer/Interaction → LearningCoordinator
+        → CapturePhotoUseCase → Discovery + Economy + Missions + PhotoStore
+        → AlbumQueryService → PurchaseCampUpgradeUseCase → Camp/checkpoint
+```
+
+Cada feature muta `PlayerProgress` mediante su repository Application. `AutosaveCoordinator.Latest` resuelve `pending → in-flight → persisted`; el snapshot in-flight permanece autoritativo hasta que `ISaveService` confirma la escritura. Cambios de locale/audio usan `UpdateAndFlushAsync`, que fusiona la preferencia sobre ese mismo ownership. Esto elimina la carrera observada entre captura, pause/transición y una preferencia persistida sin inventar transacciones UI→archivo. `PE_VERTICAL_SLICE_P29`/journey version `1` identifica builds y reportes Development; no es un feature flag ni una autorización Release.

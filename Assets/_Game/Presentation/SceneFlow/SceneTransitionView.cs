@@ -39,6 +39,8 @@ namespace PequenoExplorador.Presentation.SceneFlow
         public event Action SimulateFailureRequested;
 
         public string StatusText => _statusText == null ? string.Empty : _statusText.text;
+        public Button EnterExpeditionButton => _enterJungleButton;
+        public Button ReturnCampButton => _returnCampButton;
 
         private void Awake()
         {

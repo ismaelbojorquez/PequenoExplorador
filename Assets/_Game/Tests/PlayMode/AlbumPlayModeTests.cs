@@ -36,6 +36,7 @@ namespace PequenoExplorador.Tests.PlayMode
             DiagnosticBootstrap bootstrap = Object.FindFirstObjectByType<DiagnosticBootstrap>();
             Task reset = bootstrap.ResetProgressForTestsAsync(CancellationToken.None);
             yield return WaitForTask(reset);
+            yield return WaitForTask(bootstrap.SetLocaleAsync(LocaleCode.Spanish, false, CancellationToken.None));
             bootstrap.Tutorial.Initialize();
             bootstrap.Tutorial.Skip();
             AlbumView album = bootstrap.AlbumView;
@@ -73,6 +74,7 @@ namespace PequenoExplorador.Tests.PlayMode
             }
             Assert.That(album.TryHandleBack(), Is.True);
             Assert.That(album.IsVisible, Is.False);
+            yield return WaitForTask(bootstrap.FlushSaveAsync(CancellationToken.None));
         }
 
         [UnityTest]
@@ -82,6 +84,7 @@ namespace PequenoExplorador.Tests.PlayMode
             DiagnosticBootstrap bootstrap = Object.FindFirstObjectByType<DiagnosticBootstrap>();
             Task reset = bootstrap.ResetProgressForTestsAsync(CancellationToken.None);
             yield return WaitForTask(reset);
+            yield return WaitForTask(bootstrap.SetLocaleAsync(LocaleCode.Spanish, false, CancellationToken.None));
             bootstrap.Tutorial.Initialize();
             bootstrap.Tutorial.Skip();
             Task<SceneTransitionResult> enter = bootstrap.GoToExpeditionAsync(CancellationToken.None);
@@ -108,6 +111,7 @@ namespace PequenoExplorador.Tests.PlayMode
             Assert.That(album.IsVisible, Is.True);
             album.Close();
             Assert.That(album.IsVisible, Is.False);
+            yield return WaitForTask(bootstrap.FlushSaveAsync(CancellationToken.None));
         }
 
         private static IEnumerator ActivateAnimalAndCapture(DiagnosticBootstrap bootstrap)
@@ -122,6 +126,15 @@ namespace PequenoExplorador.Tests.PlayMode
             Assert.That(bootstrap.InteractionRoot.Coordinator.Snapshot.State, Is.EqualTo(InteractionOutcome.Ready));
             bootstrap.InteractionPrompt.ActionButton.onClick.Invoke();
             yield return null;
+            Assert.That(bootstrap.LearningView.IsVisible, Is.True);
+            if (bootstrap.LearningView.LastOutcome != PequenoExplorador.Application.Learning.ActivityOutcome.AlreadyCompleted)
+                Assert.That(bootstrap.LearningView.Submit(0).Outcome,
+                    Is.EqualTo(PequenoExplorador.Application.Learning.ActivityOutcome.Completed));
+            Button exit = bootstrap.LearningView.GetComponentsInChildren<Button>(true)
+                .Single(button => button.name == "Exit");
+            exit.onClick.Invoke();
+            yield return null;
+            Assert.That(bootstrap.PhotographyRoot.IsActive, Is.True);
             bootstrap.PhotographyRoot.ActiveTarget.SetSampleOverrideForEditorAndTests(
                 new PhotoFrameSample(0.30f, 3f, true, 0.05f, 1f));
             bootstrap.PhotographyView.ShutterButton.onClick.Invoke();

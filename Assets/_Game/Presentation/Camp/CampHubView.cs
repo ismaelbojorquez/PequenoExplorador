@@ -45,8 +45,11 @@ namespace PequenoExplorador.Presentation.Camp
         public bool IsPreviewVisible => _previewPanel != null && _previewPanel.activeSelf;
         public string FeedbackText => _feedback == null ? string.Empty : _feedback.text;
         public IReadOnlyList<CampStationButtonView> StationButtons => _stationButtons ?? Array.Empty<CampStationButtonView>();
+        public Button UpgradeButton => _upgradeButton;
+        public Button ConfirmUpgradeButton => _confirmButton;
         public bool CurrentUpgradeUnlocked => _selectedUpgrade != null && _repository != null &&
             _repository.Current.UnlockedCampUpgradeIds.Contains(_selectedUpgrade.Id.Value, StringComparer.Ordinal);
+        public event Action<PurchaseCampUpgradeResult> UpgradePurchased;
 
         private void Awake()
         {
@@ -96,6 +99,8 @@ namespace PequenoExplorador.Presentation.Camp
             return true;
         }
 
+        public void Refresh() => Render(_repository?.Current);
+
         public void OpenUpgradePreview()
         {
             if (_selectedUpgrade == null || _repository == null || CurrentUpgradeUnlocked ||
@@ -114,6 +119,7 @@ namespace PequenoExplorador.Presentation.Camp
                 return new PurchaseCampUpgradeResult(PurchaseCampUpgradeOutcome.MissingDefinition, null,
                     _repository == null ? default : _repository.Current.Wallet);
             PurchaseCampUpgradeResult result = _purchase.Execute(_selectedUpgrade.Id);
+            if (result.Outcome == PurchaseCampUpgradeOutcome.Purchased) UpgradePurchased?.Invoke(result);
             if (_feedback != null)
             {
                 LocalizedKey key = result.Outcome == PurchaseCampUpgradeOutcome.Purchased ||

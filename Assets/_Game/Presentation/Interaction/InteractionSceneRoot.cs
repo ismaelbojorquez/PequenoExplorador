@@ -52,8 +52,10 @@ namespace PequenoExplorador.Presentation.Interaction
                         $"Interaction '{definition.Id}' requires its explicit discovery action.");
                 if (definition.HasLearningActivity && learningAction == null)
                     throw new InvalidOperationException($"Interaction '{definition.Id}' requires its explicit learning action.");
-                target.Bind(definition, definition.HasDirectDiscovery ? directDiscoveryAction :
-                    definition.HasLearningActivity ? learningAction : null);
+                // Activity is the primary action when a definition also has a discovery. The
+                // activity presenter explicitly continues into photography after completion.
+                target.Bind(definition, definition.HasLearningActivity ? learningAction :
+                    definition.HasDirectDiscovery ? directDiscoveryAction : null);
             }
             Coordinator = new InteractionCoordinator(approach, clock);
             Coordinator.Changed += HandleChanged;

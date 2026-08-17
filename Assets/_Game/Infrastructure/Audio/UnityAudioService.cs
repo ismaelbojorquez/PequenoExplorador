@@ -23,6 +23,7 @@ namespace PequenoExplorador.Infrastructure.Audio
         private readonly GameObject _host;
         private readonly IReadOnlyDictionary<AudioCueId, UnityAudioCue> _cues;
         private readonly ISaveService _save;
+        private readonly AutosaveCoordinator _checkpoints;
         private readonly ILocalizationService _localization;
         private readonly IAppLogger _logger;
         private readonly AudioMixerGroup _musicGroup;
@@ -52,10 +53,12 @@ namespace PequenoExplorador.Infrastructure.Audio
             AudioMixerGroup ambienceGroup,
             AudioMixerGroup effectsGroup,
             AudioMixerGroup voiceGroup,
-            Func<double> now = null)
+            Func<double> now = null,
+            AutosaveCoordinator checkpoints = null)
         {
             _host = host != null ? host : throw new ArgumentNullException(nameof(host));
             _save = save ?? throw new ArgumentNullException(nameof(save));
+            _checkpoints = checkpoints;
             _localization = localization ?? throw new ArgumentNullException(nameof(localization));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _musicGroup = musicGroup;
@@ -195,16 +198,17 @@ namespace PequenoExplorador.Infrastructure.Audio
             AudioSettingsModel previous = Settings;
             Settings = settings;
             ApplyVolumes();
-            PlayerPreferences updatedPreferences = _save.Current.Preferences.WithAudioSettings(
-                settings.Master,
-                settings.Music,
-                settings.Ambience,
-                settings.Effects,
-                settings.Voice,
-                settings.SubtitlesEnabled);
-            SaveOperationResult result = await _save.SaveAsync(
-                _save.Current.WithPreferences(updatedPreferences),
-                cancellationToken);
+            SaveOperationResult result = _checkpoints == null
+                ? await SaveSettingsDirectlyAsync(settings, cancellationToken)
+                : await _checkpoints.UpdateAndFlushAsync(
+                    progress => progress.WithPreferences(progress.Preferences.WithAudioSettings(
+                        settings.Master,
+                        settings.Music,
+                        settings.Ambience,
+                        settings.Effects,
+                        settings.Voice,
+                        settings.SubtitlesEnabled)),
+                    cancellationToken);
             if (!result.IsSuccess)
             {
                 Settings = previous;
@@ -220,6 +224,20 @@ namespace PequenoExplorador.Infrastructure.Audio
             {
                 PublishVoiceSubtitle(_voiceQueue.Current);
             }
+        }
+
+        private Task<SaveOperationResult> SaveSettingsDirectlyAsync(
+            AudioSettingsModel settings,
+            CancellationToken cancellationToken)
+        {
+            PlayerPreferences updatedPreferences = _save.Current.Preferences.WithAudioSettings(
+                settings.Master,
+                settings.Music,
+                settings.Ambience,
+                settings.Effects,
+                settings.Voice,
+                settings.SubtitlesEnabled);
+            return _save.SaveAsync(_save.Current.WithPreferences(updatedPreferences), cancellationToken);
         }
 
         public void SetApplicationSuspended(bool suspended)

@@ -130,6 +130,8 @@ namespace PequenoExplorador.Bootstrap
 
         public string ConfiguredAppVersion => _configuration?.AppVersion ?? string.Empty;
 
+        public string VerticalSliceBuildMarker => VerticalSliceBuildInfo.Marker;
+
         public string CurrentLocaleCode => _services?.Context.Localization.CurrentLocaleCode ?? string.Empty;
 
         public string StatusText => _statusView == null ? string.Empty : _statusView.CurrentStatus;
@@ -155,12 +157,16 @@ namespace PequenoExplorador.Bootstrap
         public InteractionPromptView InteractionPrompt => _interactionPrompt;
         public PhotographySceneRoot PhotographyRoot => _photographyRoot;
         public PhotographyView PhotographyView => _photographyView;
+        public SceneTransitionView SceneTransitionView => _sceneFlowView;
         public AlbumView AlbumView => _albumView;
+        public EconomyView EconomyView => _economyView;
+        public MissionView MissionView => _missionView;
         public LearningActivityView LearningView => _learningView;
         public CampHubView CampHubView => _campHubView;
         public CustomizationView CustomizationView => _customizationView;
         public TutorialView TutorialView => _tutorialView;
         public TutorialCoordinator Tutorial => _services?.Tutorial;
+        public PequenoExplorador.Domain.Progress.PlayerProgress CurrentProgress => _services?.SaveCoordinator.Latest;
         public PequenoExplorador.Domain.Progress.TutorialProgress PersistedTutorial => _services?.Context.Save.Current?.Tutorial;
         public DiscoverResult LastDiscoveryResult => _services == null
             ? default
@@ -276,6 +282,7 @@ namespace PequenoExplorador.Bootstrap
             _learningView.Bind(_runtimeLearning, _services.LearningRepository, _services.Learning,
                 _services.Context.Localization, _services.Context.Audio, _services.Context.Input,
                 _services.LearningInteraction, _services.PhotographyInteraction, reduceMotion: false);
+            _learningView.ActivityCompleted += HandleLearningActivityCompleted;
             Action debugUnlockAll = null;
 #if UNITY_EDITOR || PE_DEVELOPMENT_SERVICES
             debugUnlockAll = DebugUnlockAllCosmeticsForDevelopment;
@@ -295,6 +302,7 @@ namespace PequenoExplorador.Bootstrap
             _campHubView.Bind(_runtimeCamp, _services.EconomyRepository, _services.PurchaseCampUpgrade,
                 _services.Context.Localization, _services.Context.SceneFlow, campActions,
                 () => AllowsTutorialAction(TutorialAction.None));
+            _campHubView.UpgradePurchased += HandleCampUpgradePurchased;
         }
 
         private async void Start()
@@ -379,16 +387,22 @@ namespace PequenoExplorador.Bootstrap
 
         public async Task<SceneTransitionResult> GoToCampAsync(CancellationToken cancellationToken)
         {
+            RequestSaveCheckpoint();
             _services.Context.Input.SetMap(InputMapId.UI);
-            UnbindExplorerScene();
             WorldLoadResult worldResult = await _services.Context.WorldSession.ReturnToCampAsync(cancellationToken);
             if (worldResult.IsSuccess)
             {
+                UnbindExplorerScene();
                 BindCampScene();
                 _services.Context.Input.SetMap(InputMapId.UI);
                 _services.Context.Audio.Play(AudioCueIds.CampMusic);
                 _services.Context.Audio.Play(AudioCueIds.CampAmbience);
                 _services.Tutorial.Signal(TutorialTrigger.CampReturned);
+                RequestSaveCheckpoint();
+            }
+            else if (_services.Context.SceneFlow.Snapshot.Current == SceneFlowState.Expedition && _explorerRoot != null)
+            {
+                _services.Context.Input.SetMap(InputMapId.Explorer);
             }
             return ToSceneResult(worldResult);
         }
@@ -414,6 +428,7 @@ namespace PequenoExplorador.Bootstrap
                 _services.Context.Input.SetMap(InputMapId.Explorer);
                 _services.Context.Audio.Play(result.Manifest.MusicCue);
                 _services.Context.Audio.Play(result.Manifest.AmbienceCue);
+                EnsureVerticalSliceMissionActive();
                 _services.Tutorial.Signal(TutorialTrigger.ExpeditionEntered);
             }
             _sceneFlowView.ShowWorldResult(result);
@@ -559,6 +574,7 @@ namespace PequenoExplorador.Bootstrap
             {
                 if (_services.Context.SceneFlow.Snapshot.Current == SceneFlowState.Camp)
                 {
+                    UnbindExplorerScene();
                     BindCampScene();
                     _services.Context.Input.SetMap(InputMapId.UI);
                     _services.Context.Audio.Play(AudioCueIds.CampMusic);
@@ -571,6 +587,7 @@ namespace PequenoExplorador.Bootstrap
                     _services.Context.Input.SetMap(InputMapId.Explorer);
                     _services.Context.Audio.Play(result.Manifest.MusicCue);
                     _services.Context.Audio.Play(result.Manifest.AmbienceCue);
+                    EnsureVerticalSliceMissionActive();
                 }
             }
             _sceneFlowView.ShowWorldResult(result);
@@ -895,7 +912,9 @@ namespace PequenoExplorador.Bootstrap
             _albumView?.Unbind();
             if (_albumView != null) _albumView.Opened -= HandleAlbumOpened;
             _missionView?.Unbind();
+            if (_learningView != null) _learningView.ActivityCompleted -= HandleLearningActivityCompleted;
             _learningView?.Unbind();
+            if (_campHubView != null) _campHubView.UpgradePurchased -= HandleCampUpgradePurchased;
             _campHubView?.Unbind();
             _customizationView?.Unbind();
             if (_services != null)
@@ -940,12 +959,32 @@ namespace PequenoExplorador.Bootstrap
         private void HandleMovementAccepted() => _services?.Tutorial?.Signal(TutorialTrigger.MovementAccepted);
         private void HandleTutorialInteractionChanged(InteractionSnapshot snapshot)
         {
-            if (snapshot?.State == InteractionOutcome.Completed) _services?.Tutorial?.Signal(TutorialTrigger.InteractionCompleted);
+            if (snapshot?.State == InteractionOutcome.Completed && snapshot.Definition?.HasLearningActivity != true)
+                _services?.Tutorial?.Signal(TutorialTrigger.InteractionCompleted);
         }
         private void HandleTutorialCaptureCompleted(PhotoCaptureResult result)
         {
-            if (result.ProgressCaptured) _services?.Tutorial?.Signal(TutorialTrigger.PhotoCaptured);
+            if (!result.ProgressCaptured) return;
+            RequestSaveCheckpoint();
+            _services?.Tutorial?.Signal(TutorialTrigger.PhotoCaptured);
         }
-        private void HandleAlbumOpened() => _services?.Tutorial?.Signal(TutorialTrigger.AlbumOpened);
+        private void HandleLearningActivityCompleted(LearningActivityResult result)
+        {
+            RequestSaveCheckpoint();
+            _services?.Tutorial?.Signal(TutorialTrigger.InteractionCompleted);
+        }
+        private void HandleCampUpgradePurchased(PurchaseCampUpgradeResult result) => RequestSaveCheckpoint();
+        private void HandleAlbumOpened()
+        {
+            _services?.Tutorial?.Signal(TutorialTrigger.AlbumOpened);
+            _campHubView?.Refresh();
+        }
+
+        private void EnsureVerticalSliceMissionActive()
+        {
+            MissionActivationResult result = _services.Missions.Activate(MissionView.FixtureMissionId);
+            _missionView.Refresh();
+            if (result.Outcome == MissionActivationOutcome.Activated) RequestSaveCheckpoint();
+        }
     }
 }

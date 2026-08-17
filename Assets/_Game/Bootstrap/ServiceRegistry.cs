@@ -197,10 +197,11 @@ namespace PequenoExplorador.Bootstrap
             ILocalizationService localization = new UnityLocalizationService(
                 save,
                 logger,
-                configuration.Profile);
+                configuration.Profile,
+                SaveCoordinator);
             IAudioService audio = audioHost != null && audioCatalog != null
-                ? CreateAudioService(audioHost, audioCatalog, save, localization, logger)
-                : new HeadlessAudioService(save);
+                ? CreateAudioService(audioHost, audioCatalog, save, SaveCoordinator, localization, logger)
+                : new HeadlessAudioService(save, SaveCoordinator);
             IAnalyticsService analytics = new NullAnalyticsService();
             IAdsService ads;
             IPurchaseService purchases;
@@ -309,6 +310,7 @@ namespace PequenoExplorador.Bootstrap
             UnityEngine.GameObject host,
             AudioCueCatalogAsset catalog,
             ISaveService save,
+            AutosaveCoordinator checkpoints,
             ILocalizationService localization,
             IAppLogger logger)
         {
@@ -340,7 +342,8 @@ namespace PequenoExplorador.Bootstrap
                 catalog.Music,
                 catalog.Ambience,
                 catalog.Effects,
-                catalog.Voice);
+                catalog.Voice,
+                checkpoints: checkpoints);
         }
 
 #if UNITY_EDITOR || PE_DEVELOPMENT_SERVICES

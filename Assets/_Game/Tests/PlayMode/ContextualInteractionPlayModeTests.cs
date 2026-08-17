@@ -15,6 +15,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
+using UnityEngine.UI;
 using UnityEngine.Profiling;
 
 namespace PequenoExplorador.Tests.PlayMode
@@ -66,8 +67,8 @@ namespace PequenoExplorador.Tests.PlayMode
             for (int index = 0; index < 8; index++) bootstrap.InteractionPrompt.ActionButton.onClick.Invoke();
             yield return null;
             Assert.That(animal.ActivationCount, Is.EqualTo(1));
-            Assert.That(bootstrap.Input.CurrentMap, Is.EqualTo(InputMapId.Photography));
-            Assert.That(bootstrap.PhotographyView.IsVisible, Is.True);
+            Assert.That(bootstrap.Input.CurrentMap, Is.EqualTo(InputMapId.UI));
+            Assert.That(bootstrap.LearningView.IsVisible, Is.True);
             Assert.That(bootstrap.InteractionRoot.Coordinator.Snapshot.State,
                 Is.EqualTo(InteractionOutcome.Suspended));
         }
@@ -226,6 +227,16 @@ namespace PequenoExplorador.Tests.PlayMode
             Assert.That(bootstrap.InteractionRoot.TryHandleTap(new ScreenPoint(screen.x, screen.y)), Is.True);
             yield return WaitForInteraction(bootstrap, InteractionOutcome.Ready, 8f);
             bootstrap.InteractionPrompt.ActionButton.onClick.Invoke();
+            yield return null;
+            float activityDeadline = Time.realtimeSinceStartup + 3f;
+            while (Time.realtimeSinceStartup < activityDeadline && !bootstrap.LearningView.IsVisible) yield return null;
+            Assert.That(bootstrap.LearningView.IsVisible, Is.True);
+            if (bootstrap.LearningView.LastOutcome != PequenoExplorador.Application.Learning.ActivityOutcome.AlreadyCompleted)
+                Assert.That(bootstrap.LearningView.Submit(0).Outcome,
+                    Is.EqualTo(PequenoExplorador.Application.Learning.ActivityOutcome.Completed));
+            Button exit = bootstrap.LearningView.GetComponentsInChildren<Button>(true)
+                .Single(button => button.name == "Exit");
+            exit.onClick.Invoke();
             yield return null;
             float deadline = Time.realtimeSinceStartup + 3f;
             while (Time.realtimeSinceStartup < deadline && !bootstrap.PhotographyRoot.IsActive) yield return null;

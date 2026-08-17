@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-08-17 — Prompt 29
+
+- Integrado el journey normal Camp→Selva→actividad→foto→discovery/fact→estrellas→misión→álbum→mejora→Camp, sin botones debug ni atajos Presentation→Save.
+- La misión VS se activa al entrar en Selva; Learning precede Photography; captura, compra y retorno generan checkpoints, con error/retry y cancelación conservados.
+- Corregidas dos races de persistencia: snapshot in-flight autoritativo y locale/audio fusionados sobre el checkpoint más reciente; añadidas regresiones deterministas.
+- Marker Development `PE_VERTICAL_SLICE_P29`/journey v1 añadido a diagnóstico y manifest de build.
+- Journey PlayMode cubre primera/segunda sesión, error amable, tres recapturas sin rewards extra, pause, ES/EN, cuatro ratios, reload y recuperación de primary corrupto.
+- `scripts/validate` PASS: Addressables 61 locations/1,920,120 bytes, EditMode `167/167`, PlayMode `29/29` y APK `67,443,923` bytes (`770b2d855e485dfbf2cd23528002328ec3cae5199ec715c888eac434f0b2b08f`) en `100.038 s`, API 26/36 IL2CPP/ARM64.
+- Gate B sigue `FAIL` hasta Prompt 30 independiente; actividad/arte/audio `PH_`, Android físico y playtest infantil permanecen bloqueos, no PASS.
+
 ## 2026-08-17 — Prompt 28
 
 - FTUE data-driven v1 con siete triggers semánticos: Camp→Selva, movimiento, interacción, fotografía, discovery/reward, retorno y álbum; una transición por outcome y sin polling por nombre.

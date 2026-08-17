@@ -111,3 +111,9 @@ El escaneo de secretos es preventivo y deliberadamente básico; no reemplaza rev
 - EditMode: definición/orden, evento incorrecto o duplicado, ayuda 6/12 s, gating, skip, replay, version invalidation, round-trip v12 y migración v11→v12.
 - PlayMode: elección `Más guía`, visual no lector, checkpoint y recarga con instancia Bootstrap nueva, app pause/resume, ES/EN, secuencia completa y targets en 1024×768, 1280×720, 1600×720 y 1280×800.
 - `scripts/validate-tutorial` ejecuta wiring/definition/cues/safe-area/targets; `scripts/validate` conserva la autoridad integral. Touch Android real y comprensión infantil son `NOT RUN` sin hardware/protocolo aprobado.
+
+## Cobertura de integración Prompt 29
+
+EditMode añade dos regresiones de autosave: una preferencia se aplica sobre el último checkpoint pending y un snapshot in-flight sigue siendo autoritativo hasta completar el write. PlayMode recorre únicamente controles normales: Camp→Selva, movimiento, auto-approach, error amable+pista, actividad ES/EN, foto, discovery, 4 estrellas únicas, misión autoactivada, pause/resume, Camp, álbum, cuatro ratios, mejora por 3 estrellas, segunda sesión sin FTUE obligatorio, tres recapturas, flush/reload y recuperación desde backup tras truncar el primary.
+
+La evidencia final es EditMode `167/167`, PlayMode `29/29` y marker `PE_VERTICAL_SLICE_P29`. El journey reportó `7.947 s`, 30 frames batch a `5285.2 FPS` orientativos y delta de memoria global `-13,770,131` bytes; estas cifras solo demuestran que el harness midió y no sustituyen profiling Android. APK, touch, FPS/memoria/térmicas y cinco recorridos humanos en dispositivo continúan separados; hardware fue `NOT RUN` porque `adb devices -l` no listó dispositivo.

@@ -40,7 +40,9 @@ El contrato técnico y sus límites están en [`INTERACTION_SYSTEM.md`](INTERACT
 
 ## Vertical Slice — recorrido canónico
 
-El contenido exacto está en [`MVP_SCOPE.md`](MVP_SCOPE.md): misión `Conoce al tucán`, un descubrimiento animal candidato, una actividad de asociación visual, una mejora `Mesa de observación` y persistencia de todos esos estados. No se escala contenido hasta que ese recorrido cumpla los criterios del Gate B.
+El contenido exacto está en [`MVP_SCOPE.md`](MVP_SCOPE.md). El recorrido implementado en Prompt 29 es `Camp → Selva → mover → enfocar tucán → actividad amable → fotografía virtual → discovery/fact → Estrellas → misión automática → álbum → mejora del rincón → Camp → checkpoint`. Usa un único tucán, una actividad, una misión y una mejora. La actividad y varios visuales/audio siguen `Sourced`/`PH_`, por lo que el APK Development es jugable pero Release continúa bloqueado. No se escala contenido hasta que Prompt 30 vuelva a auditar Gate B.
+
+Los checkpoints se solicitan después de actividad/captura ya reconciliada, misión/reward, compra de mejora y retorno. Todos los repositorios convergen en un solo `AutosaveCoordinator`: `pending → in-flight → ISaveService.Current`; preferencias de idioma/audio se fusionan sobre el snapshot más reciente. Así, pause, locale, transición y retry no pueden reintroducir un snapshot anterior. La segunda sesión conserva FTUE completado y permite repetir actividad/foto sin volver a otorgar rewards únicos.
 
 ## Modos de juego
 
@@ -59,4 +61,4 @@ No hay modo examen. Las actividades están integradas en la aventura y se pueden
 
 ## Primera sesión guiada
 
-El FTUE acompaña el loop real, no crea un tour paralelo: `Camp → Selva → mover → interactuar → fotografiar → discovery/estrella → Camp → álbum`. El coordinador espera outcomes semánticos; una acción equivocada no castiga ni avanza. A 6 s (`Más guía`) o 12 s (`Guía estándar`) refuerza la misma acción con gesto/replay. Back, pausa, skip y reanudación evitan soft locks. En sesiones posteriores el tutorial completado/omitido permanece silencioso y se ofrece replay desde Camp.
+El FTUE acompaña el loop real, no crea un tour paralelo: `Camp → Selva → mover → interactuar/actividad → fotografiar → discovery/estrella/misión → Camp → álbum`. El coordinador espera outcomes semánticos; una acción equivocada no castiga ni avanza. A 6 s (`Más guía`) o 12 s (`Guía estándar`) refuerza la misma acción con gesto/replay. Back, pausa, skip y reanudación evitan soft locks. En sesiones posteriores el tutorial completado/omitido permanece silencioso y se ofrece replay desde Camp.

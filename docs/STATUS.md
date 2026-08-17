@@ -4,14 +4,14 @@ Actualizado: 2026-08-17 (`America/Mexico_City`). Git, implementación y evidenci
 
 ## Fase y Gate
 
-- **Fase implementada más reciente:** Prompt 28 — FTUE audiovisual contextual y persistente para la primera expedición.
+- **Fase implementada más reciente:** Prompt 29 — loop mínimo Vertical Slice integrado de extremo a extremo.
 - **Preparación editorial H-007/H-008/H-009:** [`VS-D-A01`](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md) con Product/Localization, visual/rights/QA y revisión factual humana aprobados. La competencia factual declarada es investigación/búsqueda ampliada, no credencial ornitológica externa. Conservación y audio final permanecen fuera del contenido adoptado.
-- **Auditoría actual:** Prompt 30 — [`Gate B`](audits/GATE_B_2026-08-16.md) ejecutado sobre HEAD real; `FAIL` por ausencia estructural de Fases 19–29 y del journey end-to-end.
+- **Auditoría actual:** el informe histórico de Prompt 30 — [`Gate B`](audits/GATE_B_2026-08-16.md) — permanece `FAIL` porque se ejecutó antes de completar Fases 19–29. Prompt 29 ya aporta journey automatizado, pero no se autoaprueba el Gate.
 - **Gate actual:** B — `FAIL`; no ejecutar Prompt 31 hasta completar y volver a auditar el loop mínimo.
 - **Gate A:** [`audits/GATE_A_2026-08-15.md`](audits/GATE_A_2026-08-15.md) — `PASS`, sin Critical/Major abierto.
-- **Fase en curso:** ninguna; Prompt 28 completado localmente.
-- **Siguiente fase:** Prompt 29 — integración del Vertical Slice; Gate B continúa `FAIL` hasta ejecutar Prompt 29 y repetir la auditoría.
-- **ExecPlan cerrado:** [`.agent/execplans/p28-audiovisual-first-expedition-onboarding.md`](../.agent/execplans/p28-audiovisual-first-expedition-onboarding.md).
+- **Fase en curso:** ninguna; Prompt 29 cerrado y pendiente de auditoría independiente.
+- **Siguiente fase:** Prompt 30 — repetir Gate B de forma independiente después de cerrar Prompt 29.
+- **Último ExecPlan cerrado:** [`.agent/execplans/p29-minimum-exploration-loop-integration.md`](../.agent/execplans/p29-minimum-exploration-loop-integration.md).
 
 ## Capacidades verificadas
 
@@ -19,10 +19,10 @@ Actualizado: 2026-08-17 (`America/Mexico_City`). Git, implementación y evidenci
 |---|---|---|
 | Git/producto/contrato | Verificado | Fases 00–06 auditadas; visión/GDD/MVP Selva y AGENTS canónicos. Cada preflight debe volver a contrastarlos. |
 | Unity y assemblies | `PASS` | Unity `6000.3.22f1`, URP, diez asmdefs incluido DesignSystem, grafo acíclico; Domain/Application sin engine. |
-| Pipeline local | `PASS` | `scripts/validate`: repository/shell, compile/validadores, Addressables, EditMode `165/165`, PlayMode `28/28` y APK Development. |
+| Pipeline local | `PASS` | `scripts/validate`: repository/shell, compile/validadores, Addressables, EditMode `167/167`, PlayMode `29/29` y APK Development. |
 | Bootstrap/servicios | `PASS` | MessageBus→Input→SafeArea→Haptics→Save→Photos→Localization→Audio→Analytics→Ads→Purchases; shutdown inverso y perfiles fail-closed. |
 | Scene flow / Addressables | `PASS` | `4.0.1`; Boot→Camp↔Selva por `WorldManifest`, tres ciclos, sesión/handles controlados, 61 locations/1,920,120 bytes; sin endpoint/catálogo remoto. |
-| Save local | `PASS` automatizado; dispositivo `NOT RUN` | Schema v12, JSON builtin, SHA-256, atomicidad/backup, v0→…→v12 y future read-only; v11→v12 agrega solo estado tutorial versionado. PNG/manifest viven separados; sin PII/género/red/pixels/taps/tiempos. |
+| Save local | `PASS` automatizado; dispositivo `NOT RUN` | Schema v12, JSON builtin, SHA-256, atomicidad/backup, v0→…→v12 y future read-only. Autosave conserva pending/in-flight/current y preferencias se fusionan sobre el último checkpoint; el journey prueba pause, locale, reload y recovery sin pérdida. PNG/manifest viven separados; sin PII/género/red/pixels/taps/tiempos. |
 | Config runtime | `PASS` | Development/Release tipados, cero flags Release, sin remote config ni secretos. |
 | Localización | `PASS` local | Localization `1.5.12`; 235 entries ES/EN, pseudo Development; selector, siete instrucciones y subtítulos tutorial completos. Audio/fuente final siguen pendientes. |
 | Audio | `PASS` estructural; final/hardware `NOT RUN` | Audio builtin `1.0.0`; 5 buses, 16 cues, 7 sources, 28 WAV `PH_` mono/48 kHz, incluidos 14 tonos tutorial ES/EN; queue/cooldown/ducking/replay/pause. `releaseFinal=0`. |
@@ -41,21 +41,21 @@ Actualizado: 2026-08-17 (`America/Mexico_City`). Git, implementación y evidenci
 | Visual tucán VS-D-A01 | Runtime `APPROVED` | `visual.discovery.jungle.keel-billed-toucan`, prefab/materiales propios y ledger; discovery/interacción reales lo referencian sin `PH_`. |
 | Mundos data-driven | Development `PASS`; Release `BLOCKED` | `world.jungle` compila desde manifest con escena/labels/spawn/checkpoint/catálogos/cues/version/tamaño. Fixture `world.test-ocean` prueba expansión sin switch; Release devuelve `WORLD018` por Draft/PH_. |
 | DesignSystem UI | `PASS` automatizado/visual; hardware pendiente | 9 roots incluido Tutorial, galería TMP, tokens, 64/72, contraste AA y motion cancelable. Bridge legacy, escala 1.25 humana, lector de pantalla y Android físico pendientes. |
-| Tests Unity | `PASS` | EditMode `165/165`; PlayMode `28/28`. Prompt 28 añade transitions/duplicates/help/skip/replay/version/resume y recorrido audiovisual ES/EN/no-reading en cuatro ratios. |
-| Android | Development `PASS`; Release `BLOCKED` | APK ES `67,440,962` bytes, SHA-256 `b4c34cda8c21f4637dd42002b0ed0fd728cd41ab12e3de82f21d5fa5b6f12c18`, `84.237 s`, API 26/36, IL2CPP/ARM64. Sin CAMERA/micrófono/ubicación/contactos/AD_ID/BILLING. Release sigue bloqueado por signing/contenido `PH_`. |
+| Tests Unity | `PASS` | EditMode `167/167`; PlayMode `29/29`. P29 añade regresiones de autosave in-flight/preferencias y journey Camp→Selva→actividad→foto→discovery→estrellas→misión→álbum→mejora→reload/recovery, con tres repeticiones, ES/EN y cuatro ratios. |
+| Android | Development `PASS`; Release `BLOCKED` | APK ES `67,443,923` bytes, SHA-256 `770b2d855e485dfbf2cd23528002328ec3cae5199ec715c888eac434f0b2b08f`, `100.038 s`, marker `PE_VERTICAL_SLICE_P29`, API 26/36, IL2CPP/ARM64. Sin CAMERA/micrófono/ubicación/contactos/AD_ID/BILLING. Release sigue bloqueado por signing/contenido `PH_`. |
 | iOS/CI remota | `NOT RUN` | Sin Xcode/módulo iOS local. `origin` existe, pero runner/licencia/checks remotos no se ejecutaron; no hubo push. |
 | Paquetes | Verificado | AI Navigation `2.0.9`, Audio builtin `1.0.0`, Localization `1.5.12`, AndroidJNI `1.0.0`, Addressables `4.0.1`; exactos, sin preview/SDK comercial. |
 | Fotografía memory/storage | Editor `PASS`; dispositivo `NOT RUN` | Peak estimado `582,182` bytes, delta global orientativo `289,481`, cero temporales; store 512 KiB/archivo, 64/32 MiB. Falta presión real de memoria/disco Android. |
 | Gameplay/assets finales | Foto/álbum/economía/misión/learning/actividad/Camp/customization funcionales con UI/cues `PH_` | No existen assets finales. Actividad VS-A01 requiere firma asset-specific; Camp/Jungle/UI/audio/personaje/cosméticos/fixtures restantes siguen placeholders. |
 | FTUE | `PASS` automatizado; voz/hardware/playtest pendientes | Dos modos sin edad, siete pasos semánticos, ayuda a 6/12 s, skip/replay/recovery, input gating sin atrapar Back/pause y save v12. Catorce voces ES/EN son tonos `PH_`; Android físico y comprensión infantil siguen `NOT RUN`. |
-| Gate B journey | `FAIL` | Prompts 19–28 existen; falta Prompt 29 y el journey integrado. Cinco runs, primera/segunda sesión completa y UX no lectora humana: `NOT RUN`. |
+| Gate B journey | Automatizado `PASS`; Gate histórico `FAIL` | Journey normal sin botones debug: primera sesión guiada, segunda silenciosa, actividad→foto, 4 estrellas únicas, misión autoactivada, álbum, mejora por 3, tres recapturas sin duplicación, pause/reload/corrupt recovery, ES/EN y ratios. Cinco runs y UX touch/no lectora humana en Android real: `NOT RUN`; Prompt 30 debe decidir PASS/FAIL/CONDITIONAL. |
 
 ## Lectura para reanudar
 
 1. [`../AGENTS.md`](../AGENTS.md), este archivo, [`README.md`](README.md), [`ROADMAP.md`](ROADMAP.md), [`DECISIONS.md`](DECISIONS.md) y [`RISK_REGISTER.md`](RISK_REGISTER.md).
 2. [`02_TECHNICAL_ARCHITECTURE.md`](02_TECHNICAL_ARCHITECTURE.md), [`ENGINEERING_STANDARDS.md`](ENGINEERING_STANDARDS.md), [`VALIDATION_PLAYBOOK.md`](VALIDATION_PLAYBOOK.md) y [`.agent/PLANS.md`](../.agent/PLANS.md).
 3. [`CONTENT_MODEL.md`](CONTENT_MODEL.md), [`CONTENT_PIPELINE.md`](CONTENT_PIPELINE.md), [`RUNTIME_CONFIGURATION.md`](RUNTIME_CONFIGURATION.md), [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md), [`17_LOCALIZATION.md`](17_LOCALIZATION.md), [`16_AUDIO.md`](16_AUDIO.md) y [`18_TESTING.md`](18_TESTING.md).
-4. Prompt 29 del [catálogo](prompts/00_MASTER_CODEX_PROMPTS.md), Vertical Slice, gameplay loop, arquitectura, testing y riesgos.
+4. Prompt 30 del [catálogo](prompts/00_MASTER_CODEX_PROMPTS.md), audit histórico Gate B, ExecPlan P29, Vertical Slice, gameplay loop, arquitectura, testing y riesgos.
 
 ## Bloqueos y decisiones humanas
 
@@ -75,4 +75,4 @@ Actualizado: 2026-08-17 (`America/Mexico_City`). Git, implementación y evidenci
 
 ## Reanudación inmediata
 
-Ejecutar Prompt 29 para ensamblar y probar el recorrido Vertical Slice completo. Conservar el FTUE versionado, el DesignSystem, targets/safe area/reduce-motion, límites `PH_`, Gate B `FAIL` y la prohibición de IAP/remote/signing/push/publicación.
+Ejecutar Prompt 30 como auditoría independiente de Gate B. No escalar contenido ni interpretar el journey automatizado como playtest infantil/touch físico; conservar límites `PH_`, Release bloqueado y la prohibición de IAP/remote/signing/push/publicación.

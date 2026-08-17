@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
+using PequenoExplorador.Application;
 using UnityEditor;
 using UnityEngine;
 
@@ -40,6 +41,8 @@ namespace PequenoExplorador.Editor.BuildTools
                 generatedUtc = DateTime.UtcNow.ToString("O"),
                 unityVersion = UnityEngine.Application.unityVersion,
                 gitCommit = CommandLineArguments.Read("-gitCommit") ?? "unknown",
+                verticalSliceMarker = VerticalSliceBuildInfo.Marker,
+                journeyVersion = VerticalSliceBuildInfo.JourneyVersion,
                 profile = "Development",
                 startupLocale = startupLocale,
                 artifact = BuildArtifactPaths.RelativeToProject(buildPath),
@@ -127,6 +130,8 @@ namespace PequenoExplorador.Editor.BuildTools
             public string generatedUtc;
             public string unityVersion;
             public string gitCommit;
+            public string verticalSliceMarker;
+            public int journeyVersion;
             public string profile;
             public string startupLocale;
             public string artifact;

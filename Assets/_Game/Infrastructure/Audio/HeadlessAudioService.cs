@@ -10,10 +10,12 @@ namespace PequenoExplorador.Infrastructure.Audio
     public sealed class HeadlessAudioService : IAudioService
     {
         private readonly ISaveService _save;
+        private readonly AutosaveCoordinator _checkpoints;
 
-        public HeadlessAudioService(ISaveService save)
+        public HeadlessAudioService(ISaveService save, AutosaveCoordinator checkpoints = null)
         {
             _save = save ?? throw new ArgumentNullException(nameof(save));
+            _checkpoints = checkpoints;
             Settings = AudioSettings.CreateDefault();
         }
 
@@ -44,14 +46,30 @@ namespace PequenoExplorador.Infrastructure.Audio
         public async Task UpdateSettingsAsync(AudioSettings settings, CancellationToken cancellationToken)
         {
             Settings = settings ?? throw new ArgumentNullException(nameof(settings));
-            PlayerPreferences updated = _save.Current.Preferences.WithAudioSettings(
-                settings.Master,
-                settings.Music,
-                settings.Ambience,
-                settings.Effects,
-                settings.Voice,
-                settings.SubtitlesEnabled);
-            SaveOperationResult result = await _save.SaveAsync(_save.Current.WithPreferences(updated), cancellationToken);
+            SaveOperationResult result;
+            if (_checkpoints == null)
+            {
+                PlayerPreferences updated = _save.Current.Preferences.WithAudioSettings(
+                    settings.Master,
+                    settings.Music,
+                    settings.Ambience,
+                    settings.Effects,
+                    settings.Voice,
+                    settings.SubtitlesEnabled);
+                result = await _save.SaveAsync(_save.Current.WithPreferences(updated), cancellationToken);
+            }
+            else
+            {
+                result = await _checkpoints.UpdateAndFlushAsync(
+                    progress => progress.WithPreferences(progress.Preferences.WithAudioSettings(
+                        settings.Master,
+                        settings.Music,
+                        settings.Ambience,
+                        settings.Effects,
+                        settings.Voice,
+                        settings.SubtitlesEnabled)),
+                    cancellationToken);
+            }
             if (!result.IsSuccess)
             {
                 throw new InvalidOperationException("Audio settings could not be saved: " + result.ErrorCode);

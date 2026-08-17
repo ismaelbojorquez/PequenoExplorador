@@ -23,13 +23,19 @@ namespace PequenoExplorador.Infrastructure.Localization
         };
 
         private readonly ISaveService _save;
+        private readonly AutosaveCoordinator _checkpoints;
         private readonly IAppLogger _logger;
         private readonly bool _development;
         private bool _initialized;
 
-        public UnityLocalizationService(ISaveService save, IAppLogger logger, BuildProfile profile)
+        public UnityLocalizationService(
+            ISaveService save,
+            IAppLogger logger,
+            BuildProfile profile,
+            AutosaveCoordinator checkpoints = null)
         {
             _save = save ?? throw new ArgumentNullException(nameof(save));
+            _checkpoints = checkpoints;
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _development = profile == BuildProfile.Development;
         }
@@ -157,9 +163,12 @@ namespace PequenoExplorador.Infrastructure.Localization
 
             if (persist)
             {
-                PlayerProgress updated = _save.Current.WithPreferences(
-                    _save.Current.Preferences.WithLanguage(ToLanguagePreference(localeCode)));
-                SaveOperationResult saveResult = await _save.SaveAsync(updated, cancellationToken);
+                SaveOperationResult saveResult = _checkpoints == null
+                    ? await SaveDirectlyAsync(localeCode, cancellationToken)
+                    : await _checkpoints.UpdateAndFlushAsync(
+                        progress => progress.WithPreferences(
+                            progress.Preferences.WithLanguage(ToLanguagePreference(localeCode))),
+                        cancellationToken);
                 if (!saveResult.IsSuccess)
                 {
                     LocalizationSettings.SelectedLocale = previousLocale;
@@ -169,6 +178,15 @@ namespace PequenoExplorador.Infrastructure.Localization
             }
 
             LocaleChanged?.Invoke(CurrentLocaleCode);
+        }
+
+        private Task<SaveOperationResult> SaveDirectlyAsync(
+            string localeCode,
+            CancellationToken cancellationToken)
+        {
+            PlayerProgress updated = _save.Current.WithPreferences(
+                _save.Current.Preferences.WithLanguage(ToLanguagePreference(localeCode)));
+            return _save.SaveAsync(updated, cancellationToken);
         }
 
         private string Missing(LocalizedKey key)

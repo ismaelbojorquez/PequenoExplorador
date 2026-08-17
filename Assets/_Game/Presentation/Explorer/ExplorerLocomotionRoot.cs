@@ -115,7 +115,8 @@ namespace PequenoExplorador.Presentation.Explorer
         public bool TryMoveTo(WorldPosition destination)
         {
             if (!_bound || _controller == null || _input.CurrentMap != InputMapId.Explorer ||
-                (_tutorialGate != null && !_tutorialGate(TutorialAction.Move))) return false;
+                (_tutorialGate != null && !_tutorialGate(TutorialAction.Move) &&
+                 !_tutorialGate(TutorialAction.Interact))) return false;
             bool accepted = _controller.MoveTo(destination);
             if (accepted) MovementAccepted?.Invoke();
             return accepted;

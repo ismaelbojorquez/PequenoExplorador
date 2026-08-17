@@ -41,6 +41,7 @@ namespace PequenoExplorador.Presentation.Learning
         private DiscoveryId _continuationDiscoveryId;
 
         public event Action<LearningReactionId, bool> ReactionRequested;
+        public event Action<LearningActivityResult> ActivityCompleted;
         public ActivityOutcome LastOutcome { get; private set; }
         public string FeedbackText => _feedback == null ? string.Empty : _feedback.text;
         public string TitleText => _title == null ? string.Empty : _title.text;
@@ -101,6 +102,7 @@ namespace PequenoExplorador.Presentation.Learning
             if (_definition == null || optionIndex < 0 || optionIndex >= _definition.Options.Count) return default;
             LearningActivityResult result = _coordinator.Submit(_activeActivityId, _definition.Options[optionIndex].Id);
             Apply(result);
+            if (result.Outcome == ActivityOutcome.Completed) ActivityCompleted?.Invoke(result);
             return result;
         }
 

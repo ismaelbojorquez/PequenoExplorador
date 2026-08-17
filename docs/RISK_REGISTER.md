@@ -56,6 +56,7 @@ Escala: probabilidad (P) e impacto (I) de 1–5; severidad = P×I. `Owner humano
 | R-050 | Design tokens, escalado, pseudo o bridge legacy producen truncado/contraste insuficiente, motion no cancelable o estilos divergentes. | 3 | 4 | 12 | Assembly/tokens únicos, contraste AA, targets 64/72, Canvas/safe area, motion cancelable y captura before/after de diez superficies × cuatro ratios. TMP es canónico para nuevos componentes; migración total, hardware, lector de pantalla y playtest siguen pendientes. | UI + Accessibility + QA | Prompt 27 / Gate C |
 
 | R-051 | FTUE se desincroniza del loop, produce soft lock, sobreexplica o guarda conducta infantil granular. | 2 | 5 | 10 | Siete triggers semánticos versionados, una instrucción, skip/replay, Back/pausa libres, ayuda 6/12 sin autoavance, save mínimo v12 y suites de resume/duplicate/wrong action/ratios. Voz humana, hardware y playtest 4–9 siguen pendientes. | FTUE + Child UX + QA | Prompt 28 / Gate B-C |
+| R-052 | Mutaciones concurrentes de features, preferencias, lifecycle o transición reintroducen un snapshot viejo, duplican reward o dejan journey bloqueado. | 2 | 5 | 10 | Ownership único pending/in-flight/current, preferencias fusionadas, checkpoints de outcomes, mission activation idempotente y journey P29 con pause, locale, tres repeats, reload y corrupt recovery. Android real/OS kill/filesystem lleno siguen pendientes. | Integration + Save + QA | Prompt 29 / Gate B-C |
 
 ## Riesgo residual tras Gate A
 

@@ -15,7 +15,9 @@ namespace PequenoExplorador.Application.Save
         private readonly CancellationTokenSource _lifetime = new CancellationTokenSource();
         private TaskCompletionSource<bool> _flushSignal = NewSignal();
         private PlayerProgress _pending;
+        private PlayerProgress _inFlight;
         private Task _worker = Task.CompletedTask;
+        private SaveOperationResult _lastOperationResult = SaveOperationResult.Saved();
         private bool _workerRunning;
         private bool _disposed;
 
@@ -38,7 +40,7 @@ namespace PequenoExplorador.Application.Save
                 lock (_gate)
                 {
                     ThrowIfDisposed();
-                    return _pending ?? _saveService.Current;
+                    return _pending ?? _inFlight ?? _saveService.Current;
                 }
             }
         }
@@ -61,6 +63,34 @@ namespace PequenoExplorador.Application.Save
 
                 _workerRunning = true;
                 _worker = RunWorkerAsync(_lifetime.Token);
+            }
+        }
+
+        public async Task<SaveOperationResult> UpdateAndFlushAsync(
+            Func<PlayerProgress, PlayerProgress> update,
+            CancellationToken cancellationToken)
+        {
+            if (update == null)
+            {
+                throw new ArgumentNullException(nameof(update));
+            }
+
+            lock (_gate)
+            {
+                ThrowIfDisposed();
+                PlayerProgress updated = update(_pending ?? _inFlight ?? _saveService.Current);
+                _pending = updated ?? throw new InvalidOperationException("Progress update cannot return null.");
+                if (!_workerRunning)
+                {
+                    _workerRunning = true;
+                    _worker = RunWorkerAsync(_lifetime.Token);
+                }
+            }
+
+            await FlushAsync(cancellationToken);
+            lock (_gate)
+            {
+                return _lastOperationResult;
             }
         }
 
@@ -126,12 +156,18 @@ namespace PequenoExplorador.Application.Save
                     {
                         progress = _pending;
                         _pending = null;
+                        _inFlight = progress;
                         _flushSignal = NewSignal();
                     }
 
                     if (progress != null)
                     {
                         SaveOperationResult result = await _saveService.SaveAsync(progress, cancellationToken);
+                        lock (_gate)
+                        {
+                            _lastOperationResult = result;
+                            _inFlight = null;
+                        }
                         if (!result.IsSuccess)
                         {
                             _logger.Write(new AppLogEntry(
@@ -158,6 +194,10 @@ namespace PequenoExplorador.Application.Save
             {
                 lock (_gate)
                 {
+                    _lastOperationResult = new SaveOperationResult(
+                        SaveOperationStatus.Failed,
+                        "AutosaveCanceled");
+                    _inFlight = null;
                     _workerRunning = false;
                 }
             }
@@ -170,6 +210,10 @@ namespace PequenoExplorador.Application.Save
                     exception.GetType().Name));
                 lock (_gate)
                 {
+                    _lastOperationResult = new SaveOperationResult(
+                        SaveOperationStatus.Failed,
+                        exception.GetType().Name);
+                    _inFlight = null;
                     _workerRunning = false;
                 }
             }

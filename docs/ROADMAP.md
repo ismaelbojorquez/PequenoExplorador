@@ -4,6 +4,8 @@ El roadmap conserva el MVP Selva. Una fase no está aprobada por existir en esta
 
 La numeración del catálogo maestro de prompts es una cadena operativa posterior y no renumera esta tabla histórica. En particular, **Prompt 10 (configuración runtime)** endurece la foundation, pero no completa **Fase 10 (audio)**. `STATUS.md` registra el mapeo y siguiente acción en cada incremento.
 
+Estado de la cadena operativa al 2026-08-17: Prompt 29 ensambló el Vertical Slice automatizado; Gate B conserva el `FAIL` histórico hasta que Prompt 30 lo audite de forma independiente. Esto no completa por sí solo la Fase histórica 13, que exige evidencia en dispositivo.
+
 ## Gates
 
 | Gate | Fases | Criterio de salida |
