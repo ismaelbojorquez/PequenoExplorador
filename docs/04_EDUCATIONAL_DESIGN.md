@@ -42,6 +42,8 @@ Cada actividad declara:
 
 Prompt 14 hace ejecutable la trazabilidad mínima: cada `EducationalFactDefinition` enlaza copy localizada, claim atómico de revisión y `ContentSourceRecord` por ID. `Draft` puede apoyar tooling Development con watermark, pero solo `Approved` no-placeholder supera el validator Release; la aprobación técnica no reemplaza al revisor humano.
 
+Prompt 23 hace ejecutable el ciclo de actividad sin convertirlo en examen: `TryAgain/Hint` reemplazan fallo, las pistas no reducen reward y solo se persisten conceptos vistos/completados agregados por día. La fixture visual abstracta no introduce un claim factual; cualquier actividad de animal sigue el expediente y gate editorial habitual.
+
 ## Evidencia, no examen
 
 - Evidencia primaria: acción correcta después de observar una pista relevante.

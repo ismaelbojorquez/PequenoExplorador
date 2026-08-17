@@ -21,7 +21,7 @@ El validator comprueba IDs/duplicados, ES/EN, cues, escena/address/grupo/labels 
 
 Flujo: Camp enumera `IWorldCatalog` → selección entrega `WorldId` → `WorldLoadUseCase` resuelve manifest → scene flow carga su `SceneContentId` → la sesión retiene el manifest activo → volver a Camp descarga el handle y limpia la sesión. Añadir una fixture de mundo cambia solo datos del catálogo; no el loader/coordinador. No existe descarga, tamaño remoto ni endpoint.
 
-El `ContentCatalogAsset` local se serializa desde Bootstrap y se compila una vez a `IContentCatalog`; no es un remote catalog ni usa `AssetDatabase` runtime. `MissionCatalogAsset` hace lo mismo para missions/objectives/prerequisites y `RewardCatalogAsset` para rewards. Definitions referencian IDs semánticos, nunca GUID como lógica. Esquema y gate editorial: [`CONTENT_MODEL.md`](CONTENT_MODEL.md).
+El `ContentCatalogAsset` local se serializa desde Bootstrap y se compila una vez a `IContentCatalog`; no es un remote catalog ni usa `AssetDatabase` runtime. `MissionCatalogAsset`, `LearningCatalogAsset` y `RewardCatalogAsset` hacen lo mismo para sus definitions/referencias. Definitions referencian IDs semánticos, nunca GUID como lógica. Esquema y gate editorial: [`CONTENT_MODEL.md`](CONTENT_MODEL.md).
 
 `Bootstrap.unity` es el entry point persistente de Build Settings. `Camp.unity` y `Jungle.unity` no se añaden a esa lista: se empaquetan en bundles locales y se cargan aditivamente. `SharedLocal` no puede depender de ninguna entrada de `JungleLocal`; el validador usa dependencias reales de AssetDatabase.
 

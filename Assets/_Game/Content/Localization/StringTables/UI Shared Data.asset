@@ -375,6 +375,66 @@ MonoBehaviour:
     m_Key: ui.mission.prerequisites
     m_Metadata:
       m_Items: []
+  - m_Id: 241337868738560
+    m_Key: ui.learning.fixture.title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241337885515776
+    m_Key: ui.learning.fixture.instruction
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241337885515777
+    m_Key: ui.learning.fixture.success
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241337885515778
+    m_Key: ui.learning.fixture.try_again
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241337885515779
+    m_Key: ui.learning.fixture.hint.1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241337885515780
+    m_Key: ui.learning.fixture.hint.2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241337885515781
+    m_Key: ui.learning.fixture.hint.3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241337885515782
+    m_Key: ui.learning.option.circle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241337885515783
+    m_Key: ui.learning.option.triangle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241337885515784
+    m_Key: ui.learning.option.square
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241337885515785
+    m_Key: ui.learning.concept.visual_matching
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241337885515786
+    m_Key: ui.learning.hint
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241337885515787
+    m_Key: ui.learning.replay
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241337885515788
+    m_Key: ui.learning.exit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241337885515789
+    m_Key: ui.learning.exit_safe
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

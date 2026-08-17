@@ -27,7 +27,7 @@ namespace PequenoExplorador.Editor.BuildTools
                 errors.AddRange(catalogViolations);
             if (catalog != null)
             {
-                if (catalog.Definitions.Count != 2) errors.Add("ECONOMY101 Vertical Slice must contain discovery and mission reward definitions only.");
+                if (catalog.Definitions.Count != 3) errors.Add("ECONOMY101 Vertical Slice baseline must contain discovery, mission and learning activity rewards only.");
                 RewardDefinition reward = catalog.Definitions.SingleOrDefault(item => item.SourceKind == RewardSourceKind.Discovery);
                 if (reward == null || reward.Id.Value != "reward.discovery.keel-billed-toucan.first" || reward.Amount.Value != 1 ||
                     reward.SourceKind != RewardSourceKind.Discovery || reward.SourceId != PhotographyFoundationSetup.DiscoveryId)
@@ -36,6 +36,10 @@ namespace PequenoExplorador.Editor.BuildTools
                 if (mission == null || mission.Id.Value != "reward.mission.photograph-toucan.complete" || mission.Amount.Value != 2 ||
                     mission.SourceId != "mission.vertical-slice.photograph-toucan")
                     errors.Add("ECONOMY109 canonical mission reward must grant exactly two provisional Explorer Stars.");
+                RewardDefinition activity = catalog.Definitions.SingleOrDefault(item => item.SourceKind == RewardSourceKind.Activity);
+                if (activity == null || activity.Id.Value != "reward.activity.visual-matching.complete" || activity.Amount.Value != 1 ||
+                    activity.SourceId != "activity.fixture.visual-matching")
+                    errors.Add("ECONOMY110 learning fixture reward must grant exactly one provisional Explorer Star.");
             }
             Scene scene = EditorSceneManager.OpenScene(ProjectFoundationSetup.BootstrapScenePath, OpenSceneMode.Single);
             EconomyView[] views = scene.GetRootGameObjects().SelectMany(root => root.GetComponentsInChildren<EconomyView>(true)).ToArray();

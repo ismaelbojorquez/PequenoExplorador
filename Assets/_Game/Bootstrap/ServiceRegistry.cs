@@ -13,6 +13,7 @@ using PequenoExplorador.Application.Economy;
 using PequenoExplorador.Application.Lifecycle;
 using PequenoExplorador.Application.Logging;
 using PequenoExplorador.Application.Localization;
+using PequenoExplorador.Application.Learning;
 using PequenoExplorador.Application.Messaging;
 using PequenoExplorador.Application.Missions;
 using PequenoExplorador.Application.Save;
@@ -62,7 +63,8 @@ namespace PequenoExplorador.Bootstrap
             IFileStore fileStore = null,
             IPhotoStore photoStore = null,
             IRewardCatalog rewardCatalog = null,
-            IMissionCatalog missionCatalog = null)
+            IMissionCatalog missionCatalog = null,
+            ILearningCatalog learningCatalog = null)
         {
             if (configuration == null)
             {
@@ -72,6 +74,7 @@ namespace PequenoExplorador.Bootstrap
             worldCatalog ??= WorldCatalog.Empty;
             rewardCatalog ??= RewardCatalog.Empty;
             missionCatalog ??= MissionCatalog.Empty;
+            learningCatalog ??= LearningCatalog.Empty;
 #if UNITY_EDITOR || PE_DEVELOPMENT_SERVICES
             if (configuration.Profile == BuildProfile.Development && rewardCatalog is RewardCatalog concreteRewards)
             {
@@ -130,7 +133,8 @@ namespace PequenoExplorador.Bootstrap
                     new V4ToV5ToucanDiscoveryMigration(),
                     new V5ToV6PhotoProgressMigration(),
                     new V6ToV7EconomyMigration(),
-                    new V7ToV8MissionMigration()
+                    new V7ToV8MissionMigration(),
+                    new V8ToV9LearningMigration()
                 });
             SaveCoordinator = new AutosaveCoordinator(save, logger, configuration.AutosaveDebounce);
             IPhotoStore resolvedPhotoStore = photoStore ?? (audioHost != null
@@ -155,8 +159,12 @@ namespace PequenoExplorador.Bootstrap
                 new InteractTagObjectiveStrategy()
             });
             Missions = new MissionCoordinator(missionCatalog, MissionStrategies, MissionRepository, GrantRewards);
-            bool allowUnapprovedDiscovery = configuration.Profile == BuildProfile.Development;
             TimeSpan localOffset = TimeZoneInfo.Local.GetUtcOffset(clock.UtcNow.UtcDateTime);
+            LearningRepository = new PlayerProgressLearningRepository(save, SaveCoordinator);
+            LearningStrategies = new LearningActivityStrategyRegistry(new ILearningActivityStrategy[] { new SingleChoiceActivityStrategy() });
+            Learning = new LearningCoordinator(learningCatalog, LearningStrategies, LearningRepository, GrantRewards,
+                Missions, clock, configuration.Profile == BuildProfile.Development, localOffset);
+            bool allowUnapprovedDiscovery = configuration.Profile == BuildProfile.Development;
             Discoveries = new DiscoverUseCase(
                 contentCatalog,
                 discoveryRepository,
@@ -263,6 +271,9 @@ namespace PequenoExplorador.Bootstrap
         public IMissionRepository MissionRepository { get; }
         public MissionObjectiveStrategyRegistry MissionStrategies { get; }
         public MissionCoordinator Missions { get; }
+        public ILearningRepository LearningRepository { get; }
+        public LearningActivityStrategyRegistry LearningStrategies { get; }
+        public LearningCoordinator Learning { get; }
 #if UNITY_EDITOR || PE_DEVELOPMENT_SERVICES
         public DevelopmentPhotoStoreFailure PhotoFailure { get; }
 #endif

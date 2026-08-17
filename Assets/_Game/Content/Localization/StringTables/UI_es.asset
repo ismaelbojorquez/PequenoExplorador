@@ -322,6 +322,66 @@ MonoBehaviour:
     m_Localized: "Primero terminemos otra misi\xF3n."
     m_Metadata:
       m_Items: []
+  - m_Id: 241337868738560
+    m_Localized: Mira y encuentra
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241337885515776
+    m_Localized: "Toca el c\xEDrculo como el del ejemplo."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241337885515777
+    m_Localized: "\xA1Lo encontraste!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241337885515778
+    m_Localized: Miremos otra vez. Puedes probar de nuevo.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241337885515779
+    m_Localized: Busca la forma redonda.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241337885515780
+    m_Localized: No tiene puntas.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241337885515781
+    m_Localized: "Este es el c\xEDrculo. Puedes tocarlo."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241337885515782
+    m_Localized: "C\xEDrculo"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241337885515783
+    m_Localized: "Tri\xE1ngulo"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241337885515784
+    m_Localized: Cuadrado
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241337885515785
+    m_Localized: Observar y relacionar formas
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241337885515786
+    m_Localized: Pista
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241337885515787
+    m_Localized: Escuchar otra vez
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241337885515788
+    m_Localized: Salir
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241337885515789
+    m_Localized: Puedes volver cuando quieras.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

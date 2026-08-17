@@ -98,7 +98,7 @@ namespace PequenoExplorador.Tests.PlayMode
         private static LocalSaveService CreateSave(IFileStore store) => new LocalSaveService(store, "0.1-test", new SilentLogger(),
             new ISaveMigration[] { new LegacyV0ToV1Migration(), new V1ToV2LocalizationMigration(), new V2ToV3AudioMigration(),
                 new V3ToV4DiscoveryMigration(), new V4ToV5ToucanDiscoveryMigration(), new V5ToV6PhotoProgressMigration(),
-                new V6ToV7EconomyMigration(), new V7ToV8MissionMigration() });
+                new V6ToV7EconomyMigration(), new V7ToV8MissionMigration(), new V8ToV9LearningMigration() });
         private static IEnumerator Wait(Task task)
         {
             float deadline = Time.realtimeSinceStartup + 15f;

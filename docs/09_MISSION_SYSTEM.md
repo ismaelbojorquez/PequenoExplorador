@@ -10,13 +10,13 @@ Content MissionDefinitionAsset
   → MissionDefinition readonly + IMissionCatalog O(1)
   → MissionCoordinator
        ├─ IMissionObjectiveStrategy registry
-       ├─ IMissionRepository → PlayerProgress v8
+       ├─ IMissionRepository → PlayerProgress v9 (slice misión introducida en v8)
        └─ GrantRewardUseCase → Economy transaction idempotente
 ```
 
 Cada definition declara ID, keys localizadas de título/resumen/cierre, uno a cuatro objetivos, prerrequisitos, reward opcional y metadata editorial. Siempre usa auto-completion/auto-claim, nunca expira y no contiene timers. `MissionProgress` conserva estado, `activationSequence` y contadores por `MissionObjectiveId`; `completedMissionIds` sigue siendo la lista compatible para queries/prerrequisitos.
 
-Los hechos de gameplay son contratos semánticos tipados (`GameplayFact`) con ID idempotente, `GameplayFactTypeId`, sujeto, tags, scope y secuencia asignada al registrar. Fotografía produce hechos `photograph` y, solo en el primer discovery, `discovery`; la interacción produce `interaction` con los tags aprobados del contenido. No se creó un segundo bus global: los casos de uso reciben `IMissionFactSink` explícito.
+Los hechos de gameplay son contratos semánticos tipados (`GameplayFact`) con ID idempotente, `GameplayFactTypeId`, sujeto, tags, scope y secuencia asignada al registrar. Fotografía produce `photograph`/`discovery`, interacción produce `interaction` y Learning produce `learning-completed` tras completion durable. No se creó un segundo bus global: los casos de uso reciben `IMissionFactSink` explícito.
 
 ## Strategies implementadas
 

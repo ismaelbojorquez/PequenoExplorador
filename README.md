@@ -12,7 +12,7 @@ Baseline de producto, ingeniería y cumplimiento para un juego educativo Unity 2
 - Experiencia inicial recomendada: sin publicidad. Ads, IAP y analítica remota permanecen detrás de interfaces nulas y de decisiones humanas futuras.
 - Privacidad por defecto: sin cuenta, chat, ubicación, cámara del dispositivo, micrófono, identificadores publicitarios ni transmisión de datos en el MVP.
 
-El repositorio contiene la foundation Unity y el incremento hasta Prompt 22: URP, composition root explícito, perfiles locales, nueve assemblies, flujo `Boot → Camp ↔ Jungle`, Addressables locales, save schema v8, ES/EN, audio/input, catálogo Approved del tucán, interacción, fotografía virtual, álbum, Estrellas y una misión data-driven. No contiene learning, catálogo masivo, otros mundos reales, remote config, contenido remoto, SDKs comerciales, backend ni arte final.
+El repositorio contiene la foundation Unity y el incremento hasta Prompt 23: URP, composition root explícito, perfiles locales, nueve assemblies, flujo `Boot → Camp ↔ Jungle`, Addressables locales, save schema v9, ES/EN, audio/input, catálogo Approved del tucán, interacción, fotografía, álbum, Estrellas, misión y motor learning con fixture abstracta Draft. No contiene actividad animal integrada, catálogo masivo, otros mundos reales, remote config, contenido remoto, SDKs comerciales, backend ni arte final.
 
 ## Documentación
 
@@ -35,6 +35,8 @@ El wrapper localiza la revisión fijada de Unity Hub o usa `UNITY_EDITOR` si se 
 `scripts/validate-localization` valida locales/tablas/keys/glifos y `scripts/build-android-locales` genera los smoke Development ES/EN. El contrato, CSV y fallback están en [`docs/17_LOCALIZATION.md`](docs/17_LOCALIZATION.md).
 
 `scripts/validate-missions` valida definitions, strategies, referencias, prerrequisitos y UI de la misión del Vertical Slice; su contrato está en [`docs/09_MISSION_SYSTEM.md`](docs/09_MISSION_SYSTEM.md).
+
+`scripts/validate-learning` valida catálogo, strategy, pistas, reward, editorial y UI de la fixture abstracta; su contrato está en [`docs/08_LEARNING_SYSTEM.md`](docs/08_LEARNING_SYSTEM.md).
 
 El workflow GitHub ejecuta checks estáticos sin secretos. `origin` está configurado, pero la validación remota, protección de rama, runner y activación CI no fueron inspeccionados ni ejecutados en esta fase. La validación Unity remota sigue siendo manual y requiere un runner propio explícitamente habilitado. Véase [`docs/GITHUB_SETUP.md`](docs/GITHUB_SETUP.md).
 

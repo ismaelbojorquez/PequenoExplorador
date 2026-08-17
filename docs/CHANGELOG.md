@@ -1,5 +1,27 @@
 # Changelog
 
+## Prompt 23 — non-punitive learning activity engine — 2026-08-17
+
+### Added
+
+- `LearningActivityDefinition`, `LearningSession`, `ActivityOutcome`, `HintPolicy`, concept/option/type IDs, strategy registry y `SingleChoiceActivityStrategy` BCL-only.
+- Catálogo/authoring/validator, UI `PH_UI_LEARNING`, ES/EN, replay y fixture abstracta Draft de observación visual con tres opciones/pistas.
+- Save schema v9 y migración pura v8→v9 para sesiones mínimas y agregados concepto+día; wrappers y tests específicos.
+
+### Changed
+
+- Learning completa por contratos existentes: reward Activity idempotente y `learning-completed` hacia `IMissionFactSink`; no añade bus, analytics ni acceso UI→save.
+- RewardCatalog baseline tiene tres rewards provisionales: discovery 1, misión 2 y fixture learning 1.
+
+### Limits
+
+- La fixture no es contenido factual final y queda bloqueada en Release. Actividad integrada de alimentación/hábitat, audio/arte final, Android físico y playtest 4–9 continúan pendientes; Gate B sigue `FAIL`.
+
+### Verified
+
+- Baseline inicial integral PASS: EditMode `129/129`, PlayMode `22/22`, Addressables y APK Development.
+- `scripts/validate` final PASS: repository/shell, compile/validadores, Addressables, EditMode `139/139`, PlayMode `23/23` y APK ES `106,754,782` bytes / SHA-256 `8ba12595eb2be8eead9242bd9913f83f58d29bf280e25ba945147e52d1bcf323` en `195.594 s`.
+
 ## Prompt 22 — data-driven mission framework — 2026-08-17
 
 ### Added

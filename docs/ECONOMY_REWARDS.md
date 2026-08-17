@@ -10,7 +10,7 @@ Estado: Prompt 21 implementado. Una sola moneda virtual ganable, local y sin rel
 |---|---|
 | Discovery | Una reward única por discovery/condición definida; VS-D-A01 concede 1 estrella provisional. |
 | Misión | Una vez al completar automáticamente una misión no expirable; la fixture del tucán concede 2 estrellas provisionales. |
-| Actividad educativa | Una vez según definition; no reduce por intentos/pistas; se implementará después. |
+| Actividad educativa | Una vez según definition; no reduce por intentos/pistas. La fixture Prompt 23 concede 1 estrella provisional. |
 | Colección | Hito data-driven explícito, sin temporizador/FOMO; no implementado todavía. |
 
 | Uso permitido | Estado/límite |
@@ -30,7 +30,7 @@ Application.GrantRewardUseCase / SpendStarsUseCase
                 ↓
 Domain.ExplorerStars + PlayerProgress
                 ↓
-IEconomyRepository → AutosaveCoordinator.Latest → Save v8
+IEconomyRepository → AutosaveCoordinator.Latest → Save v9
 ```
 
 - `ExplorerStars` impide negativos y detecta overflow.
@@ -48,7 +48,7 @@ Fotografía intenta la reward determinista `economy-tx.discovery.discovery.jungl
 
 ## Persistencia y privacidad
 
-Schema v8 conserva el wallet/keys/ledger de v7 sin reinterpretarlos y añade progreso de misión por migración `v7→v8`. Son IDs técnicos y cantidades agregadas locales, sin PII ni red. El checksum detecta corrupción, no es cifrado.
+Schema v9 conserva el wallet/keys/ledger introducido en v7 sin reinterpretarlo; v8 añadió misiones y v9 learning mediante migraciones consecutivas. Son IDs técnicos y cantidades agregadas locales, sin PII ni red. El checksum detecta corrupción, no es cifrado.
 
 ## Validación
 

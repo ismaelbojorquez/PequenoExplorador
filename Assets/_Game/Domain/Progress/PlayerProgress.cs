@@ -19,6 +19,8 @@ namespace PequenoExplorador.Domain.Progress
         private readonly EconomyLedgerEntry[] _economyLedger;
         private readonly MissionProgress[] _missions;
         private readonly string[] _processedMissionFactIds;
+        private readonly LearningSession[] _learningSessions;
+        private readonly LearningConceptDailyProgress[] _learningConcepts;
 
         public PlayerProgress(
             int stars,
@@ -73,7 +75,9 @@ namespace PequenoExplorador.Domain.Progress
             IEnumerable<EconomyLedgerEntry> economyLedger,
             IEnumerable<MissionProgress> missions = null,
             IEnumerable<string> processedMissionFactIds = null,
-            long lastMissionFactSequence = 0)
+            long lastMissionFactSequence = 0,
+            IEnumerable<LearningSession> learningSessions = null,
+            IEnumerable<LearningConceptDailyProgress> learningConcepts = null)
         {
             if (stars < 0)
             {
@@ -96,6 +100,8 @@ namespace PequenoExplorador.Domain.Progress
             _processedMissionFactIds = CopyAndValidateMissionFactIds(processedMissionFactIds ?? Array.Empty<string>());
             if (lastMissionFactSequence < 0) throw new ArgumentOutOfRangeException(nameof(lastMissionFactSequence));
             LastMissionFactSequence = lastMissionFactSequence;
+            _learningSessions = CopyAndValidateLearningSessions(learningSessions ?? Array.Empty<LearningSession>());
+            _learningConcepts = CopyAndValidateLearningConcepts(learningConcepts ?? Array.Empty<LearningConceptDailyProgress>());
             if (_missions.Where(item => item.IsCompleted).Any(item => !_completedMissionIds.Contains(item.Id.Value, StringComparer.Ordinal)))
                 throw new ArgumentException("Completed mission progress must appear in completed mission IDs.", nameof(missions));
         }
@@ -114,6 +120,8 @@ namespace PequenoExplorador.Domain.Progress
         public IReadOnlyList<MissionProgress> Missions => _missions;
         public IReadOnlyList<string> ProcessedMissionFactIds => _processedMissionFactIds;
         public long LastMissionFactSequence { get; }
+        public IReadOnlyList<LearningSession> LearningSessions => _learningSessions;
+        public IReadOnlyList<LearningConceptDailyProgress> LearningConcepts => _learningConcepts;
 
         public static PlayerProgress CreateDefault()
         {
@@ -139,7 +147,9 @@ namespace PequenoExplorador.Domain.Progress
                 _economyLedger,
                 _missions,
                 _processedMissionFactIds,
-                LastMissionFactSequence);
+                LastMissionFactSequence,
+                _learningSessions,
+                _learningConcepts);
         }
 
         public PlayerProgress WithPreferences(PlayerPreferences preferences)
@@ -156,7 +166,9 @@ namespace PequenoExplorador.Domain.Progress
                 _economyLedger,
                 _missions,
                 _processedMissionFactIds,
-                LastMissionFactSequence);
+                LastMissionFactSequence,
+                _learningSessions,
+                _learningConcepts);
         }
 
         public PlayerProgress WithDiscoveryState(
@@ -175,7 +187,9 @@ namespace PequenoExplorador.Domain.Progress
                 _economyLedger,
                 _missions,
                 _processedMissionFactIds,
-                LastMissionFactSequence);
+                LastMissionFactSequence,
+                _learningSessions,
+                _learningConcepts);
         }
 
         public PlayerProgress WithPhotos(IEnumerable<PhotoProgress> photos)
@@ -192,20 +206,46 @@ namespace PequenoExplorador.Domain.Progress
                 _economyLedger,
                 _missions,
                 _processedMissionFactIds,
-                LastMissionFactSequence);
+                LastMissionFactSequence,
+                _learningSessions,
+                _learningConcepts);
         }
 
         public PlayerProgress WithEconomy(ExplorerStars balance, IEnumerable<string> processedTransactionIds,
             IEnumerable<EconomyLedgerEntry> ledger) => new PlayerProgress(
             balance.Value, _worldIds, _discoveries, _processedDiscoveryGrantIds, _photos,
             _completedMissionIds, Preferences, processedTransactionIds, ledger,
-            _missions, _processedMissionFactIds, LastMissionFactSequence);
+            _missions, _processedMissionFactIds, LastMissionFactSequence, _learningSessions, _learningConcepts);
 
         public PlayerProgress WithMissionState(IEnumerable<MissionProgress> missions,
             IEnumerable<string> completedMissionIds, IEnumerable<string> processedFactIds, long lastFactSequence) =>
             new PlayerProgress(Stars, _worldIds, _discoveries, _processedDiscoveryGrantIds, _photos,
                 completedMissionIds, Preferences, _processedEconomyTransactionIds, _economyLedger,
-                missions, processedFactIds, lastFactSequence);
+                missions, processedFactIds, lastFactSequence, _learningSessions, _learningConcepts);
+
+        public PlayerProgress WithLearningState(IEnumerable<LearningSession> sessions,
+            IEnumerable<LearningConceptDailyProgress> concepts) =>
+            new PlayerProgress(Stars, _worldIds, _discoveries, _processedDiscoveryGrantIds, _photos,
+                _completedMissionIds, Preferences, _processedEconomyTransactionIds, _economyLedger,
+                _missions, _processedMissionFactIds, LastMissionFactSequence, sessions, concepts);
+
+        private static LearningSession[] CopyAndValidateLearningSessions(IEnumerable<LearningSession> values)
+        {
+            LearningSession[] result = (values ?? throw new ArgumentNullException(nameof(values))).ToArray();
+            if (result.Any(item => item == null)) throw new ArgumentException("Learning sessions cannot contain null.", nameof(values));
+            if (result.Select(item => item.ActivityId).Distinct().Count() != result.Length)
+                throw new ArgumentException("Learning session Activity IDs must be unique.", nameof(values));
+            return result.OrderBy(item => item.ActivityId.Value, StringComparer.Ordinal).ToArray();
+        }
+
+        private static LearningConceptDailyProgress[] CopyAndValidateLearningConcepts(IEnumerable<LearningConceptDailyProgress> values)
+        {
+            LearningConceptDailyProgress[] result = (values ?? throw new ArgumentNullException(nameof(values))).ToArray();
+            if (result.Any(item => item == null)) throw new ArgumentException("Learning concept aggregates cannot contain null.", nameof(values));
+            if (result.GroupBy(item => item.ConceptId.Value + "|" + item.LocalDate, StringComparer.Ordinal).Any(group => group.Count() > 1))
+                throw new ArgumentException("Learning concept/day aggregates must be unique.", nameof(values));
+            return result.OrderBy(item => item.ConceptId.Value, StringComparer.Ordinal).ThenBy(item => item.LocalDate, StringComparer.Ordinal).ToArray();
+        }
 
         private static MissionProgress[] CopyAndValidateMissions(IEnumerable<MissionProgress> values)
         {

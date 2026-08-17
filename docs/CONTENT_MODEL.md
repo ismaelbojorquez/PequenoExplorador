@@ -1,6 +1,6 @@
 # Modelo data-driven de contenido
 
-Contrato canónico de Prompt 14, ampliado hasta Prompt 22 y la adopción técnica de `VS-D-A01`. El único discovery animal runtime, sus siete facts, seis fuentes, categoría/tag, interacción y misión de fotografía son `Approved`; mundo, planta, objeto y audio final permanecen Draft/placeholder.
+Contrato canónico de Prompt 14, ampliado hasta Prompt 23 y la adopción técnica de `VS-D-A01`. El único discovery animal runtime, sus siete facts, seis fuentes, categoría/tag, interacción y misión de fotografía son `Approved`; la actividad learning actual, mundo, planta, objeto y audio final permanecen Draft/placeholder.
 
 ## Flujo y autoridades
 
@@ -52,7 +52,7 @@ Category/world/tag no son enums cerrados. El botón explícito `Generate stable 
 | `ContentSourceRecord` | `ContentSourceRecordAsset` | institución/autor/título/referencia/consulta/revisor según avance |
 | `WorldManifest` / `IWorldDefinition` | `WorldManifestAsset` | escena/labels/spawn/checkpoints/catálogos/cues/requirements/version/tamaño/editorial |
 | `MissionDefinition` / `IMissionDefinition` | `MissionDefinitionAsset` + objetivos embebidos | keys, objectives tipados, prerequisites, reward y editorial |
-| `IActivityDefinition` | Diferido | Solo contrato hasta Prompt 23 |
+| `LearningActivityDefinition` / `LearningConceptDefinition` | `LearningActivityDefinitionAsset` / `LearningConceptDefinitionAsset` | type ID, keys, conceptos, opciones, hints, reward y editorial |
 | `RewardDefinition` / `IRewardDefinition` | `RewardDefinitionAsset` | amount, source kind/ID y editorial |
 | `InteractionDefinition` | `InteractionDefinitionAsset` | ID, copy/cues, rango, cooldown, prioridad, discovery directo opcional y metadata editorial |
 
@@ -75,4 +75,4 @@ Se detectan: ID inválido/duplicado, alias inválido, referencia de catálogo au
 
 Para agregar un placeholder: crear definitions/metadata, asignar referencias, añadirlo al único `ContentCatalogAsset`, ejecutar validator y tests. No se modifica `ContentCatalog`, Bootstrap, un switch central ni sistemas de gameplay. Producir catálogo masivo continúa bloqueado por Gate B y P-008.
 
-Las interacciones usan un catálogo separado compilado una vez y el mismo `WorldInteractableView`, sin enums animal/planta/objeto. El enlace opcional a `DiscoveryId` se resuelve por datos; el adapter animal abre fotografía y el caso de captura llama `DiscoverUseCase` y entrega facts a `IMissionFactSink`. `MissionCatalogAsset` compila definitions readonly y detecta ciclos/referencias. Progreso/count/grants/photo/misión/economía viven en Save v8, no en ScriptableObjects ni catálogo.
+Las interacciones usan un catálogo separado compilado una vez y el mismo `WorldInteractableView`, sin enums animal/planta/objeto. El enlace opcional a `DiscoveryId` se resuelve por datos; el adapter animal abre fotografía y el caso de captura llama `DiscoverUseCase` y entrega facts a `IMissionFactSink`. `MissionCatalogAsset` y `LearningCatalogAsset` compilan definitions readonly y validan referencias. Progreso/count/grants/photo/misión/economía/learning viven en Save v9, no en ScriptableObjects ni catálogo.

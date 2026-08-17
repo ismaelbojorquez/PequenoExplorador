@@ -8,6 +8,7 @@ using PequenoExplorador.Application.Audio;
 using PequenoExplorador.Application.Configuration;
 using PequenoExplorador.Application.Lifecycle;
 using PequenoExplorador.Application.Localization;
+using PequenoExplorador.Application.Learning;
 using PequenoExplorador.Application.SceneFlow;
 using PequenoExplorador.Application.Worlds;
 using PequenoExplorador.Bootstrap;
@@ -209,6 +210,42 @@ namespace PequenoExplorador.Tests.PlayMode
             Task english = bootstrap.SetLocaleAsync(LocaleCode.English, persist: false, CancellationToken.None);
             yield return WaitForTask(english);
             Assert.That(bootstrap.PlayAudio(AudioCueIds.JungleName).IsAccepted, Is.True);
+        }
+
+        [UnityTest]
+        public IEnumerator LearningFixtureSupportsFriendlyRetryHintLocaleReplayAndPersistentCompletion()
+        {
+            SceneManager.LoadScene("Bootstrap", LoadSceneMode.Single);
+            yield return null;
+            yield return WaitForReady();
+            DiagnosticBootstrap bootstrap = Object.FindFirstObjectByType<DiagnosticBootstrap>();
+            bootstrap.ResetLearningFixtureForTests();
+            Assert.That(bootstrap.LearningView.OptionCount, Is.EqualTo(3));
+            Button[] optionButtons = bootstrap.LearningView.GetComponentsInChildren<Button>(true)
+                .Where(button => button.name.StartsWith("Option ", System.StringComparison.Ordinal))
+                .OrderBy(button => button.name, System.StringComparer.Ordinal)
+                .ToArray();
+            Assert.That(optionButtons, Has.Length.EqualTo(3));
+            optionButtons[1].onClick.Invoke();
+            Assert.That(bootstrap.LearningView.LastOutcome, Is.EqualTo(ActivityOutcome.TryAgain));
+            Assert.That(bootstrap.LearningView.FeedbackText, Does.Contain("probar"));
+            Assert.That(bootstrap.LearningView.RequestHint().Outcome, Is.EqualTo(ActivityOutcome.Hint));
+            Assert.That(bootstrap.LearningView.Exit().Outcome, Is.EqualTo(ActivityOutcome.Exited));
+            Assert.That(bootstrap.LearningView.StartFixture().Outcome, Is.EqualTo(ActivityOutcome.Resumed));
+
+            Task english = bootstrap.SetLocaleAsync(LocaleCode.English, persist: false, CancellationToken.None);
+            yield return WaitForTask(english); yield return null;
+            Assert.That(bootstrap.LearningView.TitleText, Is.EqualTo("Look and find"));
+            Assert.That(bootstrap.LearningView.Submit(0).Outcome, Is.EqualTo(ActivityOutcome.Completed));
+            bootstrap.LearningView.Replay();
+            Task flush = bootstrap.FlushSaveAsync(CancellationToken.None); yield return WaitForTask(flush);
+
+            SceneManager.LoadScene("Bootstrap", LoadSceneMode.Single);
+            yield return null; yield return WaitForReady();
+            DiagnosticBootstrap reloaded = Object.FindFirstObjectByType<DiagnosticBootstrap>();
+            LearningActivityResult completed = reloaded.LearningView.StartFixture();
+            Assert.That(completed.Outcome, Is.EqualTo(ActivityOutcome.AlreadyCompleted));
+            Assert.That(completed.Reward.Outcome, Is.EqualTo(PequenoExplorador.Application.Economy.GrantRewardOutcome.AlreadyProcessed));
         }
 
         private static IEnumerator WaitForReady()

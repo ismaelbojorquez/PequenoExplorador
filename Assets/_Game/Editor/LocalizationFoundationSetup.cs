@@ -131,6 +131,18 @@ namespace PequenoExplorador.Editor
             AssetDatabase.SaveAssets();
         }
 
+        public static void ApplyLearningEntries()
+        {
+            LocalizationSettings settings = AssetDatabase.LoadAssetAtPath<LocalizationSettings>(SettingsPath);
+            Locale spanish = AssetDatabase.LoadAssetAtPath<Locale>(SpanishLocalePath);
+            Locale english = AssetDatabase.LoadAssetAtPath<Locale>(EnglishLocalePath);
+            if (settings == null || spanish == null || english == null)
+                throw new InvalidOperationException("Localization foundation must exist before learning setup.");
+            LocalizationEditorSettings.ActiveLocalizationSettings = settings;
+            UpsertStringCollection(LocalizationKeys.UiTable, new[] { spanish, english }, UiEntries);
+            AssetDatabase.SaveAssets();
+        }
+
         private static readonly Entry[] SharedEntries =
         {
             new Entry("shared.product.name", "Pequeño Explorador: Aprende Jugando", "Little Explorer: Learning Through Play"),
@@ -180,6 +192,21 @@ namespace PequenoExplorador.Editor
             new Entry("ui.mission.activate", "Comenzar misión", "Start mission"),
             new Entry("ui.mission.progress", "{0}: {1} de {2}", "{0}: {1} of {2}", isSmart: true),
             new Entry("ui.mission.prerequisites", "Primero terminemos otra misión.", "Let’s finish another mission first."),
+            new Entry("ui.learning.fixture.title", "Mira y encuentra", "Look and find"),
+            new Entry("ui.learning.fixture.instruction", "Toca el círculo como el del ejemplo.", "Tap the circle that matches the example."),
+            new Entry("ui.learning.fixture.success", "¡Lo encontraste!", "You found it!"),
+            new Entry("ui.learning.fixture.try_again", "Miremos otra vez. Puedes probar de nuevo.", "Let’s look again. You can try once more."),
+            new Entry("ui.learning.fixture.hint.1", "Busca la forma redonda.", "Look for the round shape."),
+            new Entry("ui.learning.fixture.hint.2", "No tiene puntas.", "It has no corners."),
+            new Entry("ui.learning.fixture.hint.3", "Este es el círculo. Puedes tocarlo.", "This is the circle. You can tap it."),
+            new Entry("ui.learning.option.circle", "Círculo", "Circle"),
+            new Entry("ui.learning.option.triangle", "Triángulo", "Triangle"),
+            new Entry("ui.learning.option.square", "Cuadrado", "Square"),
+            new Entry("ui.learning.concept.visual_matching", "Observar y relacionar formas", "Observe and match shapes"),
+            new Entry("ui.learning.hint", "Pista", "Hint"),
+            new Entry("ui.learning.replay", "Escuchar otra vez", "Listen again"),
+            new Entry("ui.learning.exit", "Salir", "Exit"),
+            new Entry("ui.learning.exit_safe", "Puedes volver cuando quieras.", "You can come back whenever you like."),
             new Entry("ui.photography.open", "Vamos a tomar una foto.", "Let’s take a photo."),
             new Entry("ui.photography.move_closer", "Acércate un poquito.", "Move a little closer."),
             new Entry("ui.photography.center", "Pon al tucán dentro del marco.", "Place the toucan inside the frame."),

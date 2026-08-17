@@ -428,7 +428,8 @@ namespace PequenoExplorador.Tests.EditMode
                     new V4ToV5ToucanDiscoveryMigration(),
                     new V5ToV6PhotoProgressMigration(),
                     new V6ToV7EconomyMigration(),
-                    new V7ToV8MissionMigration()
+                    new V7ToV8MissionMigration(),
+                    new V8ToV9LearningMigration()
                 });
         }
 

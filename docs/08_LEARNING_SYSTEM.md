@@ -1,49 +1,56 @@
 # 08 — Sistema de aprendizaje y actividades
 
-Taxonomía y métricas: [`04_EDUCATIONAL_DESIGN.md`](04_EDUCATIONAL_DESIGN.md). Cantidades: [`MVP_SCOPE.md`](MVP_SCOPE.md).
+Estado: Prompt 23 implementado. Taxonomía/métricas: [`04_EDUCATIONAL_DESIGN.md`](04_EDUCATIONAL_DESIGN.md). Cantidades: [`MVP_SCOPE.md`](MVP_SCOPE.md). La fixture actual demuestra el motor; no sustituye la actividad integrada del tucán del Prompt 24.
 
-## Contrato Activity
+## Contrato y máquina de estados
 
-Cada actividad data-driven declara objetivo educativo, descubrimiento relacionado, acción principal, estímulos, variantes de guía, pistas graduadas, feedback, condición de cierre, evidencia observable, fuente factual y recompensa. No recibe edad, cumpleaños ni nivel atribuido al niño.
+```text
+Content LearningActivityDefinitionAsset + LearningConceptDefinitionAsset
+  → validator/compiler → ILearningCatalog readonly O(1)
+  → LearningCoordinator → ILearningActivityStrategy registry
+       ├─ ILearningRepository → PlayerProgress v9
+       ├─ GrantRewardUseCase → Economy
+       └─ GameplayFact learning-completed → IMissionFactSink
+  → LearningActivityView temporal localizado
+```
 
-Prompt 14 reserva `IActivityDefinition` con `ActivityId` tipado, pero no inventa authoring ni reglas antes de la actividad real. Los facts compartidos usan el catálogo/fuentes de [`CONTENT_MODEL.md`](CONTENT_MODEL.md); ninguna interfaz base convierte Draft en contenido educativo aprobado.
+```text
+sin sesión ─Start→ Active
+Active ─respuesta no resuelta→ TryAgain ─siguiente intento→ Hint(level 1…3) ─→ Active
+Active ─pista solicitada→ Hint(level 1…3) ─→ Active
+Active ─Exit→ Exited ─Start→ Active (Resume)
+Active/Exited ─Restart→ Active(attempts=0, hint=0)
+Active ─respuesta correcta→ Completed
+Completed ─Start/retry→ AlreadyCompleted + reconciliación idempotente
+```
 
-## Tipos de actividad MVP
+No hay estado Failed, vidas, score negativo, timer, límite de intentos ni pérdida de recompensa. `attempts` cuenta respuestas no resueltas de la sesión para escalar pistas; no es una nota ni un raw event log.
 
-El MVP contiene al menos cinco tipos aprobados de esta lista; el Vertical Slice implementa solo el primero.
+## Contratos runtime
 
-| Tipo | Acción de juego | Concepto candidato | Anti-examen |
-|---|---|---|---|
-| Asociación visual | Relacionar el descubrimiento con rasgo, silueta o contexto. | Observación y clasificación. | Elementos físicos/visuales dentro de la escena. |
-| Búsqueda por pista | Encontrar un objetivo usando audio, forma o relación. | Vocabulario e indagación. | La pista guía exploración, no pregunta abstracta. |
-| Conteo contextual | Tocar/agrupar elementos visibles. | Conteo y correspondencia. | Sin cronómetro ni teclado numérico. |
-| Orden o patrón | Organizar elementos del entorno. | Secuencia, comparación o patrón. | Manipulación directa y ejemplo opcional. |
-| Escucha e identificación | Elegir imagen/objeto después de audio contextual. | Lenguaje y atención auditiva. | Repetición ilimitada y apoyo visual. |
-| Comparación | Acercar/separar u ordenar por atributo aprobado. | Relaciones y descripción. | Feedback muestra relación, no puntuación. |
+- `LearningActivityDefinition`: ID/type ID, keys de título/instrucción/éxito/retry, conceptos, opciones, solución, `HintPolicy`, resumibilidad, reward y metadata editorial.
+- `LearningSession`: estado puro, intentos no resueltos y nivel de pista; no contiene UI/audio/GameObjects.
+- `ActivityOutcome`: `Started`, `Resumed`, `TryAgain`, `Hint`, `Completed`, `Exited`, `Restarted`, fallbacks explícitos y estados idempotentes.
+- `ILearningActivityStrategy`: evalúa una submission tipada. `SingleChoiceActivityStrategy` es la única strategy actual; el registry explícito evita reflection y switch central.
+- `LearningConceptDailyProgress`: solo `{conceptId, yyyy-MM-dd, seenCount, completedCount}`. No persiste opciones elegidas, taps, tiempos, texto libre ni sesión analítica.
 
-## Escalera de pistas
+## Fixture Development
 
-1. Repetir objetivo en el canal elegido.
-2. Resaltar el área relevante sin marcar respuesta exacta.
-3. Reducir distractores o demostrar una comparación.
-4. Resolver acompañado y permitir repetir libremente.
+`activity.fixture.visual-matching` practica `concept.observation.visual-matching`: elegir círculo entre círculo/triángulo/cuadrado. Es deliberadamente abstracta, no añade un claim factual ni reutiliza sin permiso el expediente zoológico. Tiene tres pistas graduadas, replay mediante el servicio de audio actual, ES/EN y UI `PH_UI_LEARNING` dentro de safe area con targets ≥64.
 
-No existe “game over”. Cada intento produce una reacción útil; la recompensa base y el progreso no disminuyen.
+La activity y el concepto son `Draft`, `placeholder=true`, owner `Learning Design` y watermark `BORRADOR · PH_`. Development puede ejecutarlos; Release los rechaza. La reward provisional `reward.activity.visual-matching.complete` concede una estrella una vez, sin reducirse por intentos/pistas. Prompt 24 deberá crear contenido animal data-driven y someter cualquier claim/representación a [`CONTENT_SOURCES.md`](CONTENT_SOURCES.md).
 
-## Vertical Slice
+## Persistencia, idempotencia y privacidad
 
-Actividad `Reconoce al tucán`: después de fotografiar el discovery candidato, asociar su imagen con un rasgo visual aprobado entre opciones claramente distintas. `Más guía` demuestra una comparación y reduce opciones; `Guía estándar` ofrece pista bajo demanda. El hecho y el rasgo exacto quedan bloqueados hasta revisión factual.
+Save v9 añade `learningSessions[]` y `learningConcepts[]` mediante migración pura v8→v9 con arrays vacíos. Completion se confirma antes de emitir reward/fact. Economy usa `economy-tx.activity.<activity-id>` y Missions recibe `gameplay-fact.learning.<activity-id>`; un retry/reload reconcilia las mismas keys sin doble grant. Un save futuro permanece read-only.
 
-## Rejugabilidad sana
+No existe analytics remoto. Los agregados son locales, por concepto/día, y no perfilan edad/capacidad. La UI no lee DTO/JSON; Content no guarda sesión; Domain/Application no referencia UnityEngine.
 
-- Variantes cambian posición, ejemplos o distractores aprobados, no el objetivo factual.
-- Repetir es voluntario y no necesario para conservar progreso.
-- No hay multiplicadores, combos, estrellas por perfección, rachas o recompensas por velocidad.
+## Validación
 
-## Aceptación
+- `scripts/setup-learning`: authoring/localización/UI/wiring reproducible.
+- `scripts/validate-learning`: IDs, catálogo/reward/keys, strategy, Draft Release gate, safe area/targets y ausencia de Unity/UI/analytics/reflection en Application Learning.
+- EditMode: correct/incorrect, pistas/cap, retry, exit/resume/restart, missing/invalid, idempotencia reward/fact, agregado diario y migración v8→v9.
+- PlayMode: fixture real ES→EN, retry amable, hint, exit/resume, replay, completion, flush/reload y `AlreadyProcessed`.
 
-- Objetivo puede expresarse con un verbo observable.
-- Ambas guías permiten la misma actividad y recompensa.
-- Un intento no resuelto conduce a pista útil en vez de castigo.
-- La actividad parece una acción del mundo y no una hoja de examen superpuesta.
-- Fuente y aprobación están enlazadas antes de Release.
+Android físico, comprensión infantil, audio final, pseudo visual humano y la actividad factual integrada siguen `NOT RUN`/pendientes; compile/tests/APK no sustituyen esas revisiones.

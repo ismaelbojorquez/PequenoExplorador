@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d0f8c8519651459ebbb8bb133060c0a, type: 3}
+  m_Name: PH_Activity_VisualMatching
+  m_EditorClassIdentifier: PequenoExplorador.Content::PequenoExplorador.Content.Learning.LearningActivityDefinitionAsset
+  _id: activity.fixture.visual-matching
+  _editorial:
+    _state: 0
+    _isPlaceholder: 1
+    _owner: Learning Design
+    _developmentWatermark: "BORRADOR \xB7 PH_"
+  _typeId: activity-type.single-choice
+  _titleTable: UI
+  _titleKey: ui.learning.fixture.title
+  _instructionTable: UI
+  _instructionKey: ui.learning.fixture.instruction
+  _successTable: UI
+  _successKey: ui.learning.fixture.success
+  _tryAgainTable: UI
+  _tryAgainKey: ui.learning.fixture.try_again
+  _conceptIds:
+  - concept.observation.visual-matching
+  _options:
+  - _id: activity-option.fixture.circle
+    _table: UI
+    _key: ui.learning.option.circle
+  - _id: activity-option.fixture.triangle
+    _table: UI
+    _key: ui.learning.option.triangle
+  - _id: activity-option.fixture.square
+    _table: UI
+    _key: ui.learning.option.square
+  _correctOptionId: activity-option.fixture.circle
+  _hintKeys:
+  - ui.learning.fixture.hint.1
+  - ui.learning.fixture.hint.2
+  - ui.learning.fixture.hint.3
+  _firstAutomaticHintAttempt: 2
+  _maximumHintLevel: 3
+  _resumable: 1
+  _rewardId: reward.activity.visual-matching.complete

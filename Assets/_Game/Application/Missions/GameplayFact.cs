@@ -51,5 +51,6 @@ namespace PequenoExplorador.Application.Missions
         public static readonly GameplayFactTypeId Discovery = GameplayFactTypeId.Parse("gameplay-fact-type.discovery");
         public static readonly GameplayFactTypeId Photograph = GameplayFactTypeId.Parse("gameplay-fact-type.photograph");
         public static readonly GameplayFactTypeId Interaction = GameplayFactTypeId.Parse("gameplay-fact-type.interaction");
+        public static readonly GameplayFactTypeId LearningCompleted = GameplayFactTypeId.Parse("gameplay-fact-type.learning-completed");
     }
 }

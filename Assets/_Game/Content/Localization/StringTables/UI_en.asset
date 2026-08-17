@@ -321,6 +321,66 @@ MonoBehaviour:
     m_Localized: "Let\u2019s finish another mission first."
     m_Metadata:
       m_Items: []
+  - m_Id: 241337868738560
+    m_Localized: Look and find
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241337885515776
+    m_Localized: Tap the circle that matches the example.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241337885515777
+    m_Localized: You found it!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241337885515778
+    m_Localized: "Let\u2019s look again. You can try once more."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241337885515779
+    m_Localized: Look for the round shape.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241337885515780
+    m_Localized: It has no corners.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241337885515781
+    m_Localized: This is the circle. You can tap it.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241337885515782
+    m_Localized: Circle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241337885515783
+    m_Localized: Triangle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241337885515784
+    m_Localized: Square
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241337885515785
+    m_Localized: Observe and match shapes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241337885515786
+    m_Localized: Hint
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241337885515787
+    m_Localized: Listen again
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241337885515788
+    m_Localized: Exit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 241337885515789
+    m_Localized: You can come back whenever you like.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

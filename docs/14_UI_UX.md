@@ -36,6 +36,8 @@ Prompt 20 añade `PH_UI_ALBUM`: acceso exclusivo desde Camp, grid de ocho celdas
 
 Prompt 21 añade `PH_UI_ECONOMY` dentro de safe area: saldo localizado, aclaración explícita de que las estrellas son virtuales/no comprables y pulso cancelable omitido con reduce-motion. `DEBUG +1` solo aparece en Development; no hay tienda, oferta o compra. El chrome sigue `PH_` hasta Prompt 27. Contrato: [`ECONOMY_REWARDS.md`](ECONOMY_REWARDS.md).
 
+Prompt 23 añade `PH_UI_LEARNING`: una instrucción, tres opciones grandes, pista, replay y salida segura. `TryAgain` invita a mirar de nuevo y nunca muestra fallo/vidas/nota; exit permite resume/restart sin costo. Sigue siendo baseline Draft para Prompt 27.
+
 ## Jerarquía de pantallas
 
 1. Inicio/continuar y acceso adulto discreto.

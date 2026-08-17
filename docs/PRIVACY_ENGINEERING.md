@@ -6,7 +6,7 @@ Baseline técnica del MVP offline infantil; no es asesoría legal ni sustituye p
 
 | Superficie | Datos locales | Red/permiso | Control |
 |---|---|---|---|
-| Save v6 | progreso técnico, preferencias ES/EN/audio/guía, discovery, grants y metadata de foto virtual | Sin red/permiso | Sin nombre, edad, fecha de nacimiento, cuenta, device/advertising ID ni raw event log. |
+| Save v9 | progreso técnico, preferencias ES/EN/audio/guía, discovery, grants, foto, economía/misiones y agregados learning concepto+día | Sin red/permiso | Sin nombre, edad, fecha de nacimiento, cuenta, device/advertising ID, respuestas/taps ni raw event log. |
 | Foto del explorador | PNG `384×216` del mundo Unity + manifest técnico | Sin CAMERA, galería, compartir o media scanner | Store privado/acotado; save solo referencia relativa. No captura niño/entorno real. |
 | Audio/Input | preferencias y eventos efímeros de sesión | Sin micrófono/ubicación/contactos | No persiste taps ni voz; haptics no-op/off. |
 | Servicios comerciales | Null/Mock/Unavailable locales | Sin SDK/backend | Release fail-closed; ads iniciales no habilitados. |
