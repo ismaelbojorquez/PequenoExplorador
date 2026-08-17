@@ -26,7 +26,7 @@ Envelope lógico:
 
 ```json
 {
-  "schemaVersion": 4,
+  "schemaVersion": 5,
   "checksum": "sha256-hex-del-payload-utf8",
   "payload": "json-escapado-del-dto-v5"
 }
