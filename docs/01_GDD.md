@@ -32,8 +32,9 @@ Documento canónico de experiencia. Visión: [`00_PRODUCT_VISION.md`](00_PRODUCT
 ## Progresión y economía
 
 - Progreso por descubrimientos, actividades y misiones completadas; nunca por tiempo consecutivo o días de retorno.
-- Recurso blando candidato: **materiales de exploración**, entregados de forma determinista al cerrar misiones y usados solo en mejoras visibles del campamento.
-- No se pierden materiales, no se compran en el MVP, no caducan y no existen conversiones, premium currency, azar ni ventaja pagada.
+- Única moneda virtual: **Estrellas de Explorador**, ganadas de forma determinista por discovery, misión, actividad o hito de colección; el tucán del Vertical Slice concede una sola estrella provisional.
+- No se pierden ni compran, no caducan y no existen conversiones, moneda premium, azar ni ventaja pagada. Sus únicos usos permitidos son mejoras visuales de Camp y cosméticos, nunca contenido educativo esencial.
+- Las reglas, fuentes/usos e idempotencia son canónicas en [`ECONOMY_REWARDS.md`](ECONOMY_REWARDS.md).
 - La dificultad se adapta por el modo de guía y por pistas solicitadas, no por edad inferida ni perfil oculto.
 - Repetir una actividad conserva su valor lúdico, pero no genera loops explotables o contadores compulsivos.
 

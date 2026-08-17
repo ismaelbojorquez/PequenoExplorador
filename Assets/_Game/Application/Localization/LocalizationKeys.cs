@@ -12,6 +12,9 @@ namespace PequenoExplorador.Application.Localization
         public static readonly LocalizedKey Version = new LocalizedKey(SharedTable, "shared.build.version");
         public static readonly LocalizedKey SafeFallback = new LocalizedKey(SharedTable, "shared.fallback.safe");
         public static readonly LocalizedKey StarsCount = new LocalizedKey(SharedTable, "shared.progress.stars");
+        public static readonly LocalizedKey EconomyVirtualNotice = new LocalizedKey(UiTable, "ui.economy.virtual_notice");
+        public static readonly LocalizedKey EconomyDebugGrant = new LocalizedKey(UiTable, "ui.economy.debug_grant");
+        public static readonly LocalizedKey EconomyInsufficient = new LocalizedKey(UiTable, "ui.economy.insufficient");
 
         public static readonly LocalizedKey DiagnosticNotice = new LocalizedKey(UiTable, "ui.diagnostic.notice");
         public static readonly LocalizedKey StatusInitializing = new LocalizedKey(UiTable, "ui.status.initializing");

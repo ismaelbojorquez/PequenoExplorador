@@ -48,6 +48,7 @@ Estados: **Provisional** requiere validación de fase; **Aceptada** gobierna el 
 | T-029 | Adoptar `VS-D-A01` como `Approved`: IDs reales, 7 facts/6 fuentes, alias desde placeholder y save v5 con migración v4→v5 que fusiona records y normaliza grants. | Cierra el prerrequisito técnico de Prompt 19 sin perder progreso ni duplicar reward; conservación y audio final no se adoptan. | Cambios de especie/claims/arte invalidan firmas; cualquier otro contenido exige su propio expediente. |
 | T-030 | Fotografía es virtual y local: evaluator puro con thresholds generosos, `384×216` PNG mediante RenderTexture temporal, mejor foto por discovery y store separado `Photos`; save v6 conserva solo metadata/referencia y migra v5→v6 con lista vacía. | Evita permiso CAMERA/galería/red y capturas full-screen, acota memoria/storage y permite que discovery sobreviva a fallo de thumbnail. | Cambiar resolución/format/budget/thresholds requiere profiling y playtest; cámara física/compartir/cloud exige ADR de privacidad y permisos. |
 | T-031 | Álbum es un read model Application de catálogo Approved + DiscoveryProgress + PhotoProgress, con locked sin datos, lectura manifest-validada, pool/caché de 8 y fallback factual/fotográfico. | Mantiene Presentation fuera de Save/filesystem, muestra progreso nuevo sin reinicio y evita revelar Draft o inventar tamaño/audio. El volumen actual no justifica virtualización/paquete nuevo. | Más de 8 visibles, arte/audio final, TMP/design system o cambio de campos exige profiling, contenido aprobado y revisión UI/accesibilidad; el álbum nunca concede progreso. |
+| T-032 | Una única moneda `ExplorerStars`; reward definitions data-driven, transaction keys durables, ledger reciente 32 y save v7 con migración v6→v7 que preserva saldo sin inventar grants. | Garantiza saldo no negativo, grant/spend idempotente y retry tras crash; mantiene Economy fuera de UI/IAP/Ads y evita usar el ledger acotado como autoridad. | Cantidad `1` del tucán es provisional; fuentes/usos nuevos requieren definition/review. Spend+unlock deberá ser una sola mutación en Prompt 25. |
 
 ## Decisiones de producto aceptadas
 
@@ -59,7 +60,7 @@ Estados: **Provisional** requiere validación de fase; **Aceptada** gobierna el 
 | P-004 | Experiencia inicial sin publicidad. | Ads es una decisión posterior condicionada, no un backlog implícito. |
 | P-005 | Dos modos manuales: `Más guía` y `Guía estándar`. | No se pide edad/fecha; mismo contenido, progreso y recompensa. |
 | P-006 | Tap-to-move es candidato con prototipo `PH_`, no control final. | Comparar con alternativa simplificada mediante playtest 4–9; hardware, ergonomía, comprensión y reducción de movimiento antes de aprobar producción. |
-| P-007 | Economía blanda determinista para campamento. | Sin pérdida, compra, azar, caducidad, rachas o ventaja. |
+| P-007 | La única moneda se llama Estrellas de Explorador; se gana por discovery/misión/actividad/colección y se usa solo en Camp/cosméticos. | Sin pérdida, compra, premium, azar, caducidad, rachas o ventaja; `ECONOMY_REWARDS` es canónico. |
 | P-008 | Vertical Slice bloquea escalado de contenido. | No producir catálogo MVP hasta pasar Gate B y aprobación factual. |
 
 ## Decisiones humanas/comerciales pendientes

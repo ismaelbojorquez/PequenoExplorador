@@ -1,6 +1,6 @@
 # Índice documental
 
-Estado: foundation, scene flow local, persistencia schema v6, localización/audio/input, `VS-D-A01` runtime Approved, manifest Selva, locomoción, interacción, discovery, fotografía virtual y álbum baseline disponibles; todavía no existen economía ni contenido masivo. Empezar siempre por [`../AGENTS.md`](../AGENTS.md) y [`STATUS.md`](STATUS.md).
+Estado: foundation, scene flow local, persistencia schema v7, localización/audio/input, `VS-D-A01` runtime Approved, manifest Selva, locomoción, interacción, discovery, fotografía, álbum y economía simple disponibles; todavía no existen misiones runtime ni contenido masivo. Empezar siempre por [`../AGENTS.md`](../AGENTS.md) y [`STATUS.md`](STATUS.md).
 
 ## Fuentes de verdad
 
@@ -16,6 +16,7 @@ Estado: foundation, scene flow local, persistencia schema v6, localización/audi
 | Modelo de datos | [`CONTENT_MODEL.md`](CONTENT_MODEL.md) | IDs tipados, definitions, authoring, catálogo, aliases y gate editorial. |
 | Persistencia | [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md) | Schema, archivos, migración, atomicidad, privacidad y recovery. |
 | Fotografía ficticia | [`PHOTOGRAPHY_SYSTEM.md`](PHOTOGRAPHY_SYSTEM.md) | Evaluación asistida, captura virtual, thumbnail/store, fallos, privacidad y budgets. |
+| Economía | [`ECONOMY_REWARDS.md`](ECONOMY_REWARDS.md) | Única moneda, rewards/spend idempotentes y prohibiciones no manipulativas. |
 | Configuración runtime | [`RUNTIME_CONFIGURATION.md`](RUNTIME_CONFIGURATION.md) | Perfiles/flags locales, autoridades, mapping y guardrails Release. |
 | Localización | [`17_LOCALIZATION.md`](17_LOCALIZATION.md) | Locales ES/EN, pseudo Development, keys/tablas, fallback, CSV y validación. |
 | Input y locomoción | [`INPUT_ACCESSIBILITY.md`](INPUT_ACCESSIBILITY.md) | Mapas semánticos, gestos, tap-to-move candidato, cámara asistida, safe area, Back, haptics y límites de hardware. |
@@ -33,15 +34,16 @@ Estado: foundation, scene flow local, persistencia schema v6, localización/audi
 5. [`06_WORLD_DESIGN.md`](06_WORLD_DESIGN.md)
 6. [`07_DISCOVERY_SYSTEM.md`](07_DISCOVERY_SYSTEM.md)
 7. [`ALBUM_SYSTEM.md`](ALBUM_SYSTEM.md)
-8. [`08_LEARNING_SYSTEM.md`](08_LEARNING_SYSTEM.md)
-9. [`09_MISSION_SYSTEM.md`](09_MISSION_SYSTEM.md)
-10. [`14_UI_UX.md`](14_UI_UX.md)
-11. [`15_ART_DIRECTION.md`](15_ART_DIRECTION.md)
-12. [`16_AUDIO.md`](16_AUDIO.md)
-13. [`MVP_SCOPE.md`](MVP_SCOPE.md)
-14. [`PLAYTEST_PLAN.md`](PLAYTEST_PLAN.md)
-15. [`CONTENT_SOURCES.md`](CONTENT_SOURCES.md)
-16. [`VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md`](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md)
+8. [`ECONOMY_REWARDS.md`](ECONOMY_REWARDS.md)
+9. [`08_LEARNING_SYSTEM.md`](08_LEARNING_SYSTEM.md)
+10. [`09_MISSION_SYSTEM.md`](09_MISSION_SYSTEM.md)
+11. [`14_UI_UX.md`](14_UI_UX.md)
+12. [`15_ART_DIRECTION.md`](15_ART_DIRECTION.md)
+13. [`16_AUDIO.md`](16_AUDIO.md)
+14. [`MVP_SCOPE.md`](MVP_SCOPE.md)
+15. [`PLAYTEST_PLAN.md`](PLAYTEST_PLAN.md)
+16. [`CONTENT_SOURCES.md`](CONTENT_SOURCES.md)
+17. [`VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md`](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md)
 
 Los saltos numéricos reservan espacio para documentos técnicos futuros; no implican archivos ausentes requeridos en esta fase.
 
@@ -57,7 +59,8 @@ Los saltos numéricos reservan espacio para documentos técnicos futuros; no imp
 - [`DEPENDENCY_REGISTER.md`](DEPENDENCY_REGISTER.md): intake y pins de paquetes directos/transitivos.
 - [`CONTENT_PIPELINE.md`](CONTENT_PIPELINE.md): Addressables local, addresses/labels, ownership, build y evolución.
 - [`CONTENT_MODEL.md`](CONTENT_MODEL.md): catálogo O(1), ScriptableObjects, IDs, reports y bloqueo Release de Draft.
-- [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md): schema v6, DTOs, checksum, backup, migraciones, autosave y recuperación.
+- [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md): schema v7, DTOs, checksum, backup, migraciones, autosave y recuperación.
+- [`ECONOMY_REWARDS.md`](ECONOMY_REWARDS.md): Estrellas de Explorador, fuentes/usos, idempotencia, ledger y límites infantiles.
 - [`PHOTOGRAPHY_SYSTEM.md`](PHOTOGRAPHY_SYSTEM.md): cámara del explorador sin cámara física, evaluator, thumbnail acotada y store local.
 - [`PRIVACY_ENGINEERING.md`](PRIVACY_ENGINEERING.md): inventario técnico de datos/permisos y controles offline; no es asesoría legal.
 - [`17_LOCALIZATION.md`](17_LOCALIZATION.md): paquete exacto, ES/EN, pseudo, tablas/keys y pipeline CSV local.

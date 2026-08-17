@@ -69,7 +69,7 @@ Prompt 20 implementa el contrato de [`ALBUM_SYSTEM.md`](ALBUM_SYSTEM.md): `Album
 
 ## Vertical Slice
 
-Discovery adoptado: **`Ramphastos sulfuratus`**, expediente [`VS-D-A01`](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md), nombre `Tucán pico canoa` / `Keel-billed Toucan`. H-007/H-008/H-009 sustentan los assets runtime `Approved`. Conservación permanece excluida. Hay captura virtual, álbum y fallback local; no hay todavía economía/recompensa.
+Discovery adoptado: **`Ramphastos sulfuratus`**, expediente [`VS-D-A01`](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md), nombre `Tucán pico canoa` / `Keel-billed Toucan`. H-007/H-008/H-009 sustentan los assets runtime `Approved`. Conservación permanece excluida. La primera captura/discovery aplica `reward.discovery.keel-billed-toucan.first` (1 Estrella de Explorador provisional) con transaction key determinista; repeticiones recuperan un grant pendiente pero nunca lo duplican.
 
 ## Aceptación del sistema
 

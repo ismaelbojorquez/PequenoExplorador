@@ -36,7 +36,7 @@ Español (`es`) es locale de proyecto, startup y fallback humano. Inglés (`en`)
 | `Voice` | 5 slots conceptuales | Camp/Jungle más tres cues de voz ES/EN; clips finales pendientes. |
 | `Illustrations` | 2 slots conceptuales | Futuros fondos Camp/Jungle; sin assets finales. |
 
-El validador recorre 82 `LocalizedKey` públicos tras Prompt 20: la baseline previa, diez keys de fotografía, 25 `ui.album.*` y `content.category.discovery.animals`. Todos son namespaced (`shared.*`, `ui.*`, `content.*`); `LocalizationKeys.cs` es el catálogo de uso runtime y las definitions aportan las keys factuales Approved. Voz y subtítulo comparten concepto. Las tablas no conocen archivos y permanecen locales, sin `Remote*`, URL ni update-on-start.
+El validador recorre 85 `LocalizedKey` públicos tras Prompt 21: la baseline previa, diez keys de fotografía, 25 `ui.album.*`, `content.category.discovery.animals` y tres keys de economía `ui.economy.*`. Todos son namespaced (`shared.*`, `ui.*`, `content.*`); `LocalizationKeys.cs` es el catálogo de uso runtime y las definitions aportan las keys factuales Approved. Voz y subtítulo comparten concepto. Las tablas no conocen archivos y permanecen locales, sin `Remote*`, URL ni update-on-start.
 
 Variables, números y plurales usan Smart Strings de Unity Localization. Están cubiertos `shared.build.version`, `shared.progress.stars` y `ui.transition.preparing`; no se concatenan frases traducibles en Presentation.
 

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using PequenoExplorador.Application.Audio;
 using PequenoExplorador.Application.Discovery;
+using PequenoExplorador.Application.Economy;
 using PequenoExplorador.Application.Input;
 using PequenoExplorador.Application.Localization;
 using PequenoExplorador.Application.Photography;
@@ -46,7 +47,8 @@ namespace PequenoExplorador.Presentation.Photography
 
         public void Bind(PhotographyInteractionAction entryAction, IInputService input, IClock clock, IAudioService audio,
             ExplorerLocomotionRoot explorer, Camera camera, IPhotoStore store, IPhotoProgressRepository photos,
-            DiscoverUseCase discoveries, ILocalizationService localization, PhotographyView view, bool reduceMotion)
+            DiscoverUseCase discoveries, IRewardCatalog rewards, GrantRewardUseCase grantRewards,
+            ILocalizationService localization, PhotographyView view, bool reduceMotion)
         {
             Unbind();
             _entryAction = entryAction ?? throw new ArgumentNullException(nameof(entryAction));
@@ -61,7 +63,7 @@ namespace PequenoExplorador.Presentation.Photography
             foreach (PhotographableView target in _targets) target.Bind(camera);
             _capture = new CapturePhotoUseCase(_evaluator,
                 new UnityPhotoThumbnailRenderer(camera, _thumbnailWidth, _thumbnailHeight, _thumbnailFormat),
-                store, photos, discoveries);
+                store, photos, discoveries, rewards, grantRewards);
             _lifetime = new CancellationTokenSource();
             _entryAction.Requested += HandleRequested;
             _view.Bind(localization, reduceMotion);

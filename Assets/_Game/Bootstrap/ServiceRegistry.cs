@@ -1,5 +1,7 @@
 using System;
 using System.Linq;
+using PequenoExplorador.Domain.Content;
+using PequenoExplorador.Domain.Economy;
 using PequenoExplorador.Application;
 using PequenoExplorador.Application.Album;
 using PequenoExplorador.Application.Audio;
@@ -7,6 +9,7 @@ using PequenoExplorador.Application.Accessibility;
 using PequenoExplorador.Application.Configuration;
 using PequenoExplorador.Application.Content;
 using PequenoExplorador.Application.Discovery;
+using PequenoExplorador.Application.Economy;
 using PequenoExplorador.Application.Lifecycle;
 using PequenoExplorador.Application.Logging;
 using PequenoExplorador.Application.Localization;
@@ -43,7 +46,7 @@ namespace PequenoExplorador.Bootstrap
         private readonly IDisposable _fileStoreLifetime;
 
         public ServiceRegistry(IAppConfig configuration, IFileStore fileStore = null)
-            : this(configuration, ContentCatalog.Empty, WorldCatalog.Empty, null, null, null, null, fileStore, null)
+            : this(configuration, ContentCatalog.Empty, WorldCatalog.Empty, null, null, null, null, fileStore, null, null)
         {
         }
 
@@ -56,7 +59,8 @@ namespace PequenoExplorador.Bootstrap
             InputActionAsset inputActions,
             GestureThresholdsAsset gestureThresholds,
             IFileStore fileStore = null,
-            IPhotoStore photoStore = null)
+            IPhotoStore photoStore = null,
+            IRewardCatalog rewardCatalog = null)
         {
             if (configuration == null)
             {
@@ -64,6 +68,18 @@ namespace PequenoExplorador.Bootstrap
             }
             contentCatalog ??= ContentCatalog.Empty;
             worldCatalog ??= WorldCatalog.Empty;
+            rewardCatalog ??= RewardCatalog.Empty;
+#if UNITY_EDITOR || PE_DEVELOPMENT_SERVICES
+            if (configuration.Profile == BuildProfile.Development && rewardCatalog is RewardCatalog concreteRewards)
+            {
+                rewardCatalog = new RewardCatalog(concreteRewards.Definitions.Concat(new[]
+                {
+                    new RewardDefinition(RewardId.Parse("reward.debug.explorer-stars"), new ExplorerStars(1),
+                        RewardSourceKind.Development, "development.debug")
+                }));
+            }
+#endif
+            Rewards = rewardCatalog;
 
             var configViolations = AppConfigValidator.Validate(configuration);
             if (configViolations.Count > 0)
@@ -109,7 +125,8 @@ namespace PequenoExplorador.Bootstrap
                     new V2ToV3AudioMigration(),
                     new V3ToV4DiscoveryMigration(),
                     new V4ToV5ToucanDiscoveryMigration(),
-                    new V5ToV6PhotoProgressMigration()
+                    new V5ToV6PhotoProgressMigration(),
+                    new V6ToV7EconomyMigration()
                 });
             SaveCoordinator = new AutosaveCoordinator(save, logger, configuration.AutosaveDebounce);
             IPhotoStore resolvedPhotoStore = photoStore ?? (audioHost != null
@@ -123,6 +140,9 @@ namespace PequenoExplorador.Bootstrap
 #endif
             var discoveryRepository = new PlayerProgressDiscoveryRepository(save, SaveCoordinator);
             PhotoRepository = new PlayerProgressPhotoRepository(save, SaveCoordinator);
+            EconomyRepository = new PlayerProgressEconomyRepository(save, SaveCoordinator);
+            GrantRewards = new GrantRewardUseCase(Rewards, EconomyRepository);
+            SpendStars = new SpendStarsUseCase(EconomyRepository);
             bool allowUnapprovedDiscovery = configuration.Profile == BuildProfile.Development;
             TimeSpan localOffset = TimeZoneInfo.Local.GetUtcOffset(clock.UtcNow.UtcDateTime);
             Discoveries = new DiscoverUseCase(
@@ -224,6 +244,10 @@ namespace PequenoExplorador.Bootstrap
         public PhotographyInteractionAction PhotographyInteraction { get; }
         public IPhotoStore PhotoStore { get; }
         public IPhotoProgressRepository PhotoRepository { get; }
+        public IEconomyRepository EconomyRepository { get; }
+        public GrantRewardUseCase GrantRewards { get; }
+        public SpendStarsUseCase SpendStars { get; }
+        public IRewardCatalog Rewards { get; }
 #if UNITY_EDITOR || PE_DEVELOPMENT_SERVICES
         public DevelopmentPhotoStoreFailure PhotoFailure { get; }
 #endif

@@ -281,6 +281,18 @@ MonoBehaviour:
     m_Localized: Tu mejor foto
     m_Metadata:
       m_Items: []
+  - m_Id: 219424916234240
+    m_Localized: "Estrellas virtuales \xB7 se ganan jugando y no se compran"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 219424933011456
+    m_Localized: DEBUG +1 estrella
+    m_Metadata:
+      m_Items: []
+  - m_Id: 219424933011457
+    m_Localized: "Todav\xEDa faltan algunas estrellas. Podemos seguir explorando."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

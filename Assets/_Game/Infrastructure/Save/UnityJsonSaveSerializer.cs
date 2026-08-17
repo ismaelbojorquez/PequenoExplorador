@@ -4,6 +4,8 @@ using System.Security.Cryptography;
 using System.Text;
 using PequenoExplorador.Application.Localization;
 using PequenoExplorador.Domain.Progress;
+using PequenoExplorador.Domain.Content;
+using PequenoExplorador.Domain.Economy;
 using UnityEngine;
 
 namespace PequenoExplorador.Infrastructure.Save
@@ -23,7 +25,7 @@ namespace PequenoExplorador.Infrastructure.Save
             }
 
             PlayerPreferences preferences = progress.Preferences;
-            PlayerProgressV6Dto payload = PlayerProgressV6Dto.Create(
+            PlayerProgressV7Dto payload = PlayerProgressV7Dto.Create(
                 appVersion,
                 progress.Stars,
                 progress.WorldIds.ToArray(),
@@ -45,6 +47,10 @@ namespace PequenoExplorador.Infrastructure.Save
                     preferences.EffectsVolume,
                     preferences.VoiceVolume,
                     preferences.SubtitlesEnabled),
+                progress.ProcessedEconomyTransactionIds.ToArray(),
+                progress.EconomyLedger.Select(item => EconomyLedgerEntryV7Dto.Create(
+                    item.TransactionId.Value, (int)item.Kind, item.RewardId.Value,
+                    item.Amount.Value, item.BalanceAfter.Value)).ToArray(),
                 SaveMetadataV1Dto.Create(saveSequence));
             string payloadJson = JsonUtility.ToJson(payload, false);
             return SerializeEnvelope(LocalSaveService.CurrentSchemaVersion, payloadJson);
@@ -101,10 +107,10 @@ namespace PequenoExplorador.Infrastructure.Save
 
         public DecodedSaveData DeserializeCurrentPayload(string payload)
         {
-            PlayerProgressV6Dto dto;
+            PlayerProgressV7Dto dto;
             try
             {
-                dto = JsonUtility.FromJson<PlayerProgressV6Dto>(payload);
+                dto = JsonUtility.FromJson<PlayerProgressV7Dto>(payload);
             }
             catch (Exception exception)
             {
@@ -113,7 +119,7 @@ namespace PequenoExplorador.Infrastructure.Save
 
             if (dto == null || string.IsNullOrWhiteSpace(dto.AppVersion) || dto.Stars < 0 ||
                 dto.WorldIds == null || dto.Discoveries == null || dto.ProcessedDiscoveryGrantIds == null || dto.Photos == null ||
-                dto.CompletedMissionIds == null ||
+                dto.CompletedMissionIds == null || dto.ProcessedEconomyTransactionIds == null || dto.EconomyLedger == null ||
                 dto.Settings == null || dto.Metadata == null || dto.Metadata.SaveSequence < 0 ||
                 !Enum.IsDefined(typeof(GuidanceMode), dto.Settings.GuidanceMode) ||
                 !LocaleCode.IsSupported(dto.Settings.LocaleCode, includePseudo: false) ||
@@ -157,6 +163,15 @@ namespace PequenoExplorador.Infrastructure.Save
                         item.Height,
                         item.ByteLength);
                 }).ToArray();
+                var ledger = dto.EconomyLedger.Select(item =>
+                {
+                    if (item == null || item.Amount < 0 || item.BalanceAfter < 0 ||
+                        !Enum.IsDefined(typeof(EconomyTransactionKind), item.Kind))
+                        throw new SaveDataException("SavePayloadInvalid");
+                    return new EconomyLedgerEntry(EconomyTransactionId.Parse(item.TransactionId),
+                        (EconomyTransactionKind)item.Kind, RewardId.Parse(item.RewardId),
+                        new ExplorerStars(item.Amount), new ExplorerStars(item.BalanceAfter));
+                }).ToArray();
                 var progress = new PlayerProgress(
                     dto.Stars,
                     dto.WorldIds,
@@ -164,7 +179,9 @@ namespace PequenoExplorador.Infrastructure.Save
                     dto.ProcessedDiscoveryGrantIds,
                     photos,
                     dto.CompletedMissionIds,
-                    preferences);
+                    preferences,
+                    dto.ProcessedEconomyTransactionIds,
+                    ledger);
                 return new DecodedSaveData(progress, dto.Metadata.SaveSequence);
             }
             catch (Exception exception)

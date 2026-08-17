@@ -18,7 +18,7 @@ Esta es la única fuente de verdad para cantidades y prioridad. Todos los estado
 | Actividad | 1 tipo / 1 instancia | Asociación visual `Reconoce al tucán`. | Animal aprobado, ambos modos de guía. | Specified | Se completa sin lectura, sin castigo y con pistas graduadas. |
 | Misión | 1 | `VS-M01 — Conoce al tucán`. | World, Discovery, Activity, Reward. | Specified | Loop completo en 3–8 min y mismo resultado en ambas guías. |
 | Mejora de campamento | 1 | `Mesa de observación`. | Misión y economía determinista. | Specified | Cambio visible, permanente y restaurado al reabrir. |
-| Persistencia | 1 perfil local | Discovery, álbum, actividad, misión, materiales, mejora y guía. | Contratos anteriores. | Specified | Cerrar/reabrir conserva estados confirmados y tolera datos ausentes. |
+| Persistencia | 1 perfil local | Discovery, álbum, actividad, misión, Estrellas de Explorador, mejora y guía. | Contratos anteriores. | Specified | Cerrar/reabrir conserva estados confirmados y tolera datos ausentes. |
 | Mundo | 1 claro + campamento | Recorrido acotado de ida y vuelta. | Navegación candidata validada. | Pending validation | Objetivo localizable, retorno claro y pausa/salida disponibles. |
 | Álbum | 1 ficha | Ficha del discovery aprobado. | Discovery y contenido factual. | Pending factual approval | Audio/imagen funcionan sin texto obligatorio. |
 

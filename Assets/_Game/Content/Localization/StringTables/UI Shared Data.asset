@@ -335,6 +335,18 @@ MonoBehaviour:
     m_Key: ui.album.best_photo
     m_Metadata:
       m_Items: []
+  - m_Id: 219424916234240
+    m_Key: ui.economy.virtual_notice
+    m_Metadata:
+      m_Items: []
+  - m_Id: 219424933011456
+    m_Key: ui.economy.debug_grant
+    m_Metadata:
+      m_Items: []
+  - m_Id: 219424933011457
+    m_Key: ui.economy.insufficient
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

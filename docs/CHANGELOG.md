@@ -1,5 +1,25 @@
 # Changelog
 
+## Prompt 21 — Explorer Stars economy — 2026-08-17
+
+### Added
+
+- `ExplorerStars`, transaction IDs, reward catalog/definitions, idempotent grant/spend use cases, bounded 32-entry diagnostic ledger and Economy UI ES/EN.
+- Save schema v7 with pure v6→v7 migration, durable transaction keys, validators/wrappers and EditMode/PlayMode coverage including crash/retry and photo→discovery→star→reload.
+
+### Changed
+
+- VS-D-A01 grants one provisional Explorer Star exactly once; any later capture retries the deterministic transaction safely.
+- “Materiales de exploración” is replaced by the canonical single currency “Estrellas de Explorador”; allowed sources/uses and prohibitions live in `ECONOMY_REWARDS.md`.
+
+### Limits
+
+- No store, IAP, premium currency, final pricing, mission/activity integration or Camp spend exists. Economy chrome remains `PH_`; Android hardware/playtest and final reduce-motion preference remain pending. Gate B stays `FAIL` until Prompts 22–29 and re-audit.
+
+### Verified
+
+- Baseline before edits: compile PASS, EditMode `117/117`, PlayMode `21/21`. Phase-local compile PASS, EditMode `122/122`, PlayMode `22/22`; full pipeline/build evidence is recorded in `STATUS` after final validation.
+
 ## Prompt 20 — visual explorer album — 2026-08-17
 
 ### Added

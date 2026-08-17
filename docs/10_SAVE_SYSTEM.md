@@ -1,6 +1,6 @@
 # Sistema de guardado local
 
-Estado: schema v6 implementado por Prompt 19. Persiste discovery contado/idempotente y metadata de la mejor foto; los PNG viven en un store local separado. Sigue sin cloud, cuentas ni entitlements.
+Estado: schema v7 implementado por Prompt 21. Persiste discovery/foto y la economía idempotente de Estrellas de Explorador; los PNG viven en un store local separado. Sigue sin cloud, cuentas ni entitlements.
 
 ## Contrato y límites
 
@@ -8,17 +8,17 @@ Estado: schema v6 implementado por Prompt 19. Persiste discovery contado/idempot
 Domain.PlayerProgress
         ↓ ISaveService / AutosaveCoordinator (Application)
 Infrastructure.LocalSaveService
-        ├─ UnityJsonSaveSerializer → SaveEnvelope + DTO v1/v2/v3/v4/v5/v6
+        ├─ UnityJsonSaveSerializer → SaveEnvelope + DTO v1…v7
         ├─ ISaveMigration[] → pasos puros n→n+1
         └─ IFileStore → LocalFileStore(Application.persistentDataPath)
 Bootstrap compone; Presentation solo recibe SaveUserNotice.
 ```
 
-`PlayerProgress` contiene estrellas no negativas, listas world/mission, records `DiscoveryProgress`, grants procesados, metadata `PhotoProgress` y preferencias locales (`Guía estándar`/`Más guía`, cinco volúmenes, subtítulos e idioma ES/EN). No se serializan pixels, `GameObject`, `ScriptableObject`, `AssetReference`, diccionarios, tipos polimórficos ni nombres de assemblies.
+`PlayerProgress` contiene `ExplorerStars` no negativas, transaction keys económicas, ledger reciente acotado, listas world/mission, records `DiscoveryProgress`, grants procesados, metadata `PhotoProgress` y preferencias locales (`Guía estándar`/`Más guía`, cinco volúmenes, subtítulos e idioma ES/EN). No se serializan pixels, `GameObject`, `ScriptableObject`, `AssetReference`, diccionarios, tipos polimórficos ni nombres de assemblies.
 
 `AppConfig` y sus feature flags son runtime inmutable y no se copian al save. Save conserva solo preferencias adultas mutables; perfil de build, budgets, versión técnica y flags se vuelven a resolver desde Content/Bootstrap en cada arranque según [`RUNTIME_CONFIGURATION.md`](RUNTIME_CONFIGURATION.md).
 
-## Formato v6
+## Formato v7
 
 Serializador: `UnityEngine.JsonUtility`, provisto por el módulo builtin fijado `com.unity.modules.jsonserialize` `1.0.0`. No se añadió paquete. Es compatible con el Editor `6000.3.22f1`/IL2CPP y suficiente porque los DTOs son clases cerradas con campos explícitos y arrays. Cambiar serializador o representación requiere ADR y migración, no una sustitución silenciosa.
 
@@ -26,18 +26,20 @@ Envelope lógico:
 
 ```json
 {
-  "schemaVersion": 6,
+  "schemaVersion": 7,
   "checksum": "sha256-hex-del-payload-utf8",
-  "payload": "json-escapado-del-dto-v6"
+  "payload": "json-escapado-del-dto-v7"
 }
 ```
 
-El payload v6 contiene:
+El payload v7 contiene:
 
 | Campo | Propósito | Dato infantil/PII |
 |---|---|---|
 | `appVersion` | Diagnóstico de compatibilidad de escritura. | No. |
-| `stars` | Contador local determinista; inicialmente `0`. | No. |
+| `stars` | Saldo local de Estrellas de Explorador; entero ≥0. | No. |
+| `processedEconomyTransactionIds` | Keys técnicas durables que impiden repetir grants/spends. | No. |
+| `economyLedger` | Últimas 32 operaciones: kind, IDs, amount y balance; sin timestamps/sesiones. | No. |
 | `worldIds` | IDs técnicos; vacío en esta fase. | No. |
 | `discoveries[]` | `id`, count ≥1 y primer día local agregado opcional `yyyy-MM-dd`. | No identifica persona; no guarda hora/zona. |
 | `processedDiscoveryGrantIds` | Claves técnicas `grant.*` ya aplicadas para impedir doble count/grant. | No. |
@@ -62,13 +64,13 @@ Una escritura normal ejecuta `temp → write → flush/fsync → replace(primary
 
 La restauración de backup usa replace de primary **sin rotar primary sobre backup**. Así, un primary corrupto nunca reemplaza el backup válido. Si no existe backup válido, la inicialización falla de forma recuperable y conserva los archivos para inspección; no crea un default sobre evidencia dañada.
 
-El binario de fotos usa `Application.persistentDataPath/Photos`: PNG determinista por discovery, `photos-index.json` y temps. Sus límites son 512 KiB/archivo, 64 entradas y 32 MiB; no comparte el backup/checksum del save. Si falta o falla, el progreso v6 sigue válido y Presentation usa imagen canónica. Detalle: [`PHOTOGRAPHY_SYSTEM.md`](PHOTOGRAPHY_SYSTEM.md).
+El binario de fotos usa `Application.persistentDataPath/Photos`: PNG determinista por discovery, `photos-index.json` y temps. Sus límites son 512 KiB/archivo, 64 entradas y 32 MiB; no comparte el backup/checksum del save. Si falta o falla, el progreso v7 sigue válido y Presentation usa imagen canónica. Detalle: [`PHOTOGRAPHY_SYSTEM.md`](PHOTOGRAPHY_SYSTEM.md).
 
 ## Carga, migración y downgrade
 
-1. Sin primary/backup: crear `PlayerProgress` default en español y escribir schema v6.
-2. Primary v6 válido: validar checksum, DTO/invariantes y cargar.
-3. Primary antiguo: aplicar `v0→v1→v2→v3→v4→v5→v6`. v4→v5 conserva la adopción del tucán; v5→v6 añade `photos=[]` sin inventar archivo/score. Se reescribe v6 y se conserva el original como backup.
+1. Sin primary/backup: crear `PlayerProgress` default en español y escribir schema v7.
+2. Primary v7 válido: validar checksum, DTO/invariantes y cargar.
+3. Primary antiguo: aplicar `v0→v1→v2→v3→v4→v5→v6→v7`. v5→v6 añade `photos=[]`; v6→v7 conserva `stars` y añade transaction keys/ledger vacíos sin inventar grants. Se reescribe v7 y se conserva el original como backup.
 4. Primary corrupto: intentar backup; si pasa, cargarlo, emitir `ProgressRecovered` y reparar primary preservando backup.
 5. Schema futuro: entrar en modo read-only, emitir `NewerSaveVersionDetected` y bloquear save/reset. Nunca sobrescribirlo con el schema actual.
 6. Primary y backup inválidos: fallo recuperable; no pérdida/sobrescritura silenciosa.
@@ -101,16 +103,18 @@ Reset muestra confirmación explícita y elimina solo los tres nombres conocidos
 
 No hay soporte cloud ni recuperación remota. Una copia manual puede contener progreso de juego aunque no contenga PII; se trata como dato privado local.
 
-## Matriz automatizada Prompt 19
+## Matriz automatizada Prompt 21
 
 | Caso | Evidencia |
 |---|---|
-| Default v6, idioma, audio settings, discovery records/grants, photos metadata y round-trip | EditMode. |
+| Default v7, idioma, audio settings, discovery/foto, wallet, transaction keys/ledger y round-trip | EditMode. |
 | JSON determinista y sin campos de perfil personal | EditMode. |
 | Fallo write/flush/commit | Failpoints in-memory; primary/backup invariantes. |
 | Truncado/checksum | Rechazo de primary y recuperación de backup. |
 | Backup no reemplazado por corrupto | Comparación byte a byte tras reparación. |
-| v0→v1→v2→v3→v4→v5→v6, v4→v5, v5→v6 y migración ausente | Migración/backup o fallo conservador sin rewrite. |
+| v0→…→v7, v4→v5, v5→v6, v6→v7 y migración ausente | Migración/backup o fallo conservador sin rewrite. |
+| Grant/spend, insuficiente, overflow, retry y ledger 32 | EditMode; sin duplicación ni saldo negativo. |
+| Fotografía→discovery→estrella→reload | PlayMode; retry devuelve `AlreadyProcessed`. |
 | Schema futuro | Read-only; save bloqueado y bytes intactos. |
 | Cancelación antes de commit | Excepción de cancelación y último primary intacto. |
 | Requests múltiples | Coalescing al checkpoint más reciente. |

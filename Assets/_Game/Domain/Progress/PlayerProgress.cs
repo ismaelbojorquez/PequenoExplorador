@@ -2,17 +2,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using PequenoExplorador.Domain.Content;
+using PequenoExplorador.Domain.Economy;
 
 namespace PequenoExplorador.Domain.Progress
 {
     public sealed class PlayerProgress
     {
+        public const int EconomyLedgerMaximumEntries = 32;
         private readonly string[] _worldIds;
         private readonly DiscoveryProgress[] _discoveries;
         private readonly string[] _discoveryIds;
         private readonly string[] _processedDiscoveryGrantIds;
         private readonly PhotoProgress[] _photos;
         private readonly string[] _completedMissionIds;
+        private readonly string[] _processedEconomyTransactionIds;
+        private readonly EconomyLedgerEntry[] _economyLedger;
 
         public PlayerProgress(
             int stars,
@@ -50,6 +54,21 @@ namespace PequenoExplorador.Domain.Progress
             IEnumerable<PhotoProgress> photos,
             IEnumerable<string> completedMissionIds,
             PlayerPreferences preferences)
+            : this(stars, worldIds, discoveries, processedDiscoveryGrantIds, photos, completedMissionIds,
+                preferences, Array.Empty<string>(), Array.Empty<EconomyLedgerEntry>())
+        {
+        }
+
+        public PlayerProgress(
+            int stars,
+            IEnumerable<string> worldIds,
+            IEnumerable<DiscoveryProgress> discoveries,
+            IEnumerable<string> processedDiscoveryGrantIds,
+            IEnumerable<PhotoProgress> photos,
+            IEnumerable<string> completedMissionIds,
+            PlayerPreferences preferences,
+            IEnumerable<string> processedEconomyTransactionIds,
+            IEnumerable<EconomyLedgerEntry> economyLedger)
         {
             if (stars < 0)
             {
@@ -63,6 +82,10 @@ namespace PequenoExplorador.Domain.Progress
             _processedDiscoveryGrantIds = CopyAndValidateGrantIds(processedDiscoveryGrantIds);
             _photos = CopyAndValidatePhotos(photos);
             _completedMissionIds = CopyAndValidateIds(completedMissionIds, nameof(completedMissionIds));
+            _processedEconomyTransactionIds = CopyAndValidateEconomyTransactionIds(processedEconomyTransactionIds);
+            _economyLedger = CopyAndValidateEconomyLedger(economyLedger);
+            if (_economyLedger.Any(item => !_processedEconomyTransactionIds.Contains(item.TransactionId.Value, StringComparer.Ordinal)))
+                throw new ArgumentException("Economy ledger entries must reference processed transaction IDs.", nameof(economyLedger));
             Preferences = preferences ?? throw new ArgumentNullException(nameof(preferences));
         }
 
@@ -74,6 +97,9 @@ namespace PequenoExplorador.Domain.Progress
         public IReadOnlyList<PhotoProgress> Photos => _photos;
         public IReadOnlyList<string> CompletedMissionIds => _completedMissionIds;
         public PlayerPreferences Preferences { get; }
+        public ExplorerStars Wallet => new ExplorerStars(Stars);
+        public IReadOnlyList<string> ProcessedEconomyTransactionIds => _processedEconomyTransactionIds;
+        public IReadOnlyList<EconomyLedgerEntry> EconomyLedger => _economyLedger;
 
         public static PlayerProgress CreateDefault()
         {
@@ -94,7 +120,9 @@ namespace PequenoExplorador.Domain.Progress
                 _processedDiscoveryGrantIds,
                 _photos,
                 _completedMissionIds,
-                Preferences);
+                Preferences,
+                _processedEconomyTransactionIds,
+                _economyLedger);
         }
 
         public PlayerProgress WithPreferences(PlayerPreferences preferences)
@@ -106,7 +134,9 @@ namespace PequenoExplorador.Domain.Progress
                 _processedDiscoveryGrantIds,
                 _photos,
                 _completedMissionIds,
-                preferences);
+                preferences,
+                _processedEconomyTransactionIds,
+                _economyLedger);
         }
 
         public PlayerProgress WithDiscoveryState(
@@ -120,7 +150,9 @@ namespace PequenoExplorador.Domain.Progress
                 processedDiscoveryGrantIds,
                 _photos,
                 _completedMissionIds,
-                Preferences);
+                Preferences,
+                _processedEconomyTransactionIds,
+                _economyLedger);
         }
 
         public PlayerProgress WithPhotos(IEnumerable<PhotoProgress> photos)
@@ -132,7 +164,33 @@ namespace PequenoExplorador.Domain.Progress
                 _processedDiscoveryGrantIds,
                 photos,
                 _completedMissionIds,
-                Preferences);
+                Preferences,
+                _processedEconomyTransactionIds,
+                _economyLedger);
+        }
+
+        public PlayerProgress WithEconomy(ExplorerStars balance, IEnumerable<string> processedTransactionIds,
+            IEnumerable<EconomyLedgerEntry> ledger) => new PlayerProgress(
+            balance.Value, _worldIds, _discoveries, _processedDiscoveryGrantIds, _photos,
+            _completedMissionIds, Preferences, processedTransactionIds, ledger);
+
+        private static string[] CopyAndValidateEconomyTransactionIds(IEnumerable<string> values)
+        {
+            string[] result = CopyAndValidateIds(values, nameof(values));
+            if (result.Any(value => !EconomyTransactionId.TryParse(value, out _)))
+                throw new ArgumentException("Economy transaction IDs are invalid.", nameof(values));
+            return result.OrderBy(value => value, StringComparer.Ordinal).ToArray();
+        }
+
+        private static EconomyLedgerEntry[] CopyAndValidateEconomyLedger(IEnumerable<EconomyLedgerEntry> values)
+        {
+            if (values == null) throw new ArgumentNullException(nameof(values));
+            EconomyLedgerEntry[] result = values.ToArray();
+            if (result.Any(item => item == null)) throw new ArgumentException("Economy ledger cannot contain null entries.", nameof(values));
+            if (result.Length > EconomyLedgerMaximumEntries) throw new ArgumentException("Economy ledger exceeds its bounded capacity.", nameof(values));
+            if (result.Select(item => item.TransactionId).Distinct().Count() != result.Length)
+                throw new ArgumentException("Economy ledger transaction IDs must be unique.", nameof(values));
+            return result;
         }
 
         private static PhotoProgress[] CopyAndValidatePhotos(IEnumerable<PhotoProgress> values)

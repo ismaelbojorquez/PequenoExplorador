@@ -9,6 +9,7 @@ using PequenoExplorador.Application.Accessibility;
 using PequenoExplorador.Application.Configuration;
 using PequenoExplorador.Application.Content;
 using PequenoExplorador.Application.Discovery;
+using PequenoExplorador.Application.Economy;
 using PequenoExplorador.Application.Lifecycle;
 using PequenoExplorador.Application.Logging;
 using PequenoExplorador.Application.Input;
@@ -19,6 +20,7 @@ using PequenoExplorador.Application.Save;
 using PequenoExplorador.Application.Worlds;
 using PequenoExplorador.Content.Audio;
 using PequenoExplorador.Content.Data;
+using PequenoExplorador.Content.Economy;
 using PequenoExplorador.Content.Input;
 using PequenoExplorador.Content.Interaction;
 using PequenoExplorador.Content.Worlds;
@@ -29,6 +31,7 @@ using PequenoExplorador.Presentation.Audio;
 using PequenoExplorador.Presentation.Bootstrap;
 using PequenoExplorador.Presentation.Input;
 using PequenoExplorador.Presentation.Explorer;
+using PequenoExplorador.Presentation.Economy;
 using PequenoExplorador.Presentation.Interaction;
 using PequenoExplorador.Presentation.Photography;
 using PequenoExplorador.Presentation.SceneFlow;
@@ -52,6 +55,7 @@ namespace PequenoExplorador.Bootstrap
         [SerializeField] private AudioDiagnosticView _audioView;
         [SerializeField] private AudioCueCatalogAsset _audioCatalog;
         [SerializeField] private ContentCatalogAsset _contentCatalog;
+        [SerializeField] private RewardCatalogAsset _rewardCatalog;
         [SerializeField] private WorldCatalogAsset _worldCatalog;
         [SerializeField] private InteractionCatalogAsset _interactionCatalog;
         [SerializeField] private InputActionAsset _inputActions;
@@ -64,6 +68,7 @@ namespace PequenoExplorador.Bootstrap
         [SerializeField] private InteractionPromptView _interactionPrompt;
         [SerializeField] private PhotographyView _photographyView;
         [SerializeField] private AlbumView _albumView;
+        [SerializeField] private EconomyView _economyView;
 
         private CancellationTokenSource _lifetimeCancellation;
         private IAppConfig _configuration;
@@ -78,6 +83,7 @@ namespace PequenoExplorador.Bootstrap
         private InteractionSceneRoot _interactionRoot;
         private PhotographySceneRoot _photographyRoot;
         private InteractionCatalog _runtimeInteractions;
+        private RewardCatalog _runtimeRewards;
 
         public ApplicationState State => _services == null
             ? ApplicationState.Created
@@ -135,14 +141,14 @@ namespace PequenoExplorador.Bootstrap
                 throw new InvalidOperationException("SceneTransitionView must be wired in the Bootstrap scene.");
             }
 
-            if (_audioView == null || _audioCatalog == null || _contentCatalog == null ||
+            if (_audioView == null || _audioCatalog == null || _contentCatalog == null || _rewardCatalog == null ||
                 _worldCatalog == null || _interactionCatalog == null)
             {
                 throw new InvalidOperationException("Audio, content and world catalogs must be wired in the Bootstrap scene.");
             }
             if (_inputActions == null || _gestureThresholds == null || _pauseView == null ||
                 _touchOverlay == null || _aspectOverlay == null || _safeAreaFitters.Length == 0 ||
-                _worldCamera == null || _interactionPrompt == null || _photographyView == null || _albumView == null)
+                _worldCamera == null || _interactionPrompt == null || _photographyView == null || _albumView == null || _economyView == null)
             {
                 throw new InvalidOperationException("Input actions, thresholds, pause, overlays and safe-area fitters must be wired.");
             }
@@ -153,6 +159,9 @@ namespace PequenoExplorador.Bootstrap
                 : ContentValidationMode.Development;
             if (!_contentCatalog.TryBuildRuntimeCatalog(contentMode, out ContentCatalog runtimeCatalog, out var contentViolations))
                 throw new InvalidOperationException("Runtime content catalog is invalid:\n" + string.Join("\n", contentViolations));
+            if (!_rewardCatalog.TryBuild(out RewardCatalog runtimeRewards, out var rewardViolations))
+                throw new InvalidOperationException("Runtime reward catalog is invalid:\n" + string.Join("\n", rewardViolations));
+            _runtimeRewards = runtimeRewards;
             if (!_worldCatalog.TryBuildRuntimeCatalog(runtimeCatalog, contentMode, out WorldCatalog runtimeWorlds, out var worldViolations))
                 throw new InvalidOperationException("Runtime world catalog is invalid:\n" + string.Join("\n", worldViolations));
             if (!_interactionCatalog.TryBuildRuntimeCatalog(
@@ -168,7 +177,8 @@ namespace PequenoExplorador.Bootstrap
                 gameObject,
                 _audioCatalog,
                 _inputActions,
-                _gestureThresholds);
+                _gestureThresholds,
+                rewardCatalog: runtimeRewards);
             _lifetimeCancellation = new CancellationTokenSource();
             _statusView.BindLocalization(_services.Context.Localization);
             _statusView.ConfigureProduct(_configuration);
@@ -198,6 +208,8 @@ namespace PequenoExplorador.Bootstrap
                 _services.Context.Audio,
                 _services.Context.SceneFlow,
                 WorldId.Parse("world.jungle"));
+            _economyView.Bind(_services.EconomyRepository, _services.Context.Localization, _services.GrantRewards,
+                _diagnosticsEnabled, reduceMotion: false);
         }
 
         private async void Start()
@@ -382,6 +394,7 @@ namespace PequenoExplorador.Bootstrap
         }
 
         public void ConfigureContentForEditorAndTests(ContentCatalogAsset contentCatalog) => _contentCatalog = contentCatalog;
+        public void ConfigureRewardsForEditorAndTests(RewardCatalogAsset rewardCatalog) => _rewardCatalog = rewardCatalog;
         public void ConfigureWorldsForEditorAndTests(WorldCatalogAsset worldCatalog) => _worldCatalog = worldCatalog;
         public void ConfigureInteractionsForEditorAndTests(
             InteractionCatalogAsset interactionCatalog,
@@ -393,6 +406,7 @@ namespace PequenoExplorador.Bootstrap
         public void ConfigureExplorerCameraForEditorAndTests(Camera worldCamera) => _worldCamera = worldCamera;
         public void ConfigurePhotographyForEditorAndTests(PhotographyView photographyView) => _photographyView = photographyView;
         public void ConfigureAlbumForEditorAndTests(AlbumView albumView) => _albumView = albumView;
+        public void ConfigureEconomyForEditorAndTests(EconomyView economyView) => _economyView = economyView;
 #endif
 
         public void SimulateNextPhotoStorageFailureForDevelopment()
@@ -535,6 +549,8 @@ namespace PequenoExplorador.Bootstrap
                     _services.PhotoStore,
                     _services.PhotoRepository,
                     _services.Discoveries,
+                    _runtimeRewards,
+                    _services.GrantRewards,
                     _services.Context.Localization,
                     _photographyView,
                     reduceMotion: false);

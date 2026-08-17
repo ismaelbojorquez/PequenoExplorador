@@ -280,6 +280,18 @@ MonoBehaviour:
     m_Localized: Your best photo
     m_Metadata:
       m_Items: []
+  - m_Id: 219424916234240
+    m_Localized: "Virtual stars \xB7 earned by playing and never purchased"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 219424933011456
+    m_Localized: DEBUG +1 star
+    m_Metadata:
+      m_Items: []
+  - m_Id: 219424933011457
+    m_Localized: A few more stars are needed. We can keep exploring.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
