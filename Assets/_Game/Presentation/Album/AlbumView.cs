@@ -9,6 +9,7 @@ using PequenoExplorador.Application.Localization;
 using PequenoExplorador.Application.Photography;
 using PequenoExplorador.Application.SceneFlow;
 using PequenoExplorador.Domain.Content;
+using PequenoExplorador.Application.Tutorial;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -59,6 +60,8 @@ namespace PequenoExplorador.Presentation.Album
         private CancellationTokenSource _loadCancellation;
         private int _page;
         private int _generation;
+        private Func<TutorialAction, bool> _tutorialGate;
+        public event Action Opened;
 
         public bool IsVisible => _panel != null && _panel.activeSelf;
         public bool IsDetailVisible => _detailPanel != null && _detailPanel.activeSelf;
@@ -89,7 +92,8 @@ namespace PequenoExplorador.Presentation.Album
             ILocalizationService localization,
             IAudioService audio,
             ISceneFlowService sceneFlow,
-            WorldId worldId)
+            WorldId worldId,
+            Func<TutorialAction, bool> tutorialGate = null)
         {
             Unbind();
             _query = query ?? throw new ArgumentNullException(nameof(query));
@@ -99,6 +103,7 @@ namespace PequenoExplorador.Presentation.Album
             _sceneFlow = sceneFlow ?? throw new ArgumentNullException(nameof(sceneFlow));
             if (!worldId.IsValid) throw new ArgumentException("Album world ID is invalid.", nameof(worldId));
             _worldId = worldId;
+            _tutorialGate = tutorialGate;
             _localization.LocaleChanged += HandleLocaleChanged;
             _sceneFlow.Changed += HandleSceneChanged;
             HideAll();
@@ -108,11 +113,13 @@ namespace PequenoExplorador.Presentation.Album
         public void Open()
         {
             if (_sceneFlow == null || _sceneFlow.Snapshot.Current != SceneFlowState.Camp || _sceneFlow.Snapshot.IsTransitioning) return;
+            if (_tutorialGate != null && !_tutorialGate(TutorialAction.OpenAlbum)) return;
             if (_panel != null) _panel.SetActive(true);
             if (_detailPanel != null) _detailPanel.SetActive(false);
             _selectedEntry = null;
             _page = 0;
             Refresh();
+            Opened?.Invoke();
         }
 
         public void Close()
@@ -466,6 +473,7 @@ namespace PequenoExplorador.Presentation.Album
             _localization = null;
             _audio = null;
             _sceneFlow = null;
+            _tutorialGate = null;
             _snapshot = null;
             _selectedEntry = null;
             _selectedCategory = null;

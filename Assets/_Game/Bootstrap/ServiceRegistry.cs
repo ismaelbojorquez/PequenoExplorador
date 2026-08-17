@@ -23,6 +23,7 @@ using PequenoExplorador.Application.Services;
 using PequenoExplorador.Application.Input;
 using PequenoExplorador.Application.Photography;
 using PequenoExplorador.Application.SceneFlow;
+using PequenoExplorador.Application.Tutorial;
 using PequenoExplorador.Application.Worlds;
 using PequenoExplorador.Content.Audio;
 using PequenoExplorador.Content.Input;
@@ -68,7 +69,8 @@ namespace PequenoExplorador.Bootstrap
             IMissionCatalog missionCatalog = null,
             ILearningCatalog learningCatalog = null,
             ICampCatalog campCatalog = null,
-            ICustomizationCatalog customizationCatalog = null)
+            ICustomizationCatalog customizationCatalog = null,
+            TutorialDefinition tutorialDefinition = null)
         {
             if (configuration == null)
             {
@@ -142,9 +144,12 @@ namespace PequenoExplorador.Bootstrap
                     new V7ToV8MissionMigration(),
                     new V8ToV9LearningMigration(),
                     new V9ToV10CampMigration(),
-                    new V10ToV11CustomizationMigration()
+                    new V10ToV11CustomizationMigration(),
+                    new V11ToV12TutorialMigration()
                 });
             SaveCoordinator = new AutosaveCoordinator(save, logger, configuration.AutosaveDebounce);
+            TutorialRepository = new PlayerProgressTutorialRepository(save, SaveCoordinator);
+            Tutorial = tutorialDefinition == null ? null : new TutorialCoordinator(tutorialDefinition, TutorialRepository);
             IPhotoStore resolvedPhotoStore = photoStore ?? (audioHost != null
                 ? new LocalPhotoStore(System.IO.Path.Combine(UnityEngine.Application.persistentDataPath, "Photos"))
                 : new MemoryPhotoStore());
@@ -294,6 +299,8 @@ namespace PequenoExplorador.Bootstrap
         public ILearningRepository LearningRepository { get; }
         public LearningActivityStrategyRegistry LearningStrategies { get; }
         public LearningCoordinator Learning { get; }
+        public ITutorialProgressRepository TutorialRepository { get; }
+        public TutorialCoordinator Tutorial { get; }
 #if UNITY_EDITOR || PE_DEVELOPMENT_SERVICES
         public DevelopmentPhotoStoreFailure PhotoFailure { get; }
 #endif

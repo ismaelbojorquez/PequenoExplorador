@@ -23,6 +23,7 @@ using PequenoExplorador.Application.Photography;
 using PequenoExplorador.Application.SceneFlow;
 using PequenoExplorador.Application.Save;
 using PequenoExplorador.Application.Worlds;
+using PequenoExplorador.Application.Tutorial;
 using PequenoExplorador.Content.Audio;
 using PequenoExplorador.Content.Camp;
 using PequenoExplorador.Content.Customization;
@@ -33,6 +34,7 @@ using PequenoExplorador.Content.Interaction;
 using PequenoExplorador.Content.Learning;
 using PequenoExplorador.Content.Missions;
 using PequenoExplorador.Content.Worlds;
+using PequenoExplorador.Content.Tutorial;
 using PequenoExplorador.Domain.Content;
 using PequenoExplorador.Presentation.Accessibility;
 using PequenoExplorador.Presentation.Album;
@@ -48,6 +50,7 @@ using PequenoExplorador.Presentation.Learning;
 using PequenoExplorador.Presentation.Missions;
 using PequenoExplorador.Presentation.Photography;
 using PequenoExplorador.Presentation.SceneFlow;
+using PequenoExplorador.Presentation.Tutorial;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -90,6 +93,8 @@ namespace PequenoExplorador.Bootstrap
         [SerializeField] private LearningActivityView _learningView;
         [SerializeField] private CampHubView _campHubView;
         [SerializeField] private CustomizationView _customizationView;
+        [SerializeField] private TutorialDefinitionAsset _tutorialDefinition;
+        [SerializeField] private TutorialView _tutorialView;
 
         private CancellationTokenSource _lifetimeCancellation;
         private IAppConfig _configuration;
@@ -154,6 +159,9 @@ namespace PequenoExplorador.Bootstrap
         public LearningActivityView LearningView => _learningView;
         public CampHubView CampHubView => _campHubView;
         public CustomizationView CustomizationView => _customizationView;
+        public TutorialView TutorialView => _tutorialView;
+        public TutorialCoordinator Tutorial => _services?.Tutorial;
+        public PequenoExplorador.Domain.Progress.TutorialProgress PersistedTutorial => _services?.Context.Save.Current?.Tutorial;
         public DiscoverResult LastDiscoveryResult => _services == null
             ? default
             : _photographyRoot != null && _photographyRoot.LastCapture.ProgressCaptured
@@ -173,13 +181,13 @@ namespace PequenoExplorador.Bootstrap
             }
 
             if (_audioView == null || _audioCatalog == null || _contentCatalog == null || _rewardCatalog == null || _missionCatalog == null || _learningCatalog == null || _campCatalog == null || _customizationCatalog == null ||
-                _worldCatalog == null || _interactionCatalog == null)
+                _worldCatalog == null || _interactionCatalog == null || _tutorialDefinition == null)
             {
                 throw new InvalidOperationException("Audio, content and world catalogs must be wired in the Bootstrap scene.");
             }
             if (_inputActions == null || _gestureThresholds == null || _pauseView == null ||
                 _touchOverlay == null || _aspectOverlay == null || _safeAreaFitters.Length == 0 ||
-                _worldCamera == null || _interactionPrompt == null || _photographyView == null || _albumView == null || _economyView == null || _missionView == null || _learningView == null || _campHubView == null || _customizationView == null)
+                _worldCamera == null || _interactionPrompt == null || _photographyView == null || _albumView == null || _economyView == null || _missionView == null || _learningView == null || _campHubView == null || _customizationView == null || _tutorialView == null)
             {
                 throw new InvalidOperationException("Input actions, thresholds, pause, overlays and safe-area fitters must be wired.");
             }
@@ -228,7 +236,8 @@ namespace PequenoExplorador.Bootstrap
                 missionCatalog: runtimeMissions,
                 learningCatalog: runtimeLearning,
                 campCatalog: runtimeCamp,
-                customizationCatalog: runtimeCustomization);
+                customizationCatalog: runtimeCustomization,
+                tutorialDefinition: _tutorialDefinition.ToRuntime());
             _lifetimeCancellation = new CancellationTokenSource();
             _statusView.BindLocalization(_services.Context.Localization);
             _statusView.ConfigureProduct(_configuration);
@@ -257,7 +266,9 @@ namespace PequenoExplorador.Bootstrap
                 _services.Context.Localization,
                 _services.Context.Audio,
                 _services.Context.SceneFlow,
-                WorldId.Parse("world.jungle"));
+                WorldId.Parse("world.jungle"),
+                AllowsTutorialAction);
+            _albumView.Opened += HandleAlbumOpened;
             _economyView.Bind(_services.EconomyRepository, _services.Context.Localization, _services.GrantRewards,
                 _diagnosticsEnabled, reduceMotion: false);
             _missionView.Bind(_runtimeMissions, _services.MissionRepository, _services.Missions,
@@ -276,10 +287,14 @@ namespace PequenoExplorador.Bootstrap
             {
                 [CampStationActionId.Parse("camp-action.expedition")] = RequestFirstExpedition,
                 [CampStationActionId.Parse("camp-action.album")] = _albumView.Open,
-                [CampStationActionId.Parse("camp-action.customization")] = _customizationView.Open
+                [CampStationActionId.Parse("camp-action.customization")] = () =>
+                {
+                    if (_services.Tutorial.Allows(TutorialAction.None)) _customizationView.Open();
+                }
             };
             _campHubView.Bind(_runtimeCamp, _services.EconomyRepository, _services.PurchaseCampUpgrade,
-                _services.Context.Localization, _services.Context.SceneFlow, campActions);
+                _services.Context.Localization, _services.Context.SceneFlow, campActions,
+                () => AllowsTutorialAction(TutorialAction.None));
         }
 
         private async void Start()
@@ -325,6 +340,8 @@ namespace PequenoExplorador.Bootstrap
             try
             {
                 await InitializeAsync(cancellationToken);
+                _services.Tutorial.Initialize();
+                _tutorialView.Bind(_services.Tutorial, _services.Context.Localization, _services.Context.Audio, reduceMotion: false);
                 _services.Missions.ReconcileCompletedRewards();
                 _services.Learning.ReconcileCompleted();
                 _missionView.Refresh();
@@ -371,6 +388,7 @@ namespace PequenoExplorador.Bootstrap
                 _services.Context.Input.SetMap(InputMapId.UI);
                 _services.Context.Audio.Play(AudioCueIds.CampMusic);
                 _services.Context.Audio.Play(AudioCueIds.CampAmbience);
+                _services.Tutorial.Signal(TutorialTrigger.CampReturned);
             }
             return ToSceneResult(worldResult);
         }
@@ -396,6 +414,7 @@ namespace PequenoExplorador.Bootstrap
                 _services.Context.Input.SetMap(InputMapId.Explorer);
                 _services.Context.Audio.Play(result.Manifest.MusicCue);
                 _services.Context.Audio.Play(result.Manifest.AmbienceCue);
+                _services.Tutorial.Signal(TutorialTrigger.ExpeditionEntered);
             }
             _sceneFlowView.ShowWorldResult(result);
             return result;
@@ -504,6 +523,8 @@ namespace PequenoExplorador.Bootstrap
         public void ConfigureEconomyForEditorAndTests(EconomyView economyView) => _economyView = economyView;
         public void ConfigureMissionsForEditorAndTests(MissionCatalogAsset missionCatalog, MissionView missionView)
         { _missionCatalog = missionCatalog; _missionView = missionView; }
+        public void ConfigureTutorialForEditorAndTests(TutorialDefinitionAsset definition, TutorialView view)
+        { _tutorialDefinition = definition; _tutorialView = view; }
 #endif
 
         public void SimulateNextPhotoStorageFailureForDevelopment()
@@ -515,16 +536,19 @@ namespace PequenoExplorador.Bootstrap
 
         private async void EnterWorld(WorldManifest manifest)
         {
+            if (!AllowsTutorialAction(TutorialAction.EnterExpedition)) return;
             await EnterWorldAsync(manifest.Id, _lifetimeCancellation.Token);
         }
 
         private async void RequestFirstExpedition()
         {
+            if (!AllowsTutorialAction(TutorialAction.EnterExpedition)) return;
             await GoToExpeditionAsync(_lifetimeCancellation.Token);
         }
 
         private async void ReturnCamp()
         {
+            if (!AllowsTutorialAction(TutorialAction.ReturnCamp)) return;
             await GoToCampAsync(_lifetimeCancellation.Token);
         }
 
@@ -591,6 +615,7 @@ namespace PequenoExplorador.Bootstrap
         {
             if (!_pauseView.IsVisible && !snapshot.IsTransitioning)
                 _services.Context.Input.SetMap(ResolveInputMap(snapshot));
+            _tutorialView?.SetReplayEntryVisible(snapshot != null && !snapshot.IsTransitioning && snapshot.Current == SceneFlowState.Camp);
         }
 
         private void BindExplorerScene()
@@ -651,6 +676,8 @@ namespace PequenoExplorador.Bootstrap
             try
             {
                 found.Bind(_services.Context.Input, _worldCamera);
+                found.SetTutorialGate(AllowsTutorialAction);
+                found.MovementAccepted += HandleMovementAccepted;
                 interaction.Bind(
                     _runtimeInteractions,
                     found,
@@ -659,13 +686,16 @@ namespace PequenoExplorador.Bootstrap
                     _worldCamera,
                     _services.PhotographyInteraction,
                     _services.LearningInteraction);
+                interaction.SetTutorialGate(AllowsTutorialAction);
                 found.SetTapHandler(interaction);
                 _interactionPrompt.Bind(
                     interaction.Coordinator,
                     _services.Context.Localization,
                     _services.Context.Audio,
                     null,
-                    _diagnosticsEnabled);
+                    _diagnosticsEnabled,
+                    AllowsTutorialAction);
+                interaction.Coordinator.Changed += HandleTutorialInteractionChanged;
                 photography.Bind(
                     _services.PhotographyInteraction,
                     _services.Context.Input,
@@ -683,7 +713,9 @@ namespace PequenoExplorador.Bootstrap
                     _photographyView,
                     reduceMotion: false,
                     _services.LearningInteraction,
-                    _runtimeInteractions);
+                    _runtimeInteractions,
+                    AllowsTutorialAction);
+                photography.CaptureCompleted += HandleTutorialCaptureCompleted;
                 reaction.Bind(_learningView);
                 ExplorerCustomizationRig customizationRig = found.GetComponentInChildren<ExplorerCustomizationRig>(true);
                 if (customizationRig == null) throw new InvalidOperationException("Explorer prefab is missing its customization rig.");
@@ -738,9 +770,14 @@ namespace PequenoExplorador.Bootstrap
         {
             if (_learningView != null) _learningView.CloseForSceneUnload();
             _interactionPrompt?.Unbind();
+            if (_interactionRoot?.Coordinator != null) _interactionRoot.Coordinator.Changed -= HandleTutorialInteractionChanged;
+            if (_photographyRoot != null) _photographyRoot.CaptureCompleted -= HandleTutorialCaptureCompleted;
+            if (_explorerRoot != null) _explorerRoot.MovementAccepted -= HandleMovementAccepted;
             _learningReactionRoot?.Unbind();
             _photographyRoot?.Unbind();
             _explorerRoot?.SetTapHandler(null);
+            _explorerRoot?.SetTutorialGate(null);
+            _interactionRoot?.SetTutorialGate(null);
             _interactionRoot?.Unbind();
             _explorerRoot?.Unbind();
             _explorerCustomizationRig?.Unbind();
@@ -811,6 +848,13 @@ namespace PequenoExplorador.Bootstrap
         }
 
 #if UNITY_EDITOR || PE_DEVELOPMENT_SERVICES
+        public void DebugResetTutorialForDevelopment()
+        {
+            if (_configuration == null || _configuration.Profile != BuildProfile.Development)
+                throw new InvalidOperationException("Tutorial reset is Development-only.");
+            _services.Tutorial.ResetForDevelopment();
+        }
+
         public void DebugUnlockAllCosmeticsForDevelopment()
         {
             if (_configuration == null || _configuration.Profile != BuildProfile.Development)
@@ -849,6 +893,7 @@ namespace PequenoExplorador.Bootstrap
             }
             _audioView?.Unbind();
             _albumView?.Unbind();
+            if (_albumView != null) _albumView.Opened -= HandleAlbumOpened;
             _missionView?.Unbind();
             _learningView?.Unbind();
             _campHubView?.Unbind();
@@ -890,5 +935,17 @@ namespace PequenoExplorador.Bootstrap
             }
             return new SceneTransitionResult(outcome, result.ErrorCode);
         }
+
+        private bool AllowsTutorialAction(TutorialAction action) => _services?.Tutorial == null || _services.Tutorial.Allows(action);
+        private void HandleMovementAccepted() => _services?.Tutorial?.Signal(TutorialTrigger.MovementAccepted);
+        private void HandleTutorialInteractionChanged(InteractionSnapshot snapshot)
+        {
+            if (snapshot?.State == InteractionOutcome.Completed) _services?.Tutorial?.Signal(TutorialTrigger.InteractionCompleted);
+        }
+        private void HandleTutorialCaptureCompleted(PhotoCaptureResult result)
+        {
+            if (result.ProgressCaptured) _services?.Tutorial?.Signal(TutorialTrigger.PhotoCaptured);
+        }
+        private void HandleAlbumOpened() => _services?.Tutorial?.Signal(TutorialTrigger.AlbumOpened);
     }
 }

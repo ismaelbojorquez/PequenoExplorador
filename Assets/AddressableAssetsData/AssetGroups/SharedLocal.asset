@@ -15,6 +15,20 @@ MonoBehaviour:
   m_GroupName: SharedLocal
   m_GUID: 3bd42d644b873463d8253280ec266651
   m_SerializeEntries:
+  - m_GUID: 02caa683c6812444aaad1a45fbfbc0d9
+    m_Address: audio/voice/tutorial/open-album/en
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - audio-local
+    - audio-placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 076d18e7d3fae4f008b43fc046d6e890
+    m_Address: audio/voice/tutorial/enter-expedition/en
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - audio-local
+    - audio-placeholder
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 0b21aec9265e94e52a81e97e8c0bafd3
     m_Address: audio/voice/narration/welcome/es
     m_ReadOnly: 0
@@ -28,8 +42,22 @@ MonoBehaviour:
     m_SerializedLabels:
     - shared-local
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1f2d155a2b8d648bd84425163aa5c447
+    m_Address: audio/voice/tutorial/open-album/es
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - audio-local
+    - audio-placeholder
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 26a53aae0546046f5a6f2d2cd00698ef
     m_Address: audio/ambience/camp
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - audio-local
+    - audio-placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2b6f1a03b99ff41099c63bd4184c9155
+    m_Address: audio/voice/tutorial/photograph/es
     m_ReadOnly: 0
     m_SerializedLabels:
     - audio-local
@@ -55,6 +83,13 @@ MonoBehaviour:
     m_SerializedLabels:
     - shared-local
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 54f4dde97fd2e44a9af3ff5e73ace0d4
+    m_Address: audio/voice/tutorial/interact/en
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - audio-local
+    - audio-placeholder
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5708a5f68e0e847fdacae40f0f72125d
     m_Address: audio/voice/fact/toucan-fruit/es
     m_ReadOnly: 0
@@ -69,8 +104,22 @@ MonoBehaviour:
     - audio-local
     - audio-placeholder
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 713226ce7eb9040b7bd9400b10424ea1
+    m_Address: audio/voice/tutorial/move/en
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - audio-local
+    - audio-placeholder
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 781159a7e31384f47a1e9870ef534551
     m_Address: audio/feedback/retry
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - audio-local
+    - audio-placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7e82c55041aba49bcb0e6def9e1ee134
+    m_Address: audio/voice/tutorial/interact/es
     m_ReadOnly: 0
     m_SerializedLabels:
     - audio-local
@@ -83,8 +132,29 @@ MonoBehaviour:
     - scene
     - shared-local
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 85538b7b3693947129cdafd99318d004
+    m_Address: audio/voice/tutorial/enter-expedition/es
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - audio-local
+    - audio-placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9b04e5dbcb58942e2aa9003b4fa00f46
+    m_Address: audio/voice/tutorial/move/es
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - audio-local
+    - audio-placeholder
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9beb283edf3ed40ee8a6e60111563603
     m_Address: audio/voice/name/jungle/es
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - audio-local
+    - audio-placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9c1ba614c252141c8b9d8b6f513bd56e
+    m_Address: audio/voice/tutorial/return-camp/en
     m_ReadOnly: 0
     m_SerializedLabels:
     - audio-local
@@ -97,8 +167,22 @@ MonoBehaviour:
     - audio-local
     - audio-placeholder
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a5ab70dda2d74469591fbc1854f12d9a
+    m_Address: audio/voice/tutorial/photograph/en
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - audio-local
+    - audio-placeholder
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ac0cae93f1144451b9aa7c74d395fcca
     m_Address: audio/voice/narration/welcome/en
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - audio-local
+    - audio-placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ad839b473f689437ebf97cc6fb773205
+    m_Address: audio/voice/tutorial/discovery-reward/es
     m_ReadOnly: 0
     m_SerializedLabels:
     - audio-local
@@ -113,6 +197,20 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b6298c5c66e644e67a1ec41b3a38289b
     m_Address: audio/voice/instruction/explore/en
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - audio-local
+    - audio-placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bbbd9ca866ff6487a9192a0128d30622
+    m_Address: audio/voice/tutorial/discovery-reward/en
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - audio-local
+    - audio-placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e4d3bbc4434994c0f84be6605c5c1a63
+    m_Address: audio/voice/tutorial/return-camp/es
     m_ReadOnly: 0
     m_SerializedLabels:
     - audio-local

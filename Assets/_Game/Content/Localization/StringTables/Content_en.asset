@@ -112,6 +112,34 @@ MonoBehaviour:
     m_Localized: It mostly eats fruit.
     m_Metadata:
       m_Items: []
+  - m_Id: 299481638625280
+    m_Localized: Tap the map to go to the Jungle.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481638625281
+    m_Localized: Tap the ground to walk.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481638625282
+    m_Localized: Tap the toucan, then the big button.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481638625283
+    m_Localized: When the frame is ready, tap Photo.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481638625284
+    m_Localized: Discovery! You earned stars for your camp.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481638625285
+    m_Localized: Return to camp when you are ready.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481638625286
+    m_Localized: Open the Album to see your toucan.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

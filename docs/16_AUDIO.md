@@ -43,4 +43,8 @@ La tabla asset `Voice` contiene cinco slots conceptuales; tres corresponden a cu
 
 `IAudioService` expresa intención semántica; `UnityAudioService` posee sources, cooldown, cola, ducking y lifecycle; Content posee `AudioCueDefinition`/catálogo/mixer; Bootstrap es el único composition root; Presentation solicita play/replay y presenta subtítulos. Domain no referencia audio Unity ni archivos.
 
-Mixer `PE_Main`: Master→Music/Ambience/Effects/Voice. La baseline usa siete cues y diez WAV internos `PH_`, locales y Addressables-ready. Un cue/clip ausente devuelve `Missing`, registra un código técnico sin datos infantiles y no bloquea gameplay. `scripts/validate-audio` es el gate estructural; los placeholders permanecen `ReleaseBlocked`.
+Mixer `PE_Main`: Master→Music/Ambience/Effects/Voice. La baseline usa dieciséis cues y veintiocho WAV internos `PH_`, locales y Addressables-ready. Un cue/clip ausente devuelve `Missing`, registra un código técnico sin datos infantiles y no bloquea gameplay. `scripts/validate-audio` es el gate estructural; los placeholders permanecen `ReleaseBlocked`.
+
+## Voz temporal del FTUE
+
+Siete cues semánticos —entrar, mover, interactuar, fotografiar, discovery/reward, volver y álbum— poseen variantes ES/EN y comparten concepto con el subtítulo localizado. Los 14 clips son tonos internos mono/48 kHz para probar cola/replay/ducking; no imitan voz ni vocalización animal. Narración humana, pronunciación, emoción, licencia, mezcla e inteligibilidad en teléfono/audífonos permanecen pendientes y bloquean Release.

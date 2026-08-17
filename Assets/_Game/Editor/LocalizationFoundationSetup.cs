@@ -167,6 +167,19 @@ namespace PequenoExplorador.Editor
             AssetDatabase.SaveAssets();
         }
 
+        public static void ApplyTutorialEntries()
+        {
+            LocalizationSettings settings = AssetDatabase.LoadAssetAtPath<LocalizationSettings>(SettingsPath);
+            Locale spanish = AssetDatabase.LoadAssetAtPath<Locale>(SpanishLocalePath);
+            Locale english = AssetDatabase.LoadAssetAtPath<Locale>(EnglishLocalePath);
+            if (settings == null || spanish == null || english == null)
+                throw new InvalidOperationException("Localization foundation must exist before tutorial setup.");
+            LocalizationEditorSettings.ActiveLocalizationSettings = settings;
+            UpsertStringCollection(LocalizationKeys.UiTable, new[] { spanish, english }, UiEntries);
+            UpsertStringCollection(LocalizationKeys.ContentTable, new[] { spanish, english }, ContentEntries);
+            AssetDatabase.SaveAssets();
+        }
+
         private static readonly Entry[] SharedEntries =
         {
             new Entry("shared.product.name", "Pequeño Explorador: Aprende Jugando", "Little Explorer: Learning Through Play"),
@@ -338,6 +351,21 @@ namespace PequenoExplorador.Editor
             new Entry("ui.album.photo_loading", "Buscando tu mejor foto…", "Finding your best photo…"),
             new Entry("ui.album.canonical_fallback", "Usamos su imagen del álbum.", "Using its album picture."),
             new Entry("ui.album.best_photo", "Tu mejor foto", "Your best photo")
+            ,new Entry("ui.tutorial.guide_choice", "¿Cuánta ayuda quieres?", "How much help would you like?")
+            ,new Entry("ui.tutorial.more_guidance", "Más guía", "More guidance")
+            ,new Entry("ui.tutorial.standard_guidance", "Guía estándar", "Standard guidance")
+            ,new Entry("ui.tutorial.continue", "Continuar", "Continue")
+            ,new Entry("ui.tutorial.replay", "Escuchar otra vez", "Listen again")
+            ,new Entry("ui.tutorial.skip", "Saltar guía", "Skip guide")
+            ,new Entry("ui.tutorial.replay_from_settings", "Repetir guía", "Replay guide")
+            ,new Entry("ui.tutorial.progress", "Paso {0} de {1}", "Step {0} of {1}", isSmart: true)
+            ,new Entry("ui.tutorial.step.enter-expedition", "Toca el mapa para ir a la Selva.", "Tap the map to go to the Jungle.")
+            ,new Entry("ui.tutorial.step.move", "Toca el suelo para caminar.", "Tap the ground to walk.")
+            ,new Entry("ui.tutorial.step.interact", "Toca al tucán y luego el botón grande.", "Tap the toucan, then the big button.")
+            ,new Entry("ui.tutorial.step.photograph", "Cuando el marco esté listo, toca Foto.", "When the frame is ready, tap Photo.")
+            ,new Entry("ui.tutorial.step.discovery-reward", "¡Descubrimiento! Ganaste estrellas para tu campamento.", "Discovery! You earned stars for your camp.")
+            ,new Entry("ui.tutorial.step.return-camp", "Vuelve al campamento cuando estés listo.", "Return to camp when you are ready.")
+            ,new Entry("ui.tutorial.step.open-album", "Abre el Álbum para ver tu tucán.", "Open the Album to see your toucan.")
         };
 
         private static readonly Entry[] ContentEntries =
@@ -362,6 +390,13 @@ namespace PequenoExplorador.Editor
             new Entry("content.audio.narration.welcome", "Vamos a explorar con calma.", "Let’s explore at our own pace."),
             new Entry("content.audio.instruction.toucan-food", "Toca lo que el tucán come sobre todo.", "Tap what the toucan mostly eats."),
             new Entry("content.audio.fact.toucan-fruit", "Come sobre todo frutas.", "It mostly eats fruit.")
+            ,new Entry("content.audio.tutorial.enter-expedition", "Toca el mapa para ir a la Selva.", "Tap the map to go to the Jungle.")
+            ,new Entry("content.audio.tutorial.move", "Toca el suelo para caminar.", "Tap the ground to walk.")
+            ,new Entry("content.audio.tutorial.interact", "Toca al tucán y luego el botón grande.", "Tap the toucan, then the big button.")
+            ,new Entry("content.audio.tutorial.photograph", "Cuando el marco esté listo, toca Foto.", "When the frame is ready, tap Photo.")
+            ,new Entry("content.audio.tutorial.discovery-reward", "¡Descubrimiento! Ganaste estrellas para tu campamento.", "Discovery! You earned stars for your camp.")
+            ,new Entry("content.audio.tutorial.return-camp", "Vuelve al campamento cuando estés listo.", "Return to camp when you are ready.")
+            ,new Entry("content.audio.tutorial.open-album", "Abre el Álbum para ver tu tucán.", "Open the Album to see your toucan.")
         };
 
         private static void EnsureFolders()

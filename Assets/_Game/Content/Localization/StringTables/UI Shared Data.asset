@@ -723,6 +723,66 @@ MonoBehaviour:
     m_Key: ui.customization.cosmetic.tool.binoculars
     m_Metadata:
       m_Items: []
+  - m_Id: 299481730899968
+    m_Key: ui.tutorial.guide_choice
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481751871488
+    m_Key: ui.tutorial.more_guidance
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481751871489
+    m_Key: ui.tutorial.standard_guidance
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481751871490
+    m_Key: ui.tutorial.continue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481751871491
+    m_Key: ui.tutorial.replay
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481751871492
+    m_Key: ui.tutorial.skip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481751871493
+    m_Key: ui.tutorial.replay_from_settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481751871494
+    m_Key: ui.tutorial.progress
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481751871495
+    m_Key: ui.tutorial.step.enter-expedition
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481751871496
+    m_Key: ui.tutorial.step.move
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481751871497
+    m_Key: ui.tutorial.step.interact
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481751871498
+    m_Key: ui.tutorial.step.photograph
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481751871499
+    m_Key: ui.tutorial.step.discovery-reward
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481751871500
+    m_Key: ui.tutorial.step.return-camp
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481751871501
+    m_Key: ui.tutorial.step.open-album
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

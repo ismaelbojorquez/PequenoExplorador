@@ -68,6 +68,7 @@ Estados: **Provisional** requiere validación de fase; **Aceptada** gobierna el 
 | P-006 | Tap-to-move es candidato con prototipo `PH_`, no control final. | Comparar con alternativa simplificada mediante playtest 4–9; hardware, ergonomía, comprensión y reducción de movimiento antes de aprobar producción. |
 | P-007 | La única moneda se llama Estrellas de Explorador; se gana por discovery/misión/actividad/colección y se usa solo en Camp/cosméticos. | Sin pérdida, compra, premium, azar, caducidad, rachas o ventaja; `ECONOMY_REWARDS` es canónico. |
 | P-008 | Vertical Slice bloquea escalado de contenido. | No producir catálogo MVP hasta pasar Gate B y aprobación factual. |
+| P-009 | FTUE contextual de siete pasos, dos modos manuales sin edad, skip/replay visibles y ayudas a 6/12 s. | Enseña mediante outcomes del loop real; no autoavanza por tiempo, no guarda conducta granular y no bloquea Back/pausa. Cambiar pasos incrementa versión y exige migración/test. |
 
 ## Decisiones humanas/comerciales pendientes
 

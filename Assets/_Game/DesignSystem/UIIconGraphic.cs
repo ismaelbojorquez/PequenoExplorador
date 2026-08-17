@@ -17,6 +17,8 @@ namespace PequenoExplorador.DesignSystem
         Star,
         Customize,
         Parents
+        ,GestureTap
+        ,Arrow
     }
 
     [DisallowMultipleComponent]
@@ -90,12 +92,24 @@ namespace PequenoExplorador.DesignSystem
                     Line(helper, center + new Vector2(-scale * 0.78f, scale * 0.55f), center + new Vector2(-scale * 0.78f, -scale * 0.2f));
                     Line(helper, center + new Vector2(-scale * 0.78f, scale * 0.55f), center + new Vector2(-scale * 0.2f, scale * 0.55f));
                     break;
+                case UIIconKind.GestureTap:
+                    Diamond(helper, center + new Vector2(0f, scale * 0.28f), scale * 0.28f);
+                    Line(helper, center + new Vector2(0f, scale * 0.02f), center + new Vector2(0f, -scale * 0.72f));
+                    Line(helper, center + new Vector2(0f, -scale * 0.4f), center + new Vector2(scale * 0.45f, -scale * 0.7f));
+                    break;
+                case UIIconKind.Arrow:
+                    Line(helper, center + new Vector2(-scale * 0.75f, 0f), center + new Vector2(scale * 0.72f, 0f));
+                    Line(helper, center + new Vector2(scale * 0.72f, 0f), center + new Vector2(scale * 0.18f, scale * 0.5f));
+                    Line(helper, center + new Vector2(scale * 0.72f, 0f), center + new Vector2(scale * 0.18f, -scale * 0.5f));
+                    break;
                 default:
                     Diamond(helper, center, scale * 0.75f);
                     Line(helper, center, center + new Vector2(0f, scale * 0.75f));
                     break;
             }
         }
+
+        public void SetKind(UIIconKind kind) { _kind = kind; SetVerticesDirty(); }
 
         private void Box(VertexHelper helper, Vector2 center, Vector2 size)
         {

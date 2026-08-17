@@ -73,6 +73,22 @@ namespace PequenoExplorador.Domain.Progress
                 SubtitlesEnabled);
         }
 
+        public PlayerPreferences WithGuidanceMode(GuidanceMode guidanceMode)
+        {
+            return new PlayerPreferences(
+                guidanceMode,
+                MusicEnabled,
+                SoundEffectsEnabled,
+                NarrationEnabled,
+                Language,
+                MasterVolume,
+                MusicVolume,
+                AmbienceVolume,
+                EffectsVolume,
+                VoiceVolume,
+                SubtitlesEnabled);
+        }
+
         public PlayerPreferences WithAudioSettings(
             float master,
             float music,

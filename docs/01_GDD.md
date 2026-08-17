@@ -74,3 +74,7 @@ Relación principal: `World ofrece Discovery → Discovery habilita Activity →
 ## Fuera de alcance
 
 Las exclusiones Won’t están en [`MVP_SCOPE.md`](MVP_SCOPE.md). Ningún documento de sistema puede introducir cantidades o features adicionales sin actualizar primero esa fuente canónica.
+
+## FTUE Vertical Slice — Prompt 28
+
+La primera sesión ofrece `Más guía` o `Guía estándar` sin solicitar edad. Enseña en siete acciones: entrar a Selva, tocar para moverse, interactuar con el tucán, fotografiar, reconocer discovery/estrella, volver al Camp y abrir el álbum. Solo hay una instrucción breve con icono, subtítulo y replay; tras 6 s o 12 s aparece ayuda adicional según el modo. Skip está visible, no castiga y el tutorial puede repetirse. Una segunda sesión usa el loop normal sin imponer el FTUE completado u omitido. [`TUTORIAL_SYSTEM.md`](TUTORIAL_SYSTEM.md) es la fuente ejecutable.

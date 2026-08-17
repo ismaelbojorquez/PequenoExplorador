@@ -56,3 +56,7 @@ No hay modo examen. Las actividades están integradas en la aventura y se pueden
 - Sin audio: duplicar instrucciones esenciales visualmente.
 - Toque inválido: feedback discreto, sin penalización.
 - Niño atascado: pista solicitada, pista automática configurable y salida a campamento.
+
+## Primera sesión guiada
+
+El FTUE acompaña el loop real, no crea un tour paralelo: `Camp → Selva → mover → interactuar → fotografiar → discovery/estrella → Camp → álbum`. El coordinador espera outcomes semánticos; una acción equivocada no castiga ni avanza. A 6 s (`Más guía`) o 12 s (`Guía estándar`) refuerza la misma acción con gesto/replay. Back, pausa, skip y reanudación evitan soft locks. En sesiones posteriores el tutorial completado/omitido permanece silencioso y se ofrece replay desde Camp.

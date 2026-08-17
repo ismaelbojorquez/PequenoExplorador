@@ -1,6 +1,6 @@
 # Sistema de guardado local
 
-Estado: schema v11 implementado por Prompt 26. Persiste discovery/foto, economía, misiones, learning agregado, mejoras de Camp y ownership/equipped de personalización; los PNG viven en un store local separado. Sigue sin cloud, cuentas, analytics ni entitlements.
+Estado: schema v12 implementado por Prompt 28. Persiste discovery/foto, economía, misiones, learning agregado, mejoras de Camp, personalización y estado mínimo del tutorial; los PNG viven en un store local separado. Sigue sin cloud, cuentas, analytics ni entitlements.
 
 ## Contrato y límites
 
@@ -76,7 +76,7 @@ El binario de fotos usa `Application.persistentDataPath/Photos`: PNG determinist
 
 ## Carga, migración y downgrade
 
-1. Sin primary/backup: crear `PlayerProgress` default en español y escribir schema v11.
+1. Sin primary/backup: crear `PlayerProgress` default en español y escribir schema v12.
 2. Primary v11 válido: validar checksum, DTO/invariantes y cargar.
 3. Primary antiguo: aplicar `v0→…→v10→v11`. v9→v10 añade `unlockedCampUpgradeIds=[]`; v10→v11 conserva todo y añade personalización vacía, sin inventar ownership/equip. Se reescribe v11 y se conserva el original como backup.
 4. Primary corrupto: intentar backup; si pasa, cargarlo, emitir `ProgressRecovered` y reparar primary preservando backup.
@@ -139,5 +139,9 @@ No hay soporte cloud ni recuperación remota. Una copia manual puede contener pr
 | Replace físico repetido | `LocalFileStore` en directorio temporal controlado. |
 | Discovery first/repeat/reload | PlayMode interactúa, flush, recarga Selva y repite sin segundo grant único. |
 | Foto válida/inválida, best-photo, storage fallback y unload | EditMode/PlayMode; progreso prevalece y recursos temporales vuelven a cero. |
+
+## Tutorial v12
+
+La migración pura `V11ToV12TutorialMigration` copia todo v11 y agrega `tutorialId="tutorial.vertical-slice"`, `contentVersion=0`, `stepIndex=0`, `status=NotStarted`. Runtime reconcilia ese estado con la definition v1; un cambio de versión reinicia solo el tutorial. Checkpoints se emiten al elegir guía, avanzar, skip o replay. No se guardan tiempos, taps, acciones incorrectas ni edad.
 
 El build Android prueba compilación IL2CPP/ARM64 del sistema. La lectura/escritura en dispositivo físico permanece separada y debe reportarse `NOT RUN` si no hay hardware soportado.

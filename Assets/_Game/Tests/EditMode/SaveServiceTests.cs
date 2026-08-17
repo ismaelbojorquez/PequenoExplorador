@@ -439,7 +439,8 @@ namespace PequenoExplorador.Tests.EditMode
                     new V7ToV8MissionMigration(),
                     new V8ToV9LearningMigration(),
                     new V9ToV10CampMigration(),
-                    new V10ToV11CustomizationMigration()
+                    new V10ToV11CustomizationMigration(),
+                    new V11ToV12TutorialMigration()
                 });
         }
 

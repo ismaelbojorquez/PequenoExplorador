@@ -37,6 +37,7 @@ namespace PequenoExplorador.Presentation.Camp
         private ILocalizationService _localization;
         private ISceneFlowService _sceneFlow;
         private IReadOnlyDictionary<CampStationActionId, Action> _actions;
+        private Func<bool> _tutorialNavigationAvailable;
         private CampUpgradeDefinition _selectedUpgrade;
         private CampSceneRoot _sceneRoot;
 
@@ -56,7 +57,8 @@ namespace PequenoExplorador.Presentation.Camp
 
         public void Bind(ICampCatalog catalog, IEconomyRepository repository, PurchaseCampUpgradeUseCase purchase,
             ILocalizationService localization, ISceneFlowService sceneFlow,
-            IReadOnlyDictionary<CampStationActionId, Action> actions)
+            IReadOnlyDictionary<CampStationActionId, Action> actions,
+            Func<bool> tutorialNavigationAvailable = null)
         {
             Unbind();
             _catalog = catalog ?? throw new ArgumentNullException(nameof(catalog));
@@ -65,6 +67,7 @@ namespace PequenoExplorador.Presentation.Camp
             _localization = localization ?? throw new ArgumentNullException(nameof(localization));
             _sceneFlow = sceneFlow ?? throw new ArgumentNullException(nameof(sceneFlow));
             _actions = actions ?? throw new ArgumentNullException(nameof(actions));
+            _tutorialNavigationAvailable = tutorialNavigationAvailable;
             _selectedUpgrade = _catalog.Upgrades.FirstOrDefault();
             _repository.Changed += HandleProgressChanged;
             _localization.LocaleChanged += HandleLocaleChanged;
@@ -95,7 +98,8 @@ namespace PequenoExplorador.Presentation.Camp
 
         public void OpenUpgradePreview()
         {
-            if (_selectedUpgrade == null || _repository == null || CurrentUpgradeUnlocked) return;
+            if (_selectedUpgrade == null || _repository == null || CurrentUpgradeUnlocked ||
+                !(_tutorialNavigationAvailable?.Invoke() ?? true)) return;
             _previewPanel?.SetActive(true);
             Render(_repository.Current);
             if (_sceneRoot != null) _sceneRoot.Preview(_selectedUpgrade.Id);
@@ -165,7 +169,8 @@ namespace PequenoExplorador.Presentation.Camp
             if (_title != null) _title.text = Resolve(LocalizationKeys.CampHubTitle);
             if (_selectedUpgrade == null) return;
             bool unlocked = progress.UnlockedCampUpgradeIds.Contains(_selectedUpgrade.Id.Value, StringComparer.Ordinal);
-            if (_upgradeButton != null) _upgradeButton.interactable = !unlocked;
+            if (_upgradeButton != null)
+                _upgradeButton.interactable = !unlocked && (_tutorialNavigationAvailable?.Invoke() ?? true);
             if (_upgradeButtonLabel != null)
                 _upgradeButtonLabel.text = Resolve(unlocked ? LocalizationKeys.CampUpgradeCompleted : _selectedUpgrade.DisplayName);
             if (_previewTitle != null) _previewTitle.text = Resolve(_selectedUpgrade.DisplayName);
@@ -187,7 +192,8 @@ namespace PequenoExplorador.Presentation.Camp
             if (_localization != null) _localization.LocaleChanged -= HandleLocaleChanged;
             if (_sceneFlow != null) _sceneFlow.Changed -= HandleSceneChanged;
             foreach (CampStationButtonView view in _stationButtons ?? Array.Empty<CampStationButtonView>()) view?.Unbind();
-            _catalog = null; _repository = null; _purchase = null; _localization = null; _sceneFlow = null; _actions = null; _selectedUpgrade = null;
+            _catalog = null; _repository = null; _purchase = null; _localization = null; _sceneFlow = null;
+            _actions = null; _tutorialNavigationAvailable = null; _selectedUpgrade = null;
         }
 
         private void OnDestroy()

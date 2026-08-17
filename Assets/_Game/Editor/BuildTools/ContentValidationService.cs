@@ -22,6 +22,7 @@ namespace PequenoExplorador.Editor.BuildTools
             violations.AddRange(EconomyValidationService.Validate());
             violations.AddRange(MissionValidationService.Validate(mode));
             violations.AddRange(LearningValidationService.Validate(mode));
+            violations.AddRange(TutorialValidationService.Validate(mode));
             string directory = Path.Combine(UnityEngine.Application.dataPath, "_Game", "Content", "Placeholders");
             if (!Directory.Exists(directory))
             {

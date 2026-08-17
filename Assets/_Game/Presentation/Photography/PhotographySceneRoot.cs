@@ -11,6 +11,7 @@ using PequenoExplorador.Application.Photography;
 using PequenoExplorador.Application.Services;
 using PequenoExplorador.Application.Interaction;
 using PequenoExplorador.Application.Learning;
+using PequenoExplorador.Application.Tutorial;
 using PequenoExplorador.Domain.Content;
 using PequenoExplorador.Presentation.Explorer;
 using UnityEngine;
@@ -49,6 +50,7 @@ namespace PequenoExplorador.Presentation.Photography
         public int ThumbnailWidth => _thumbnailWidth;
         public int ThumbnailHeight => _thumbnailHeight;
         public RenderTextureFormat ThumbnailFormat => _thumbnailFormat;
+        public event Action<PhotoCaptureResult> CaptureCompleted;
 
         public void Bind(PhotographyInteractionAction entryAction, IInputService input, IClock clock, IAudioService audio,
             ExplorerLocomotionRoot explorer, Camera camera, IPhotoStore store, IPhotoProgressRepository photos,
@@ -63,7 +65,8 @@ namespace PequenoExplorador.Presentation.Photography
             ExplorerLocomotionRoot explorer, Camera camera, IPhotoStore store, IPhotoProgressRepository photos,
             DiscoverUseCase discoveries, IRewardCatalog rewards, GrantRewardUseCase grantRewards,
             IMissionFactSink missionFacts, ILocalizationService localization, PhotographyView view, bool reduceMotion,
-            LearningInteractionAction learningEntry, IInteractionCatalog interactions)
+            LearningInteractionAction learningEntry, IInteractionCatalog interactions,
+            Func<TutorialAction, bool> tutorialGate = null)
         {
             Unbind();
             _entryAction = entryAction ?? throw new ArgumentNullException(nameof(entryAction));
@@ -81,7 +84,7 @@ namespace PequenoExplorador.Presentation.Photography
                 store, photos, discoveries, rewards, grantRewards, missionFacts);
             _lifetime = new CancellationTokenSource();
             _entryAction.Requested += HandleRequested;
-            _view.Bind(localization, reduceMotion);
+            _view.Bind(localization, reduceMotion, tutorialGate);
             _view.ShutterRequested += CaptureRequested;
             _view.ExitRequested += ExitRequested;
             _learningEntry = learningEntry;
@@ -126,6 +129,7 @@ namespace PequenoExplorador.Presentation.Photography
                 if (!this || _view == null) return;
                 _view.ShowCapture(LastCapture);
                 _audio.Play(LastCapture.ProgressCaptured ? AudioCueIds.ConfirmFeedback : AudioCueIds.RetryFeedback);
+                CaptureCompleted?.Invoke(LastCapture);
             }
             finally
             {

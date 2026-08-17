@@ -1,6 +1,6 @@
 # Índice documental
 
-Estado: foundation, scene flow local, persistencia schema v11, localización/audio/input, `VS-D-A01` runtime Approved, locomoción, interacción, discovery, fotografía, álbum, economía, misión, learning, actividad integrada, Camp y personalización inclusiva disponibles; todavía no existe contenido masivo ni arte final. Empezar siempre por [`../AGENTS.md`](../AGENTS.md) y [`STATUS.md`](STATUS.md).
+Estado: foundation, scene flow local, persistencia schema v12, localización/audio/input, `VS-D-A01` runtime Approved, locomoción, interacción, discovery, fotografía, álbum, economía, misión, learning, actividad integrada, Camp, personalización inclusiva y FTUE contextual disponibles; todavía no existe contenido masivo ni arte final. Empezar siempre por [`../AGENTS.md`](../AGENTS.md) y [`STATUS.md`](STATUS.md).
 
 ## Fuentes de verdad
 
@@ -16,6 +16,7 @@ Estado: foundation, scene flow local, persistencia schema v11, localización/aud
 | Contenido runtime | [`CONTENT_PIPELINE.md`](CONTENT_PIPELINE.md) | Define grupos/perfiles locales, ownership y prohibición de remoto. |
 | Modelo de datos | [`CONTENT_MODEL.md`](CONTENT_MODEL.md) | IDs tipados, definitions, authoring, catálogo, aliases y gate editorial. |
 | Persistencia | [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md) | Schema, archivos, migración, atomicidad, privacidad y recovery. |
+| Tutorial/FTUE | [`TUTORIAL_SYSTEM.md`](TUTORIAL_SYSTEM.md) | Siete pasos semánticos, guía, gating, persistencia, recuperación y límites. |
 | Fotografía ficticia | [`PHOTOGRAPHY_SYSTEM.md`](PHOTOGRAPHY_SYSTEM.md) | Evaluación asistida, captura virtual, thumbnail/store, fallos, privacidad y budgets. |
 | Economía | [`ECONOMY_REWARDS.md`](ECONOMY_REWARDS.md) | Única moneda, rewards/spend idempotentes y prohibiciones no manipulativas. |
 | Camp | [`CAMP_SYSTEM.md`](CAMP_SYSTEM.md) | Estaciones, primera mejora, transacción atómica, persistencia y límites infantiles. |
@@ -58,12 +59,12 @@ Los saltos numéricos reservan espacio para documentos técnicos futuros; no imp
 - [`VALIDATION_PLAYBOOK.md`](VALIDATION_PLAYBOOK.md): comandos conocidos, evidencia y prueba de reanudación.
 - [`18_TESTING.md`](18_TESTING.md): wrappers, outputs JUnit, diagnóstico y CI.
 - [`VERSION_MATRIX.md`](VERSION_MATRIX.md): Editor y toolchain verificados.
-- [`02_TECHNICAL_ARCHITECTURE.md`](02_TECHNICAL_ARCHITECTURE.md): grafo real de nueve assemblies, límites y enforcement.
+- [`02_TECHNICAL_ARCHITECTURE.md`](02_TECHNICAL_ARCHITECTURE.md): grafo real de diez assemblies, límites y enforcement.
 - [`TECHNICAL_ARCHITECTURE.md`](TECHNICAL_ARCHITECTURE.md): alias histórico hacia la arquitectura canónica.
 - [`DEPENDENCY_REGISTER.md`](DEPENDENCY_REGISTER.md): intake y pins de paquetes directos/transitivos.
 - [`CONTENT_PIPELINE.md`](CONTENT_PIPELINE.md): Addressables local, addresses/labels, ownership, build y evolución.
 - [`CONTENT_MODEL.md`](CONTENT_MODEL.md): catálogo O(1), ScriptableObjects, IDs, reports y bloqueo Release de Draft.
-- [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md): schema v11, DTOs, checksum, backup, migraciones, autosave y recuperación.
+- [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md): schema v12, DTOs, checksum, backup, migraciones, autosave y recuperación.
 - [`CUSTOMIZATION_SYSTEM.md`](CUSTOMIZATION_SYSTEM.md): ocho slots, veinte opciones `PH_`, transacciones, rig y validación.
 - [`ECONOMY_REWARDS.md`](ECONOMY_REWARDS.md): Estrellas de Explorador, fuentes/usos, idempotencia, ledger y límites infantiles.
 - [`PHOTOGRAPHY_SYSTEM.md`](PHOTOGRAPHY_SYSTEM.md): cámara del explorador sin cámara física, evaluator, thumbnail acotada y store local.

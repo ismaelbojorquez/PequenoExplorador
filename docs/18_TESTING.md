@@ -105,3 +105,9 @@ El escaneo de secretos es preventivo y deliberadamente básico; no reemplaza rev
 ## CI
 
 `.github/workflows/checks.yml` fija Actions oficiales por SHA, usa `contents: read`, desactiva credenciales persistentes y no usa `pull_request_target`. El job estático puede correr en GitHub-hosted; el job Unity solo aparece en `workflow_dispatch`, con variable `UNITY_CI_ENABLED=true` y runner self-hosted etiquetado. Configuración humana: [`GITHUB_SETUP.md`](GITHUB_SETUP.md).
+
+## Cobertura FTUE Prompt 28
+
+- EditMode: definición/orden, evento incorrecto o duplicado, ayuda 6/12 s, gating, skip, replay, version invalidation, round-trip v12 y migración v11→v12.
+- PlayMode: elección `Más guía`, visual no lector, checkpoint y recarga con instancia Bootstrap nueva, app pause/resume, ES/EN, secuencia completa y targets en 1024×768, 1280×720, 1600×720 y 1280×800.
+- `scripts/validate-tutorial` ejecuta wiring/definition/cues/safe-area/targets; `scripts/validate` conserva la autoridad integral. Touch Android real y comprensión infantil son `NOT RUN` sin hardware/protocolo aprobado.

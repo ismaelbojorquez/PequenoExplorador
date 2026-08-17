@@ -83,7 +83,8 @@ namespace PequenoExplorador.Domain.Progress
             IEnumerable<LearningConceptDailyProgress> learningConcepts = null,
             IEnumerable<string> unlockedCampUpgradeIds = null,
             IEnumerable<string> unlockedCosmeticIds = null,
-            IEnumerable<EquippedCosmetic> equippedCosmetics = null)
+            IEnumerable<EquippedCosmetic> equippedCosmetics = null,
+            TutorialProgress tutorial = null)
         {
             if (stars < 0)
             {
@@ -111,6 +112,7 @@ namespace PequenoExplorador.Domain.Progress
             _unlockedCampUpgradeIds = CopyAndValidateCampUpgradeIds(unlockedCampUpgradeIds ?? Array.Empty<string>());
             _unlockedCosmeticIds = CopyAndValidateCosmeticIds(unlockedCosmeticIds ?? Array.Empty<string>());
             _equippedCosmetics = CopyAndValidateEquippedCosmetics(equippedCosmetics ?? Array.Empty<EquippedCosmetic>());
+            Tutorial = tutorial ?? TutorialProgress.CreateDefault();
             if (_missions.Where(item => item.IsCompleted).Any(item => !_completedMissionIds.Contains(item.Id.Value, StringComparer.Ordinal)))
                 throw new ArgumentException("Completed mission progress must appear in completed mission IDs.", nameof(missions));
         }
@@ -134,6 +136,7 @@ namespace PequenoExplorador.Domain.Progress
         public IReadOnlyList<string> UnlockedCampUpgradeIds => _unlockedCampUpgradeIds;
         public IReadOnlyList<string> UnlockedCosmeticIds => _unlockedCosmeticIds;
         public IReadOnlyList<EquippedCosmetic> EquippedCosmetics => _equippedCosmetics;
+        public TutorialProgress Tutorial { get; }
 
         public static PlayerProgress CreateDefault()
         {
@@ -164,7 +167,8 @@ namespace PequenoExplorador.Domain.Progress
                 _learningConcepts,
                 _unlockedCampUpgradeIds,
                 _unlockedCosmeticIds,
-                _equippedCosmetics);
+                _equippedCosmetics,
+                Tutorial);
         }
 
         public PlayerProgress WithPreferences(PlayerPreferences preferences)
@@ -186,7 +190,8 @@ namespace PequenoExplorador.Domain.Progress
                 _learningConcepts,
                 _unlockedCampUpgradeIds,
                 _unlockedCosmeticIds,
-                _equippedCosmetics);
+                _equippedCosmetics,
+                Tutorial);
         }
 
         public PlayerProgress WithDiscoveryState(
@@ -210,7 +215,8 @@ namespace PequenoExplorador.Domain.Progress
                 _learningConcepts,
                 _unlockedCampUpgradeIds,
                 _unlockedCosmeticIds,
-                _equippedCosmetics);
+                _equippedCosmetics,
+                Tutorial);
         }
 
         public PlayerProgress WithPhotos(IEnumerable<PhotoProgress> photos)
@@ -232,7 +238,8 @@ namespace PequenoExplorador.Domain.Progress
                 _learningConcepts,
                 _unlockedCampUpgradeIds,
                 _unlockedCosmeticIds,
-                _equippedCosmetics);
+                _equippedCosmetics,
+                Tutorial);
         }
 
         public PlayerProgress WithEconomy(ExplorerStars balance, IEnumerable<string> processedTransactionIds,
@@ -240,21 +247,21 @@ namespace PequenoExplorador.Domain.Progress
             balance.Value, _worldIds, _discoveries, _processedDiscoveryGrantIds, _photos,
             _completedMissionIds, Preferences, processedTransactionIds, ledger,
             _missions, _processedMissionFactIds, LastMissionFactSequence, _learningSessions, _learningConcepts,
-            _unlockedCampUpgradeIds, _unlockedCosmeticIds, _equippedCosmetics);
+            _unlockedCampUpgradeIds, _unlockedCosmeticIds, _equippedCosmetics, Tutorial);
 
         public PlayerProgress WithMissionState(IEnumerable<MissionProgress> missions,
             IEnumerable<string> completedMissionIds, IEnumerable<string> processedFactIds, long lastFactSequence) =>
             new PlayerProgress(Stars, _worldIds, _discoveries, _processedDiscoveryGrantIds, _photos,
                 completedMissionIds, Preferences, _processedEconomyTransactionIds, _economyLedger,
                 missions, processedFactIds, lastFactSequence, _learningSessions, _learningConcepts,
-                _unlockedCampUpgradeIds, _unlockedCosmeticIds, _equippedCosmetics);
+                _unlockedCampUpgradeIds, _unlockedCosmeticIds, _equippedCosmetics, Tutorial);
 
         public PlayerProgress WithLearningState(IEnumerable<LearningSession> sessions,
             IEnumerable<LearningConceptDailyProgress> concepts) =>
             new PlayerProgress(Stars, _worldIds, _discoveries, _processedDiscoveryGrantIds, _photos,
                 _completedMissionIds, Preferences, _processedEconomyTransactionIds, _economyLedger,
                 _missions, _processedMissionFactIds, LastMissionFactSequence, sessions, concepts,
-                _unlockedCampUpgradeIds, _unlockedCosmeticIds, _equippedCosmetics);
+                _unlockedCampUpgradeIds, _unlockedCosmeticIds, _equippedCosmetics, Tutorial);
 
         public PlayerProgress WithEconomyAndCampUpgrade(
             ExplorerStars balance,
@@ -264,7 +271,7 @@ namespace PequenoExplorador.Domain.Progress
             balance.Value, _worldIds, _discoveries, _processedDiscoveryGrantIds, _photos,
             _completedMissionIds, Preferences, processedTransactionIds, ledger,
             _missions, _processedMissionFactIds, LastMissionFactSequence, _learningSessions,
-            _learningConcepts, unlockedCampUpgradeIds, _unlockedCosmeticIds, _equippedCosmetics);
+            _learningConcepts, unlockedCampUpgradeIds, _unlockedCosmeticIds, _equippedCosmetics, Tutorial);
 
         public PlayerProgress WithCustomizationState(
             IEnumerable<string> unlockedCosmeticIds,
@@ -272,7 +279,7 @@ namespace PequenoExplorador.Domain.Progress
             Stars, _worldIds, _discoveries, _processedDiscoveryGrantIds, _photos,
             _completedMissionIds, Preferences, _processedEconomyTransactionIds, _economyLedger,
             _missions, _processedMissionFactIds, LastMissionFactSequence, _learningSessions,
-            _learningConcepts, _unlockedCampUpgradeIds, unlockedCosmeticIds, equippedCosmetics);
+            _learningConcepts, _unlockedCampUpgradeIds, unlockedCosmeticIds, equippedCosmetics, Tutorial);
 
         public PlayerProgress WithEconomyAndCosmeticUnlock(
             ExplorerStars balance,
@@ -282,7 +289,14 @@ namespace PequenoExplorador.Domain.Progress
             balance.Value, _worldIds, _discoveries, _processedDiscoveryGrantIds, _photos,
             _completedMissionIds, Preferences, processedTransactionIds, ledger,
             _missions, _processedMissionFactIds, LastMissionFactSequence, _learningSessions,
-            _learningConcepts, _unlockedCampUpgradeIds, unlockedCosmeticIds, _equippedCosmetics);
+            _learningConcepts, _unlockedCampUpgradeIds, unlockedCosmeticIds, _equippedCosmetics, Tutorial);
+
+        public PlayerProgress WithTutorialState(TutorialProgress tutorial) => new PlayerProgress(
+            Stars, _worldIds, _discoveries, _processedDiscoveryGrantIds, _photos,
+            _completedMissionIds, Preferences, _processedEconomyTransactionIds, _economyLedger,
+            _missions, _processedMissionFactIds, LastMissionFactSequence, _learningSessions,
+            _learningConcepts, _unlockedCampUpgradeIds, _unlockedCosmeticIds, _equippedCosmetics,
+            tutorial);
 
         private static string[] CopyAndValidateCosmeticIds(IEnumerable<string> values)
         {

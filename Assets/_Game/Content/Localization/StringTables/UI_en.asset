@@ -673,6 +673,67 @@ MonoBehaviour:
     m_Localized: Binoculars
     m_Metadata:
       m_Items: []
+  - m_Id: 299481730899968
+    m_Localized: How much help would you like?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481751871488
+    m_Localized: More guidance
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481751871489
+    m_Localized: Standard guidance
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481751871490
+    m_Localized: Continue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481751871491
+    m_Localized: Listen again
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481751871492
+    m_Localized: Skip guide
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481751871493
+    m_Localized: Replay guide
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481751871494
+    m_Localized: Step {0} of {1}
+    m_Metadata:
+      m_Items:
+      - rid: 6219209779658358820
+  - m_Id: 299481751871495
+    m_Localized: Tap the map to go to the Jungle.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481751871496
+    m_Localized: Tap the ground to walk.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481751871497
+    m_Localized: Tap the toucan, then the big button.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481751871498
+    m_Localized: When the frame is ready, tap Photo.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481751871499
+    m_Localized: Discovery! You earned stars for your camp.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481751871500
+    m_Localized: Return to camp when you are ready.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481751871501
+    m_Localized: Open the Album to see your toucan.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
@@ -691,3 +752,4 @@ MonoBehaviour:
         - id: 274694820323328
         - id: 274694820323330
         - id: 274694820323332
+        - id: 299481751871494

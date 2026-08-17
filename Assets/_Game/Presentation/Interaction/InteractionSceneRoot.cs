@@ -4,6 +4,7 @@ using PequenoExplorador.Application.Input;
 using PequenoExplorador.Application.Interaction;
 using PequenoExplorador.Application.Services;
 using PequenoExplorador.Application.Learning;
+using PequenoExplorador.Application.Tutorial;
 using UnityEngine;
 
 namespace PequenoExplorador.Presentation.Interaction
@@ -19,11 +20,13 @@ namespace PequenoExplorador.Presentation.Interaction
         private IInputService _input;
         private bool _applicationPaused;
         private bool _applicationFocused = true;
+        private Func<TutorialAction, bool> _tutorialGate;
 
         public InteractionCoordinator Coordinator { get; private set; }
         public int TargetCount => _targets?.Length ?? 0;
         public InteractionDetector Detector => _detector;
         public WorldInteractableView[] Targets => _targets;
+        public void SetTutorialGate(Func<TutorialAction, bool> gate) => _tutorialGate = gate;
 
         public void Bind(
             IInteractionCatalog catalog,
@@ -76,7 +79,7 @@ namespace PequenoExplorador.Presentation.Interaction
         }
 
         public bool TryHandleTap(ScreenPoint screenPoint) =>
-            Coordinator != null && _detector.TryHandle(screenPoint);
+            Coordinator != null && (_tutorialGate == null || _tutorialGate(TutorialAction.Interact)) && _detector.TryHandle(screenPoint);
 
         private void Update() => Coordinator?.Tick();
 

@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4052a3905173f48319092bf0e13ce3a9, type: 3}
+  m_Name: PH_Tutorial_VerticalSlice
+  m_EditorClassIdentifier: PequenoExplorador.Content::PequenoExplorador.Content.Tutorial.TutorialDefinitionAsset
+  _tutorialId: tutorial.vertical-slice
+  _contentVersion: 1
+  _steps:
+  - _id: tutorial-step.enter-expedition
+    _trigger: 0
+    _allowedActions: 1
+    _spotlight: 0
+    _instructionKey: ui.tutorial.step.enter-expedition
+    _voiceCueId: audio.voice.tutorial.enter-expedition
+    _standardHelpSeconds: 12
+    _moreGuidanceHelpSeconds: 6
+  - _id: tutorial-step.move
+    _trigger: 1
+    _allowedActions: 2
+    _spotlight: 1
+    _instructionKey: ui.tutorial.step.move
+    _voiceCueId: audio.voice.tutorial.move
+    _standardHelpSeconds: 12
+    _moreGuidanceHelpSeconds: 6
+  - _id: tutorial-step.interact
+    _trigger: 2
+    _allowedActions: 6
+    _spotlight: 2
+    _instructionKey: ui.tutorial.step.interact
+    _voiceCueId: audio.voice.tutorial.interact
+    _standardHelpSeconds: 12
+    _moreGuidanceHelpSeconds: 6
+  - _id: tutorial-step.photograph
+    _trigger: 3
+    _allowedActions: 8
+    _spotlight: 3
+    _instructionKey: ui.tutorial.step.photograph
+    _voiceCueId: audio.voice.tutorial.photograph
+    _standardHelpSeconds: 12
+    _moreGuidanceHelpSeconds: 6
+  - _id: tutorial-step.discovery-reward
+    _trigger: 4
+    _allowedActions: 16
+    _spotlight: 4
+    _instructionKey: ui.tutorial.step.discovery-reward
+    _voiceCueId: audio.voice.tutorial.discovery-reward
+    _standardHelpSeconds: 12
+    _moreGuidanceHelpSeconds: 6
+  - _id: tutorial-step.return-camp
+    _trigger: 5
+    _allowedActions: 32
+    _spotlight: 5
+    _instructionKey: ui.tutorial.step.return-camp
+    _voiceCueId: audio.voice.tutorial.return-camp
+    _standardHelpSeconds: 12
+    _moreGuidanceHelpSeconds: 6
+  - _id: tutorial-step.open-album
+    _trigger: 6
+    _allowedActions: 64
+    _spotlight: 6
+    _instructionKey: ui.tutorial.step.open-album
+    _voiceCueId: audio.voice.tutorial.open-album
+    _standardHelpSeconds: 12
+    _moreGuidanceHelpSeconds: 6
+  _placeholderId: PH_TUTORIAL_VERTICAL_SLICE
+  _releaseState: ReleaseBlockedPendingNarration

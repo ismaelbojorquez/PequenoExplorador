@@ -59,7 +59,7 @@ namespace PequenoExplorador.Editor.BuildTools
                         "Localization validation failed:\n" + string.Join("\n", violations));
                 }
 
-                Debug.Log("PE_LOCALIZATION_OK package=1.5.12 locales=es,en,pseudo keys=213 stringTables=3 assetTables=2");
+                Debug.Log("PE_LOCALIZATION_OK package=1.5.12 locales=es,en,pseudo keys=235 stringTables=3 assetTables=2");
             });
         }
 
@@ -73,8 +73,8 @@ namespace PequenoExplorador.Editor.BuildTools
                     throw new InvalidOperationException("Audio validation failed:\n" + string.Join("\n", violations));
                 }
 
-                Debug.Log("PE_AUDIO_OK buses=5 cues=9 clips=14 placeholders=14 sampleRate=48000 releaseFinal=0");
-                Debug.LogWarning("PE_AUDIO_RELEASE_PENDING finalAssets=10 humanVoiceReview=required");
+                Debug.Log("PE_AUDIO_OK buses=5 cues=16 clips=28 placeholders=28 sampleRate=48000 releaseFinal=0");
+                Debug.LogWarning("PE_AUDIO_RELEASE_PENDING placeholderClips=28 humanVoiceReview=required");
             });
         }
 
@@ -116,6 +116,17 @@ namespace PequenoExplorador.Editor.BuildTools
         public static void ValidateDesignSystem()
         {
             Run(ValidateDesignSystemInternal);
+        }
+
+        public static void ValidateTutorial()
+        {
+            Run(() =>
+            {
+                IReadOnlyList<string> violations = TutorialValidationService.Validate(ContentValidationMode.Development);
+                if (violations.Count > 0)
+                    throw new InvalidOperationException("Tutorial validation failed:\n" + string.Join("\n", violations));
+                Debug.Log("PE_TUTORIAL_OK id=tutorial.vertical-slice version=1 steps=7 help=6/12s analytics=0");
+            });
         }
 
         public static void BuildAddressablesLocal()
@@ -206,7 +217,7 @@ namespace PequenoExplorador.Editor.BuildTools
                 throw new InvalidOperationException("UI design system validation failed:\n" + string.Join("\n", violations));
             }
 
-            Debug.Log("PE_UI_DESIGN_SYSTEM_OK roots=8 gallery=1 minTarget=64 recommendedTarget=72 contrast=AA tmp=canonical");
+            Debug.Log("PE_UI_DESIGN_SYSTEM_OK roots=9 gallery=1 minTarget=64 recommendedTarget=72 contrast=AA tmp=canonical");
         }
 
         private static void ValidateContentInternal(ContentValidationMode mode)
@@ -221,9 +232,10 @@ namespace PequenoExplorador.Editor.BuildTools
             Debug.Log($"PE_CONTENT_VALIDATION_OK mode={mode} discoveries=1 catalog=O1");
             Debug.Log("PE_TOUCAN_FIXTURE_OK visual=Approved visualReview=approved placeholder=false externalMedia=0 factualReview=approved");
             Debug.Log("PE_RUNTIME_CONFIG_OK profiles=2 remote=false releaseUnsafeFlags=0");
-            Debug.Log("PE_LOCALIZATION_OK package=1.5.12 locales=es,en,pseudo keys=213 stringTables=3 assetTables=2");
-            Debug.Log("PE_AUDIO_OK buses=5 cues=9 clips=14 placeholders=14 sampleRate=48000 releaseFinal=0");
-            Debug.LogWarning("PE_AUDIO_RELEASE_PENDING finalAssets=10 humanVoiceReview=required");
+            Debug.Log("PE_LOCALIZATION_OK package=1.5.12 locales=es,en,pseudo keys=235 stringTables=3 assetTables=2");
+            Debug.Log("PE_AUDIO_OK buses=5 cues=16 clips=28 placeholders=28 sampleRate=48000 releaseFinal=0");
+            Debug.Log("PE_TUTORIAL_OK id=tutorial.vertical-slice version=1 steps=7 help=6/12s analytics=0");
+            Debug.LogWarning("PE_AUDIO_RELEASE_PENDING placeholderClips=28 humanVoiceReview=required");
             Debug.Log("PE_ECONOMY_OK currency=explorer-stars rewards=4 ledger=32 premium=0 purchases=0 debugRelease=0");
             Debug.Log("PE_LEARNING_OK activities=2 concepts=2 strategies=1 rawEvents=0 integrated=Draft");
         }

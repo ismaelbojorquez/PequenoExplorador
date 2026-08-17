@@ -42,7 +42,7 @@ La numeración del catálogo maestro de prompts es una cadena operativa posterio
 | 20 | Actividad Selva de conteo. | C |
 | 21 | Actividad Selva de identificación. | C |
 | 22 | Feedback positivo, recompensa cosmética local y retorno al loop sin coerción. | C |
-| 23 | Tutorial adaptativo y reentrada para prelectores. | C |
+| 23 | Tutorial adaptativo y reentrada para prelectores. Implementación base cumplida por Prompt 28; playtest/voz final permanecen Gate C. | C |
 | 24 | Balance y contenido para 4–5 años. | C |
 | 25 | Balance y contenido para 6–7 años. | C |
 | 26 | Balance y contenido para 8–9 años. | C |

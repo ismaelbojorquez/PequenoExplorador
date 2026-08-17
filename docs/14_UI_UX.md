@@ -98,4 +98,8 @@ La dirección se llama **Kit de expedición**: superficies verde selva, bandejas
 
 `UIDesignSystemRoot` recibe tokens explícitamente —no singleton— y aplica `UIThemedText`, `UIThemedPanel`, `UIThemedButton`, `UIIconGraphic`, `UICancelableMotion` y `UIStateView`. La galería `PH_UI_ComponentGallery.prefab` contiene Primary/Secondary/Quiet y Empty/Success; el contrato incluye Loading/Error/Offline/Locked. Componentes nuevos usan TMP. Las vistas existentes conservan temporalmente `UnityEngine.UI.Text` mediante el mismo adapter porque cambiar el tipo rompería referencias serializadas/localización; no se permiten nuevos textos legacy.
 
-Boot/loading, Camp, fotografía/tarjeta, álbum, actividad, misión y personalización comparten tokens en ocho roots. Los Canvas usan referencia `1280×720`, match 0.5 y su `SafeAreaFitter` existente. `scripts/setup-design-system`, `scripts/validate-design-system` y `scripts/capture-ui-review before|after` son reproducibles; cada fase genera 40 PNG ignorados en `artifacts/ui-review/`.
+Boot/loading, Camp, fotografía/tarjeta, álbum, actividad, misión, personalización y tutorial comparten tokens en nueve roots. Los Canvas usan referencia `1280×720`, match 0.5 y su `SafeAreaFitter` existente. `scripts/setup-design-system`, `scripts/validate-design-system` y `scripts/capture-ui-review before|after` son reproducibles; cada fase genera 40 PNG ignorados en `artifacts/ui-review/`.
+
+## FTUE contextual
+
+`PH_UI_TUTORIAL` usa un selector modal completo para los dos modos de guía y después una banda contextual no bloqueante. Muestra una instrucción, progreso `n/7`, gesto/icono, replay, skip y Continue solo en la tarjeta discovery/reward. El gating deshabilita estaciones/upgrade y acciones no pertinentes sin atrapar Back/pausa. Targets son `≥64`, safe area es única y reduce-motion elimina pulso. Copy ES/EN y pseudo pasan por Localization; no hay texto largo ni error técnico para el niño.

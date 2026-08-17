@@ -3,6 +3,7 @@ using PequenoExplorador.Application.Audio;
 using PequenoExplorador.Application.Discovery;
 using PequenoExplorador.Application.Interaction;
 using PequenoExplorador.Application.Localization;
+using PequenoExplorador.Application.Tutorial;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,6 +28,7 @@ namespace PequenoExplorador.Presentation.Interaction
         private bool _showDevelopmentCount;
         private int _lastDiscoveryCount;
         private InteractionSnapshot _lastSnapshot = InteractionSnapshot.Idle;
+        private Func<TutorialAction, bool> _tutorialGate;
 
         public bool IsVisible => _panel != null && _panel.activeSelf;
         public string NameText => _nameText == null ? string.Empty : _nameText.text;
@@ -45,7 +47,8 @@ namespace PequenoExplorador.Presentation.Interaction
             ILocalizationService localization,
             IAudioService audio,
             DiscoveryInteractionAction discovery = null,
-            bool showDevelopmentCount = false)
+            bool showDevelopmentCount = false,
+            Func<TutorialAction, bool> tutorialGate = null)
         {
             Unbind();
             _coordinator = coordinator ?? throw new ArgumentNullException(nameof(coordinator));
@@ -53,6 +56,7 @@ namespace PequenoExplorador.Presentation.Interaction
             _audio = audio ?? throw new ArgumentNullException(nameof(audio));
             _discovery = discovery;
             _showDevelopmentCount = showDevelopmentCount;
+            _tutorialGate = tutorialGate;
             _coordinator.Changed += HandleChanged;
             _localization.LocaleChanged += HandleLocaleChanged;
             if (_discovery != null) _discovery.Completed += HandleDiscoveryCompleted;
@@ -70,12 +74,13 @@ namespace PequenoExplorador.Presentation.Interaction
             _audio = null;
             _discovery = null;
             _showDevelopmentCount = false;
+            _tutorialGate = null;
             _lastDiscoveryCount = 0;
             _lastSnapshot = InteractionSnapshot.Idle;
             if (_panel != null) _panel.SetActive(false);
         }
 
-        private void Activate() => _coordinator?.Activate();
+        private void Activate() { if (_tutorialGate == null || _tutorialGate(TutorialAction.Interact)) _coordinator?.Activate(); }
         private void Cancel() => _coordinator?.Cancel();
 
         private void HandleChanged(InteractionSnapshot snapshot)

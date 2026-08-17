@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-08-17 — Prompt 28
+
+- FTUE data-driven v1 con siete triggers semánticos: Camp→Selva, movimiento, interacción, fotografía, discovery/reward, retorno y álbum; una transición por outcome y sin polling por nombre.
+- Dos modos manuales sin edad, ayuda 6/12 s, spotlight/gesto, replay, skip, recovery, Back/pausa libres y reset solo Development.
+- Save schema v12 y migración pura v11→v12; solo ID/versión/paso/estado, sin taps, tiempos, edad ni analytics.
+- 22 keys nuevas ES/EN (235 totales), 7 cues/14 WAV `PH_` nuevos; narración humana y playtest bloquean Release.
+- TutorialView TMP/safe area/targets 64 integrado como noveno root del DesignSystem; gating evita acciones Camp/feature fuera de paso.
+- `scripts/validate` PASS: Addressables 61 locations/1,920,120 bytes, EditMode `165/165`, PlayMode `28/28` y APK `67,440,962` bytes (`b4c34cda8c21f4637dd42002b0ed0fd728cd41ab12e3de82f21d5fa5b6f12c18`) en `84.237 s`, API 26/36 IL2CPP/ARM64.
+
 ## 2026-08-17 — Prompt 27
 
 - Añadido `PequenoExplorador.DesignSystem`: tokens, TMP, paneles/botones, iconos geométricos, estados y motion cancelable/reduce-motion.

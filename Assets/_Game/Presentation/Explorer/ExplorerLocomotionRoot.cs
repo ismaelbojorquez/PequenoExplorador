@@ -2,6 +2,7 @@ using System;
 using PequenoExplorador.Application.Explorer;
 using PequenoExplorador.Application.Input;
 using PequenoExplorador.Application.Interaction;
+using PequenoExplorador.Application.Tutorial;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
@@ -44,6 +45,9 @@ namespace PequenoExplorador.Presentation.Explorer
         private bool _bound;
         private IExplorerTapHandler _tapHandler;
         private Transform _photographyFocus;
+        private Func<TutorialAction, bool> _tutorialGate;
+
+        public event Action MovementAccepted;
 
         public ExplorerLocomotionState State => _controller?.State ?? ExplorerLocomotionState.Idle;
         public bool IsBound => _bound;
@@ -100,6 +104,7 @@ namespace PequenoExplorador.Presentation.Explorer
         }
 
         public void SetTapHandler(IExplorerTapHandler tapHandler) => _tapHandler = tapHandler;
+        public void SetTutorialGate(Func<TutorialAction, bool> gate) => _tutorialGate = gate;
 
         public void SetPhotographyFocus(Transform focus)
         {
@@ -109,8 +114,11 @@ namespace PequenoExplorador.Presentation.Explorer
 
         public bool TryMoveTo(WorldPosition destination)
         {
-            return _bound && _controller != null && _input.CurrentMap == InputMapId.Explorer &&
-                   _controller.MoveTo(destination);
+            if (!_bound || _controller == null || _input.CurrentMap != InputMapId.Explorer ||
+                (_tutorialGate != null && !_tutorialGate(TutorialAction.Move))) return false;
+            bool accepted = _controller.MoveTo(destination);
+            if (accepted) MovementAccepted?.Invoke();
+            return accepted;
         }
 
         public void CancelMovement() => _controller?.Cancel();
@@ -119,6 +127,7 @@ namespace PequenoExplorador.Presentation.Explorer
         {
             if (!_bound || _controller == null || _input.CurrentMap != InputMapId.Explorer)
                 return false;
+            if (_tutorialGate != null && !_tutorialGate(TutorialAction.Move)) return false;
 
             Ray ray = _camera.ScreenPointToRay(new Vector3(screenPoint.X, screenPoint.Y));
             if (!Physics.Raycast(ray, out RaycastHit hit, _rayDistance, Physics.DefaultRaycastLayers,
@@ -134,6 +143,7 @@ namespace PequenoExplorador.Presentation.Explorer
             bool accepted = _controller.MoveTo(new WorldPosition(
                 navHit.position.x, navHit.position.y, navHit.position.z));
             ShowFeedback(accepted ? _destinationMarker : _invalidMarker, navHit.position);
+            if (accepted) MovementAccepted?.Invoke();
             return accepted;
         }
 

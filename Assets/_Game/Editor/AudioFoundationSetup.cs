@@ -40,6 +40,13 @@ namespace PequenoExplorador.Editor
             new CueSeed("audio.voice.narration.welcome", AudioCueCategory.Narration, AudioBus.Voice, AudioPriority.Critical, false, 0f, 0.30f, "content.audio.narration.welcome", "PH_VOICE_NARRATION_WELCOME", "PH_Voice_Narration_Welcome", 262f, 277f, 0.60f),
             new CueSeed("audio.voice.instruction.toucan-food", AudioCueCategory.VoiceInstruction, AudioBus.Voice, AudioPriority.High, false, 0f, 0.28f, "content.audio.instruction.toucan-food", "PH_VOICE_INSTRUCTION_TOUCAN_FOOD", "PH_Voice_Instruction_ToucanFood", 330f, 349f, 0.62f),
             new CueSeed("audio.voice.fact.toucan-fruit", AudioCueCategory.Narration, AudioBus.Voice, AudioPriority.Critical, false, 0f, 0.28f, "content.audio.fact.toucan-fruit", "PH_VOICE_FACT_TOUCAN_FRUIT", "PH_Voice_Fact_ToucanFruit", 392f, 415f, 0.52f)
+            ,new CueSeed("audio.voice.tutorial.enter-expedition", AudioCueCategory.VoiceInstruction, AudioBus.Voice, AudioPriority.High, false, 0f, 0.28f, "content.audio.tutorial.enter-expedition", "PH_VOICE_TUTORIAL_ENTER", "PH_Voice_Tutorial_Enter", 294f, 330f, 0.50f)
+            ,new CueSeed("audio.voice.tutorial.move", AudioCueCategory.VoiceInstruction, AudioBus.Voice, AudioPriority.High, false, 0f, 0.28f, "content.audio.tutorial.move", "PH_VOICE_TUTORIAL_MOVE", "PH_Voice_Tutorial_Move", 311f, 349f, 0.50f)
+            ,new CueSeed("audio.voice.tutorial.interact", AudioCueCategory.VoiceInstruction, AudioBus.Voice, AudioPriority.High, false, 0f, 0.28f, "content.audio.tutorial.interact", "PH_VOICE_TUTORIAL_INTERACT", "PH_Voice_Tutorial_Interact", 330f, 370f, 0.55f)
+            ,new CueSeed("audio.voice.tutorial.photograph", AudioCueCategory.VoiceInstruction, AudioBus.Voice, AudioPriority.High, false, 0f, 0.28f, "content.audio.tutorial.photograph", "PH_VOICE_TUTORIAL_PHOTO", "PH_Voice_Tutorial_Photo", 349f, 392f, 0.55f)
+            ,new CueSeed("audio.voice.tutorial.discovery-reward", AudioCueCategory.Narration, AudioBus.Voice, AudioPriority.Critical, false, 0f, 0.28f, "content.audio.tutorial.discovery-reward", "PH_VOICE_TUTORIAL_REWARD", "PH_Voice_Tutorial_Reward", 392f, 440f, 0.62f)
+            ,new CueSeed("audio.voice.tutorial.return-camp", AudioCueCategory.VoiceInstruction, AudioBus.Voice, AudioPriority.High, false, 0f, 0.28f, "content.audio.tutorial.return-camp", "PH_VOICE_TUTORIAL_RETURN", "PH_Voice_Tutorial_Return", 370f, 415f, 0.52f)
+            ,new CueSeed("audio.voice.tutorial.open-album", AudioCueCategory.VoiceInstruction, AudioBus.Voice, AudioPriority.High, false, 0f, 0.28f, "content.audio.tutorial.open-album", "PH_VOICE_TUTORIAL_ALBUM", "PH_Voice_Tutorial_Album", 415f, 466f, 0.52f)
         };
 
         [MenuItem("Pequeño Explorador/Development/Audio/Apply Foundation")]
@@ -64,7 +71,7 @@ namespace PequenoExplorador.Editor
                 ConfigureBootstrapScene(catalog);
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
-                Debug.Log("PE_AUDIO_SETUP_OK buses=5 cues=9 clips=14 placeholders=14 sampleRate=48000 remote=false");
+                Debug.Log("PE_AUDIO_SETUP_OK buses=5 cues=16 clips=28 placeholders=28 sampleRate=48000 remote=false");
                 if (UnityEngine.Application.isBatchMode) EditorApplication.Exit(0);
             }
             catch (Exception exception)

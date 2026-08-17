@@ -296,7 +296,7 @@ El bus en memoria solo cubre fan-out acotado. `Subscribe<T>` devuelve `IDisposab
 | Analytics | `NullAnalyticsService` | `NullAnalyticsService` |
 | Ads | `MockAdsService` si flag local ON; default ON | `NoAdsService`; `MockAds` prohibido |
 | Purchases | `MockPurchaseService` si flag local ON; default ON | `UnavailablePurchaseService`; `MockPurchases` prohibido |
-| Save/Photos/Economy/Missions/Learning/Camp/Customization | Local schema v11 + photo store + debug grant/unlock compilados | Igual; debug/simuladores/tooling y cosméticos `PH_` excluidos; fixtures Draft bloqueadas |
+| Save/Photos/Economy/Missions/Learning/Camp/Customization/Tutorial | Local schema v12 + photo store + debug grant/unlock/reset compilados | Igual; debug/simuladores/tooling y `PH_` excluidos; fixtures/narración Draft bloqueadas |
 | Localization | ES/EN + pseudo y selector diagnóstico | ES/EN; pseudo/selector diagnóstico excluidos |
 | Audio | Mixer/cues PH_, panel y replay diagnóstico | Servicio local; panel oculto y placeholders bloquean Release de contenido |
 | Input/safe area | 5 mapas; Debug overlay local; presets de ratio | Mapas de producto, Debug deshabilitado; safe area local |
@@ -339,4 +339,8 @@ Subdividir un assembly requiere evidencia de tiempos de compilación, ownership,
 - Unity `6000.3.22f1`, Addressables `4.0.1`, AI Navigation `2.0.9`, URP `17.3.0`, Input System `1.20.0`, Test Framework `1.6.0`, uGUI `2.0.0`.
 - Bootstrap es la única escena habilitada en Build Settings; Camp/Jungle son locales Addressable. Development muestra navegación/fallo simulado; Release oculta controles Development.
 - Android sigue min API 26, target/compile 36, IL2CPP y ARM64; sin manifest/Gradle custom ni permiso sensible nuevo.
-- Existen locomoción, interacción, discovery, fotografía, álbum, economía, misión, learning, actividad integrada, Camp y personalización inclusiva; no existen UI/arte final, contenido remoto ni SDKs comerciales. Save schema v11 no guarda PII/cuentas/pixels/respuestas/taps/género; ads/IAP/analytics son únicamente Null/Mock/Unavailable locales sin red.
+- Existen locomoción, interacción, discovery, fotografía, álbum, economía, misión, learning, actividad integrada, Camp, personalización inclusiva y FTUE contextual; no existen UI/arte final, contenido remoto ni SDKs comerciales. Save schema v12 no guarda PII/cuentas/pixels/respuestas/taps/tiempos/género; ads/IAP/analytics son únicamente Null/Mock/Unavailable locales sin red.
+
+## Flujo de tutorial
+
+`Content/TutorialDefinitionAsset → Application/TutorialCoordinator → Presentation/TutorialView`; Bootstrap traduce outcomes de scene flow, locomoción, interacción, fotografía y álbum a `TutorialTrigger`. El coordinador es el único owner del estado y gating; no hay polling, reflection, bus paralelo ni acceso a Save desde Presentation. Los repositorios trabajan sobre el mismo `PlayerProgress`/autosave y la migración pura v11→v12 agrega solo `TutorialProgress` default.

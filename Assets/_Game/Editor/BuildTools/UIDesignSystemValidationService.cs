@@ -28,7 +28,7 @@ namespace PequenoExplorador.Editor.BuildTools
 
             Scene scene = EditorSceneManager.OpenScene(ProjectFoundationSetup.BootstrapScenePath, OpenSceneMode.Single);
             UIDesignSystemRoot[] roots = scene.GetRootGameObjects().SelectMany(value => value.GetComponentsInChildren<UIDesignSystemRoot>(true)).ToArray();
-            if (roots.Length != 8) violations.Add($"UI006 expected 8 themed critical roots; found {roots.Length}: {string.Join(",", roots.Select(value => value.gameObject.name))}.");
+            if (roots.Length != 9) violations.Add($"UI006 expected 9 themed critical roots; found {roots.Length}: {string.Join(",", roots.Select(value => value.gameObject.name))}.");
             Canvas.ForceUpdateCanvases();
             foreach (Button button in scene.GetRootGameObjects().SelectMany(value => value.GetComponentsInChildren<Button>(true)))
             {

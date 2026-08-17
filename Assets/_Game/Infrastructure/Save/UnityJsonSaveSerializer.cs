@@ -25,7 +25,7 @@ namespace PequenoExplorador.Infrastructure.Save
             }
 
             PlayerPreferences preferences = progress.Preferences;
-            PlayerProgressV11Dto payload = PlayerProgressV11Dto.Create(
+            PlayerProgressV12Dto payload = PlayerProgressV12Dto.Create(
                 appVersion,
                 progress.Stars,
                 progress.WorldIds.ToArray(),
@@ -65,6 +65,8 @@ namespace PequenoExplorador.Infrastructure.Save
                 progress.UnlockedCosmeticIds.ToArray(),
                 progress.EquippedCosmetics.Select(item => EquippedCosmeticV11Dto.Create(
                     item.SlotId.Value, item.CosmeticId.Value)).ToArray(),
+                TutorialProgressV12Dto.Create(progress.Tutorial.TutorialId, progress.Tutorial.ContentVersion,
+                    progress.Tutorial.StepIndex, (int)progress.Tutorial.Status),
                 SaveMetadataV1Dto.Create(saveSequence));
             string payloadJson = JsonUtility.ToJson(payload, false);
             return SerializeEnvelope(LocalSaveService.CurrentSchemaVersion, payloadJson);
@@ -121,10 +123,10 @@ namespace PequenoExplorador.Infrastructure.Save
 
         public DecodedSaveData DeserializeCurrentPayload(string payload)
         {
-            PlayerProgressV11Dto dto;
+            PlayerProgressV12Dto dto;
             try
             {
-                dto = JsonUtility.FromJson<PlayerProgressV11Dto>(payload);
+                dto = JsonUtility.FromJson<PlayerProgressV12Dto>(payload);
             }
             catch (Exception exception)
             {
@@ -137,6 +139,8 @@ namespace PequenoExplorador.Infrastructure.Save
                 dto.Missions == null || dto.ProcessedMissionFactIds == null || dto.LastMissionFactSequence < 0 ||
                 dto.LearningSessions == null || dto.LearningConcepts == null || dto.UnlockedCampUpgradeIds == null ||
                 dto.UnlockedCosmeticIds == null || dto.EquippedCosmetics == null ||
+                dto.Tutorial == null || string.IsNullOrWhiteSpace(dto.Tutorial.TutorialId) || dto.Tutorial.ContentVersion < 0 ||
+                dto.Tutorial.StepIndex < 0 || !Enum.IsDefined(typeof(TutorialProgressStatus), dto.Tutorial.Status) ||
                 dto.Settings == null || dto.Metadata == null || dto.Metadata.SaveSequence < 0 ||
                 !Enum.IsDefined(typeof(GuidanceMode), dto.Settings.GuidanceMode) ||
                 !LocaleCode.IsSupported(dto.Settings.LocaleCode, includePseudo: false) ||
@@ -236,7 +240,9 @@ namespace PequenoExplorador.Infrastructure.Save
                     learningConcepts,
                     dto.UnlockedCampUpgradeIds,
                     dto.UnlockedCosmeticIds,
-                    equippedCosmetics);
+                    equippedCosmetics,
+                    new TutorialProgress(dto.Tutorial.TutorialId, dto.Tutorial.ContentVersion,
+                        dto.Tutorial.StepIndex, (TutorialProgressStatus)dto.Tutorial.Status));
                 return new DecodedSaveData(progress, dto.Metadata.SaveSequence);
             }
             catch (Exception exception)

@@ -62,6 +62,14 @@ Ismael Bojórquez declaró `Audio: APPROVED`, `Rights: APPROVED` y referencia `P
 
 Cambiar especie, vocalización o nombre regional devuelve a `Reviewed` la grabación, voice name, subtítulo, replay y cualquier pista sonora. Cambiar mezcla/formato sin alterar contenido requiere QA técnico, pero no reabre facts salvo que modifique inteligibilidad o significado.
 
+## Ledger temporal FTUE Prompt 28
+
+| Cue IDs | Cantidad | Locale/formato | Emoción/uso | Estado |
+|---|---:|---|---|---|
+| `audio.voice.tutorial.enter-expedition`, `.move`, `.interact`, `.photograph`, `.discovery-reward`, `.return-camp`, `.open-album` | 14 clips | ES/EN, WAV mono 48 kHz | invitación cálida, breve, una acción por vez | `PH_` interno; Release blocked |
+
+Cada reemplazo requiere actor/propietario, licencia, take/master, texto exacto ES/EN, pronunciación de Selva/tucán, duración, loudness, QA de cola/ducking/replay, altavoz/audífonos y aprobación Child UX/Localization. Cambiar una instrucción reabre su subtítulo y ambos clips; cambiar orden/significado reabre también TutorialDefinition y tests.
+
 ## Aceptación pendiente
 
 - Sin clipping/clicks/DC offset perceptible ni loops defectuosos en dispositivo físico.

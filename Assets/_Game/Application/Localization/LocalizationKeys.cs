@@ -59,6 +59,14 @@ namespace PequenoExplorador.Application.Localization
         public static readonly LocalizedKey LearningExitSafe = new LocalizedKey(UiTable, "ui.learning.exit_safe");
         public static readonly LocalizedKey LearningActivityOpen = new LocalizedKey(UiTable, "ui.learning.activity.open");
         public static readonly LocalizedKey LearningActivityContinue = new LocalizedKey(UiTable, "ui.learning.activity.continue");
+        public static readonly LocalizedKey TutorialGuideChoice = new LocalizedKey(UiTable, "ui.tutorial.guide_choice");
+        public static readonly LocalizedKey TutorialMoreGuidance = new LocalizedKey(UiTable, "ui.tutorial.more_guidance");
+        public static readonly LocalizedKey TutorialStandardGuidance = new LocalizedKey(UiTable, "ui.tutorial.standard_guidance");
+        public static readonly LocalizedKey TutorialContinue = new LocalizedKey(UiTable, "ui.tutorial.continue");
+        public static readonly LocalizedKey TutorialReplay = new LocalizedKey(UiTable, "ui.tutorial.replay");
+        public static readonly LocalizedKey TutorialSkip = new LocalizedKey(UiTable, "ui.tutorial.skip");
+        public static readonly LocalizedKey TutorialReplayFromSettings = new LocalizedKey(UiTable, "ui.tutorial.replay_from_settings");
+        public static readonly LocalizedKey TutorialProgress = new LocalizedKey(UiTable, "ui.tutorial.progress");
 
         public static readonly LocalizedKey DiagnosticNotice = new LocalizedKey(UiTable, "ui.diagnostic.notice");
         public static readonly LocalizedKey StatusInitializing = new LocalizedKey(UiTable, "ui.status.initializing");

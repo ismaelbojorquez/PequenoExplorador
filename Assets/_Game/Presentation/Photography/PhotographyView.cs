@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using PequenoExplorador.Application.Localization;
 using PequenoExplorador.Application.Photography;
+using PequenoExplorador.Application.Tutorial;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -28,6 +29,7 @@ namespace PequenoExplorador.Presentation.Photography
         private bool _hasEvaluation;
         private PhotoCaptureResult _lastCapture;
         private bool _hasCapture;
+        private Func<TutorialAction, bool> _tutorialGate;
         public event Action ShutterRequested;
         public event Action ExitRequested;
         public event Action LearnRequested;
@@ -39,12 +41,13 @@ namespace PequenoExplorador.Presentation.Photography
         public Button LearnButton => _learn;
 
         private void Awake() { _shutter?.onClick.AddListener(HandleShutter); _exit?.onClick.AddListener(HandleExit); _learn?.onClick.AddListener(HandleLearn); }
-        public void Bind(ILocalizationService localization, bool reduceMotion)
+        public void Bind(ILocalizationService localization, bool reduceMotion, Func<TutorialAction, bool> tutorialGate = null)
         {
             Unbind();
             _localization = localization ?? throw new ArgumentNullException(nameof(localization));
             _localization.LocaleChanged += HandleLocaleChanged;
             _reduceMotion = reduceMotion;
+            _tutorialGate = tutorialGate;
             Hide();
         }
         public bool FlashVisible => _flash != null && _flash.gameObject.activeSelf;
@@ -83,7 +86,7 @@ namespace PequenoExplorador.Presentation.Photography
         public void Unbind()
         {
             if (_localization != null) _localization.LocaleChanged -= HandleLocaleChanged;
-            _localization = null; Hide();
+            _localization = null; _tutorialGate = null; Hide();
         }
         private void RenderEvaluation(PhotoEvaluation evaluation)
         {
@@ -107,7 +110,7 @@ namespace PequenoExplorador.Presentation.Photography
             RenderEvaluation(_lastEvaluation);
             if (_hasCapture && _cardText != null) _cardText.text = Resolve(CaptureKey(_lastCapture.Outcome));
         }
-        private void HandleShutter() => ShutterRequested?.Invoke();
+        private void HandleShutter() { if (_tutorialGate == null || _tutorialGate(TutorialAction.Photograph)) ShutterRequested?.Invoke(); }
         private void HandleExit() => ExitRequested?.Invoke();
         private void HandleLearn() => LearnRequested?.Invoke();
         private string Resolve(LocalizedKey key) { try { return _localization?.Resolve(key) ?? string.Empty; } catch { return string.Empty; } }

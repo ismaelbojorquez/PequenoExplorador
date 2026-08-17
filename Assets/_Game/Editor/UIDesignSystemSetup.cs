@@ -27,7 +27,8 @@ namespace PequenoExplorador.Editor
             "PH_UI_ALBUM",
             "PH_UI_LEARNING",
             "PH_UI_MISSIONS",
-            "PH_UI_CUSTOMIZATION"
+            "PH_UI_CUSTOMIZATION",
+            "PH_UI_TUTORIAL"
         };
 
         [MenuItem("Pequeño Explorador/Setup/27 Apply UI Design System")]
@@ -45,7 +46,7 @@ namespace PequenoExplorador.Editor
                 EditorSceneManager.SaveScene(scene);
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
-                Debug.Log("PE_UI_DESIGN_SYSTEM_SETUP_OK roots=8 gallery=1 tmp=canonical legacyBridge=true");
+                Debug.Log("PE_UI_DESIGN_SYSTEM_SETUP_OK roots=9 gallery=1 tmp=canonical legacyBridge=true");
                 if (UnityEngine.Application.isBatchMode) EditorApplication.Exit(0);
             }
             catch (Exception exception)

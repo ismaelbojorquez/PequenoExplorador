@@ -674,6 +674,67 @@ MonoBehaviour:
     m_Localized: Binoculares
     m_Metadata:
       m_Items: []
+  - m_Id: 299481730899968
+    m_Localized: "\xBFCu\xE1nta ayuda quieres?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481751871488
+    m_Localized: "M\xE1s gu\xEDa"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481751871489
+    m_Localized: "Gu\xEDa est\xE1ndar"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481751871490
+    m_Localized: Continuar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481751871491
+    m_Localized: Escuchar otra vez
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481751871492
+    m_Localized: "Saltar gu\xEDa"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481751871493
+    m_Localized: "Repetir gu\xEDa"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481751871494
+    m_Localized: Paso {0} de {1}
+    m_Metadata:
+      m_Items:
+      - rid: 6219209779658358817
+  - m_Id: 299481751871495
+    m_Localized: Toca el mapa para ir a la Selva.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481751871496
+    m_Localized: Toca el suelo para caminar.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481751871497
+    m_Localized: "Toca al tuc\xE1n y luego el bot\xF3n grande."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481751871498
+    m_Localized: "Cuando el marco est\xE9 listo, toca Foto."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481751871499
+    m_Localized: "\xA1Descubrimiento! Ganaste estrellas para tu campamento."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481751871500
+    m_Localized: "Vuelve al campamento cuando est\xE9s listo."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299481751871501
+    m_Localized: "Abre el \xC1lbum para ver tu tuc\xE1n."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
@@ -692,3 +753,4 @@ MonoBehaviour:
         - id: 274694820323328
         - id: 274694820323330
         - id: 274694820323332
+        - id: 299481751871494

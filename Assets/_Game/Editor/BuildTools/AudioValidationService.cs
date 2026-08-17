@@ -16,7 +16,10 @@ namespace PequenoExplorador.Editor.BuildTools
         {
             "audio.music.camp", "audio.ambience.camp", "audio.feedback.confirm", "audio.feedback.retry",
             "audio.voice.instruction.explore", "audio.voice.name.jungle", "audio.voice.narration.welcome",
-            "audio.voice.instruction.toucan-food", "audio.voice.fact.toucan-fruit"
+            "audio.voice.instruction.toucan-food", "audio.voice.fact.toucan-fruit",
+            "audio.voice.tutorial.enter-expedition", "audio.voice.tutorial.move", "audio.voice.tutorial.interact",
+            "audio.voice.tutorial.photograph", "audio.voice.tutorial.discovery-reward", "audio.voice.tutorial.return-camp",
+            "audio.voice.tutorial.open-album"
         };
 
         public static IReadOnlyList<string> Validate()
@@ -40,8 +43,8 @@ namespace PequenoExplorador.Editor.BuildTools
             }
 
             AudioCueDefinition[] cues = catalog.Cues.Where(cue => cue != null).ToArray();
-            if (cues.Length != 9 || !ExpectedIds.SetEquals(cues.Select(cue => cue.RawCueId)))
-                violations.Add("AUDIO004 catalog must contain the nine stable cue IDs exactly once");
+            if (cues.Length != 16 || !ExpectedIds.SetEquals(cues.Select(cue => cue.RawCueId)))
+                violations.Add("AUDIO004 catalog must contain the sixteen stable cue IDs exactly once");
             if (cues.Select(cue => cue.RawCueId).Distinct(StringComparer.Ordinal).Count() != cues.Length)
                 violations.Add("AUDIO005 duplicate cue ID");
 
@@ -53,8 +56,8 @@ namespace PequenoExplorador.Editor.BuildTools
 
             string[] audioFiles = AssetDatabase.FindAssets("t:AudioClip", new[] { "Assets/_Game" })
                 .Select(AssetDatabase.GUIDToAssetPath).OrderBy(path => path, StringComparer.Ordinal).ToArray();
-            if (audioFiles.Length != 14 || audioFiles.Any(path => !path.StartsWith(AudioFoundationSetup.ClipRoot + "/PH_", StringComparison.Ordinal)))
-                violations.Add("AUDIO006 only fourteen PH_ clips may exist under the audio placeholder root");
+            if (audioFiles.Length != 28 || audioFiles.Any(path => !path.StartsWith(AudioFoundationSetup.ClipRoot + "/PH_", StringComparison.Ordinal)))
+                violations.Add("AUDIO006 only twenty-eight PH_ clips may exist under the audio placeholder root");
 
             return violations;
         }

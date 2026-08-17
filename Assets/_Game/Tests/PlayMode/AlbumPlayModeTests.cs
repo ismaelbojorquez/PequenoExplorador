@@ -36,6 +36,8 @@ namespace PequenoExplorador.Tests.PlayMode
             DiagnosticBootstrap bootstrap = Object.FindFirstObjectByType<DiagnosticBootstrap>();
             Task reset = bootstrap.ResetProgressForTestsAsync(CancellationToken.None);
             yield return WaitForTask(reset);
+            bootstrap.Tutorial.Initialize();
+            bootstrap.Tutorial.Skip();
             AlbumView album = bootstrap.AlbumView;
             Assert.That(album.IsOpenAvailable, Is.True);
             album.OpenButton.onClick.Invoke();
@@ -80,6 +82,8 @@ namespace PequenoExplorador.Tests.PlayMode
             DiagnosticBootstrap bootstrap = Object.FindFirstObjectByType<DiagnosticBootstrap>();
             Task reset = bootstrap.ResetProgressForTestsAsync(CancellationToken.None);
             yield return WaitForTask(reset);
+            bootstrap.Tutorial.Initialize();
+            bootstrap.Tutorial.Skip();
             Task<SceneTransitionResult> enter = bootstrap.GoToExpeditionAsync(CancellationToken.None);
             yield return WaitForTask(enter);
             Assert.That(enter.Result.IsSuccess, Is.True, enter.Result.ErrorCode);
