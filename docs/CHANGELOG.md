@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-08-17 — Remediación UI/lifecycle Gate B (evidencia)
+
+- Commit técnico fijado: `a4238c73a21eeca7d0a2572015a9f7ab93205f11`; `scripts/validate` pasa compile/validadores, Addressables local, EditMode `172/172`, PlayMode `31/31` y APK Development.
+- Candidato retenido: 67,454,896 bytes, SHA-256 `c3492324b77d91ebc062d5ad01dd14b4296c3a685bc9382d9a80b160a8db8adf`, API 26/36, IL2CPP ARM64; zipalign/ELF 16 KB y permisos estáticos pasan.
+- Instalación, cinco arranques, journey, lifecycle/rotación/touch, persistencia y profiling quedan `NOT RUN/BLOCKED`: el dispositivo se desconectó antes de instalar. Un save limpio requiere además autorización explícita para reset/restauración.
+- Playtest infantil/no lector `NOT RUN`: no hubo facilitador, consentimiento ni participante. Gate B conserva `FAIL` y Prompt 31 permanece bloqueado hasta matriz física, playtest y reauditoría independiente.
+
 ## 2026-08-17 — Remediación UI/lifecycle Gate B (implementación)
 
 - Añadidos `AppUiState`/input/Back semánticos y policy Presentation fail-closed para trece superficies persistentes.

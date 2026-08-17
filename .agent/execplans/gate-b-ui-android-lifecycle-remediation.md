@@ -1,8 +1,8 @@
 # ExecPlan — remediar composición UI y lifecycle Android de Gate B
 
 - Fase/Gate: remediación posterior a Prompt 30 / Gate B
-- Estado: In Progress
-- Creado/actualizado: 2026-08-17 12:16 CST
+- Estado: Blocked on physical device and human playtest
+- Creado/actualizado: 2026-08-17 12:45 CST
 - Owner: Principal Unity UI Runtime Architect + Android Lifecycle Engineer
 
 ## Propósito y alcance
@@ -11,7 +11,7 @@ Hacer que el Vertical Slice sea visible y táctil en Android mediante ownership 
 
 ## Contexto y orientación
 
-Entrada limpia `main@8cdd0bdc51a0b5ffce9227b3324a5a07856e6bda`; auditoría vigente `docs/audits/GATE_B_2026-08-17_PHYSICAL_AND_CHILD_UX.md` = `FAIL`. Unity `6000.3.22f1`; paquetes exactos sin cambios. Bootstrap contiene 13 Canvas persistentes y un EventSystem. No existe `CanvasGroup` ni owner de composición; cada view gobierna solo paneles internos. `DiagnosticBootstrap` enlaza todas las vistas y habilita diagnostics por flag, pero no desactiva roots incompatibles al cambiar Camp/Expedition/feature. El HONOR DNY-NX9 Android 16 está conectado. Su save puede contener grants debug; prohibido borrar/restaurar sin autorización.
+Entrada limpia `main@8cdd0bdc51a0b5ffce9227b3324a5a07856e6bda`; auditoría vigente `docs/audits/GATE_B_2026-08-17_PHYSICAL_AND_CHILD_UX.md` = `FAIL`. Unity `6000.3.22f1`; paquetes exactos sin cambios. Bootstrap contiene 13 Canvas persistentes y un EventSystem. No existe `CanvasGroup` ni owner de composición; cada view gobierna solo paneles internos. `DiagnosticBootstrap` enlaza todas las vistas y habilita diagnostics por flag, pero no desactiva roots incompatibles al cambiar Camp/Expedition/feature. En el preflight el HONOR DNY-NX9 Android 16 estaba conectado; se desconectó antes de instalar el candidato. Su save puede contener grants debug; prohibido borrar/restaurar sin autorización.
 
 Baseline 2026-08-17: `scripts/validate` = `PASS`, EditMode 169/169, PlayMode 29/29, APK Development; 134.38 s total. Este PASS automatizado no contradice el FAIL físico.
 
@@ -22,9 +22,9 @@ Baseline 2026-08-17: `scripts/validate` = `PASS`, EditMode 169/169, PlayMode 29/
 - [x] 2026-08-17 12:08 CST — matriz tipada, coordinator de 13 superficies, sorting y diagnostics cerrados por defecto.
 - [x] 2026-08-17 12:10 CST — recovery coalescido de safe area/surface/cámara en resize/orientación/focus.
 - [x] 2026-08-17 12:15 CST — validator integrado; EditMode 172/172 y PlayMode 31/31 acotados.
-- [ ] Ejecutar suite, construir/identificar/instalar APK exacto.
-- [ ] Ejecutar matriz física posible sin mutación destructiva.
-- [ ] Documentar playtest `NOT RUN` salvo evidencia humana consentida válida.
+- [x] 2026-08-17 12:34 CST — suite integral `PASS`; commit técnico `a4238c73a21eeca7d0a2572015a9f7ab93205f11`; APK exacto construido e identificado.
+- [x] 2026-08-17 12:40 CST — matriz física intentada sin mutación: `adb devices -l` quedó vacío; instalación y casos físicos registrados `NOT RUN/BLOCKED`.
+- [x] 2026-08-17 12:42 CST — playtest registrado `NOT RUN`: no hubo facilitador, consentimiento ni participante; no se simuló evidencia humana.
 
 ## Hallazgos
 
@@ -36,6 +36,7 @@ Baseline 2026-08-17: `scripts/validate` = `PASS`, EditMode 169/169, PlayMode 29/
 - Hallazgo durante setup: Status vive bajo el `Diagnostic Canvas` ya existente; promover su content node a Canvas anidado duplicaba safe-area ownership. El setup restaura ese hierarchy y registra el Canvas owner, sin Canvas anidado.
 - Hallazgo de CI: `WaitForEndOfFrame` no se invoca en batchmode. El recovery espera frames ordinarios, verificables en CI y Android, antes de reactivar cámara.
 - Límite: un playtest con menores requiere facilitador, consentimiento y evidencia humana; Codex no puede producirlo.
+- Bloqueo de cierre: el HONOR DNY-NX9 dejó de estar disponible antes de instalar el candidato. El save observado puede contener grants debug; un journey limpio también exige autorización expresa para resetear/restaurar progreso.
 
 ## Decisiones
 
@@ -50,22 +51,23 @@ Baseline 2026-08-17: `scripts/validate` = `PASS`, EditMode 169/169, PlayMode 29/
 
 | Estado | Primario | Overlays permitidos | Input | Back | Rotación |
 |---|---|---|---|---|---|
-| Boot | status | transition/error | UI | pausa no disponible | reflow |
-| Transition | scene-flow | tutorial de espera no interactivo | UI | ignorado por transición | reflow |
-| Camp | camp | tutorial; pausa | UI | cerrar modal/pausa | reflow |
-| Expedition | mundo | interaction; tutorial; pausa | Explorer | pausa | reflow/cámara |
-| Interaction | mundo | prompt; tutorial; pausa | Explorer | cancelar/pausa | reflow/cámara |
-| LearningActivity | learning | tutorial; pausa | UI | salida/pausa | reflow |
-| Photography | photography | tutorial; pausa | Photography | salir/pausa | reflow/cámara |
-| DiscoveryResult | photography card | tutorial; pausa | Photography | salir/pausa | reflow |
-| Album | album | tutorial; pausa | UI | detalle→grid→Camp | reflow |
-| Missions | missions | pausa | UI | Camp | reflow |
-| CampUpgrade | camp preview | tutorial; pausa | UI | cancelar preview | reflow |
+| Boot | status | ninguno | UI | ignorado | reflow |
+| Transition | scene-flow | ninguno | UI | ignorado | reflow |
+| Camp | camp | tutorial | UI | pausa | reflow |
+| Expedition | mundo 3D | interaction; tutorial | Explorer | pausa | reflow/cámara |
+| Interaction | mundo 3D | interaction; tutorial | Explorer | pausa | reflow/cámara |
+| LearningActivity | learning | tutorial | UI | cerrar | reflow |
+| Photography | photography | tutorial | Photography | cerrar | reflow/cámara |
+| DiscoveryResult | photography card | tutorial | Photography | cerrar | reflow |
+| Album | album | tutorial | UI | cerrar | reflow |
+| Missions | missions | ninguno | UI | cerrar | reflow |
+| CampUpgrade | camp preview | tutorial | UI | cerrar | reflow |
+| Customization | customization | tutorial | UI | cerrar | reflow |
 | Pause | pause | ninguno interactivo debajo | UI | reanudar | reflow |
-| ErrorRecovery | status/scene-flow | pausa no disponible | UI | seguro | reflow |
-| DevelopmentDiagnostics | diagnostics elegidos | nunca producto interactivo simultáneo | Debug + mapa previo | cerrar | reflow |
+| ErrorRecovery | status | ninguno | UI | retry/stay | reflow |
+| DevelopmentDiagnostics | diagnostics deliberado | nunca producto interactivo simultáneo | UI + acceso deliberado | cerrar | reflow |
 
-Todo root no listado queda alpha 0, `interactable=false`, `blocksRaycasts=false` y sin `GraphicRaycaster` activo. La tabla se refinará contra la implementación y tests.
+Todo root no listado queda alpha 0, `interactable=false`, `blocksRaycasts=false` y sin `GraphicRaycaster` activo. La tabla coincide con la policy implementada y sus tests exhaustivos.
 
 ## Plan de implementación
 
@@ -87,7 +89,11 @@ Todo root no listado queda alpha 0, `interactable=false`, `blocksRaycasts=false`
 - `scripts/test-playmode` — `PASS`, 31/31. Fallos intermedios: teardown destroyed-reference 5 casos y `WaitForEndOfFrame` batchmode 1 caso; ambos corregidos y repetidos.
 - `scripts/check-repository && git diff --check` — `PASS`, 110 Markdown, 22 JSON, 1 workflow, 0 secretos.
 - `scripts/validate` posterior — `PASS` y repetido tras la revisión de races/Back: repository checks, compile/validators, Addressables local 61 locations/1,920,120 bytes, EditMode 172/172, PlayMode 31/31 y APK Development. El último APK pre-commit mide 67,454,896 bytes y tiene SHA-256 `1276ce68417c5b504da1ea9f8cd5ef43273e219855b0502ae7a699c18bc064df`; solo valida el working tree y se reconstruirá tras el commit técnico para identificar el candidato físico con commit exacto.
-- Matriz física/playtest — `NOT RUN`, pendiente; save limpio exige autorización y playtest exige facilitador/consentimiento.
+- Commit técnico — `PASS`: `a4238c73a21eeca7d0a2572015a9f7ab93205f11` (`fix(ui): enforce app state presentation lifecycle`).
+- APK post-commit — `PASS` de build/identidad estática: 67,454,896 bytes, SHA-256 `c3492324b77d91ebc062d5ad01dd14b4296c3a685bc9382d9a80b160a8db8adf`, commit embebido exacto, API 26/36, IL2CPP ARM64. `zipalign -P 16` y LOAD ELF 16384 pasan; sin permisos sensibles.
+- `adb devices -l` posterior — `BLOCKED`: lista vacía. Respaldo, instalación, hash extraído, cinco starts, journey, lifecycle, touch, rotación y profiling = `NOT RUN`.
+- Journey desde save limpio — `BLOCKED`: además del dispositivo ausente, no existe autorización para borrar/restaurar el progreso posiblemente contaminado.
+- Playtest — `NOT RUN`: sin facilitador, consentimiento ni participante.
 
 ## Recovery y seguridad
 
@@ -95,4 +101,6 @@ El cambio se limita a archivos de proyecto y artefactos ignorados. No limpiar Gi
 
 ## Resultados y retrospectiva
 
-En curso. Gate B y Prompt 31 permanecen bloqueados. El cierre registrará código/tests/build/device, deuda, playtest real o `NOT RUN`, hashes de commits y siguiente auditoría independiente.
+La porción técnica terminó y quedó aislada en `a4238c73a21eeca7d0a2572015a9f7ab93205f11`: policy/ownership fail-closed, lifecycle recovery, validator y regresiones pasan la suite integral. El APK candidato exacto está retenido con hash `c349232…` y sus controles binarios estáticos pasan.
+
+La eficacia física no se verificó porque el dispositivo se desconectó antes de instalar. Tampoco se ejecutó playtest humano. El resultado del plan es `BLOCKED`, no `READY`: Gate B conserva `FAIL`, Prompt 31 permanece bloqueado y la siguiente acción es matriz física + playtest + reauditoría independiente. El expediente técnico está en [`docs/audits/GATE_B_UI_ANDROID_REMEDIATION_2026-08-17.md`](../../docs/audits/GATE_B_UI_ANDROID_REMEDIATION_2026-08-17.md).

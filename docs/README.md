@@ -86,6 +86,7 @@ Los saltos numéricos reservan espacio para documentos técnicos futuros; no imp
 - [`audits/GATE_B_2026-08-17.md`](audits/GATE_B_2026-08-17.md): auditoría condicional histórica previa a la matriz física; integración técnica automatizada 5/5, Android físico y playtest infantil/no lector entonces `NOT RUN`.
 - [`audits/GATE_B_2026-08-17_ANDROID_BOOTSTRAP_FIX.md`](audits/GATE_B_2026-08-17_ANDROID_BOOTSTRAP_FIX.md): adenda histórica del crash tras splash; causa `MonoScript` incrustado reparada, validator fail-closed y arranque físico hasta Camp verificado. Gate B permanecía `CONDITIONAL` en ese punto.
 - [`audits/GATE_B_2026-08-17_PHYSICAL_AND_CHILD_UX.md`](audits/GATE_B_2026-08-17_PHYSICAL_AND_CHILD_UX.md): auditoría física vigente; `FAIL` por composición/hitboxes UI, Selva oculta, rotación negra y playtest no ejecutado. Sustituye el veredicto condicional para decidir la siguiente acción.
+- [`audits/GATE_B_UI_ANDROID_REMEDIATION_2026-08-17.md`](audits/GATE_B_UI_ANDROID_REMEDIATION_2026-08-17.md): implementación fail-closed y APK exacto validados automáticamente; hardware/playtest `BLOCKED/NOT RUN`. No cambia Gate B ni autoriza Prompt 31.
 - [`audits/GATE_B_2026-08-16.md`](audits/GATE_B_2026-08-16.md): auditoría histórica sobre Prompt 18; su `FAIL` documentó correctamente que el journey todavía no existía.
 
 ## Evidencia de preflight
