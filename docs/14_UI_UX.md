@@ -80,3 +80,22 @@ Todo copy runtime usa las keys estables de [`17_LOCALIZATION.md`](17_LOCALIZATIO
 - Toda pantalla tiene acción principal, salida segura, estado sin audio y fallback sin lectura.
 - Ambos modos ofrecen mismo contenido/progreso.
 - Área adulta no expone compras ni links al niño.
+
+## Design system ejecutable — Prompt 27
+
+La dirección se llama **Kit de expedición**: superficies verde selva, bandejas profundas, tarjetas papel cálido y acentos mango/cielo/hoja. No usa gradientes, emoji ni assets aleatorios; color siempre se acompaña de copy, forma o icono geométrico.
+
+| Token | Valor/rol |
+|---|---|
+| Canvas / Surface | `#124339` / `#1C5B48` |
+| Paper / Ink | `#FFF8E2` / `#1C342F` |
+| Mango / Sky / Leaf | `#FFB039` / `#49A6D3` / `#3DA86C` |
+| Error / Warning / Success | coral / mango / hoja; nunca como señal única |
+| Espaciado | unidad `8`; familias 8/16/24/32/48 |
+| Tipografía | Display 52, Headline 42, Title 32, Body 26, Label 24, Caption 18; escala 1.00–1.25 |
+| Targets | mínimo `64`, recomendado infantil `72` unidades lógicas |
+| Motion | 0.12/0.22/0.36 s, cancelable; reduce-motion es inmediato |
+
+`UIDesignSystemRoot` recibe tokens explícitamente —no singleton— y aplica `UIThemedText`, `UIThemedPanel`, `UIThemedButton`, `UIIconGraphic`, `UICancelableMotion` y `UIStateView`. La galería `PH_UI_ComponentGallery.prefab` contiene Primary/Secondary/Quiet y Empty/Success; el contrato incluye Loading/Error/Offline/Locked. Componentes nuevos usan TMP. Las vistas existentes conservan temporalmente `UnityEngine.UI.Text` mediante el mismo adapter porque cambiar el tipo rompería referencias serializadas/localización; no se permiten nuevos textos legacy.
+
+Boot/loading, Camp, fotografía/tarjeta, álbum, actividad, misión y personalización comparten tokens en ocho roots. Los Canvas usan referencia `1280×720`, match 0.5 y su `SafeAreaFitter` existente. `scripts/setup-design-system`, `scripts/validate-design-system` y `scripts/capture-ui-review before|after` son reproducibles; cada fase genera 40 PNG ignorados en `artifacts/ui-review/`.

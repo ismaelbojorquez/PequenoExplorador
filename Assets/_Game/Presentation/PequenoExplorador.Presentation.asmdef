@@ -3,8 +3,10 @@
   "rootNamespace": "PequenoExplorador.Presentation",
   "references": [
     "PequenoExplorador.Application",
+    "PequenoExplorador.DesignSystem",
     "PequenoExplorador.Domain",
-    "UnityEngine.AIModule"
+    "UnityEngine.AIModule",
+    "Unity.TextMeshPro"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

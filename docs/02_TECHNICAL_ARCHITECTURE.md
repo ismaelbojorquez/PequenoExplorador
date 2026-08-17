@@ -26,10 +26,15 @@ PequenoExplorador.Infrastructure
 ├─ Unity.InputSystem
 └─ UnityEngine.AudioModule
 
+PequenoExplorador.DesignSystem
+└─ Unity.TextMeshPro
+
 PequenoExplorador.Presentation
 ├─ Application
+├─ DesignSystem
 ├─ Domain
-└─ UnityEngine.AIModule
+├─ UnityEngine.AIModule
+└─ Unity.TextMeshPro
 
 PequenoExplorador.Bootstrap
 ├─ Application
@@ -41,34 +46,36 @@ PequenoExplorador.Bootstrap
 └─ UnityEngine.AudioModule
 
 PequenoExplorador.Editor [Editor only]
-├─ Application / Bootstrap / Content / Domain
+├─ Application / Bootstrap / Content / DesignSystem / Domain
 ├─ Infrastructure / Presentation
 ├─ Unity.Addressables / Unity.Addressables.Editor / Unity.AI.Navigation / Unity.InputSystem
-├─ Unity.Localization / Unity.Localization.Editor / Unity.RenderPipelines.Universal.Runtime
+├─ Unity.Localization / Unity.Localization.Editor / Unity.RenderPipelines.Universal.Runtime / Unity.TextMeshPro
 └─ UnityEngine.AudioModule
 
 PequenoExplorador.Tests.EditMode [Editor only]
 ├─ Application
 ├─ Bootstrap
 ├─ Content
+├─ DesignSystem
 ├─ Domain
 ├─ Editor
 ├─ Infrastructure
 ├─ Presentation
-├─ Unity.Localization / Unity.Localization.Editor / Unity.InputSystem
+├─ Unity.Localization / Unity.Localization.Editor / Unity.InputSystem / Unity.TextMeshPro
 └─ UnityEngine.AudioModule
 
 PequenoExplorador.Tests.PlayMode
 ├─ Application
 ├─ Bootstrap
+├─ DesignSystem
 ├─ Domain
 ├─ Infrastructure / Presentation
-└─ Unity.InputSystem / Unity.InputSystem.TestFramework / UnityEngine.AIModule / UnityEngine.AudioModule
+└─ Unity.InputSystem / Unity.InputSystem.TestFramework / Unity.TextMeshPro / UnityEngine.AIModule / UnityEngine.AudioModule
 ```
 
-Son nueve assemblies de proyecto. Las suites reciben NUnit/TestRunner mediante `optionalUnityReferences: TestAssemblies`; no usan `overrideReferences`. Las dependencias implícitas de Unity solo están disponibles donde `noEngineReferences=false`.
+Son diez assemblies de proyecto. Las suites reciben NUnit/TestRunner mediante `optionalUnityReferences: TestAssemblies`; no usan `overrideReferences`. Las dependencias implícitas de Unity solo están disponibles donde `noEngineReferences=false`.
 
-El player Android inspeccionado contiene únicamente los seis assemblies runtime en `ManagedStripped`; `PequenoExplorador.Editor` y ambas suites no entran al APK.
+El player Android contiene siete assemblies runtime de proyecto; `PequenoExplorador.Editor` y ambas suites no entran al APK.
 
 ## Responsabilidades y límites
 
@@ -78,6 +85,7 @@ El player Android inspeccionado contiene únicamente los seis assemblies runtime
 | Application | Lifecycle, contexto inmutable y puertos sobre Domain/BCL. | Unity, concretos de Infrastructure/Presentation/Content. |
 | Content | Authoring y mapeo de contenido aprobado. | Infrastructure y Presentation; estado mutable de sesión. |
 | Infrastructure | Reloj/random/logger/bus, adapters Null/Mock/seguros, ownership Addressables y save DTO/filesystem. | Presentation, Content y Bootstrap. |
+| DesignSystem | Tokens, tipografía TMP, paneles, botones, iconos geométricos, estados y motion cancelable. | Domain, Application, Content, Infrastructure y reglas de feature. |
 | Presentation | Vistas y adapters Unity de UI/input/cámara/locomoción; NavMesh implementa un puerto Application sin filtrar al núcleo. | Infrastructure, filesystem, ads, IAP y concretos de plataforma. |
 | Bootstrap | Único composition root; configura perfil y ensambla puertos/concretos explícitamente. | Reglas de producto, lookup genérico, service locator o singleton global. |
 | Editor | Build/setup/validación que nunca entra en player. | Gameplay y estado runtime. |
@@ -301,7 +309,7 @@ Editor o `PE_DEVELOPMENT_SERVICES` compilan la posibilidad de mocks; `IAppConfig
 
 ## Enforcement
 
-`AssemblyBoundaryRules` carga los nueve `.asmdef` reales y exige:
+`AssemblyBoundaryRules` carga los diez `.asmdef` reales y exige:
 
 - allowlist exacta de referencias y namespaces `PequenoExplorador.*`;
 - Domain/Application sin engine;

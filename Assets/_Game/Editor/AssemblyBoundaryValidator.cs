@@ -62,6 +62,10 @@ namespace PequenoExplorador.Editor
                 {
                     "PequenoExplorador.Domain"
                 },
+                ["PequenoExplorador.DesignSystem"] = new[]
+                {
+                    "Unity.TextMeshPro"
+                },
                 ["PequenoExplorador.Content"] = new[]
                 {
                     "PequenoExplorador.Application",
@@ -82,8 +86,10 @@ namespace PequenoExplorador.Editor
                 ["PequenoExplorador.Presentation"] = new[]
                 {
                     "PequenoExplorador.Application",
+                    "PequenoExplorador.DesignSystem",
                     "PequenoExplorador.Domain",
-                    "UnityEngine.AIModule"
+                    "UnityEngine.AIModule",
+                    "Unity.TextMeshPro"
                 },
                 ["PequenoExplorador.Bootstrap"] = new[]
                 {
@@ -100,6 +106,7 @@ namespace PequenoExplorador.Editor
                     "PequenoExplorador.Application",
                     "PequenoExplorador.Bootstrap",
                     "PequenoExplorador.Content",
+                    "PequenoExplorador.DesignSystem",
                     "PequenoExplorador.Domain",
                     "PequenoExplorador.Infrastructure",
                     "PequenoExplorador.Presentation",
@@ -110,6 +117,7 @@ namespace PequenoExplorador.Editor
                     "Unity.Localization.Editor",
                     "Unity.AI.Navigation",
                     "Unity.RenderPipelines.Universal.Runtime",
+                    "Unity.TextMeshPro",
                     "UnityEngine.AudioModule"
                 },
                 ["PequenoExplorador.Tests.EditMode"] = new[]
@@ -117,6 +125,7 @@ namespace PequenoExplorador.Editor
                     "PequenoExplorador.Application",
                     "PequenoExplorador.Bootstrap",
                     "PequenoExplorador.Content",
+                    "PequenoExplorador.DesignSystem",
                     "PequenoExplorador.Domain",
                     "PequenoExplorador.Editor",
                     "PequenoExplorador.Infrastructure",
@@ -124,17 +133,20 @@ namespace PequenoExplorador.Editor
                     "Unity.InputSystem",
                     "Unity.Localization",
                     "Unity.Localization.Editor",
+                    "Unity.TextMeshPro",
                     "UnityEngine.AudioModule"
                 },
                 ["PequenoExplorador.Tests.PlayMode"] = new[]
                 {
                     "PequenoExplorador.Application",
                     "PequenoExplorador.Bootstrap",
+                    "PequenoExplorador.DesignSystem",
                     "PequenoExplorador.Domain",
                     "PequenoExplorador.Infrastructure",
                     "PequenoExplorador.Presentation",
                     "Unity.InputSystem",
                     "Unity.InputSystem.TestFramework",
+                    "Unity.TextMeshPro",
                     "UnityEngine.AIModule",
                     "UnityEngine.AudioModule"
                 }
@@ -350,7 +362,7 @@ namespace PequenoExplorador.Editor
                     "Assembly boundary validation failed:\n" + string.Join("\n", violations));
             }
 
-            Debug.Log("PE_ASSEMBLY_BOUNDARIES_OK assemblies=9 cycles=0");
+            Debug.Log("PE_ASSEMBLY_BOUNDARIES_OK assemblies=10 cycles=0");
         }
     }
 }

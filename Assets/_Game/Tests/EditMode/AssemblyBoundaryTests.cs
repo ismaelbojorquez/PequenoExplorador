@@ -16,7 +16,7 @@ namespace PequenoExplorador.Tests.EditMode
             IReadOnlyList<string> violations = AssemblyBoundaryRules.Validate(definitions);
 
             Assert.That(violations, Is.Empty, string.Join("\n", violations));
-            Assert.That(definitions.Count, Is.EqualTo(9));
+            Assert.That(definitions.Count, Is.EqualTo(10));
         }
 
         [Test]

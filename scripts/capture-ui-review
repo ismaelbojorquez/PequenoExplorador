@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -euo pipefail
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "${SCRIPT_DIR}/lib/common.sh"
+prepare_artifacts
+PHASE="${1:-manual}"
+UNITY_EDITOR_PATH="$(find_unity_editor)"
+RAW_LOG="${ARTIFACTS_DIR}/logs/.capture-ui-review-${PHASE}.raw.log"
+FINAL_LOG="${ARTIFACTS_DIR}/logs/capture-ui-review-${PHASE}.log"
+GIT_COMMIT="$(git -C "${PROJECT_ROOT}" rev-parse HEAD 2>/dev/null || printf 'unknown')"
+set +e
+PE_UI_CAPTURE_PHASE="${PHASE}" "${UNITY_EDITOR_PATH}" -batchmode \
+  -projectPath "${PROJECT_ROOT}" -logFile "${RAW_LOG}" \
+  -artifactsPath "${ARTIFACTS_DIR}" -gitCommit "${GIT_COMMIT}" \
+  -executeMethod PequenoExplorador.Editor.UIReviewCaptureService.CaptureAll
+EXIT_CODE=$?
+set -e
+if [[ -f "${RAW_LOG}" ]]; then sanitize_log "${RAW_LOG}" "${FINAL_LOG}"; rm -f "${RAW_LOG}"; fi
+if [[ ${EXIT_CODE} -ne 0 ]]; then
+  printf 'capture-ui-review-%s failed with exit code %s. See %s\n' "${PHASE}" "${EXIT_CODE}" "${FINAL_LOG}" >&2
+  exit "${EXIT_CODE}"
+fi
+printf 'capture-ui-review-%s succeeded. Log: %s\n' "${PHASE}" "${FINAL_LOG}"

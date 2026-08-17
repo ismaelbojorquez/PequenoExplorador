@@ -19,7 +19,7 @@ Tests -> assembly bajo prueba
 - **Content:** authoring/validación y mapeo de datos aprobados a definiciones de aplicación/dominio; no contiene estado mutable de sesión.
 - **Bootstrap:** único composition root explícito. Construye y conecta dependencias; no existe service locator global ni búsqueda implícita como arquitectura.
 
-Fase 04 fija nueve asmdefs: seis runtime, Editor y dos suites. La tabla y grafo exactos viven en [`02_TECHNICAL_ARCHITECTURE.md`](02_TECHNICAL_ARCHITECTURE.md). Las referencias siguen las flechas, sin ciclos; `Domain`/`Application` usan `noEngineReferences`, Editor no entra al player y Presentation no referencia Infrastructure. `AssemblyBoundaryRules` bloquea deriva. No subdividir por feature salvo evidencia medida de compilación, ownership, plataforma o aislamiento.
+La foundation fija diez asmdefs: siete runtime —incluido DesignSystem aislado—, Editor y dos suites. La tabla y grafo exactos viven en [`02_TECHNICAL_ARCHITECTURE.md`](02_TECHNICAL_ARCHITECTURE.md). Las referencias siguen las flechas, sin ciclos; `Domain`/`Application` usan `noEngineReferences`, Editor no entra al player y Presentation no referencia Infrastructure. `AssemblyBoundaryRules` bloquea deriva. No subdividir por feature salvo evidencia medida de compilación, ownership, plataforma o aislamiento.
 
 ## Composition root y servicios
 

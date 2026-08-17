@@ -124,6 +124,18 @@ No se incorporó media externa. Estos assets son Development-only y el validator
 
 Son veinte opciones propias, sin media externa, y todas conservan metadata Draft/`PH_`/ReleaseBlocked. El prefab de locomoción no se rehízo: añadió ocho bindings sobre el mismo root. Color usa materiales compartidos; hair/hat/tool alternan roots. Antes de Release hacen falta modelo base inclusivo, arte final por slot, clipping matrix, LOD/batching, iconografía, paleta/contraste, provenance y aprobación asset-specific. Véase [`CUSTOMIZATION_SYSTEM.md`](CUSTOMIZATION_SYSTEM.md).
 
+## Ledger temporal Prompt 27
+
+| ID/path | Tipo | Estado | Reemplazo/revisión humana requerida |
+|---|---|---|---|
+| `PH_UI_DesignTokens.asset` | paleta, tipografía, spacing, targets y motion | Placeholder propio / ReleaseBlocked | Aprobación visual/accesibilidad con arte final y playtest 4–9. |
+| `PH_RoundedRect.png` | sprite 64×64 generado localmente, nine-slice | Placeholder propio / ReleaseBlocked | Shape language/atlas final y profiling de batching. |
+| `PH_UI_ComponentGallery.prefab` | botones, cards y estados TMP | Placeholder propio / ReleaseBlocked | Estados completos, iconografía final y QA ES/EN/pseudo/1.25. |
+| `PH_UI_ICON` | iconos geométricos code-native | Placeholder propio / ReleaseBlocked | Set ilustrado final, consistencia cultural y reconocimiento prelector. |
+| `LiberationSans SDF` | recurso oficial TMP provisional, OFL incluida | Provisional | Familia final licenciada, cobertura, hinting/legibilidad y atribución aplicable. |
+
+No se incorporó media de internet ni se copió IP. Gaps abiertos: iconos/ilustraciones finales, siluetas locked, fondos/ornamentos, cards de discovery/actividad/misión, thumbnails cosméticos, animación final y revisión en hardware. El bridge de texto no cambia derechos de contenido.
+
 ## Git y organización futura
 
 - Fuentes grandes de formatos cubiertos irán a Git LFS; `.meta` siempre en Git normal.

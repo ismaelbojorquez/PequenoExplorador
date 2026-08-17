@@ -42,3 +42,9 @@ Todo puede ser greybox o arte temporal con procedencia conocida hasta validar el
 ## Aceptación
 
 Legibilidad en teléfono/tablet, coherencia con dirección técnica, procedencia aprobada, ausencia de estereotipos y validación con usuarios antes de escalar producción.
+
+## UI Kit de expedición
+
+Prompt 27 materializa el norte de cuaderno/campamento como chrome propio: radios amplios, tarjetas papel, sombras cortas solo en cards elevadas, badges de esmalte y acentos mango/cielo/hoja. La jerarquía depende de escala/espacio además de color; celebraciones duran poco y se omiten con reduce-motion. `PH_RoundedRect.png` se genera dentro del proyecto y los iconos se dibujan por código, sin media externa.
+
+Siguen pendientes de arte humano: familia tipográfica con licencia y cobertura ES/EN/pseudo, set final de iconos, ilustración canónica/silueta de álbum, fondos/ornamentos Camp-Selva, estados de actividad, thumbnails cosméticos y revisión de contraste con arte final. Los componentes `PH_` continúan ReleaseBlocked; coherencia de chrome no equivale a aprobación de arte final.

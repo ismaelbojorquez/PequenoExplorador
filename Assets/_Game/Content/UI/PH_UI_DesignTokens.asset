@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fe34ec5bf6c845688cef68de4b5d12c, type: 3}
+  m_Name: PH_UI_DesignTokens
+  m_EditorClassIdentifier: PequenoExplorador.DesignSystem::PequenoExplorador.DesignSystem.UIDesignTokens
+  _canvas: {r: 0.07058824, g: 0.2627451, b: 0.22352941, a: 1}
+  _surface: {r: 0.10980392, g: 0.35686275, b: 0.28235295, a: 1}
+  _paper: {r: 1, g: 0.972549, b: 0.8862745, a: 1}
+  _primary: {r: 0.23921569, g: 0.65882355, b: 0.42352942, a: 1}
+  _secondary: {r: 0.28627452, g: 0.6509804, b: 0.827451, a: 1}
+  _accent: {r: 1, g: 0.6901961, b: 0.22352941, a: 1}
+  _success: {r: 0.34117648, g: 0.72156864, b: 0.41568628, a: 1}
+  _warning: {r: 0.9607843, g: 0.5921569, b: 0.1882353, a: 1}
+  _error: {r: 0.8235294, g: 0.29803923, b: 0.29411766, a: 1}
+  _ink: {r: 0.10980392, g: 0.20392157, b: 0.18431373, a: 1}
+  _mutedInk: {r: 0.30588236, g: 0.40392157, b: 0.37254903, a: 1}
+  _onDark: {r: 1, g: 0.9882353, b: 0.9372549, a: 1}
+  _outline: {r: 0.039215688, g: 0.1882353, b: 0.16078432, a: 1}
+  _font: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  _displaySize: 52
+  _headlineSize: 42
+  _titleSize: 32
+  _bodySize: 26
+  _labelSize: 24
+  _captionSize: 18
+  _roundedSprite: {fileID: 21300000, guid: 91fb9dcbc5b3040fa82c18a56a703634, type: 3}
+  _spacingUnit: 8
+  _minimumTouchTarget: 64
+  _recommendedTouchTarget: 72
+  _shadowDistance: {x: 0, y: -5}
+  _motionFast: 0.12
+  _motionStandard: 0.22
+  _motionCelebrate: 0.36

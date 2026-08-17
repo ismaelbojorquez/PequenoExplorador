@@ -4,11 +4,13 @@
   "references": [
     "PequenoExplorador.Application",
     "PequenoExplorador.Bootstrap",
+    "PequenoExplorador.DesignSystem",
     "PequenoExplorador.Domain",
     "PequenoExplorador.Infrastructure",
     "PequenoExplorador.Presentation",
     "Unity.InputSystem",
     "Unity.InputSystem.TestFramework",
+    "Unity.TextMeshPro",
     "UnityEngine.AIModule",
     "UnityEngine.AudioModule"
   ],

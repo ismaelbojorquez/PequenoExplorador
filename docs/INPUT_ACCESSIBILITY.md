@@ -77,3 +77,7 @@ Un tap nuevo reemplaza destino; tap inválido muestra marker cálido sin castigo
 Prompt 17 da prioridad al detector contextual sobre el suelo: si el rayo selecciona un target, el coordinador enfoca y solicita approach; si no, el mismo tap continúa como destino de suelo. El detector usa `RaycastNonAlloc` e índice collider→target construido al bind. UI/pause/unload suspenden tanto focus como path, y el botón cancelar limpia ambos. Contrato: [`INTERACTION_SYSTEM.md`](INTERACTION_SYSTEM.md).
 
 Requerido antes de Gate C: al menos un Android físico, ambos landscapes, notch/cutout, gestos del sistema, interrupción/background, latencia, FPS/allocations y ergonomía con manos infantiles. Device Simulator y FPS Editor batch son diagnóstico, no evidencia física. Tap-to-move sigue candidato P-006 hasta el playtest comparativo.
+
+## Integración con DesignSystem
+
+Prompt 27 centraliza mínimo `64` y recomendado `72` unidades lógicas. El validator inspecciona botones en ocho roots y Canvas `1280×720`; 4:3, 16:9, 20:9 y 16:10 se capturan antes/después. `UIDesignSystemRoot.SetAccessibility(1.00–1.25, reduceMotion)` reaplica texto y motion sin estado global. `UICancelableMotion` usa tiempo no escalado, cancela al deshabilitarse y vuelve a escala neutral; reduce-motion hace el cambio inmediato. Persistir escala grande/reduce-motion desde el área adulta sigue pendiente y no se fingió en Save v11.

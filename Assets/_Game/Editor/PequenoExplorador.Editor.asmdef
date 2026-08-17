@@ -5,6 +5,7 @@
     "PequenoExplorador.Application",
     "PequenoExplorador.Bootstrap",
     "PequenoExplorador.Content",
+    "PequenoExplorador.DesignSystem",
     "PequenoExplorador.Domain",
     "PequenoExplorador.Infrastructure",
     "PequenoExplorador.Presentation",
@@ -15,6 +16,7 @@
     "Unity.Localization",
     "Unity.Localization.Editor",
     "Unity.RenderPipelines.Universal.Runtime",
+    "Unity.TextMeshPro",
     "UnityEngine.AudioModule"
   ],
   "includePlatforms": [

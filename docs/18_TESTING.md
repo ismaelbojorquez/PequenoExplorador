@@ -36,6 +36,9 @@ Ejecuta en orden y se detiene al primer fallo: `check-repository`, `compile`, bu
 | `scripts/validate-learning` | Valida definitions/conceptos/strategy/editorial/localización/UI y límites de capa. | `artifacts/logs/validate-learning.log`. |
 | `scripts/setup-customization` | Regenera catálogo de 8 slots/20 opciones, rig, preview Camp, UI y localización. | `artifacts/logs/setup-customization.log`. |
 | `scripts/validate-customization` | Valida defaults/costos/localización, rig/materiales, Camp, UI, capas y targets. | `artifacts/logs/validate-customization.log`. |
+| `scripts/setup-design-system` | Regenera tokens, sprite redondeado, galería y tema de ocho roots críticos. | `artifacts/logs/setup-design-system.log`. |
+| `scripts/validate-design-system` | Valida assembly, tokens, TMP, galería, contraste AA, Canvas y targets 64/72. | `artifacts/logs/validate-design-system.log`. |
+| `scripts/capture-ui-review before|after` | Renderiza diez superficies en 4:3, 16:9, 20:9 y 16:10. | 40 PNG por fase en `artifacts/ui-review/`. |
 | `scripts/build-addressables-local` | Valida perfiles/grupos/labels/dependencias y construye catálogo Android local. | Log + `artifacts/reports/addressables-local.json`; runtime data ignorada bajo `Library`. |
 | `scripts/test-editmode` | Suite EditMode. | XML NUnit y JUnit en `artifacts/test-results/`. |
 | `scripts/test-playmode` | Suite PlayMode/escena. | XML NUnit y JUnit en `artifacts/test-results/`. |
@@ -82,6 +85,8 @@ Prompt 24 amplía Learning con solución por `TagId` independiente del orden, en
 Contenido EditMode cubre IDs, lookup/alias, orden determinista, duplicados, referencias ausentes, localización/audio/visual, trazabilidad y gate Release. PlayMode resuelve `discovery.jungle.keel-billed-toucan` y su alias retirado sin `AssetDatabase`. El catálogo factual del tucán pasa Release; otros subsistemas Draft siguen bloqueando el proyecto Release.
 
 Los conteos, tiempos y artefactos canónicos de la última ejecución integral se registran en [`STATUS.md`](STATUS.md); cifras de fases anteriores no se heredan como evidencia.
+
+DesignSystem EditMode cubre asset/galería/estados, escala 1.25, reduce-motion y target mínimo. El validator está integrado en compile, Addressables y builds Android. La matriz visual es evidencia de layout, no certifica ergonomía, iluminación, VoiceOver/TalkBack ni comprensión infantil; Android físico y playtest siguen `NOT RUN`.
 
 Los wrappers son orquestadores: configuración, validación y build viven bajo `Assets/_Game/Editor/BuildTools`. Los logs sustituyen la raíz del proyecto, home y ejecutable del Editor por marcadores antes de conservarse.
 

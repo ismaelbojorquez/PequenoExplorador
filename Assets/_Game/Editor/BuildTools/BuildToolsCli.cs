@@ -22,6 +22,7 @@ namespace PequenoExplorador.Editor.BuildTools
                 ValidateAlbumInternal();
                 ValidateCampInternal(ContentValidationMode.Development);
                 ValidateCustomizationInternal(ContentValidationMode.Development);
+                ValidateDesignSystemInternal();
                 ArtifactReportWriter.WriteEnvironmentReport();
                 Debug.Log("PE_COMPILE_OK");
             });
@@ -112,6 +113,11 @@ namespace PequenoExplorador.Editor.BuildTools
             Run(() => ValidateCustomizationInternal(ContentValidationMode.Development));
         }
 
+        public static void ValidateDesignSystem()
+        {
+            Run(ValidateDesignSystemInternal);
+        }
+
         public static void BuildAddressablesLocal()
         {
             Run(() =>
@@ -126,6 +132,7 @@ namespace PequenoExplorador.Editor.BuildTools
                 ValidateAlbumInternal();
                 ValidateCampInternal(ContentValidationMode.Development);
                 ValidateCustomizationInternal(ContentValidationMode.Development);
+                ValidateDesignSystemInternal();
                 LocalAddressablesBuildService.BuildDevelopment();
             });
         }
@@ -144,6 +151,7 @@ namespace PequenoExplorador.Editor.BuildTools
                 ValidateAlbumInternal();
                 ValidateCampInternal(ContentValidationMode.Development);
                 ValidateCustomizationInternal(ContentValidationMode.Development);
+                ValidateDesignSystemInternal();
                 LocalAddressablesBuildService.BuildDevelopment();
                 AndroidBuildService.BuildDevelopment();
             });
@@ -163,6 +171,7 @@ namespace PequenoExplorador.Editor.BuildTools
                 ValidateAlbumInternal();
                 ValidateCampInternal(ContentValidationMode.Release);
                 ValidateCustomizationInternal(ContentValidationMode.Release);
+                ValidateDesignSystemInternal();
                 const string reason =
                     "PE_RELEASE_SIGNING_REQUIRED: Release is intentionally blocked until an authorized human supplies external signing and approves bundle identity.";
                 ArtifactReportWriter.WriteReleaseBlockedReport(reason);
@@ -186,7 +195,18 @@ namespace PequenoExplorador.Editor.BuildTools
                     "Assembly boundary validation failed:\n" + string.Join("\n", violations));
             }
 
-            Debug.Log("PE_ASSEMBLY_BOUNDARIES_OK assemblies=9 cycles=0");
+            Debug.Log("PE_ASSEMBLY_BOUNDARIES_OK assemblies=10 cycles=0");
+        }
+
+        private static void ValidateDesignSystemInternal()
+        {
+            IReadOnlyList<string> violations = UIDesignSystemValidationService.Validate();
+            if (violations.Count > 0)
+            {
+                throw new InvalidOperationException("UI design system validation failed:\n" + string.Join("\n", violations));
+            }
+
+            Debug.Log("PE_UI_DESIGN_SYSTEM_OK roots=8 gallery=1 minTarget=64 recommendedTarget=72 contrast=AA tmp=canonical");
         }
 
         private static void ValidateContentInternal(ContentValidationMode mode)

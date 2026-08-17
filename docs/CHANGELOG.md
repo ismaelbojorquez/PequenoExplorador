@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-08-17 — Prompt 27
+
+- Añadido `PequenoExplorador.DesignSystem`: tokens, TMP, paneles/botones, iconos geométricos, estados y motion cancelable/reduce-motion.
+- Migradas ocho superficies críticas al “Kit de expedición” sin cambiar reglas; targets 64/72, Canvas 1280×720 y contraste AA quedan validados.
+- Galería `PH_UI_ComponentGallery`, TMP Essential Resources oficiales, setup/validator y 40 capturas before/after en cuatro ratios.
+- El bridge a `UnityEngine.UI.Text` conserva referencias serializadas; nuevos componentes usan TMP y la retirada total queda como deuda explícita.
+- Gate B permanece `FAIL`; arte final, hardware Android, escala 1.25/pseudo visual humana y playtest infantil siguen pendientes.
+- `scripts/validate` final PASS: Addressables 47 locations/1,289,237 bytes, EditMode `158/158`, PlayMode `26/26` y APK `67,424,654` bytes (`e771d32998e31630937c6df6a56e1487e480819f7a6b9d72de24b523b359a090`) en `69.515 s`, API 26/36 IL2CPP/ARM64.
+- La inspección visual final detectó y corrigió antes del PASS solapamientos en actividad 4:3 y truncado en personalización 16:10.
+
 ## 2026-08-17 — Prompt 26
 
 - Añadidos 8 slots inclusivos y 20 opciones `PH_` data-driven, sin selección de género, IAP ni bloqueo educativo.

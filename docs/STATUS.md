@@ -4,26 +4,27 @@ Actualizado: 2026-08-17 (`America/Mexico_City`). Git, implementación y evidenci
 
 ## Fase y Gate
 
-- **Fase implementada más reciente:** Prompt 26 — personalización inclusiva por ocho slots, unlock/equip persistente y placeholders propios.
+- **Fase implementada más reciente:** Prompt 27 — DesignSystem infantil, galería TMP y migración visual de ocho superficies críticas.
 - **Preparación editorial H-007/H-008/H-009:** [`VS-D-A01`](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md) con Product/Localization, visual/rights/QA y revisión factual humana aprobados. La competencia factual declarada es investigación/búsqueda ampliada, no credencial ornitológica externa. Conservación y audio final permanecen fuera del contenido adoptado.
 - **Auditoría actual:** Prompt 30 — [`Gate B`](audits/GATE_B_2026-08-16.md) ejecutado sobre HEAD real; `FAIL` por ausencia estructural de Fases 19–29 y del journey end-to-end.
 - **Gate actual:** B — `FAIL`; no ejecutar Prompt 31 hasta completar y volver a auditar el loop mínimo.
 - **Gate A:** [`audits/GATE_A_2026-08-15.md`](audits/GATE_A_2026-08-15.md) — `PASS`, sin Critical/Major abierto.
-- **Siguiente fase:** Prompt 27 — design system/UI infantil premium; migrar pantallas sin cambiar reglas.
-- **ExecPlan activo:** ninguno. [`.agent/execplans/p26-inclusive-explorer-customization.md`](../.agent/execplans/p26-inclusive-explorer-customization.md) queda completado como evidencia histórica.
+- **Fase en curso:** ninguna; Prompt 27 quedó validado y commiteado en esta fase.
+- **Siguiente fase:** Prompt 28 — FTUE audiovisual.
+- **ExecPlan cerrado:** [`.agent/execplans/p27-premium-child-ui-design-system.md`](../.agent/execplans/p27-premium-child-ui-design-system.md).
 
 ## Capacidades verificadas
 
 | Capacidad | Estado | Evidencia/limitación |
 |---|---|---|
 | Git/producto/contrato | Verificado | Fases 00–06 auditadas; visión/GDD/MVP Selva y AGENTS canónicos. Cada preflight debe volver a contrastarlos. |
-| Unity y assemblies | `PASS` | Unity `6000.3.22f1`, URP, nueve asmdefs, grafo acíclico; Domain/Application sin engine. |
-| Pipeline local | `PASS` | `scripts/validate`: repository/shell, compile/validadores, Addressables, EditMode `155/155`, PlayMode `26/26` y APK Development. |
+| Unity y assemblies | `PASS` | Unity `6000.3.22f1`, URP, diez asmdefs incluido DesignSystem, grafo acíclico; Domain/Application sin engine. |
+| Pipeline local | `PASS` | `scripts/validate`: repository/shell, compile/validadores, Addressables, EditMode `158/158`, PlayMode `26/26` y APK Development. |
 | Bootstrap/servicios | `PASS` | MessageBus→Input→SafeArea→Haptics→Save→Photos→Localization→Audio→Analytics→Ads→Purchases; shutdown inverso y perfiles fail-closed. |
-| Scene flow / Addressables | `PASS` | `4.0.1`; Boot→Camp↔Selva por `WorldManifest`, tres ciclos, sesión/handles controlados, 47 locations/1,282,243 bytes; sin endpoint/catálogo remoto. |
+| Scene flow / Addressables | `PASS` | `4.0.1`; Boot→Camp↔Selva por `WorldManifest`, tres ciclos, sesión/handles controlados, 47 locations/1,289,237 bytes; sin endpoint/catálogo remoto. |
 | Save local | `PASS` automatizado; dispositivo `NOT RUN` | Schema v11, JSON builtin, SHA-256, atomicidad/backup, v0→…→v11 y future read-only; v10→v11 conserva progreso e inicia ownership/equipped vacíos. PNG/manifest viven separados; sin PII/género/red/pixels. |
 | Config runtime | `PASS` | Development/Release tipados, cero flags Release, sin remote config ni secretos. |
-| Localización | `PASS` local | Localization `1.5.12`; 213 entries ES/EN, pseudo Development; personalización añade 41 claves sin texto visible hardcodeado. Audio final sigue pendiente. |
+| Localización | `PASS` local | Localization `1.5.12`; 213 entries ES/EN, pseudo Development; TMP Essential Resources oficiales/versionados y bridge temporal para vistas serializadas. Audio/fuente final siguen pendientes. |
 | Audio | `PASS` estructural; final/hardware `NOT RUN` | Audio builtin `1.0.0`; 5 buses, 9 cues, 7 sources, 14 WAV `PH_` mono/48 kHz, incluidos instrucción/fact de actividad; queue/cooldown/ducking/replay/pause. `releaseFinal=0`. |
 | Input/adaptación | `PASS` automatizado; hardware `NOT RUN` | Input System `1.20.0`; 5 mapas, safe area central, Back+checkpoint, no-op haptics, ratios 4:3/16:9/20:9/16:10 y supresión multitouch. Android físico requerido antes de Gate C. |
 | Locomoción candidata | `PASS` automatizado; UX/hardware pendiente | AI Navigation `2.0.9`; tap válido/inválido, spam, UI/Photography, cancelación, reduce-motion, camera bounds, unload y Selva x3. Sin joystick/root motion; P-006 sigue abierto. |
@@ -39,20 +40,21 @@ Actualizado: 2026-08-17 (`America/Mexico_City`). Git, implementación y evidenci
 | Expediente factual VS-D-A01 | Runtime `APPROVED` | H-007/H-008/H-009 cubren claims/copy, nombres, visual/rights/QA y revisión factual humana. Conservación excluida; no se atribuye credencial ornitológica externa. |
 | Visual tucán VS-D-A01 | Runtime `APPROVED` | `visual.discovery.jungle.keel-billed-toucan`, prefab/materiales propios y ledger; discovery/interacción reales lo referencian sin `PH_`. |
 | Mundos data-driven | Development `PASS`; Release `BLOCKED` | `world.jungle` compila desde manifest con escena/labels/spawn/checkpoint/catálogos/cues/version/tamaño. Fixture `world.test-ocean` prueba expansión sin switch; Release devuelve `WORLD018` por Draft/PH_. |
-| Tests Unity | `PASS` | EditMode `155/155`; PlayMode `26/26`. Prompt 26 añade defaults/removed/incompatible, atomicidad/retry/migración y preview→unlock→equip→Selva→Camp→reload/ratios/materiales. |
-| Android | Development `PASS`; Release `BLOCKED` | APK ES `67,417,385` bytes, SHA-256 `f5e80305087e4dcb2c686310104d343fcfb2c188631663805fce3d572a7a918c`, build frío `203.586 s`, API 26/36, IL2CPP/ARM64. Solo `INTERNET` heredado + receiver interno; sin CAMERA/micrófono/ubicación/contactos/AD_ID/BILLING. Release unsigned falló cerrado antes de build por contenido `PH_`. |
+| DesignSystem UI | `PASS` automatizado/visual; hardware pendiente | 8 roots, galería TMP, tokens, 64/72, contraste AA, motion cancelable y 40 capturas after para 10 superficies × 4 ratios. Bridge legacy, escala 1.25 humana, lector de pantalla y Android físico pendientes. |
+| Tests Unity | `PASS` | EditMode `158/158`; PlayMode `26/26`. Prompt 27 añade tokens/galería/estados, escala 1.25, reduce-motion, targets y validator integrado. |
+| Android | Development `PASS`; Release `BLOCKED` | APK ES `67,424,654` bytes, SHA-256 `e771d32998e31630937c6df6a56e1487e480819f7a6b9d72de24b523b359a090`, `69.515 s`, API 26/36, IL2CPP/ARM64. Sin CAMERA/micrófono/ubicación/contactos/AD_ID/BILLING. Release sigue bloqueado por signing/contenido `PH_`. |
 | iOS/CI remota | `NOT RUN` | Sin Xcode/módulo iOS local. `origin` existe, pero runner/licencia/checks remotos no se ejecutaron; no hubo push. |
 | Paquetes | Verificado | AI Navigation `2.0.9`, Audio builtin `1.0.0`, Localization `1.5.12`, AndroidJNI `1.0.0`, Addressables `4.0.1`; exactos, sin preview/SDK comercial. |
 | Fotografía memory/storage | Editor `PASS`; dispositivo `NOT RUN` | Peak estimado `582,182` bytes, delta global orientativo `289,481`, cero temporales; store 512 KiB/archivo, 64/32 MiB. Falta presión real de memoria/disco Android. |
 | Gameplay/assets finales | Foto/álbum/economía/misión/learning/actividad/Camp/customization funcionales con UI/cues `PH_` | No existen assets finales. Actividad VS-A01 requiere firma asset-specific; Camp/Jungle/UI/audio/personaje/cosméticos/fixtures restantes siguen placeholders. |
-| Gate B journey | `FAIL` | Prompts 19–26 existen; faltan Prompts 27–29, journey integrado y FTUE. Cinco runs, primera/segunda sesión y UX no lectora: `NOT RUN`. |
+| Gate B journey | `FAIL` | Prompts 19–27 existen; faltan Prompts 28–29, journey integrado y FTUE. Cinco runs, primera/segunda sesión y UX no lectora: `NOT RUN`. |
 
 ## Lectura para reanudar
 
 1. [`../AGENTS.md`](../AGENTS.md), este archivo, [`README.md`](README.md), [`ROADMAP.md`](ROADMAP.md), [`DECISIONS.md`](DECISIONS.md) y [`RISK_REGISTER.md`](RISK_REGISTER.md).
 2. [`02_TECHNICAL_ARCHITECTURE.md`](02_TECHNICAL_ARCHITECTURE.md), [`ENGINEERING_STANDARDS.md`](ENGINEERING_STANDARDS.md), [`VALIDATION_PLAYBOOK.md`](VALIDATION_PLAYBOOK.md) y [`.agent/PLANS.md`](../.agent/PLANS.md).
 3. [`CONTENT_MODEL.md`](CONTENT_MODEL.md), [`CONTENT_PIPELINE.md`](CONTENT_PIPELINE.md), [`RUNTIME_CONFIGURATION.md`](RUNTIME_CONFIGURATION.md), [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md), [`17_LOCALIZATION.md`](17_LOCALIZATION.md), [`16_AUDIO.md`](16_AUDIO.md) y [`18_TESTING.md`](18_TESTING.md).
-4. Prompt 27 del [catálogo](prompts/00_MASTER_CODEX_PROMPTS.md), [`14_UI_UX.md`](14_UI_UX.md), accesibilidad, localización y requisitos de arte.
+4. Prompt 28 del [catálogo](prompts/00_MASTER_CODEX_PROMPTS.md), GDD/FTUE, gameplay loop, audio/localización, accesibilidad, Save y UI.
 
 ## Bloqueos y decisiones humanas
 
@@ -72,4 +74,4 @@ Actualizado: 2026-08-17 (`America/Mexico_City`). Git, implementación y evidenci
 
 ## Reanudación inmediata
 
-Ejecutar Prompt 27 para consolidar design system/TMP y migrar pantallas críticas, incluida personalización, sin alterar reglas. Conservar targets/safe area/reduce-motion, los límites `PH_`, Gate B `FAIL` y la prohibición de IAP/remote/signing/push/publicación.
+Ejecutar Prompt 28 para el FTUE audiovisual contextual. Conservar el DesignSystem, targets/safe area/reduce-motion, límites `PH_`, Gate B `FAIL` y la prohibición de IAP/remote/signing/push/publicación.
