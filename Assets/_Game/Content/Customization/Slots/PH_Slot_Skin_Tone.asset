@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8ea113978d4244718c4b1eca35274e0, type: 3}
+  m_Name: PH_Slot_Skin_Tone
+  m_EditorClassIdentifier: PequenoExplorador.Content::PequenoExplorador.Content.Customization.CustomizationSlotDefinitionAsset
+  _id: customization-slot.skin-tone
+  _displayNameTable: UI
+  _displayNameKey: ui.customization.slot.skin-tone
+  _displayOrder: 0
+  _defaultCosmeticId: cosmetic.skin.light

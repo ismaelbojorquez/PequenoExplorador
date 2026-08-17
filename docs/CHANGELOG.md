@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-08-17 — Prompt 26
+
+- Añadidos 8 slots inclusivos y 20 opciones `PH_` data-driven, sin selección de género, IAP ni bloqueo educativo.
+- Preview Camp, unlock/equip separados, compatibilidad/fallback, rig sobre el prefab existente y colores por `MaterialPropertyBlock`.
+- Save schema v11 con migración v10→v11, ownership/equipped, transacción atómica y debug unlock-all solo Development.
+- Setup/validator CLI, ES/EN, pruebas EditMode/PlayMode, documentación de arte, arquitectura, accesibilidad, economía y riesgos.
+
 ## Prompt 25 — progressive explorer hub — 2026-08-17
 
 ### Added

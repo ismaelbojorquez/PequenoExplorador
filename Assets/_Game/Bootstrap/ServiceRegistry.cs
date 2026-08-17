@@ -9,6 +9,7 @@ using PequenoExplorador.Application.Camp;
 using PequenoExplorador.Application.Accessibility;
 using PequenoExplorador.Application.Configuration;
 using PequenoExplorador.Application.Content;
+using PequenoExplorador.Application.Customization;
 using PequenoExplorador.Application.Discovery;
 using PequenoExplorador.Application.Economy;
 using PequenoExplorador.Application.Lifecycle;
@@ -66,7 +67,8 @@ namespace PequenoExplorador.Bootstrap
             IRewardCatalog rewardCatalog = null,
             IMissionCatalog missionCatalog = null,
             ILearningCatalog learningCatalog = null,
-            ICampCatalog campCatalog = null)
+            ICampCatalog campCatalog = null,
+            ICustomizationCatalog customizationCatalog = null)
         {
             if (configuration == null)
             {
@@ -78,6 +80,7 @@ namespace PequenoExplorador.Bootstrap
             missionCatalog ??= MissionCatalog.Empty;
             learningCatalog ??= LearningCatalog.Empty;
             campCatalog ??= PequenoExplorador.Application.Camp.CampCatalog.Empty;
+            customizationCatalog ??= PequenoExplorador.Application.Customization.CustomizationCatalog.Empty;
 #if UNITY_EDITOR || PE_DEVELOPMENT_SERVICES
             if (configuration.Profile == BuildProfile.Development && rewardCatalog is RewardCatalog concreteRewards)
             {
@@ -138,7 +141,8 @@ namespace PequenoExplorador.Bootstrap
                     new V6ToV7EconomyMigration(),
                     new V7ToV8MissionMigration(),
                     new V8ToV9LearningMigration(),
-                    new V9ToV10CampMigration()
+                    new V9ToV10CampMigration(),
+                    new V10ToV11CustomizationMigration()
                 });
             SaveCoordinator = new AutosaveCoordinator(save, logger, configuration.AutosaveDebounce);
             IPhotoStore resolvedPhotoStore = photoStore ?? (audioHost != null
@@ -157,6 +161,9 @@ namespace PequenoExplorador.Bootstrap
             SpendStars = new SpendStarsUseCase(EconomyRepository);
             CampCatalog = campCatalog;
             PurchaseCampUpgrade = new PurchaseCampUpgradeUseCase(campCatalog, EconomyRepository);
+            CustomizationCatalog = customizationCatalog;
+            UnlockCosmetic = new UnlockCosmeticUseCase(customizationCatalog, EconomyRepository);
+            EquipCosmetic = new EquipCosmeticUseCase(customizationCatalog, EconomyRepository);
             MissionRepository = new PlayerProgressMissionRepository(save, SaveCoordinator);
             MissionStrategies = new MissionObjectiveStrategyRegistry(new IMissionObjectiveStrategy[]
             {
@@ -277,6 +284,9 @@ namespace PequenoExplorador.Bootstrap
         public SpendStarsUseCase SpendStars { get; }
         public ICampCatalog CampCatalog { get; }
         public PurchaseCampUpgradeUseCase PurchaseCampUpgrade { get; }
+        public ICustomizationCatalog CustomizationCatalog { get; }
+        public UnlockCosmeticUseCase UnlockCosmetic { get; }
+        public EquipCosmeticUseCase EquipCosmetic { get; }
         public IRewardCatalog Rewards { get; }
         public IMissionRepository MissionRepository { get; }
         public MissionObjectiveStrategyRegistry MissionStrategies { get; }

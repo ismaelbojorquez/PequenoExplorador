@@ -458,7 +458,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 261701109800965
-    m_Localized: Customization is coming later.
+    m_Localized: Choose how your explorer looks.
     m_Metadata:
       m_Items: []
   - m_Id: 261701109800966
@@ -506,6 +506,173 @@ MonoBehaviour:
     m_Localized: This upgrade is not available yet.
     m_Metadata:
       m_Items: []
+  - m_Id: 274694803546112
+    m_Localized: My Explorer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323328
+    m_Localized: 'Available stars: {0}'
+    m_Metadata:
+      m_Items:
+      - rid: 6219209779658358820
+  - m_Id: 274694820323329
+    m_Localized: Available
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323330
+    m_Localized: Costs {0:plural:one star|{} stars}
+    m_Metadata:
+      m_Items:
+      - rid: 6219209779658358820
+  - m_Id: 274694820323331
+    m_Localized: Unlocked by improving the camp
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323332
+    m_Localized: Unlock for {0:plural:one star|{} stars}
+    m_Metadata:
+      m_Items:
+      - rid: 6219209779658358820
+  - m_Id: 274694820323333
+    m_Localized: Keep exploring
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323334
+    m_Localized: Wear
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323335
+    m_Localized: Back
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323336
+    m_Localized: New option available!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323337
+    m_Localized: Your explorer is ready!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323338
+    m_Localized: "Let\u2019s try another combination."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323339
+    m_Localized: This option is not available yet.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323340
+    m_Localized: Skin tone
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323341
+    m_Localized: Hair
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323342
+    m_Localized: Shirt
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323343
+    m_Localized: Pants
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323344
+    m_Localized: Shoes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323345
+    m_Localized: Hat
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323346
+    m_Localized: Backpack
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323347
+    m_Localized: Explorer tool
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323348
+    m_Localized: Light
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323349
+    m_Localized: Medium
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323350
+    m_Localized: Deep
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323351
+    m_Localized: Warm
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323352
+    m_Localized: Curls
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323353
+    m_Localized: Waves
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323354
+    m_Localized: Two puffs
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323355
+    m_Localized: Jungle green
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323356
+    m_Localized: Sunny orange
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323357
+    m_Localized: River blue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323358
+    m_Localized: Sand
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323359
+    m_Localized: Night blue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323360
+    m_Localized: Trail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323361
+    m_Localized: Coral
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323362
+    m_Localized: No hat
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323363
+    m_Localized: Sun hat
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323364
+    m_Localized: Field backpack
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323365
+    m_Localized: Leaf backpack
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694824517632
+    m_Localized: Camera
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694824517633
+    m_Localized: Binoculars
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
@@ -521,3 +688,6 @@ MonoBehaviour:
         - id: 210606354325510
         - id: 229917835911172
         - id: 261701109800971
+        - id: 274694820323328
+        - id: 274694820323330
+        - id: 274694820323332

@@ -47,6 +47,8 @@ Se prueban `LandscapeLeft` y `LandscapeRight` sobre el modelo. Esto verifica anc
 
 Prompt 20 reutiliza este servicio en un Canvas separado de álbum. PlayMode fuerza `1024×768`, `1280×720`, `1600×720` y `1280×800`, comprueba todos los botones activos/inactivos en `≥64×64` unidades lógicas y best-fit del copy visible ES/EN/pseudo. La prueba no certifica densidad, cutout o legibilidad física: Android real y fuente grande humana siguen pendientes antes de Gate C.
 
+Prompt 26 añade un Canvas seguro de personalización y prueba botones/slots/opciones en `1024×768`, `1920×1080` y `2400×1080`, todos `≥64×64`. No presenta categorías de género: los ocho slots se seleccionan directamente y las opciones usan texto+swatch. La validación automatizada no certifica discriminación cromática, tono de piel bajo iluminación final, clipping ni ergonomía física.
+
 ## Haptics y diagnóstico
 
 `IHapticsService` ofrece selección, confirmación y aviso suave, con switch explícito. La única implementación actual es `NoOpHapticsService`, desactivada por defecto y segura en plataformas no soportadas; no invoca vibración. Una implementación física futura exige preferencia adulta persistida, intensidad no invasiva, tests y revisión infantil.

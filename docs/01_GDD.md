@@ -34,6 +34,7 @@ Documento canónico de experiencia. Visión: [`00_PRODUCT_VISION.md`](00_PRODUCT
 - Progreso por descubrimientos, actividades y misiones completadas; nunca por tiempo consecutivo o días de retorno.
 - Única moneda virtual: **Estrellas de Explorador**, ganadas de forma determinista por discovery, misión, actividad o hito de colección; el tucán del Vertical Slice concede una sola estrella provisional.
 - No se pierden ni compran, no caducan y no existen conversiones, moneda premium, azar ni ventaja pagada. Sus únicos usos permitidos son mejoras visuales de Camp y cosméticos, nunca contenido educativo esencial.
+- Personalización se organiza por ocho slots sin género: tono de piel, cabello, camiseta, pantalón, zapatos, sombrero, mochila y herramienta. Siempre existen defaults gratuitos; preview, unlock y equip son pasos separados. Véase [`CUSTOMIZATION_SYSTEM.md`](CUSTOMIZATION_SYSTEM.md).
 
 La primera mejora verificable es `Mesa de observación → Rincón de exploración`, con costo provisional de 3 Estrellas. El niño ve un preview y confirma; saldo insuficiente produce una sugerencia amable sin enlace comercial. La mejora es visual, permanente y no condiciona Selva, álbum, facts o actividades. El contrato ejecutable y mapa de estaciones viven en [`CAMP_SYSTEM.md`](CAMP_SYSTEM.md).
 - Las reglas, fuentes/usos e idempotencia son canónicas en [`ECONOMY_REWARDS.md`](ECONOMY_REWARDS.md).

@@ -459,7 +459,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 261701109800965
-    m_Localized: "La personalizaci\xF3n llegar\xE1 despu\xE9s."
+    m_Localized: "Elige c\xF3mo se ve tu explorador."
     m_Metadata:
       m_Items: []
   - m_Id: 261701109800966
@@ -507,6 +507,173 @@ MonoBehaviour:
     m_Localized: "Esta mejora todav\xEDa no est\xE1 disponible."
     m_Metadata:
       m_Items: []
+  - m_Id: 274694803546112
+    m_Localized: Mi explorador
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323328
+    m_Localized: 'Estrellas disponibles: {0}'
+    m_Metadata:
+      m_Items:
+      - rid: 6219209779658358817
+  - m_Id: 274694820323329
+    m_Localized: Disponible
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323330
+    m_Localized: Cuesta {0:plural:una estrella|{} estrellas}
+    m_Metadata:
+      m_Items:
+      - rid: 6219209779658358817
+  - m_Id: 274694820323331
+    m_Localized: Se descubre al mejorar el campamento
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323332
+    m_Localized: Desbloquear por {0:plural:una estrella|{} estrellas}
+    m_Metadata:
+      m_Items:
+      - rid: 6219209779658358817
+  - m_Id: 274694820323333
+    m_Localized: Sigue explorando
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323334
+    m_Localized: Usar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323335
+    m_Localized: Volver
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323336
+    m_Localized: "\xA1Nueva opci\xF3n disponible!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323337
+    m_Localized: "\xA1As\xED queda tu explorador!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323338
+    m_Localized: "Probemos otra combinaci\xF3n."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323339
+    m_Localized: "Esta opci\xF3n todav\xEDa no est\xE1 disponible."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323340
+    m_Localized: Tono de piel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323341
+    m_Localized: Cabello
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323342
+    m_Localized: Camiseta
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323343
+    m_Localized: "Pantal\xF3n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323344
+    m_Localized: Zapatos
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323345
+    m_Localized: Sombrero
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323346
+    m_Localized: Mochila
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323347
+    m_Localized: Herramienta
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323348
+    m_Localized: Claro
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323349
+    m_Localized: Medio
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323350
+    m_Localized: Oscuro
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323351
+    m_Localized: "C\xE1lido"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323352
+    m_Localized: Rizos
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323353
+    m_Localized: Ondas
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323354
+    m_Localized: Dos chonguitos
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323355
+    m_Localized: Verde selva
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323356
+    m_Localized: Sol naranja
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323357
+    m_Localized: "Azul r\xEDo"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323358
+    m_Localized: Arena
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323359
+    m_Localized: Azul noche
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323360
+    m_Localized: Sendero
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323361
+    m_Localized: Coral
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323362
+    m_Localized: Sin sombrero
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323363
+    m_Localized: Sombrero de sol
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323364
+    m_Localized: Mochila de campo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323365
+    m_Localized: Mochila hoja
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694824517632
+    m_Localized: "C\xE1mara"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694824517633
+    m_Localized: Binoculares
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
@@ -522,3 +689,6 @@ MonoBehaviour:
         - id: 210606354325510
         - id: 229917835911172
         - id: 261701109800971
+        - id: 274694820323328
+        - id: 274694820323330
+        - id: 274694820323332

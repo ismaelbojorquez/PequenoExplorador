@@ -9,6 +9,7 @@ Selva 2.5D/3D cálida y táctil: formas redondeadas, siluetas legibles, color na
 ## Lenguaje visual
 
 - Personaje explorador inclusivo y no estereotipado; personalización sin género obligatorio.
+- La baseline Prompt 26 usa ocho slots y veinte primitives/colores `PH_` propios sobre el mismo prefab. `MaterialPropertyBlock` evita duplicar materiales; no constituye arte final ni aprobación de tonos, cabello, ropa o accesorios. El ledger y gaps están en [`ART_ASSET_REQUIREMENTS.md`](ART_ASSET_REQUIREMENTS.md).
 - Animales con proporciones reconocibles y conducta solo después de aprobación factual; evitar antropomorfismo que contradiga el aprendizaje.
 - Plantas/insectos claramente separables del fondo por silueta, profundidad y movimiento.
 - Campamento acogedor construido con mejoras visibles y permanentes, sin iconografía de tienda.

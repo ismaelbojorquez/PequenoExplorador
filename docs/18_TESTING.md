@@ -34,6 +34,8 @@ Ejecuta en orden y se detiene al primer fallo: `check-repository`, `compile`, bu
 | `scripts/validate-missions` | Valida definitions/strategies/referencias/grafo/editorial/UI. | `artifacts/logs/validate-missions.log`. |
 | `scripts/setup-learning` | Regenera catálogo/reward/UI/keys de la fixture educativa abstracta. | `artifacts/logs/setup-learning.log`. |
 | `scripts/validate-learning` | Valida definitions/conceptos/strategy/editorial/localización/UI y límites de capa. | `artifacts/logs/validate-learning.log`. |
+| `scripts/setup-customization` | Regenera catálogo de 8 slots/20 opciones, rig, preview Camp, UI y localización. | `artifacts/logs/setup-customization.log`. |
+| `scripts/validate-customization` | Valida defaults/costos/localización, rig/materiales, Camp, UI, capas y targets. | `artifacts/logs/validate-customization.log`. |
 | `scripts/build-addressables-local` | Valida perfiles/grupos/labels/dependencias y construye catálogo Android local. | Log + `artifacts/reports/addressables-local.json`; runtime data ignorada bajo `Library`. |
 | `scripts/test-editmode` | Suite EditMode. | XML NUnit y JUnit en `artifacts/test-results/`. |
 | `scripts/test-playmode` | Suite PlayMode/escena. | XML NUnit y JUnit en `artifacts/test-results/`. |
@@ -53,7 +55,9 @@ Fixture visual VS-D-A01: EditMode valida IDs, `Approved`/no-placeholder, metadat
 
 Mundos EditMode cubre mapping del manifest Selva, duplicate IDs, Release Draft, locked/missing sin carga ni mutación de progreso y una fixture in-memory `world.test-ocean`. Esa fixture usa `scene/test-ocean` a través del mismo `WorldLoadUseCase`/`SceneFlowService`, sin modificar el coordinador. PlayMode enumera Selva desde `IWorldCatalog` y ejecuta tres ciclos por `WorldId`, comprobando sesión activa, unload y handles.
 
-Save EditMode cubre default/round-trip, JSON determinista, atomicidad/checksum/backup, v0→…→v10, migraciones hasta v9→v10, photos/economy/mission/learning/Camp metadata, future schema read-only, cancelación y coalescing. PlayMode recrea el servicio y valida discovery/foto/economía/misión/learning/Camp. No se usa `PlayerPrefs`, red, reloj real ni rutas versionadas. Detalle: [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md).
+Save EditMode cubre default/round-trip, JSON determinista, atomicidad/checksum/backup, v0→…→v11, migraciones hasta v10→v11, photos/economy/mission/learning/Camp/customization metadata, future schema read-only, cancelación y coalescing. PlayMode recrea el servicio y valida discovery/foto/economía/misión/learning/Camp/customization. No se usa `PlayerPrefs`, red, reloj real ni rutas versionadas. Detalle: [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md).
+
+Personalización EditMode cubre catálogo/defaults, IDs duplicados, fallback por opción retirada, unlock/equip separados, saldo/prerrequisito/read-only, incompatibilidad, idempotencia, commit fallido/retry, round-trip y migración v10→v11; la fixture Release rechaza `PH_`. PlayMode ejecuta preview→unlock→equip→Selva→Camp→flush/reload, ratios `1024×768`, `1920×1080`, `2400×1080` y verifica que preview no instancia materiales. Hardware/clipping/tonos finales siguen `NOT RUN`.
 
 Configuración EditMode cubre defaults, dos assets locales, mapping, IDs duplicados, budgets inválidos, cada flag prohibido en Release y override temporal restaurable. PlayMode comprueba que Bootstrap selecciona Development, muestra producto/versión del asset y conserva Ready/scene flow/save. `scripts/compile`/build llaman el validador de ambos perfiles; una fixture controlada Release+`MockAds` debe fallar `CONFIG008`. Contrato: [`RUNTIME_CONFIGURATION.md`](RUNTIME_CONFIGURATION.md).
 

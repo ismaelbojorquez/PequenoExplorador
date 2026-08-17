@@ -559,6 +559,170 @@ MonoBehaviour:
     m_Key: ui.camp.upgrade.unavailable
     m_Metadata:
       m_Items: []
+  - m_Id: 274694803546112
+    m_Key: ui.customization.title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323328
+    m_Key: ui.customization.balance
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323329
+    m_Key: ui.customization.available
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323330
+    m_Key: ui.customization.cost
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323331
+    m_Key: ui.customization.progress_locked
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323332
+    m_Key: ui.customization.unlock_stars
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323333
+    m_Key: ui.customization.unlock_progress
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323334
+    m_Key: ui.customization.equip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323335
+    m_Key: ui.customization.close
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323336
+    m_Key: ui.customization.unlocked
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323337
+    m_Key: ui.customization.equipped
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323338
+    m_Key: ui.customization.incompatible
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323339
+    m_Key: ui.customization.unavailable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323340
+    m_Key: ui.customization.slot.skin-tone
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323341
+    m_Key: ui.customization.slot.hair
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323342
+    m_Key: ui.customization.slot.shirt
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323343
+    m_Key: ui.customization.slot.pants
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323344
+    m_Key: ui.customization.slot.shoes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323345
+    m_Key: ui.customization.slot.hat
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323346
+    m_Key: ui.customization.slot.backpack
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323347
+    m_Key: ui.customization.slot.explorer-tool
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323348
+    m_Key: ui.customization.cosmetic.skin.light
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323349
+    m_Key: ui.customization.cosmetic.skin.medium
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323350
+    m_Key: ui.customization.cosmetic.skin.deep
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323351
+    m_Key: ui.customization.cosmetic.skin.warm
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323352
+    m_Key: ui.customization.cosmetic.hair.curls
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323353
+    m_Key: ui.customization.cosmetic.hair.waves
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323354
+    m_Key: ui.customization.cosmetic.hair.puffs
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323355
+    m_Key: ui.customization.cosmetic.shirt.jungle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323356
+    m_Key: ui.customization.cosmetic.shirt.sun
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323357
+    m_Key: ui.customization.cosmetic.shirt.river
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323358
+    m_Key: ui.customization.cosmetic.pants.sand
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323359
+    m_Key: ui.customization.cosmetic.pants.night
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323360
+    m_Key: ui.customization.cosmetic.shoes.trail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323361
+    m_Key: ui.customization.cosmetic.shoes.coral
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323362
+    m_Key: ui.customization.cosmetic.hat.none
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323363
+    m_Key: ui.customization.cosmetic.hat.sun
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323364
+    m_Key: ui.customization.cosmetic.backpack.field
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694820323365
+    m_Key: ui.customization.cosmetic.backpack.leaf
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694824517632
+    m_Key: ui.customization.cosmetic.tool.camera
+    m_Metadata:
+      m_Items: []
+  - m_Id: 274694824517633
+    m_Key: ui.customization.cosmetic.tool.binoculars
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

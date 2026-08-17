@@ -41,8 +41,8 @@ namespace PequenoExplorador.Editor.BuildTools
                 CampStationDefinition customization = catalog.Stations.SingleOrDefault(value => value.Id.Value == "camp-station.customization");
                 if (parents == null || parents.IsAvailable || !parents.IsParentRestricted)
                     errors.Add("CAMP104 parent station must remain unavailable and explicitly parent-restricted until a gate exists.");
-                if (customization == null || customization.IsAvailable)
-                    errors.Add("CAMP105 customization station must remain a non-commercial future placeholder.");
+                if (customization == null || !customization.IsAvailable || customization.IsParentRestricted)
+                    errors.Add("CAMP105 customization station must be available to children and remain separate from the parent-restricted area.");
                 foreach (CampStationDefinition station in catalog.Stations)
                     if (!HasLocalization(station.DisplayName) || !HasLocalization(station.Description))
                         errors.Add($"CAMP116 station '{station.Id}' requires non-empty ES/EN localization.");

@@ -112,6 +112,18 @@ No se añadió media externa ni se modificó la geometría/material del prefab a
 
 No se incorporó media externa. Estos assets son Development-only y el validator Release los bloquea hasta sustitución/aprobación.
 
+## Ledger temporal Prompt 26
+
+| ID lógico | Asset temporal | Estado | Reemplazo/revisión humana necesaria |
+|---|---|---|---|
+| `customization-slot.skin-tone` | color por `MaterialPropertyBlock` sobre `PH_Head` | Placeholder propio | Cuatro tonos bajo iluminación final, revisión cultural, contraste y shader de piel. |
+| `customization-slot.hair` | spheres/capsule para rizos, ondas y dos chonguitos | Placeholder propio | Mallas/peinados inclusivos, hairline, clipping con cabeza/sombreros y rig. |
+| `customization-slot.shirt/pants/shoes` | cuerpo/cubos coloreados | Placeholder propio | Prendas, siluetas, materiales, skinning y combinaciones sin clipping. |
+| `customization-slot.hat/backpack/explorer-tool` | primitives para sombrero, mochilas, cámara/binoculares | Placeholder propio | Accesorios finales, straps/occlusion, lectura a distancia y compatibilidad con animación/fotografía. |
+| `visual.ui.customization` | `PH_UI_CUSTOMIZATION`, swatches y preview de Camp | Placeholder propio | Design system/TMP Prompt 27, iconos, thumbnails, pose/rotación y revisión multiratio/Child UX. |
+
+Son veinte opciones propias, sin media externa, y todas conservan metadata Draft/`PH_`/ReleaseBlocked. El prefab de locomoción no se rehízo: añadió ocho bindings sobre el mismo root. Color usa materiales compartidos; hair/hat/tool alternan roots. Antes de Release hacen falta modelo base inclusivo, arte final por slot, clipping matrix, LOD/batching, iconografía, paleta/contraste, provenance y aprobación asset-specific. Véase [`CUSTOMIZATION_SYSTEM.md`](CUSTOMIZATION_SYSTEM.md).
+
 ## Git y organización futura
 
 - Fuentes grandes de formatos cubiertos irán a Git LFS; `.meta` siempre en Git normal.

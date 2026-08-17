@@ -23,7 +23,7 @@ El costo de 3 permite comprobar el loop actual con recompensas de discovery + mi
 
 ## Persistencia y degradación
 
-Save schema v10 añade únicamente `unlockedCampUpgradeIds`. La migración pura v9→v10 conserva el estado previo y comienza con lista vacía. La configuración y los costos siguen en Content; Save no copia definitions. Una definition retirada conserva el ID histórico sin romper la carga, aunque la vista no lo presenta.
+Save schema v10 introdujo `unlockedCampUpgradeIds`; schema v11 lo conserva y añade únicamente estado de personalización. La configuración y los costos siguen en Content; Save no copia definitions. Una definition retirada conserva el ID histórico sin romper la carga, aunque la vista no lo presenta.
 
 El perfil Release rechaza los assets `PH_`. No hay IAP, enlace a compra, moneda premium, entitlement, red ni parental bypass. Saldo insuficiente muestra una sugerencia localizada amable y deja progreso/saldo intactos.
 

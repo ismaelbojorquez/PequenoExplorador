@@ -155,6 +155,18 @@ namespace PequenoExplorador.Editor
             AssetDatabase.SaveAssets();
         }
 
+        public static void ApplyCustomizationEntries()
+        {
+            LocalizationSettings settings = AssetDatabase.LoadAssetAtPath<LocalizationSettings>(SettingsPath);
+            Locale spanish = AssetDatabase.LoadAssetAtPath<Locale>(SpanishLocalePath);
+            Locale english = AssetDatabase.LoadAssetAtPath<Locale>(EnglishLocalePath);
+            if (settings == null || spanish == null || english == null)
+                throw new InvalidOperationException("Localization foundation must exist before customization setup.");
+            LocalizationEditorSettings.ActiveLocalizationSettings = settings;
+            UpsertStringCollection(LocalizationKeys.UiTable, new[] { spanish, english }, UiEntries);
+            AssetDatabase.SaveAssets();
+        }
+
         private static readonly Entry[] SharedEntries =
         {
             new Entry("shared.product.name", "Pequeño Explorador: Aprende Jugando", "Little Explorer: Learning Through Play"),
@@ -203,7 +215,7 @@ namespace PequenoExplorador.Editor
             new Entry("ui.camp.station.album.name", "Álbum", "Album"),
             new Entry("ui.camp.station.album.description", "Mira los descubrimientos que encontraste.", "See the discoveries you found."),
             new Entry("ui.camp.station.customization.name", "Rincón del explorador", "Explorer Corner"),
-            new Entry("ui.camp.station.customization.description", "La personalización llegará después.", "Customization is coming later."),
+            new Entry("ui.camp.station.customization.description", "Elige cómo se ve tu explorador.", "Choose how your explorer looks."),
             new Entry("ui.camp.station.parents.name", "Para personas adultas", "For Grown-ups"),
             new Entry("ui.camp.station.parents.description", "Próximamente, con acceso adulto seguro.", "Coming later with a safe grown-up entry."),
             new Entry("ui.camp.upgrade.observation.name", "Rincón de observación", "Observation Corner"),
@@ -239,6 +251,47 @@ namespace PequenoExplorador.Editor
             new Entry("ui.learning.exit_safe", "Puedes volver cuando quieras.", "You can come back whenever you like."),
             new Entry("ui.learning.activity.open", "Vamos a descubrir qué le gusta comer.", "Let’s discover what it likes to eat."),
             new Entry("ui.learning.activity.continue", "Descubrir qué come", "Discover what it eats"),
+            new Entry("ui.customization.title", "Mi explorador", "My Explorer"),
+            new Entry("ui.customization.balance", "Estrellas disponibles: {0}", "Available stars: {0}", isSmart: true),
+            new Entry("ui.customization.available", "Disponible", "Available"),
+            new Entry("ui.customization.cost", "Cuesta {0:plural:una estrella|{} estrellas}", "Costs {0:plural:one star|{} stars}", isSmart: true),
+            new Entry("ui.customization.progress_locked", "Se descubre al mejorar el campamento", "Unlocked by improving the camp"),
+            new Entry("ui.customization.unlock_stars", "Desbloquear por {0:plural:una estrella|{} estrellas}", "Unlock for {0:plural:one star|{} stars}", isSmart: true),
+            new Entry("ui.customization.unlock_progress", "Sigue explorando", "Keep exploring"),
+            new Entry("ui.customization.equip", "Usar", "Wear"),
+            new Entry("ui.customization.close", "Volver", "Back"),
+            new Entry("ui.customization.unlocked", "¡Nueva opción disponible!", "New option available!"),
+            new Entry("ui.customization.equipped", "¡Así queda tu explorador!", "Your explorer is ready!"),
+            new Entry("ui.customization.incompatible", "Probemos otra combinación.", "Let’s try another combination."),
+            new Entry("ui.customization.unavailable", "Esta opción todavía no está disponible.", "This option is not available yet."),
+            new Entry("ui.customization.slot.skin-tone", "Tono de piel", "Skin tone"),
+            new Entry("ui.customization.slot.hair", "Cabello", "Hair"),
+            new Entry("ui.customization.slot.shirt", "Camiseta", "Shirt"),
+            new Entry("ui.customization.slot.pants", "Pantalón", "Pants"),
+            new Entry("ui.customization.slot.shoes", "Zapatos", "Shoes"),
+            new Entry("ui.customization.slot.hat", "Sombrero", "Hat"),
+            new Entry("ui.customization.slot.backpack", "Mochila", "Backpack"),
+            new Entry("ui.customization.slot.explorer-tool", "Herramienta", "Explorer tool"),
+            new Entry("ui.customization.cosmetic.skin.light", "Claro", "Light"),
+            new Entry("ui.customization.cosmetic.skin.medium", "Medio", "Medium"),
+            new Entry("ui.customization.cosmetic.skin.deep", "Oscuro", "Deep"),
+            new Entry("ui.customization.cosmetic.skin.warm", "Cálido", "Warm"),
+            new Entry("ui.customization.cosmetic.hair.curls", "Rizos", "Curls"),
+            new Entry("ui.customization.cosmetic.hair.waves", "Ondas", "Waves"),
+            new Entry("ui.customization.cosmetic.hair.puffs", "Dos chonguitos", "Two puffs"),
+            new Entry("ui.customization.cosmetic.shirt.jungle", "Verde selva", "Jungle green"),
+            new Entry("ui.customization.cosmetic.shirt.sun", "Sol naranja", "Sunny orange"),
+            new Entry("ui.customization.cosmetic.shirt.river", "Azul río", "River blue"),
+            new Entry("ui.customization.cosmetic.pants.sand", "Arena", "Sand"),
+            new Entry("ui.customization.cosmetic.pants.night", "Azul noche", "Night blue"),
+            new Entry("ui.customization.cosmetic.shoes.trail", "Sendero", "Trail"),
+            new Entry("ui.customization.cosmetic.shoes.coral", "Coral", "Coral"),
+            new Entry("ui.customization.cosmetic.hat.none", "Sin sombrero", "No hat"),
+            new Entry("ui.customization.cosmetic.hat.sun", "Sombrero de sol", "Sun hat"),
+            new Entry("ui.customization.cosmetic.backpack.field", "Mochila de campo", "Field backpack"),
+            new Entry("ui.customization.cosmetic.backpack.leaf", "Mochila hoja", "Leaf backpack"),
+            new Entry("ui.customization.cosmetic.tool.camera", "Cámara", "Camera"),
+            new Entry("ui.customization.cosmetic.tool.binoculars", "Binoculares", "Binoculars"),
             new Entry("ui.learning.toucan_food.title", "¿Qué elegiría el tucán?", "What would the toucan choose?"),
             new Entry("ui.learning.toucan_food.instruction", "Toca lo que el tucán come sobre todo.", "Tap what the toucan mostly eats."),
             new Entry("ui.learning.toucan_food.success", "¡Buena observación!", "Great observation!"),

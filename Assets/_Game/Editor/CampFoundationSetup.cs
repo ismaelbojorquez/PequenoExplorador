@@ -31,7 +31,7 @@ namespace PequenoExplorador.Editor
         {
             new StationSeed("camp-station.expedition", "camp-action.expedition", "expedition", 0, true, false),
             new StationSeed("camp-station.album", "camp-action.album", "album", 1, true, false),
-            new StationSeed("camp-station.customization", "camp-action.customization", "customization", 2, false, false),
+            new StationSeed("camp-station.customization", "camp-action.customization", "customization", 2, true, false),
             new StationSeed("camp-station.parents", "camp-action.parents", "parents", 3, false, true)
         };
 

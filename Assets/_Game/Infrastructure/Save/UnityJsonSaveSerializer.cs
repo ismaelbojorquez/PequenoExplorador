@@ -25,7 +25,7 @@ namespace PequenoExplorador.Infrastructure.Save
             }
 
             PlayerPreferences preferences = progress.Preferences;
-            PlayerProgressV10Dto payload = PlayerProgressV10Dto.Create(
+            PlayerProgressV11Dto payload = PlayerProgressV11Dto.Create(
                 appVersion,
                 progress.Stars,
                 progress.WorldIds.ToArray(),
@@ -62,6 +62,9 @@ namespace PequenoExplorador.Infrastructure.Save
                 progress.LearningConcepts.Select(item => LearningConceptDailyV9Dto.Create(
                     item.ConceptId.Value, item.LocalDate, item.SeenCount, item.CompletedCount)).ToArray(),
                 progress.UnlockedCampUpgradeIds.ToArray(),
+                progress.UnlockedCosmeticIds.ToArray(),
+                progress.EquippedCosmetics.Select(item => EquippedCosmeticV11Dto.Create(
+                    item.SlotId.Value, item.CosmeticId.Value)).ToArray(),
                 SaveMetadataV1Dto.Create(saveSequence));
             string payloadJson = JsonUtility.ToJson(payload, false);
             return SerializeEnvelope(LocalSaveService.CurrentSchemaVersion, payloadJson);
@@ -118,10 +121,10 @@ namespace PequenoExplorador.Infrastructure.Save
 
         public DecodedSaveData DeserializeCurrentPayload(string payload)
         {
-            PlayerProgressV10Dto dto;
+            PlayerProgressV11Dto dto;
             try
             {
-                dto = JsonUtility.FromJson<PlayerProgressV10Dto>(payload);
+                dto = JsonUtility.FromJson<PlayerProgressV11Dto>(payload);
             }
             catch (Exception exception)
             {
@@ -133,6 +136,7 @@ namespace PequenoExplorador.Infrastructure.Save
                 dto.CompletedMissionIds == null || dto.ProcessedEconomyTransactionIds == null || dto.EconomyLedger == null ||
                 dto.Missions == null || dto.ProcessedMissionFactIds == null || dto.LastMissionFactSequence < 0 ||
                 dto.LearningSessions == null || dto.LearningConcepts == null || dto.UnlockedCampUpgradeIds == null ||
+                dto.UnlockedCosmeticIds == null || dto.EquippedCosmetics == null ||
                 dto.Settings == null || dto.Metadata == null || dto.Metadata.SaveSequence < 0 ||
                 !Enum.IsDefined(typeof(GuidanceMode), dto.Settings.GuidanceMode) ||
                 !LocaleCode.IsSupported(dto.Settings.LocaleCode, includePseudo: false) ||
@@ -210,6 +214,11 @@ namespace PequenoExplorador.Infrastructure.Save
                     return new LearningConceptDailyProgress(LearningConceptId.Parse(item.ConceptId), item.LocalDate,
                         item.SeenCount, item.CompletedCount);
                 }).ToArray();
+                var equippedCosmetics = dto.EquippedCosmetics.Select(item =>
+                {
+                    if (item == null) throw new SaveDataException("SavePayloadInvalid");
+                    return new EquippedCosmetic(CustomizationSlotId.Parse(item.SlotId), CosmeticId.Parse(item.CosmeticId));
+                }).ToArray();
                 var progress = new PlayerProgress(
                     dto.Stars,
                     dto.WorldIds,
@@ -225,7 +234,9 @@ namespace PequenoExplorador.Infrastructure.Save
                     dto.LastMissionFactSequence,
                     learningSessions,
                     learningConcepts,
-                    dto.UnlockedCampUpgradeIds);
+                    dto.UnlockedCampUpgradeIds,
+                    dto.UnlockedCosmeticIds,
+                    equippedCosmetics);
                 return new DecodedSaveData(progress, dto.Metadata.SaveSequence);
             }
             catch (Exception exception)

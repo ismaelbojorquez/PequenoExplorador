@@ -22,6 +22,8 @@ namespace PequenoExplorador.Domain.Progress
         private readonly LearningSession[] _learningSessions;
         private readonly LearningConceptDailyProgress[] _learningConcepts;
         private readonly string[] _unlockedCampUpgradeIds;
+        private readonly string[] _unlockedCosmeticIds;
+        private readonly EquippedCosmetic[] _equippedCosmetics;
 
         public PlayerProgress(
             int stars,
@@ -79,7 +81,9 @@ namespace PequenoExplorador.Domain.Progress
             long lastMissionFactSequence = 0,
             IEnumerable<LearningSession> learningSessions = null,
             IEnumerable<LearningConceptDailyProgress> learningConcepts = null,
-            IEnumerable<string> unlockedCampUpgradeIds = null)
+            IEnumerable<string> unlockedCampUpgradeIds = null,
+            IEnumerable<string> unlockedCosmeticIds = null,
+            IEnumerable<EquippedCosmetic> equippedCosmetics = null)
         {
             if (stars < 0)
             {
@@ -105,6 +109,8 @@ namespace PequenoExplorador.Domain.Progress
             _learningSessions = CopyAndValidateLearningSessions(learningSessions ?? Array.Empty<LearningSession>());
             _learningConcepts = CopyAndValidateLearningConcepts(learningConcepts ?? Array.Empty<LearningConceptDailyProgress>());
             _unlockedCampUpgradeIds = CopyAndValidateCampUpgradeIds(unlockedCampUpgradeIds ?? Array.Empty<string>());
+            _unlockedCosmeticIds = CopyAndValidateCosmeticIds(unlockedCosmeticIds ?? Array.Empty<string>());
+            _equippedCosmetics = CopyAndValidateEquippedCosmetics(equippedCosmetics ?? Array.Empty<EquippedCosmetic>());
             if (_missions.Where(item => item.IsCompleted).Any(item => !_completedMissionIds.Contains(item.Id.Value, StringComparer.Ordinal)))
                 throw new ArgumentException("Completed mission progress must appear in completed mission IDs.", nameof(missions));
         }
@@ -126,6 +132,8 @@ namespace PequenoExplorador.Domain.Progress
         public IReadOnlyList<LearningSession> LearningSessions => _learningSessions;
         public IReadOnlyList<LearningConceptDailyProgress> LearningConcepts => _learningConcepts;
         public IReadOnlyList<string> UnlockedCampUpgradeIds => _unlockedCampUpgradeIds;
+        public IReadOnlyList<string> UnlockedCosmeticIds => _unlockedCosmeticIds;
+        public IReadOnlyList<EquippedCosmetic> EquippedCosmetics => _equippedCosmetics;
 
         public static PlayerProgress CreateDefault()
         {
@@ -154,7 +162,9 @@ namespace PequenoExplorador.Domain.Progress
                 LastMissionFactSequence,
                 _learningSessions,
                 _learningConcepts,
-                _unlockedCampUpgradeIds);
+                _unlockedCampUpgradeIds,
+                _unlockedCosmeticIds,
+                _equippedCosmetics);
         }
 
         public PlayerProgress WithPreferences(PlayerPreferences preferences)
@@ -174,7 +184,9 @@ namespace PequenoExplorador.Domain.Progress
                 LastMissionFactSequence,
                 _learningSessions,
                 _learningConcepts,
-                _unlockedCampUpgradeIds);
+                _unlockedCampUpgradeIds,
+                _unlockedCosmeticIds,
+                _equippedCosmetics);
         }
 
         public PlayerProgress WithDiscoveryState(
@@ -196,7 +208,9 @@ namespace PequenoExplorador.Domain.Progress
                 LastMissionFactSequence,
                 _learningSessions,
                 _learningConcepts,
-                _unlockedCampUpgradeIds);
+                _unlockedCampUpgradeIds,
+                _unlockedCosmeticIds,
+                _equippedCosmetics);
         }
 
         public PlayerProgress WithPhotos(IEnumerable<PhotoProgress> photos)
@@ -216,7 +230,9 @@ namespace PequenoExplorador.Domain.Progress
                 LastMissionFactSequence,
                 _learningSessions,
                 _learningConcepts,
-                _unlockedCampUpgradeIds);
+                _unlockedCampUpgradeIds,
+                _unlockedCosmeticIds,
+                _equippedCosmetics);
         }
 
         public PlayerProgress WithEconomy(ExplorerStars balance, IEnumerable<string> processedTransactionIds,
@@ -224,21 +240,21 @@ namespace PequenoExplorador.Domain.Progress
             balance.Value, _worldIds, _discoveries, _processedDiscoveryGrantIds, _photos,
             _completedMissionIds, Preferences, processedTransactionIds, ledger,
             _missions, _processedMissionFactIds, LastMissionFactSequence, _learningSessions, _learningConcepts,
-            _unlockedCampUpgradeIds);
+            _unlockedCampUpgradeIds, _unlockedCosmeticIds, _equippedCosmetics);
 
         public PlayerProgress WithMissionState(IEnumerable<MissionProgress> missions,
             IEnumerable<string> completedMissionIds, IEnumerable<string> processedFactIds, long lastFactSequence) =>
             new PlayerProgress(Stars, _worldIds, _discoveries, _processedDiscoveryGrantIds, _photos,
                 completedMissionIds, Preferences, _processedEconomyTransactionIds, _economyLedger,
                 missions, processedFactIds, lastFactSequence, _learningSessions, _learningConcepts,
-                _unlockedCampUpgradeIds);
+                _unlockedCampUpgradeIds, _unlockedCosmeticIds, _equippedCosmetics);
 
         public PlayerProgress WithLearningState(IEnumerable<LearningSession> sessions,
             IEnumerable<LearningConceptDailyProgress> concepts) =>
             new PlayerProgress(Stars, _worldIds, _discoveries, _processedDiscoveryGrantIds, _photos,
                 _completedMissionIds, Preferences, _processedEconomyTransactionIds, _economyLedger,
                 _missions, _processedMissionFactIds, LastMissionFactSequence, sessions, concepts,
-                _unlockedCampUpgradeIds);
+                _unlockedCampUpgradeIds, _unlockedCosmeticIds, _equippedCosmetics);
 
         public PlayerProgress WithEconomyAndCampUpgrade(
             ExplorerStars balance,
@@ -248,7 +264,42 @@ namespace PequenoExplorador.Domain.Progress
             balance.Value, _worldIds, _discoveries, _processedDiscoveryGrantIds, _photos,
             _completedMissionIds, Preferences, processedTransactionIds, ledger,
             _missions, _processedMissionFactIds, LastMissionFactSequence, _learningSessions,
-            _learningConcepts, unlockedCampUpgradeIds);
+            _learningConcepts, unlockedCampUpgradeIds, _unlockedCosmeticIds, _equippedCosmetics);
+
+        public PlayerProgress WithCustomizationState(
+            IEnumerable<string> unlockedCosmeticIds,
+            IEnumerable<EquippedCosmetic> equippedCosmetics) => new PlayerProgress(
+            Stars, _worldIds, _discoveries, _processedDiscoveryGrantIds, _photos,
+            _completedMissionIds, Preferences, _processedEconomyTransactionIds, _economyLedger,
+            _missions, _processedMissionFactIds, LastMissionFactSequence, _learningSessions,
+            _learningConcepts, _unlockedCampUpgradeIds, unlockedCosmeticIds, equippedCosmetics);
+
+        public PlayerProgress WithEconomyAndCosmeticUnlock(
+            ExplorerStars balance,
+            IEnumerable<string> processedTransactionIds,
+            IEnumerable<EconomyLedgerEntry> ledger,
+            IEnumerable<string> unlockedCosmeticIds) => new PlayerProgress(
+            balance.Value, _worldIds, _discoveries, _processedDiscoveryGrantIds, _photos,
+            _completedMissionIds, Preferences, processedTransactionIds, ledger,
+            _missions, _processedMissionFactIds, LastMissionFactSequence, _learningSessions,
+            _learningConcepts, _unlockedCampUpgradeIds, unlockedCosmeticIds, _equippedCosmetics);
+
+        private static string[] CopyAndValidateCosmeticIds(IEnumerable<string> values)
+        {
+            string[] result = CopyAndValidateIds(values, nameof(values));
+            if (result.Any(value => !CosmeticId.TryParse(value, out _)))
+                throw new ArgumentException("Cosmetic IDs are invalid.", nameof(values));
+            return result.OrderBy(value => value, StringComparer.Ordinal).ToArray();
+        }
+
+        private static EquippedCosmetic[] CopyAndValidateEquippedCosmetics(IEnumerable<EquippedCosmetic> values)
+        {
+            EquippedCosmetic[] result = (values ?? throw new ArgumentNullException(nameof(values))).ToArray();
+            if (result.Any(value => value == null)) throw new ArgumentException("Equipped cosmetics cannot contain null.", nameof(values));
+            if (result.Select(value => value.SlotId).Distinct().Count() != result.Length)
+                throw new ArgumentException("Each customization slot can equip only one cosmetic.", nameof(values));
+            return result.OrderBy(value => value.SlotId.Value, StringComparer.Ordinal).ToArray();
+        }
 
         private static string[] CopyAndValidateCampUpgradeIds(IEnumerable<string> values)
         {

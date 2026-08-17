@@ -128,7 +128,8 @@ namespace PequenoExplorador.Tests.EditMode
                     new V6ToV7EconomyMigration(),
                     new V7ToV8MissionMigration(),
                     new V8ToV9LearningMigration(),
-                    new V9ToV10CampMigration()
+                    new V9ToV10CampMigration(),
+                    new V10ToV11CustomizationMigration()
                 });
             await save.InitializeAsync(CancellationToken.None);
             return save;

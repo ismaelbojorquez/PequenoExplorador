@@ -21,6 +21,7 @@ namespace PequenoExplorador.Editor.BuildTools
                 ValidatePhotographyInternal();
                 ValidateAlbumInternal();
                 ValidateCampInternal(ContentValidationMode.Development);
+                ValidateCustomizationInternal(ContentValidationMode.Development);
                 ArtifactReportWriter.WriteEnvironmentReport();
                 Debug.Log("PE_COMPILE_OK");
             });
@@ -57,7 +58,7 @@ namespace PequenoExplorador.Editor.BuildTools
                         "Localization validation failed:\n" + string.Join("\n", violations));
                 }
 
-                Debug.Log("PE_LOCALIZATION_OK package=1.5.12 locales=es,en,pseudo keys=140 stringTables=3 assetTables=2");
+                Debug.Log("PE_LOCALIZATION_OK package=1.5.12 locales=es,en,pseudo keys=213 stringTables=3 assetTables=2");
             });
         }
 
@@ -106,6 +107,11 @@ namespace PequenoExplorador.Editor.BuildTools
             Run(() => ValidateCampInternal(ContentValidationMode.Development));
         }
 
+        public static void ValidateCustomization()
+        {
+            Run(() => ValidateCustomizationInternal(ContentValidationMode.Development));
+        }
+
         public static void BuildAddressablesLocal()
         {
             Run(() =>
@@ -119,6 +125,7 @@ namespace PequenoExplorador.Editor.BuildTools
                 ValidatePhotographyInternal();
                 ValidateAlbumInternal();
                 ValidateCampInternal(ContentValidationMode.Development);
+                ValidateCustomizationInternal(ContentValidationMode.Development);
                 LocalAddressablesBuildService.BuildDevelopment();
             });
         }
@@ -136,6 +143,7 @@ namespace PequenoExplorador.Editor.BuildTools
                 ValidatePhotographyInternal();
                 ValidateAlbumInternal();
                 ValidateCampInternal(ContentValidationMode.Development);
+                ValidateCustomizationInternal(ContentValidationMode.Development);
                 LocalAddressablesBuildService.BuildDevelopment();
                 AndroidBuildService.BuildDevelopment();
             });
@@ -154,6 +162,7 @@ namespace PequenoExplorador.Editor.BuildTools
                 ValidatePhotographyInternal();
                 ValidateAlbumInternal();
                 ValidateCampInternal(ContentValidationMode.Release);
+                ValidateCustomizationInternal(ContentValidationMode.Release);
                 const string reason =
                     "PE_RELEASE_SIGNING_REQUIRED: Release is intentionally blocked until an authorized human supplies external signing and approves bundle identity.";
                 ArtifactReportWriter.WriteReleaseBlockedReport(reason);
@@ -192,7 +201,7 @@ namespace PequenoExplorador.Editor.BuildTools
             Debug.Log($"PE_CONTENT_VALIDATION_OK mode={mode} discoveries=1 catalog=O1");
             Debug.Log("PE_TOUCAN_FIXTURE_OK visual=Approved visualReview=approved placeholder=false externalMedia=0 factualReview=approved");
             Debug.Log("PE_RUNTIME_CONFIG_OK profiles=2 remote=false releaseUnsafeFlags=0");
-            Debug.Log("PE_LOCALIZATION_OK package=1.5.12 locales=es,en,pseudo keys=140 stringTables=3 assetTables=2");
+            Debug.Log("PE_LOCALIZATION_OK package=1.5.12 locales=es,en,pseudo keys=213 stringTables=3 assetTables=2");
             Debug.Log("PE_AUDIO_OK buses=5 cues=9 clips=14 placeholders=14 sampleRate=48000 releaseFinal=0");
             Debug.LogWarning("PE_AUDIO_RELEASE_PENDING finalAssets=10 humanVoiceReview=required");
             Debug.Log("PE_ECONOMY_OK currency=explorer-stars rewards=4 ledger=32 premium=0 purchases=0 debugRelease=0");
@@ -258,6 +267,14 @@ namespace PequenoExplorador.Editor.BuildTools
             if (violations.Count > 0)
                 throw new InvalidOperationException("Camp validation failed:\n" + string.Join("\n", violations));
             Debug.Log("PE_CAMP_FOUNDATION_OK stations=4 upgrades=1 cost=3 purchaseReal=0 parentGate=false");
+        }
+
+        private static void ValidateCustomizationInternal(ContentValidationMode mode)
+        {
+            IReadOnlyList<string> violations = CustomizationValidationService.Validate(mode);
+            if (violations.Count > 0)
+                throw new InvalidOperationException("Customization validation failed:\n" + string.Join("\n", violations));
+            Debug.Log($"PE_CUSTOMIZATION_OK mode={mode} slots=8 cosmetics=20 genderSelection=0 iap=0 materialInstances=0");
         }
 
         private static void Run(Action action)

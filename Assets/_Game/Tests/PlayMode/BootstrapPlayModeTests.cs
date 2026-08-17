@@ -6,6 +6,7 @@ using NUnit.Framework;
 using PequenoExplorador.Application;
 using PequenoExplorador.Application.Audio;
 using PequenoExplorador.Application.Camp;
+using PequenoExplorador.Application.Customization;
 using PequenoExplorador.Application.Configuration;
 using PequenoExplorador.Application.Lifecycle;
 using PequenoExplorador.Application.Localization;
@@ -22,6 +23,7 @@ using UnityEngine.TestTools;
 using UnityEngine.UI;
 using PequenoExplorador.Presentation.Learning;
 using PequenoExplorador.Presentation.Camp;
+using PequenoExplorador.Presentation.Customization;
 
 namespace PequenoExplorador.Tests.PlayMode
 {
@@ -322,9 +324,9 @@ namespace PequenoExplorador.Tests.PlayMode
             CampHubView hub = bootstrap.CampHubView;
             Assert.That(hub.IsVisible, Is.True);
             Assert.That(hub.StationButtons.Count, Is.EqualTo(4));
-            Assert.That(hub.StationButtons.Count(value => value.IsInteractable), Is.EqualTo(2));
+            Assert.That(hub.StationButtons.Count(value => value.IsInteractable), Is.EqualTo(3));
             Assert.That(hub.StationButtons.Single(value => value.StationId.Value == "camp-station.parents").IsInteractable, Is.False);
-            Assert.That(hub.StationButtons.Single(value => value.StationId.Value == "camp-station.customization").IsInteractable, Is.False);
+            Assert.That(hub.StationButtons.Single(value => value.StationId.Value == "camp-station.customization").IsInteractable, Is.True);
 
             CampUpgradeVisualView visual = Object.FindFirstObjectByType<CampUpgradeVisualView>();
             Assert.That(visual, Is.Not.Null);
@@ -373,6 +375,68 @@ namespace PequenoExplorador.Tests.PlayMode
             DiagnosticBootstrap reloaded = Object.FindFirstObjectByType<DiagnosticBootstrap>();
             Assert.That(reloaded.CampHubView.CurrentUpgradeUnlocked, Is.True);
             Assert.That(Object.FindFirstObjectByType<CampUpgradeVisualView>().IsShowingAfter, Is.True);
+        }
+
+        [UnityTest]
+        public IEnumerator CustomizationPreviewsUnlocksEquipsPersistsAcrossScenesAndUsesSharedMaterials()
+        {
+            SceneManager.LoadScene("Bootstrap", LoadSceneMode.Single);
+            yield return null;
+            yield return WaitForReady();
+            DiagnosticBootstrap bootstrap = Object.FindFirstObjectByType<DiagnosticBootstrap>();
+            bootstrap.ResetCampProgressForTests(3);
+            yield return null;
+
+            CustomizationView view = bootstrap.CustomizationView;
+            Assert.That(view, Is.Not.Null);
+            view.Open();
+            Assert.That(view.IsVisible, Is.True);
+            view.SelectSlotForTests(CustomizationSlotId.Parse("customization-slot.shirt"));
+            view.SelectCosmeticForTests(CosmeticId.Parse("cosmetic.shirt.river"));
+            Assert.That(view.Selected.Id.Value, Is.EqualTo("cosmetic.shirt.river"));
+
+            ExplorerCustomizationRig preview = Object.FindObjectsByType<ExplorerCustomizationRig>(FindObjectsInactive.Include, FindObjectsSortMode.None)
+                .Single(value => value.gameObject.name == "PH_CustomizationPreviewExplorer");
+            Renderer[] renderers = preview.GetComponentsInChildren<Renderer>(true);
+            Material[] sharedBefore = renderers.Select(value => value.sharedMaterial).ToArray();
+            UnlockCosmeticResult unlocked = view.UnlockSelectedForTests();
+            Assert.That(unlocked.Outcome, Is.EqualTo(UnlockCosmeticOutcome.Unlocked));
+            Assert.That(unlocked.Balance.Value, Is.Zero);
+            Assert.That(view.EquipSelectedForTests().Outcome, Is.EqualTo(EquipCosmeticOutcome.Equipped));
+            Assert.That(renderers.Select(value => value.sharedMaterial), Is.EqualTo(sharedBefore), "preview must use MaterialPropertyBlock without material instances");
+            view.Close();
+
+            Task<SceneTransitionResult> expedition = bootstrap.GoToExpeditionAsync(CancellationToken.None);
+            yield return WaitForTask(expedition);
+            Assert.That(expedition.Result.Outcome, Is.EqualTo(SceneTransitionOutcome.Succeeded));
+            ExplorerCustomizationRig jungleRig = Object.FindObjectsByType<ExplorerCustomizationRig>(FindObjectsInactive.Include, FindObjectsSortMode.None)
+                .Single(value => value.gameObject.name == PequenoExplorador.Presentation.Explorer.ExplorerLocomotionRoot.PlaceholderRootName);
+            Assert.That(jungleRig.ApplyCount, Is.GreaterThan(0));
+            Task<SceneTransitionResult> camp = bootstrap.GoToCampAsync(CancellationToken.None);
+            yield return WaitForTask(camp);
+            Assert.That(camp.Result.Outcome, Is.EqualTo(SceneTransitionOutcome.Succeeded));
+
+            view.Open();
+            foreach ((int width, int height) in new[] { (1024, 768), (1920, 1080), (2400, 1080) })
+            {
+                Screen.SetResolution(width, height, FullScreenMode.Windowed);
+                yield return null;
+                Canvas.ForceUpdateCanvases();
+                foreach (Button button in view.GetComponentsInChildren<Button>(true))
+                {
+                    Rect rect = ((RectTransform)button.transform).rect;
+                    Assert.That(rect.width, Is.GreaterThanOrEqualTo(64f), button.name + " width at " + width + "x" + height);
+                    Assert.That(rect.height, Is.GreaterThanOrEqualTo(64f), button.name + " height at " + width + "x" + height);
+                }
+            }
+            Task flush = bootstrap.FlushSaveAsync(CancellationToken.None); yield return WaitForTask(flush);
+
+            SceneManager.LoadScene("Bootstrap", LoadSceneMode.Single);
+            yield return null; yield return WaitForReady();
+            DiagnosticBootstrap reloaded = Object.FindFirstObjectByType<DiagnosticBootstrap>();
+            reloaded.CustomizationView.Open();
+            reloaded.CustomizationView.SelectSlotForTests(CustomizationSlotId.Parse("customization-slot.shirt"));
+            Assert.That(reloaded.CustomizationView.Selected.Id.Value, Is.EqualTo("cosmetic.shirt.river"));
         }
 
         private static IEnumerator WaitForReady()

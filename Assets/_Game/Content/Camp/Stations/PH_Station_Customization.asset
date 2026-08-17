@@ -19,5 +19,5 @@ MonoBehaviour:
   _descriptionTable: UI
   _descriptionKey: ui.camp.station.customization.description
   _displayOrder: 2
-  _available: 0
+  _available: 1
   _parentRestricted: 0

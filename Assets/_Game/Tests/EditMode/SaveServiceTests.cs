@@ -52,7 +52,12 @@ namespace PequenoExplorador.Tests.EditMode
                 })
                 .WithEconomyAndCampUpgrade(new PequenoExplorador.Domain.Economy.ExplorerStars(7),
                     Array.Empty<string>(), Array.Empty<PequenoExplorador.Domain.Economy.EconomyLedgerEntry>(),
-                    new[] { "camp-upgrade.observation-corner" });
+                    new[] { "camp-upgrade.observation-corner" })
+                .WithCustomizationState(new[] { "cosmetic.shirt.river" }, new[]
+                {
+                    new EquippedCosmetic(PequenoExplorador.Domain.Content.CustomizationSlotId.Parse("customization-slot.shirt"),
+                        PequenoExplorador.Domain.Content.CosmeticId.Parse("cosmetic.shirt.river"))
+                });
 
             Assert.That((await writer.SaveAsync(expected, CancellationToken.None)).IsSuccess, Is.True);
             LocalSaveService reader = CreateService(store);
@@ -433,7 +438,8 @@ namespace PequenoExplorador.Tests.EditMode
                     new V6ToV7EconomyMigration(),
                     new V7ToV8MissionMigration(),
                     new V8ToV9LearningMigration(),
-                    new V9ToV10CampMigration()
+                    new V9ToV10CampMigration(),
+                    new V10ToV11CustomizationMigration()
                 });
         }
 
@@ -449,6 +455,9 @@ namespace PequenoExplorador.Tests.EditMode
                     item.ScorePermille, item.Width, item.Height, item.ByteLength })));
             Assert.That(actual.ProcessedEconomyTransactionIds, Is.EqualTo(expected.ProcessedEconomyTransactionIds));
             Assert.That(actual.UnlockedCampUpgradeIds, Is.EqualTo(expected.UnlockedCampUpgradeIds));
+            Assert.That(actual.UnlockedCosmeticIds, Is.EqualTo(expected.UnlockedCosmeticIds));
+            Assert.That(actual.EquippedCosmetics.Select(item => new { Slot = item.SlotId.Value, Cosmetic = item.CosmeticId.Value }),
+                Is.EqualTo(expected.EquippedCosmetics.Select(item => new { Slot = item.SlotId.Value, Cosmetic = item.CosmeticId.Value })));
             Assert.That(actual.EconomyLedger.Select(item => new { Id = item.TransactionId.Value, item.Kind,
                     Reward = item.RewardId.Value, Amount = item.Amount.Value, Balance = item.BalanceAfter.Value }),
                 Is.EqualTo(expected.EconomyLedger.Select(item => new { Id = item.TransactionId.Value, item.Kind,

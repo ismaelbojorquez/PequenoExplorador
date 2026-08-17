@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 153b387dba67b475c8a5b0d3481f5443, type: 3}
+  m_Name: PH_Cosmetic_Backpack_Leaf
+  m_EditorClassIdentifier: PequenoExplorador.Content::PequenoExplorador.Content.Customization.CosmeticDefinitionAsset
+  _id: cosmetic.backpack.leaf
+  _slotId: customization-slot.backpack
+  _displayNameTable: UI
+  _displayNameKey: ui.customization.cosmetic.backpack.leaf
+  _visualId: visual.customization.backpack.leaf
+  _color:
+    serializedVersion: 2
+    rgba: 4284193092
+  _initiallyUnlocked: 0
+  _starCost: 2
+  _spendReasonId: reward.cosmetic.backpack.leaf
+  _requiredCampUpgradeId: 
+  _compatibilityTags: []
+  _blockedTags: []
+  _editorial:
+    _state: 0
+    _isPlaceholder: 1
+    _owner: Character Art / Inclusive Design
+    _developmentWatermark: "BORRADOR \xB7 PH_CUSTOMIZATION"

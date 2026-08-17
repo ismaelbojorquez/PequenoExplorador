@@ -11,6 +11,7 @@ using PequenoExplorador.Application.Accessibility;
 using PequenoExplorador.Application.Configuration;
 using PequenoExplorador.Application.Content;
 using PequenoExplorador.Application.Discovery;
+using PequenoExplorador.Application.Customization;
 using PequenoExplorador.Application.Economy;
 using PequenoExplorador.Application.Lifecycle;
 using PequenoExplorador.Application.Logging;
@@ -24,6 +25,7 @@ using PequenoExplorador.Application.Save;
 using PequenoExplorador.Application.Worlds;
 using PequenoExplorador.Content.Audio;
 using PequenoExplorador.Content.Camp;
+using PequenoExplorador.Content.Customization;
 using PequenoExplorador.Content.Data;
 using PequenoExplorador.Content.Economy;
 using PequenoExplorador.Content.Input;
@@ -37,6 +39,7 @@ using PequenoExplorador.Presentation.Album;
 using PequenoExplorador.Presentation.Audio;
 using PequenoExplorador.Presentation.Bootstrap;
 using PequenoExplorador.Presentation.Camp;
+using PequenoExplorador.Presentation.Customization;
 using PequenoExplorador.Presentation.Input;
 using PequenoExplorador.Presentation.Explorer;
 using PequenoExplorador.Presentation.Economy;
@@ -69,6 +72,7 @@ namespace PequenoExplorador.Bootstrap
         [SerializeField] private MissionCatalogAsset _missionCatalog;
         [SerializeField] private LearningCatalogAsset _learningCatalog;
         [SerializeField] private CampCatalogAsset _campCatalog;
+        [SerializeField] private CustomizationCatalogAsset _customizationCatalog;
         [SerializeField] private WorldCatalogAsset _worldCatalog;
         [SerializeField] private InteractionCatalogAsset _interactionCatalog;
         [SerializeField] private InputActionAsset _inputActions;
@@ -85,6 +89,7 @@ namespace PequenoExplorador.Bootstrap
         [SerializeField] private MissionView _missionView;
         [SerializeField] private LearningActivityView _learningView;
         [SerializeField] private CampHubView _campHubView;
+        [SerializeField] private CustomizationView _customizationView;
 
         private CancellationTokenSource _lifetimeCancellation;
         private IAppConfig _configuration;
@@ -104,7 +109,9 @@ namespace PequenoExplorador.Bootstrap
         private MissionCatalog _runtimeMissions;
         private LearningCatalog _runtimeLearning;
         private CampCatalog _runtimeCamp;
+        private CustomizationCatalog _runtimeCustomization;
         private CampSceneRoot _campSceneRoot;
+        private ExplorerCustomizationRig _explorerCustomizationRig;
 
         public ApplicationState State => _services == null
             ? ApplicationState.Created
@@ -146,6 +153,7 @@ namespace PequenoExplorador.Bootstrap
         public AlbumView AlbumView => _albumView;
         public LearningActivityView LearningView => _learningView;
         public CampHubView CampHubView => _campHubView;
+        public CustomizationView CustomizationView => _customizationView;
         public DiscoverResult LastDiscoveryResult => _services == null
             ? default
             : _photographyRoot != null && _photographyRoot.LastCapture.ProgressCaptured
@@ -164,14 +172,14 @@ namespace PequenoExplorador.Bootstrap
                 throw new InvalidOperationException("SceneTransitionView must be wired in the Bootstrap scene.");
             }
 
-            if (_audioView == null || _audioCatalog == null || _contentCatalog == null || _rewardCatalog == null || _missionCatalog == null || _learningCatalog == null || _campCatalog == null ||
+            if (_audioView == null || _audioCatalog == null || _contentCatalog == null || _rewardCatalog == null || _missionCatalog == null || _learningCatalog == null || _campCatalog == null || _customizationCatalog == null ||
                 _worldCatalog == null || _interactionCatalog == null)
             {
                 throw new InvalidOperationException("Audio, content and world catalogs must be wired in the Bootstrap scene.");
             }
             if (_inputActions == null || _gestureThresholds == null || _pauseView == null ||
                 _touchOverlay == null || _aspectOverlay == null || _safeAreaFitters.Length == 0 ||
-                _worldCamera == null || _interactionPrompt == null || _photographyView == null || _albumView == null || _economyView == null || _missionView == null || _learningView == null || _campHubView == null)
+                _worldCamera == null || _interactionPrompt == null || _photographyView == null || _albumView == null || _economyView == null || _missionView == null || _learningView == null || _campHubView == null || _customizationView == null)
             {
                 throw new InvalidOperationException("Input actions, thresholds, pause, overlays and safe-area fitters must be wired.");
             }
@@ -197,6 +205,9 @@ namespace PequenoExplorador.Bootstrap
             if (!_campCatalog.TryBuild(contentMode, out CampCatalog runtimeCamp, out var campViolations))
                 throw new InvalidOperationException("Runtime Camp catalog is invalid:\n" + string.Join("\n", campViolations));
             _runtimeCamp = runtimeCamp;
+            if (!_customizationCatalog.TryBuild(contentMode, out CustomizationCatalog runtimeCustomization, out var customizationViolations))
+                throw new InvalidOperationException("Runtime customization catalog is invalid:\n" + string.Join("\n", customizationViolations));
+            _runtimeCustomization = runtimeCustomization;
             if (!_worldCatalog.TryBuildRuntimeCatalog(runtimeCatalog, contentMode, out WorldCatalog runtimeWorlds, out var worldViolations))
                 throw new InvalidOperationException("Runtime world catalog is invalid:\n" + string.Join("\n", worldViolations));
             if (!_interactionCatalog.TryBuildRuntimeCatalog(
@@ -216,7 +227,8 @@ namespace PequenoExplorador.Bootstrap
                 rewardCatalog: runtimeRewards,
                 missionCatalog: runtimeMissions,
                 learningCatalog: runtimeLearning,
-                campCatalog: runtimeCamp);
+                campCatalog: runtimeCamp,
+                customizationCatalog: runtimeCustomization);
             _lifetimeCancellation = new CancellationTokenSource();
             _statusView.BindLocalization(_services.Context.Localization);
             _statusView.ConfigureProduct(_configuration);
@@ -253,10 +265,18 @@ namespace PequenoExplorador.Bootstrap
             _learningView.Bind(_runtimeLearning, _services.LearningRepository, _services.Learning,
                 _services.Context.Localization, _services.Context.Audio, _services.Context.Input,
                 _services.LearningInteraction, _services.PhotographyInteraction, reduceMotion: false);
+            Action debugUnlockAll = null;
+#if UNITY_EDITOR || PE_DEVELOPMENT_SERVICES
+            debugUnlockAll = DebugUnlockAllCosmeticsForDevelopment;
+#endif
+            _customizationView.Bind(_runtimeCustomization, _services.EconomyRepository, _services.UnlockCosmetic,
+                _services.EquipCosmetic, _services.Context.Localization, _services.Context.SceneFlow,
+                debugUnlockAll, _diagnosticsEnabled);
             var campActions = new Dictionary<CampStationActionId, Action>
             {
                 [CampStationActionId.Parse("camp-action.expedition")] = RequestFirstExpedition,
-                [CampStationActionId.Parse("camp-action.album")] = _albumView.Open
+                [CampStationActionId.Parse("camp-action.album")] = _albumView.Open,
+                [CampStationActionId.Parse("camp-action.customization")] = _customizationView.Open
             };
             _campHubView.Bind(_runtimeCamp, _services.EconomyRepository, _services.PurchaseCampUpgrade,
                 _services.Context.Localization, _services.Context.SceneFlow, campActions);
@@ -468,6 +488,8 @@ namespace PequenoExplorador.Bootstrap
         { _learningCatalog = learningCatalog; _learningView = learningView; }
         public void ConfigureCampForEditorAndTests(CampCatalogAsset campCatalog, CampHubView campHubView)
         { _campCatalog = campCatalog; _campHubView = campHubView; }
+        public void ConfigureCustomizationForEditorAndTests(CustomizationCatalogAsset customizationCatalog, CustomizationView customizationView)
+        { _customizationCatalog = customizationCatalog; _customizationView = customizationView; }
         public void ConfigureWorldsForEditorAndTests(WorldCatalogAsset worldCatalog) => _worldCatalog = worldCatalog;
         public void ConfigureInteractionsForEditorAndTests(
             InteractionCatalogAsset interactionCatalog,
@@ -542,6 +564,7 @@ namespace PequenoExplorador.Bootstrap
 
         private void HandleBackRequested()
         {
+            if (_customizationView != null && _customizationView.TryHandleBack()) return;
             if (_campHubView != null && _campHubView.TryHandleBack()) return;
             if (_albumView != null && _albumView.TryHandleBack()) return;
             if (_pauseView.IsVisible)
@@ -662,7 +685,11 @@ namespace PequenoExplorador.Bootstrap
                     _services.LearningInteraction,
                     _runtimeInteractions);
                 reaction.Bind(_learningView);
+                ExplorerCustomizationRig customizationRig = found.GetComponentInChildren<ExplorerCustomizationRig>(true);
+                if (customizationRig == null) throw new InvalidOperationException("Explorer prefab is missing its customization rig.");
+                customizationRig.Bind(_runtimeCustomization, _services.EconomyRepository);
                 _explorerRoot = found;
+                _explorerCustomizationRig = customizationRig;
                 _interactionRoot = interaction;
                 _photographyRoot = photography;
                 _learningReactionRoot = reaction;
@@ -697,10 +724,12 @@ namespace PequenoExplorador.Bootstrap
             if (found == null) throw new InvalidOperationException("Camp scene is missing PH_ CampSceneRoot.");
             _campSceneRoot = found;
             _campHubView.BindScene(found);
+            _customizationView.BindPreviewRig(found.CustomizationPreviewRig);
         }
 
         private void UnbindCampScene()
         {
+            _customizationView?.UnbindPreviewRig();
             _campHubView?.UnbindScene();
             _campSceneRoot = null;
         }
@@ -714,10 +743,12 @@ namespace PequenoExplorador.Bootstrap
             _explorerRoot?.SetTapHandler(null);
             _interactionRoot?.Unbind();
             _explorerRoot?.Unbind();
+            _explorerCustomizationRig?.Unbind();
             _interactionRoot = null;
             _photographyRoot = null;
             _learningReactionRoot = null;
             _explorerRoot = null;
+            _explorerCustomizationRig = null;
         }
 
         private static InputMapId ResolveInputMap(SceneFlowSnapshot snapshot)
@@ -780,6 +811,16 @@ namespace PequenoExplorador.Bootstrap
         }
 
 #if UNITY_EDITOR || PE_DEVELOPMENT_SERVICES
+        public void DebugUnlockAllCosmeticsForDevelopment()
+        {
+            if (_configuration == null || _configuration.Profile != BuildProfile.Development)
+                throw new InvalidOperationException("Unlock-all cosmetics is Development-only.");
+            string[] unlocked = _runtimeCustomization.Cosmetics.Where(value => !value.IsInitiallyUnlocked)
+                .Select(value => value.Id.Value).ToArray();
+            var current = _services.EconomyRepository.Current;
+            _services.EconomyRepository.Commit(current.WithCustomizationState(unlocked, current.EquippedCosmetics));
+        }
+
         public void SimulateNextSceneFailureForDevelopment()
         {
             if (_configuration == null ||
@@ -811,6 +852,7 @@ namespace PequenoExplorador.Bootstrap
             _missionView?.Unbind();
             _learningView?.Unbind();
             _campHubView?.Unbind();
+            _customizationView?.Unbind();
             if (_services != null)
             {
                 _services.Context.Input.BackRequested -= HandleBackRequested;

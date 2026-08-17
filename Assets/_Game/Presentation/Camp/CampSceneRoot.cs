@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using PequenoExplorador.Domain.Content;
 using PequenoExplorador.Domain.Progress;
+using PequenoExplorador.Presentation.Customization;
 using UnityEngine;
 
 namespace PequenoExplorador.Presentation.Camp
@@ -11,8 +12,10 @@ namespace PequenoExplorador.Presentation.Camp
     {
         [SerializeField] private CampStationAnchorView[] _anchors = Array.Empty<CampStationAnchorView>();
         [SerializeField] private CampUpgradeVisualView[] _upgradeVisuals = Array.Empty<CampUpgradeVisualView>();
+        [SerializeField] private ExplorerCustomizationRig _customizationPreviewRig;
         public CampStationAnchorView[] Anchors => _anchors ?? Array.Empty<CampStationAnchorView>();
         public CampUpgradeVisualView[] UpgradeVisuals => _upgradeVisuals ?? Array.Empty<CampUpgradeVisualView>();
+        public ExplorerCustomizationRig CustomizationPreviewRig => _customizationPreviewRig;
 
         public void Render(PlayerProgress progress)
         {

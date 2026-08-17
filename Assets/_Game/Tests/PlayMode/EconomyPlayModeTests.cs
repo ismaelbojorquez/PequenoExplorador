@@ -99,7 +99,7 @@ namespace PequenoExplorador.Tests.PlayMode
             new ISaveMigration[] { new LegacyV0ToV1Migration(), new V1ToV2LocalizationMigration(), new V2ToV3AudioMigration(),
                 new V3ToV4DiscoveryMigration(), new V4ToV5ToucanDiscoveryMigration(), new V5ToV6PhotoProgressMigration(),
                 new V6ToV7EconomyMigration(), new V7ToV8MissionMigration(), new V8ToV9LearningMigration(),
-                new V9ToV10CampMigration() });
+                new V9ToV10CampMigration(), new V10ToV11CustomizationMigration() });
         private static IEnumerator Wait(Task task)
         {
             float deadline = Time.realtimeSinceStartup + 15f;

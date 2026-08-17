@@ -1,6 +1,6 @@
 # Sistema de guardado local
 
-Estado: schema v10 implementado por Prompt 25. Persiste discovery/foto, economía, misiones, learning agregado y mejoras de Camp; los PNG viven en un store local separado. Sigue sin cloud, cuentas, analytics ni entitlements.
+Estado: schema v11 implementado por Prompt 26. Persiste discovery/foto, economía, misiones, learning agregado, mejoras de Camp y ownership/equipped de personalización; los PNG viven en un store local separado. Sigue sin cloud, cuentas, analytics ni entitlements.
 
 ## Contrato y límites
 
@@ -8,7 +8,7 @@ Estado: schema v10 implementado por Prompt 25. Persiste discovery/foto, economí
 Domain.PlayerProgress
         ↓ ISaveService / AutosaveCoordinator (Application)
 Infrastructure.LocalSaveService
-  ├─ UnityJsonSaveSerializer → SaveEnvelope + DTO v1…v10
+  ├─ UnityJsonSaveSerializer → SaveEnvelope + DTO v1…v11
         ├─ ISaveMigration[] → pasos puros n→n+1
         └─ IFileStore → LocalFileStore(Application.persistentDataPath)
 Bootstrap compone; Presentation solo recibe SaveUserNotice.
@@ -18,7 +18,7 @@ Bootstrap compone; Presentation solo recibe SaveUserNotice.
 
 `AppConfig` y sus feature flags son runtime inmutable y no se copian al save. Save conserva solo preferencias adultas mutables; perfil de build, budgets, versión técnica y flags se vuelven a resolver desde Content/Bootstrap en cada arranque según [`RUNTIME_CONFIGURATION.md`](RUNTIME_CONFIGURATION.md).
 
-## Formato v10
+## Formato v11
 
 Serializador: `UnityEngine.JsonUtility`, provisto por el módulo builtin fijado `com.unity.modules.jsonserialize` `1.0.0`. No se añadió paquete. Es compatible con el Editor `6000.3.22f1`/IL2CPP y suficiente porque los DTOs son clases cerradas con campos explícitos y arrays. Cambiar serializador o representación requiere ADR y migración, no una sustitución silenciosa.
 
@@ -26,13 +26,13 @@ Envelope lógico:
 
 ```json
 {
-  "schemaVersion": 10,
+  "schemaVersion": 11,
   "checksum": "sha256-hex-del-payload-utf8",
-  "payload": "json-escapado-del-dto-v10"
+  "payload": "json-escapado-del-dto-v11"
 }
 ```
 
-El payload v10 conserva los campos v9 —incluidos `learningSessions[]` y `learningConcepts[]`— y añade `unlockedCampUpgradeIds[]`. No guarda opciones elegidas, taps, tiempos, notas ni inferencias de capacidad.
+El payload v11 conserva v10 y añade `unlockedCosmeticIds[]` y pares únicos `equippedCosmetics[]`. Defaults, precios, colores y compatibilidad se resuelven desde Content; no se duplican definitions en el save. No guarda preview, taps, tiempos, notas, género ni inferencias de capacidad.
 
 Los campos heredados son:
 
@@ -42,6 +42,8 @@ Los campos heredados son:
 | `stars` | Saldo local de Estrellas de Explorador; entero ≥0. | No. |
 | `processedEconomyTransactionIds` | Keys técnicas durables que impiden repetir grants/spends. | No. |
 | `unlockedCampUpgradeIds` | IDs estables de mejoras visuales ya adquiridas; no copia costo/configuración. | No. |
+| `unlockedCosmeticIds` | IDs de opciones adicionales desbloqueadas; defaults gratuitos no necesitan copiarse. | No. |
+| `equippedCosmetics` | Pares únicos slot/cosmético; un asset retirado cae al default de Content. | No. |
 | `economyLedger` | Últimas 32 operaciones: kind, IDs, amount y balance; sin timestamps/sesiones. | No. |
 | `worldIds` | IDs técnicos; vacío en esta fase. | No. |
 | `discoveries[]` | `id`, count ≥1 y primer día local agregado opcional `yyyy-MM-dd`. | No identifica persona; no guarda hora/zona. |
@@ -70,13 +72,13 @@ Una escritura normal ejecuta `temp → write → flush/fsync → replace(primary
 
 La restauración de backup usa replace de primary **sin rotar primary sobre backup**. Así, un primary corrupto nunca reemplaza el backup válido. Si no existe backup válido, la inicialización falla de forma recuperable y conserva los archivos para inspección; no crea un default sobre evidencia dañada.
 
-El binario de fotos usa `Application.persistentDataPath/Photos`: PNG determinista por discovery, `photos-index.json` y temps. Sus límites son 512 KiB/archivo, 64 entradas y 32 MiB; no comparte el backup/checksum del save. Si falta o falla, el progreso v10 sigue válido y Presentation usa imagen canónica. Detalle: [`PHOTOGRAPHY_SYSTEM.md`](PHOTOGRAPHY_SYSTEM.md).
+El binario de fotos usa `Application.persistentDataPath/Photos`: PNG determinista por discovery, `photos-index.json` y temps. Sus límites son 512 KiB/archivo, 64 entradas y 32 MiB; no comparte el backup/checksum del save. Si falta o falla, el progreso v11 sigue válido y Presentation usa imagen canónica. Detalle: [`PHOTOGRAPHY_SYSTEM.md`](PHOTOGRAPHY_SYSTEM.md).
 
 ## Carga, migración y downgrade
 
-1. Sin primary/backup: crear `PlayerProgress` default en español y escribir schema v10.
-2. Primary v10 válido: validar checksum, DTO/invariantes y cargar.
-3. Primary antiguo: aplicar `v0→…→v9→v10`. v8→v9 añade learning; v9→v10 conserva todo y añade `unlockedCampUpgradeIds=[]`, sin inventar progreso. Se reescribe v10 y se conserva el original como backup.
+1. Sin primary/backup: crear `PlayerProgress` default en español y escribir schema v11.
+2. Primary v11 válido: validar checksum, DTO/invariantes y cargar.
+3. Primary antiguo: aplicar `v0→…→v10→v11`. v9→v10 añade `unlockedCampUpgradeIds=[]`; v10→v11 conserva todo y añade personalización vacía, sin inventar ownership/equip. Se reescribe v11 y se conserva el original como backup.
 4. Primary corrupto: intentar backup; si pasa, cargarlo, emitir `ProgressRecovered` y reparar primary preservando backup.
 5. Schema futuro: entrar en modo read-only, emitir `NewerSaveVersionDetected` y bloquear save/reset. Nunca sobrescribirlo con el schema actual.
 6. Primary y backup inválidos: fallo recuperable; no pérdida/sobrescritura silenciosa.
@@ -87,7 +89,7 @@ Cada schema nuevo añade DTO, mapper y migración pura; nunca se edita una migra
 
 `AutosaveCoordinator` conserva solo el progreso más reciente durante la ventana de debounce de 500 ms, expone ese snapshot como `Latest` para que varios productores no partan de un `Current` obsoleto y serializa escrituras mediante `ISaveService`. `FlushAsync` elimina la espera y permite evidencia determinista. Discovery, Economy y Missions solicitan checkpoints mediante repositorios después de cada mutación; no guardan por frame ni leen/escriben archivos directamente. Missions confirma completion antes de otorgar reward; el arranque y el retry idempotente reconcilian una interrupción entre ambos commits.
 
-Camp usa el mismo `IEconomyRepository`: `WithEconomyAndCampUpgrade` produce un snapshot con gasto y unlock juntos. La migración pura v9→v10 conserva todos los campos y agrega una lista vacía; no inventa mejoras.
+Camp y personalización usan el mismo `IEconomyRepository`. `WithEconomyAndCampUpgrade` y `WithEconomyAndCosmeticUnlock` producen snapshots con gasto y unlock juntos; equipar es una mutación separada y nunca vuelve a gastar. La migración v10→v11 inicia ownership/equipped vacíos y el resolver usa defaults gratuitos del catálogo.
 
 En pause se solicita el estado actual y se espera hasta 1 segundo. En quit se inicia un flush best-effort con presupuesto de 250 ms y nunca se bloquea indefinidamente. El último checkpoint ya comprometido siempre prevalece; cerrar durante una escritura no duplica recompensa porque los sistemas de recompensa futuros deberán confirmar estado antes de solicitar el checkpoint.
 
@@ -111,18 +113,21 @@ Reset muestra confirmación explícita y elimina solo los tres nombres conocidos
 
 No hay soporte cloud ni recuperación remota. Una copia manual puede contener progreso de juego aunque no contenga PII; se trata como dato privado local.
 
-## Matriz automatizada Prompt 25
+## Matriz automatizada Prompt 26
 
 | Caso | Evidencia |
 |---|---|
-| Default v10, idioma/audio, discovery/foto, wallet, misión, learning, Camp, transaction/fact keys y round-trip | EditMode. |
+| Default v11, idioma/audio, discovery/foto, wallet, misión, learning, Camp, personalización, transaction/fact keys y round-trip | EditMode. |
 | v9→v10 | Conserva todo lo previo; inicia mejoras Camp vacías. |
+| v10→v11 | Conserva todo lo previo; inicia ownership/equipped vacíos. |
 | Learning exit/resume/restart/completion | Estado mínimo y agregados concepto+día; sin raw answers/taps. |
 | JSON determinista y sin campos de perfil personal | EditMode. |
 | Fallo write/flush/commit | Failpoints in-memory; primary/backup invariantes. |
 | Truncado/checksum | Rechazo de primary y recuperación de backup. |
 | Backup no reemplazado por corrupto | Comparación byte a byte tras reparación. |
-| v0→…→v10, v4→v5, v5→v6, v6→v7, v7→v8, v8→v9, v9→v10 y migración ausente | Migración/backup o fallo conservador sin rewrite. |
+| v0→…→v11, migraciones hasta v10→v11 y migración ausente | Migración/backup o fallo conservador sin rewrite. |
+| Customization default/removed/incompatible/unlock/equip/commit fail/retry | EditMode; fallback seguro y gasto+ownership atómico. |
+| Preview→unlock→equip→Selva→Camp→reload/ratios | PlayMode; selection persiste y materiales siguen compartidos. |
 | Preview→gasto+unlock, insuficiente, prerequisite, duplicate, commit fail/retry | EditMode; una sola mutación lógica, sin gasto parcial. |
 | Camp purchase→Selva→Camp→flush→reload | PlayMode; variante visual y unlock persisten. |
 | Grant/spend, insuficiente, overflow, retry y ledger 32 | EditMode; sin duplicación ni saldo negativo. |

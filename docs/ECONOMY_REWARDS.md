@@ -16,7 +16,7 @@ Estado: Prompt 21 implementado. Una sola moneda virtual ganable, local y sin rel
 | Uso permitido | Estado/límite |
 |---|---|
 | Mejora visual de Camp | Prompt 25: rincón de exploración por 3 Estrellas provisionales; nunca bloquea aprendizaje esencial. |
-| Cosmético del explorador | Futuro Prompt 26; inclusivo y sin IAP. |
+| Cosmético del explorador | Prompt 26: camiseta 3, sombrero 2 y mochila 2 estrellas provisionales; preview y equip separados, sin IAP. |
 | Compra, moneda premium, energía, racha, loot box, gacha, timer | **Prohibido**. |
 
 La cantidad `1` del reward del tucán es tuning provisional del Vertical Slice, no precio ni compromiso del MVP. Cualquier cantidad nueva vive en `RewardDefinitionAsset` y requiere revisión de economía infantil.
@@ -30,7 +30,7 @@ Application.GrantRewardUseCase / SpendStarsUseCase
                 ↓
 Domain.ExplorerStars + PlayerProgress
                 ↓
-IEconomyRepository → AutosaveCoordinator.Latest → Save v10
+IEconomyRepository → AutosaveCoordinator.Latest → Save v11
 ```
 
 - `ExplorerStars` impide negativos y detecta overflow.
@@ -38,9 +38,10 @@ IEconomyRepository → AutosaveCoordinator.Latest → Save v10
 - Una `EconomyTransactionId` persistida es la autoridad durable de idempotencia. Un retry/crash no vuelve a aplicar grant/spend.
 - El ledger conserva solo las 32 transacciones recientes para diagnóstico; no guarda timestamps, taps, sesiones ni comportamiento granular. No sustituye el set durable de transaction keys.
 - `PurchaseCampUpgradeUseCase` construye spend + transaction key + ledger + unlock en un único `PlayerProgress` antes de un checkpoint. Un fallo de commit no deja gasto o unlock parcial; el retry no duplica.
+- `UnlockCosmeticUseCase` aplica el mismo snapshot atómico; `EquipCosmeticUseCase` es posterior/separado y no gasta. Requisitos por progreso no son entitlements comerciales.
 - Economy no referencia UI, IAP, ads, analytics, red ni UnityEngine.
 
-La compra de mejora es exclusivamente una transacción de moneda ganable; no es compra real ni entitlement. Definición, costo y variantes viven en Content; el saldo/unlock viven en Save. Véase [`CAMP_SYSTEM.md`](CAMP_SYSTEM.md).
+La compra de mejora o unlock cosmético es exclusivamente una transacción de moneda ganable; no es compra real ni entitlement. Definition/costo/visual viven en Content; saldo/ownership viven en Save. Véanse [`CAMP_SYSTEM.md`](CAMP_SYSTEM.md) y [`CUSTOMIZATION_SYSTEM.md`](CUSTOMIZATION_SYSTEM.md).
 
 Fotografía intenta la reward determinista `economy-tx.discovery.discovery.jungle.keel-billed-toucan` después de registrar el discovery. La misión usa `economy-tx.mission.mission.vertical-slice.photograph-toucan`. Si el proceso cae entre estado y grant, cualquier repetición intenta la misma transaction key: aplica la reward faltante o devuelve `AlreadyProcessed`, nunca duplica.
 
