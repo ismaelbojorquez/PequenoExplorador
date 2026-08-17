@@ -1,6 +1,6 @@
 # Modelo data-driven de contenido
 
-Contrato canónico de Prompt 14, ampliado por Prompt 15 con manifests de mundo, Prompt 17 con authoring de interacción y Prompt 18 con progresión discovery. El único discovery, el único mundo y las tres interacciones versionadas son neutrales, `Draft` y placeholder; no representan contenido factual final. El candidato visual del tucán es un asset `Sourced` separado y no cambia ese estado.
+Contrato canónico de Prompt 14, ampliado por Prompt 15 con manifests de mundo, Prompt 17 con authoring de interacción y Prompt 18 con progresión discovery. El único discovery runtime, el único mundo y las tres interacciones versionadas son neutrales, `Draft` y placeholder; todavía no representan contenido factual final. El visual del tucán es un asset `Approved` separado; sus definitions reales siguen pendientes de adopción.
 
 ## Flujo y autoridades
 
@@ -35,7 +35,7 @@ IDs usan minúsculas ASCII, dígitos, puntos y guiones; el primer segmento fija 
 
 ## Candidato visual reproducible
 
-`ToucanReviewFixtureMetadata` vive en Content y declara identidad, autoría, estado `Sourced`, aprobación visual, bounds y referencias técnicas readonly. `ToucanFixtureSetup` compila primitives/materiales a un prefab determinista y lo conecta como hijo visual del interactable neutral; Application no conoce especie, path, prefab ni GameObject. El ledger JSON es la fuente de provenance del asset. `H-008-IB-2026-08-16` cierra la aprobación asset-specific; `ToucanFixtureValidationService` permite Development y añade `TOUCAN019` en Release mientras falte especialista factual.
+`ToucanReviewFixtureMetadata` vive en Content y declara identidad, autoría, estado `Approved`, aprobaciones visual/factual, bounds y referencias técnicas readonly. `ToucanFixtureSetup` compila primitives/materiales a un prefab determinista y lo conecta como hijo visual del interactable neutral; Application no conoce especie, path, prefab ni GameObject. El ledger JSON es la fuente de provenance. `H-008-IB-2026-08-16` cierra asset-specific y `H-009-IB-2026-08-16` la revisión factual humana; `ToucanFixtureValidationService` exige ambas. El catálogo general sigue bloqueado por definitions `PH_`, no por `TOUCAN019`.
 
 Category/world/tag no son enums cerrados. El botón explícito `Generate stable ID if empty` crea un ID solo cuando el campo está vacío; nunca sobrescribe. Retirar un Discovery ID exige alias `previous → current` en el catálogo y migración de save cuando el ID ya se haya publicado. Un alias no puede colisionar con un ID vigente ni apuntar fuera del catálogo.
 
@@ -58,7 +58,7 @@ El catálogo de contenido mantiene diccionarios privados O(1) para category, tag
 
 `Draft → Sourced → Reviewed → Approved`; `Rejected` sale del catálogo. Development acepta Draft/placeholder solo con owner y watermark `BORRADOR · PH_`. Release acepta exclusivamente `Approved` y `isPlaceholder=false`; cada asset se valida por separado. Approved no concede licencia ni sustituye `ReleaseLocked` humano de [`CONTENT_SOURCES.md`](CONTENT_SOURCES.md).
 
-El ejemplo neutral usa la key `content.discovery.placeholder.name`, el cue no factual `audio.feedback.confirm` y metadata JSON propia como visual técnico. No afirma especie, conducta o rasgo. El candidato `Ramphastos sulfuratus` tiene un [expediente Sourced](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md), pero sigue fuera de runtime hasta revisión, aprobación y derechos humanos. Los IDs del dossier están reservados documentalmente; no sustituyen assets ni migración.
+El ejemplo neutral usa la key `content.discovery.placeholder.name`, el cue no factual `audio.feedback.confirm` y metadata JSON propia como visual técnico. No afirma especie, conducta o rasgo. El candidato `Ramphastos sulfuratus` tiene un [expediente humano aprobado](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md), pero sus IDs del dossier siguen reservados hasta crear definitions, localización, aliases/migración y mapping verificable.
 
 ## Validación y reportes
 

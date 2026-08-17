@@ -1,5 +1,4 @@
 using System.IO;
-using System.Linq;
 using NUnit.Framework;
 using PequenoExplorador.Application.Content;
 using PequenoExplorador.Content.Data;
@@ -22,13 +21,18 @@ namespace PequenoExplorador.Tests.EditMode
             Assert.That(metadata.VisualId, Is.EqualTo(ToucanFixtureSetup.VisualId));
             Assert.That(metadata.FutureDiscoveryId, Is.EqualTo(ToucanFixtureSetup.FutureDiscoveryId));
             Assert.That(metadata.FutureInteractionId, Is.EqualTo(ToucanFixtureSetup.FutureInteractionId));
-            Assert.That(metadata.EditorialState, Is.EqualTo(EditorialState.Sourced));
+            Assert.That(metadata.EditorialState, Is.EqualTo(EditorialState.Approved));
             Assert.That(metadata.IsPlaceholder, Is.False);
             Assert.That(metadata.VisualReviewState, Is.EqualTo("APPROVED"));
             Assert.That(metadata.VisualApprovedBy, Is.EqualTo("Ismael Bojórquez — Creador/Propietario"));
             Assert.That(metadata.VisualApprovalDate, Is.EqualTo("2026-08-16"));
             Assert.That(metadata.VisualApprovalReference, Is.EqualTo(ToucanFixtureSetup.VisualApprovalReference));
-            Assert.That(metadata.FactualReviewState, Is.EqualTo("PENDING_SPECIALIST_SIGNOFF"));
+            Assert.That(metadata.FactualReviewState, Is.EqualTo("APPROVED"));
+            Assert.That(metadata.FactualReviewedBy, Is.EqualTo("Ismael Bojórquez — Investigador"));
+            Assert.That(metadata.FactualReviewerCompetence,
+                Is.EqualTo("Experiencia en búsqueda ampliada de información"));
+            Assert.That(metadata.FactualReviewDate, Is.EqualTo("2026-08-16"));
+            Assert.That(metadata.FactualApprovalReference, Is.EqualTo(ToucanFixtureSetup.FactualApprovalReference));
             Assert.That(metadata.TouchCollider.isTrigger, Is.True);
             Assert.That(metadata.CandidatePhotoBounds.size.magnitude, Is.GreaterThan(1f));
             ToucanFixtureMetrics metrics = ToucanFixtureSetup.MeasurePrefab();
@@ -58,18 +62,18 @@ namespace PequenoExplorador.Tests.EditMode
         }
 
         [Test]
-        public void DevelopmentPassesAndReleaseRemainsFailClosed()
+        public void ApprovedFixturePassesDevelopmentAndToucanReleaseGate()
         {
             Assert.That(ToucanFixtureValidationService.Validate(ContentValidationMode.Development), Is.Empty);
-            Assert.That(ToucanFixtureValidationService.Validate(ContentValidationMode.Release)
-                .Any(item => item.StartsWith(ToucanFixtureValidationService.ReleaseBlockCode)), Is.True);
+            Assert.That(ToucanFixtureValidationService.Validate(ContentValidationMode.Release), Is.Empty);
             Assert.That(File.Exists(ToucanFixtureSetup.ProvenancePath), Is.True);
             string ledger = File.ReadAllText(ToucanFixtureSetup.ProvenancePath);
             StringAssert.Contains("\"externalMedia\": false", ledger);
-            StringAssert.Contains("\"editorialState\": \"Sourced\"", ledger);
+            StringAssert.Contains("\"editorialState\": \"Approved\"", ledger);
             StringAssert.Contains("\"visualReview\": \"APPROVED\"", ledger);
             StringAssert.Contains(ToucanFixtureSetup.VisualApprovalReference, ledger);
-            StringAssert.Contains("PENDING_SPECIALIST_SIGNOFF", ledger);
+            StringAssert.Contains("\"factualReview\": \"APPROVED\"", ledger);
+            StringAssert.Contains(ToucanFixtureSetup.FactualApprovalReference, ledger);
         }
     }
 }

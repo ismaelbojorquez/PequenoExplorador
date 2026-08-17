@@ -1,6 +1,6 @@
 # VS-D-A01 — Expediente factual del tucán candidato
 
-Estado editorial: **Sourced + Owner/Product + visual asset-specific Approved — pending factual specialist**. Consulta de fuentes: 2026-08-16 (`America/Mexico_City`). Ismael Bojórquez registró aprobación humana para claims, copy y nombres en `H-007-IB-2026-08-16`, y aprobó el asset visual concreto, sus derechos y QA visual en `H-008-IB-2026-08-16`. No declaró competencia de especialista factual. El candidato visual conserva `EditorialState.Sourced`; la aprobación visual no lo convierte por sí sola en contenido factual `Approved` ni `ReleaseLocked`. Este expediente no constituye asesoría científica o legal.
+Estado editorial: **Human factual/Product/visual Approved — technical adoption pending; not ReleaseLocked**. Consulta de fuentes: 2026-08-16 (`America/Mexico_City`). Ismael Bojórquez aprobó claims/copy/nombres en `H-007-IB-2026-08-16`, el asset visual y sus derechos en `H-008-IB-2026-08-16`, y realizó la revisión factual humana en `H-009-IB-2026-08-16`. Su competencia declarada es `Investigador — experiencia en búsqueda ampliada de información`; no se presenta como credencial ornitológica independiente. El prefab visual pasa a `EditorialState.Approved`, pero las definitions runtime reales aún deben crearse/adoptarse y validarse. Este expediente no constituye asesoría científica o legal ni autorización de publicación.
 
 ## Identidad y límites
 
@@ -9,14 +9,14 @@ Estado editorial: **Sourced + Owner/Product + visual asset-specific Approved —
 | Expediente | `content-review.vs-d-a01` |
 | Especie candidata | `Ramphastos sulfuratus` R. Lesson, 1830 |
 | Discovery ID reservado | `discovery.jungle.keel-billed-toucan` |
-| Visual ID implementado | `visual.discovery.jungle.keel-billed-toucan` — candidato `Sourced`, no `Approved` |
+| Visual ID implementado | `visual.discovery.jungle.keel-billed-toucan` — `Approved` por H-007/H-008/H-009 |
 | Interaction ID reservado | `interaction.jungle.keel-billed-toucan` |
 | Fact IDs reservados | `fact.jungle.keel-billed-toucan.*` según la matriz de claims |
 | Nombre ES elegido por Product/Localization | `Tucán pico canoa` |
 | Nombre EN aprobado por Product/Localization | `Keel-billed Toucan` |
-| Runtime actual | Continúa `interaction.fixture.animal → discovery.jungle.placeholder`, Draft y `ReleaseBlocked`; Development sustituye solo la cápsula visual por `VS_ToucanPicoCanoa.prefab` `Sourced`. |
-| Uso permitido ahora | Usar claims/copy/nombres aprobados por el Creador para preparar el único contenido del Vertical Slice, conservando el gate factual y de assets. |
-| Uso prohibido ahora | Marcar assets runtime `Approved`, eliminar watermark, declarar revisión de especialista factual o reutilizar imágenes/audio de las fuentes. |
+| Runtime actual | Continúa `interaction.fixture.animal → discovery.jungle.placeholder`, Draft y `ReleaseBlocked`; Development sustituye solo la cápsula visual por `VS_ToucanPicoCanoa.prefab` `Approved`. |
+| Uso permitido ahora | Adoptar definitions reales del único contenido del Vertical Slice, mapear IDs, migrar aliases/save y ejecutar validadores antes de Prompt 19. |
+| Uso prohibido ahora | Declarar `ReleaseLocked`, reutilizar imágenes/audio de las fuentes, inventar credenciales del revisor o usar el claim de conservación excluido. |
 
 Los IDs de discovery/interacción quedan reservados documentalmente y no se adoptan todavía como identidad runtime. Adoptarlos después exige validator, localización, aliases/migración si corresponde y diff explícito de contenido. El ID visual sí está materializado en el prefab candidato y no concede hechos, rewards ni comportamiento.
 
@@ -33,17 +33,17 @@ Los IDs de discovery/interacción quedan reservados documentalmente y no se adop
 
 ## Matriz de claims para revisión
 
-El copy de la matriz quedó aprobado por Product/Education en `H-007-IB-2026-08-16`. Los claims permanecen `Sourced` hasta revisión factual especializada; la aprobación de lenguaje no aprueba por sí sola exactitud especializada, representación o media.
+El copy quedó aprobado por Product/Education en `H-007-IB-2026-08-16` y los claims incluidos recibieron revisión factual humana en `H-009-IB-2026-08-16`. La competencia se registra exactamente como fue declarada, sin atribuir especialidad ornitológica. Conservación permanece excluida y bloqueada.
 
 | Claim ID / Content ID | Claim atómico | Fuentes | Contexto y límites | Copy ES propuesto | Baseline EN | Conflicto o incertidumbre | Estado |
 |---|---|---|---|---|---|---|---|
-| `fact.jungle.keel-billed-toucan.identity` | La especie candidata es `Ramphastos sulfuratus`, familia Ramphastidae. | CONABIO, ITIS, Cornell BOW | Especie; no fijar subespecie para el fixture. | “Este tucán es un *Ramphastos sulfuratus*.” El nombre científico será detalle opcional, no instrucción. | “This toucan is *Ramphastos sulfuratus*.” Scientific name remains optional detail. | ITIS URL consultado abre la subespecie nominal; el slice solo reserva especie. | Sourced |
-| `fact.jungle.keel-billed-toucan.common-name` | En México el nombre oficial usado es `Tucán pico canoa`; Cornell registra `Tucán pico iris` para Costa Rica/Panamá. | CONABIO, ITIS, Cornell BOW | El locale actual `es` adopta la baseline mexicana por decisión humana del 2026-08-16. | “Tucán pico canoa.” | “Keel-billed Toucan.” | `Pico iris` permanece como variante regional documentada y requeriría locale/decisión territorial propios. | Sourced; Product/Localization Approved |
-| `fact.jungle.keel-billed-toucan.range` | Ocurre desde el sur de México por Centroamérica hasta el norte de Colombia y extremo noroeste de Venezuela. | Cornell BOW; CONABIO confirma México nativo | Distribución general; evitar afirmar presencia en cada localidad del juego. | “Vive desde el sur de México, a través de Centroamérica, hasta una parte del norte de Sudamérica.” | “It lives from southern Mexico through Central America to part of northern South America.” | Copy simplifica el extremo venezolano; revisor debe confirmar si el alcance es apropiado para 4–9. | Sourced |
-| `fact.jungle.keel-billed-toucan.habitat` | Habita bosques tropicales perennifolios de tierras bajas y bosques secundarios. | Cornell BOW | No implica que toda selva tropical contenga la especie. | “Vive entre los árboles de selvas cálidas y bosques que están creciendo de nuevo.” | “It lives among the trees of warm forests, including forests that are growing back.” | “Bosque secundario” se parafrasea; Education debe validar comprensión. | Sourced |
-| `fact.jungle.keel-billed-toucan.diet` | Su dieta es mayormente fruta; artrópodos y pequeños vertebrados son complementos, no la base. | Remsen et al. 1993; Cornell BOW | Dieta silvestre general. No usar dieta de zoológico ni inferir una fruta exclusiva. | “Come sobre todo frutas.” | “It mostly eats fruit.” | Las observaciones llamativas de alimento animal pueden sobrerrepresentar su frecuencia; no diseñar actividad como si fuera carnívoro. | Sourced |
-| `fact.jungle.keel-billed-toucan.bill` | Su pico diagnóstico combina verde, naranja, rojo y azul. | Cornell BOW; eBird/Merlin | Adulto genérico; el arte debe contrastarse con referencia autorizada y variación real. | “Su pico grande tiene varios colores: verde, naranja, rojo y azul.” | “Its large bill has several colors: green, orange, red, and blue.” | No se aprueba todavía una paleta, patrón exacto o asset. Las imágenes enlazadas conservan copyright propio. | Sourced |
-| `fact.jungle.keel-billed-toucan.voice` | La vocalización se describe como un croar lejano que se repite regularmente. | Cornell eBird/Merlin | Descripción auditiva, no licencia de grabación ni especificación acústica exacta. | “Su llamado se parece a un croar que se repite.” | “Its call sounds like a repeated croak.” | “Parecido a rana” es una analogía; Audio y especialista deben validarla contra una grabación con derechos. | Sourced |
+| `fact.jungle.keel-billed-toucan.identity` | La especie candidata es `Ramphastos sulfuratus`, familia Ramphastidae. | CONABIO, ITIS, Cornell BOW | Especie; no fijar subespecie para el fixture. | “Este tucán es un *Ramphastos sulfuratus*.” El nombre científico será detalle opcional, no instrucción. | “This toucan is *Ramphastos sulfuratus*.” Scientific name remains optional detail. | ITIS URL consultado abre la subespecie nominal; el slice solo reserva especie. | Approved — H-009 |
+| `fact.jungle.keel-billed-toucan.common-name` | En México el nombre oficial usado es `Tucán pico canoa`; Cornell registra `Tucán pico iris` para Costa Rica/Panamá. | CONABIO, ITIS, Cornell BOW | El locale actual `es` adopta la baseline mexicana por decisión humana del 2026-08-16. | “Tucán pico canoa.” | “Keel-billed Toucan.” | `Pico iris` permanece como variante regional documentada y requeriría locale/decisión territorial propios. | Approved — H-007/H-009 |
+| `fact.jungle.keel-billed-toucan.range` | Ocurre desde el sur de México por Centroamérica hasta el norte de Colombia y extremo noroeste de Venezuela. | Cornell BOW; CONABIO confirma México nativo | Distribución general; evitar afirmar presencia en cada localidad del juego. | “Vive desde el sur de México, a través de Centroamérica, hasta una parte del norte de Sudamérica.” | “It lives from southern Mexico through Central America to part of northern South America.” | Copy simplifica el extremo venezolano; revisor debe confirmar si el alcance es apropiado para 4–9. | Approved — H-009 |
+| `fact.jungle.keel-billed-toucan.habitat` | Habita bosques tropicales perennifolios de tierras bajas y bosques secundarios. | Cornell BOW | No implica que toda selva tropical contenga la especie. | “Vive entre los árboles de selvas cálidas y bosques que están creciendo de nuevo.” | “It lives among the trees of warm forests, including forests that are growing back.” | “Bosque secundario” se parafrasea; Education debe validar comprensión. | Approved — H-009 |
+| `fact.jungle.keel-billed-toucan.diet` | Su dieta es mayormente fruta; artrópodos y pequeños vertebrados son complementos, no la base. | Remsen et al. 1993; Cornell BOW | Dieta silvestre general. No usar dieta de zoológico ni inferir una fruta exclusiva. | “Come sobre todo frutas.” | “It mostly eats fruit.” | Las observaciones llamativas de alimento animal pueden sobrerrepresentar su frecuencia; no diseñar actividad como si fuera carnívoro. | Approved — H-009 |
+| `fact.jungle.keel-billed-toucan.bill` | Su pico diagnóstico combina verde, naranja, rojo y azul. | Cornell BOW; eBird/Merlin | Adulto genérico; el arte debe contrastarse con referencia autorizada y variación real. | “Su pico grande tiene varios colores: verde, naranja, rojo y azul.” | “Its large bill has several colors: green, orange, red, and blue.” | La aprobación cubre el prefab propio; las imágenes enlazadas conservan copyright propio. | Approved — H-008/H-009 |
+| `fact.jungle.keel-billed-toucan.voice` | La vocalización se describe como un croar lejano que se repite regularmente. | Cornell eBird/Merlin | Descripción auditiva, no licencia de grabación ni especificación acústica exacta. | “Su llamado se parece a un croar que se repite.” | “Its call sounds like a repeated croak.” | La analogía factual quedó aprobada; cualquier grabación final exige rights y revisión asset-specific. | Approved — H-009; audio asset pending |
 | `fact.jungle.keel-billed-toucan.conservation` | CONABIO muestra IUCN 2025-2 `Casi amenazado`, NOM-059 `Amenazada` y CITES II. | CONABIO | No se propone como fact infantil del slice; es metadata temporal y jurisdiccional. | No usar todavía. | Do not use yet. | ADW antiguo muestra `Least Concern`. La autoridad actual difiere y puede cambiar; revalidar con especialista/IUCN antes de publicación. | **Blocked — conflict/temporal review** |
 
 No se propone una longitud exacta: fuentes secundarias consultadas difieren y algunas se apoyan en referencias antiguas/no autorizables. El Vertical Slice no la necesita.
@@ -90,6 +90,29 @@ Esta sección registra fielmente el alcance sustantivo de la declaración humana
 
 Esta aprobación cierra los gates humanos de Art, Rights y QA visual para esta versión exacta del asset. Un cambio material de modelo, silueta, paleta, collider, interaction point, bounds o integración visual invalida las firmas afectadas y exige nueva revisión.
 
+## Declaración factual H-009-IB-2026-08-16
+
+Esta sección registra la declaración humana proporcionada. La competencia se conserva literalmente y no se transforma en una credencial de Aves/Ramphastidae no declarada.
+
+| Campo | Declaración registrada |
+|---|---|
+| Nombre | Ismael Bojórquez |
+| Rol/organización | Ismael Bojórquez |
+| Área de especialidad declarada | Investigador |
+| Fundamento de competencia declarado | Experiencia en búsqueda ampliada de información. |
+| Fecha | 2026-08-16 |
+| Commit visual revisado | `427c09b0b48b0b8ec7348971db5eddbafc5d3707` |
+| Claims aprobados | Identidad, nombres ES/EN, distribución, hábitat, alimentación mayormente frugívora, colores del pico y descripción del llamado. |
+| Representación aprobada | Fidelidad factual del prefab; collider, PhotoTarget y bounds no comunican tamaño zoológico exacto. |
+| Conservación | Confirmada como excluida del Vertical Slice y `BLOCKED`. |
+| Correcciones/límites declarados | Ninguno. |
+| Fuentes adicionales declaradas | “Investigaciones oficiales”; no se añadió referencia concreta nueva, por lo que las seis fuentes registradas siguen siendo la evidencia trazable. |
+| Conflictos declarados | Ninguno dentro de los claims aprobados. El conflicto temporal de conservación permanece documentado fuera del alcance aprobado. |
+| Exclusiones | No concede derechos de arte/audio ni autorización de publicación. |
+| Autorización | Confirma estar autorizado para emitir la revisión. |
+
+Esta firma completa la revisión factual humana exigida por el proceso interno para el Vertical Slice. No demuestra una acreditación ornitológica externa y no sustituye revalidación si cambian especie, fuentes, copy, representación o alcance territorial.
+
 ## Impacto de cambios y nueva revisión
 
 | Cambio después de revisión | Debe volver a `Reviewed` o anterior |
@@ -110,13 +133,13 @@ Los campos vacíos son bloqueos intencionales; no deben completarse por automati
 
 | Gate | Nombre y rol humano | Competencia / alcance | Resultado | Fecha | Firma o referencia |
 |---|---|---|---|---|---|
-| Especialista factual |  | Competencia factual sobre Aves/Ramphastidae o fuente institucional equivalente. | `PENDING` |  |  |
+| Revisión factual humana | Ismael Bojórquez — Investigador | Experiencia declarada en búsqueda ampliada; revisión contra fuentes institucionales registradas. | `APPROVED` | 2026-08-16 | `H-009-IB-2026-08-16` |
 | Product/Education — copy 4–9 | Ismael Bojórquez — Creador | Intención de producto y copy infantil. | `APPROVED` | 2026-08-16 | `H-007-IB-2026-08-16` |
 | Localization — nombre regional ES/EN | Ismael Bojórquez — Creador | Selecciona `Tucán pico canoa` / `Keel-billed Toucan`. | `APPROVED` | 2026-08-16 | `H-007-IB-2026-08-16` |
 | Art — fidelidad visual | Ismael Bojórquez — Creador/Propietario | Prefab y seis renders concretos; silueta, pico/colores, expresión, proporciones, lectura y Jungle. | `APPROVED` | 2026-08-16 | `H-008-IB-2026-08-16` |
 | Audio — vocalización/pronunciación | Ismael Bojórquez — Creador | Declara audio `Propia`; no hay cue/clip no-`PH_` ni ledger que inspeccionar. | `DECLARED APPROVED — ASSET PENDING` | 2026-08-16 | `H-007-IB-2026-08-16` |
 | Legal/Rights — asset visual | Ismael Bojórquez — Creador/Propietario | Autoría propia, ausencia de media externa y licencia propia del asset concreto. | `APPROVED` | 2026-08-16 | `H-008-IB-2026-08-16` |
-| QA visual — asset concreto | Ismael Bojórquez — Creador/Propietario | Collider, interaction point, bounds, lectura 16:9/20:9 e integración Jungle. | `APPROVED — RELEASE FACTUAL BLOCKED` | 2026-08-16 | `H-008-IB-2026-08-16` |
+| QA visual — asset concreto | Ismael Bojórquez — Creador/Propietario | Collider, interaction point, bounds, lectura 16:9/20:9 e integración Jungle. | `APPROVED` | 2026-08-16 | `H-008-IB-2026-08-16` |
 
 ### Revisión visual asset-specific completada
 
@@ -137,13 +160,13 @@ Campos editoriales requeridos tras las firmas:
 
 | Campo | Valor actual |
 |---|---|
-| `Reviewer` | Ismael Bojórquez — Creador/Propietario para asset visual; especialista factual pendiente. |
+| `Reviewer` | Ismael Bojórquez — Creador/Propietario para asset visual; Investigador para revisión factual humana. |
 | `ReviewedOn` | 2026-08-16 |
-| `ApprovedBy` | Ismael Bojórquez — Creador/Propietario, para Product/Education, Localization y asset visual concreto (`H-007`, `H-008`). |
+| `ApprovedBy` | Ismael Bojórquez, para Product/Education, Localization, asset visual y revisión factual humana (`H-007`, `H-008`, `H-009`). |
 | `ApprovalDate` | 2026-08-16 |
 | `RightsOwner` / licencia | Ismael Bojórquez; `Propia`, aprobada para el asset concreto en `H-008-IB-2026-08-16`. |
 | `ReleaseLockedBy` / fecha |  |
 
 ## Condición para desbloquear Prompt 19
 
-Product/Education, Localization y la representación visual asset-specific quedaron aprobados por Ismael Bojórquez. Prompt 19 permanece bloqueado hasta que un especialista factual identificado declare competencia y revise los claims que fotografía mostrará. Después se crean definitions separadas y se valida su mapping; este expediente por sí solo no autoriza cambiar `EditorialState.Approved` ni `ReleaseLocked`.
+Product/Education, Localization, representación visual y revisión factual humana quedaron aprobados por Ismael Bojórquez. El prefab visual puede adoptar `EditorialState.Approved`. Prompt 19 permanece bloqueado únicamente por trabajo técnico: crear/adoptar definitions no-`PH_`, mapear interaction/discovery/facts, preservar aliases/save y validar el catálogo. Este expediente no autoriza `ReleaseLocked`, audio final ni publicación.

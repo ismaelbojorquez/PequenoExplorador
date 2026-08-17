@@ -3,7 +3,7 @@
     "author": "Ismael Bojórquez",
     "sourceType": "Creación propia mediante primitives y tooling Unity",
     "generator": "PequenoExplorador.Editor.ToucanFixtureSetup",
-    "generatorVersion": "1.1.0",
+    "generatorVersion": "1.2.0",
     "generatedDate": "2026-08-16",
     "sourceComponents": "Unity built-in Sphere/Cube/Cylinder meshes; project-authored URP materials",
     "runtimePrefab": "Assets/_Game/Content/Discoveries/Jungle/KeelBilledToucan/VS_ToucanPicoCanoa.prefab",
@@ -18,17 +18,21 @@
     ],
     "licenseDeclaration": "Propia — asset-specific approved H-008-IB-2026-08-16",
     "externalMedia": false,
-    "editorialState": "Sourced",
+    "editorialState": "Approved",
     "visualReview": "APPROVED",
     "visualApprovedBy": "Ismael Bojórquez — Creador/Propietario",
     "visualApprovalDate": "2026-08-16",
     "visualApprovalReference": "H-008-IB-2026-08-16",
-    "factualReview": "PENDING_SPECIALIST_SIGNOFF",
+    "factualReview": "APPROVED",
+    "factualReviewedBy": "Ismael Bojórquez — Investigador",
+    "factualReviewerCompetence": "Experiencia en búsqueda ampliada de información",
+    "factualReviewDate": "2026-08-16",
+    "factualApprovalReference": "H-009-IB-2026-08-16",
     "legalNotice": "Registro técnico de procedencia; no es un dictamen legal definitivo.",
     "files": [
         {
             "path": "Assets/_Game/Content/Discoveries/Jungle/KeelBilledToucan/VS_ToucanPicoCanoa.prefab",
-            "sha256": "3ce28ac7a87ed1b809b81939c2e4ad64cae691b30790427ac25355bde8555103"
+            "sha256": "5221edf3bfc6bc00835a40e87c670e7513840b613a872c970a3266abb775ddfa"
         },
         {
             "path": "Assets/_Game/Content/Discoveries/Jungle/KeelBilledToucan/Materials/Toucan_Dark.mat",
@@ -60,7 +64,7 @@
         },
         {
             "path": "Assets/_Game/Editor/ToucanFixtureSetup.cs",
-            "sha256": "8e909bf9bd4174588aa979db8930c936b740d3d7d3db19b76df3bb01ce4d9665"
+            "sha256": "d83f5941f0793d72e95ce201fbf26b845ee790b87e90c2e0efec0a0db93b62bd"
         }
     ],
     "metrics": {

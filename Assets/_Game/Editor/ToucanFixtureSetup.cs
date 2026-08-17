@@ -19,9 +19,10 @@ namespace PequenoExplorador.Editor
 {
     public static class ToucanFixtureSetup
     {
-        public const string GeneratorVersion = "1.1.0";
+        public const string GeneratorVersion = "1.2.0";
         public const string GeneratedDate = "2026-08-16";
         public const string VisualApprovalReference = "H-008-IB-2026-08-16";
+        public const string FactualApprovalReference = "H-009-IB-2026-08-16";
         public const string VisualId = "visual.discovery.jungle.keel-billed-toucan";
         public const string FutureDiscoveryId = "discovery.jungle.keel-billed-toucan";
         public const string FutureInteractionId = "interaction.jungle.keel-billed-toucan";
@@ -47,7 +48,7 @@ namespace PequenoExplorador.Editor
             try
             {
                 ApplyAssetsAndScene(true);
-                Debug.Log("PE_TOUCAN_FIXTURE_OK visual=Sourced placeholder=false materials=7 externalMedia=0");
+                Debug.Log("PE_TOUCAN_FIXTURE_OK visual=Approved placeholder=false materials=7 externalMedia=0 factualReview=approved");
                 if (UnityEngine.Application.isBatchMode) EditorApplication.Exit(0);
             }
             catch (Exception exception)
@@ -218,13 +219,18 @@ namespace PequenoExplorador.Editor
                     "Propia — asset-specific approved H-008-IB-2026-08-16";
                 serialized.FindProperty("_generatorVersion").stringValue = GeneratorVersion;
                 serialized.FindProperty("_generatedDate").stringValue = GeneratedDate;
-                serialized.FindProperty("_editorialState").enumValueIndex = (int)EditorialState.Sourced;
+                serialized.FindProperty("_editorialState").enumValueIndex = (int)EditorialState.Approved;
                 serialized.FindProperty("_isPlaceholder").boolValue = false;
                 serialized.FindProperty("_visualReviewState").stringValue = "APPROVED";
                 serialized.FindProperty("_visualApprovedBy").stringValue = "Ismael Bojórquez — Creador/Propietario";
                 serialized.FindProperty("_visualApprovalDate").stringValue = "2026-08-16";
                 serialized.FindProperty("_visualApprovalReference").stringValue = VisualApprovalReference;
-                serialized.FindProperty("_factualReviewState").stringValue = "PENDING_SPECIALIST_SIGNOFF";
+                serialized.FindProperty("_factualReviewState").stringValue = "APPROVED";
+                serialized.FindProperty("_factualReviewedBy").stringValue = "Ismael Bojórquez — Investigador";
+                serialized.FindProperty("_factualReviewerCompetence").stringValue =
+                    "Experiencia en búsqueda ampliada de información";
+                serialized.FindProperty("_factualReviewDate").stringValue = "2026-08-16";
+                serialized.FindProperty("_factualApprovalReference").stringValue = FactualApprovalReference;
                 serialized.FindProperty("_candidatePhotoBounds").boundsValue = bounds;
                 serialized.FindProperty("_visualRoot").objectReferenceValue = visualRoot.transform;
                 serialized.FindProperty("_interactionPoint").objectReferenceValue = point.transform;
@@ -320,12 +326,16 @@ namespace PequenoExplorador.Editor
                 runtimeMaterials = MaterialSpecs.Select(item => MaterialsRoot + "/" + item.Name + ".mat").ToArray(),
                 licenseDeclaration = "Propia — asset-specific approved H-008-IB-2026-08-16",
                 externalMedia = false,
-                editorialState = EditorialState.Sourced.ToString(),
+                editorialState = EditorialState.Approved.ToString(),
                 visualReview = "APPROVED",
                 visualApprovedBy = "Ismael Bojórquez — Creador/Propietario",
                 visualApprovalDate = "2026-08-16",
                 visualApprovalReference = VisualApprovalReference,
-                factualReview = "PENDING_SPECIALIST_SIGNOFF",
+                factualReview = "APPROVED",
+                factualReviewedBy = "Ismael Bojórquez — Investigador",
+                factualReviewerCompetence = "Experiencia en búsqueda ampliada de información",
+                factualReviewDate = "2026-08-16",
+                factualApprovalReference = FactualApprovalReference,
                 legalNotice = "Registro técnico de procedencia; no es un dictamen legal definitivo.",
                 files = RelevantAssetPaths().Select(path => new ProvenanceFile
                 {
@@ -543,6 +553,10 @@ namespace PequenoExplorador.Editor
             public string visualApprovalDate;
             public string visualApprovalReference;
             public string factualReview;
+            public string factualReviewedBy;
+            public string factualReviewerCompetence;
+            public string factualReviewDate;
+            public string factualApprovalReference;
             public string legalNotice;
             public ProvenanceFile[] files;
             public ToucanMetricRecord metrics;

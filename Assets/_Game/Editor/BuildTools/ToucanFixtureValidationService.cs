@@ -14,8 +14,6 @@ namespace PequenoExplorador.Editor.BuildTools
 {
     public static class ToucanFixtureValidationService
     {
-        public const string ReleaseBlockCode = "TOUCAN019";
-
         public static IReadOnlyList<string> Validate(ContentValidationMode mode)
         {
             var violations = new List<string>();
@@ -35,15 +33,19 @@ namespace PequenoExplorador.Editor.BuildTools
                     metadata.FutureInteractionId != ToucanFixtureSetup.FutureInteractionId)
                     violations.Add("TOUCAN003 stable visual/future IDs do not match the Vertical Slice contract.");
                 if (metadata.Author != "Ismael Bojórquez") violations.Add("TOUCAN004 declared author is missing.");
-                if (metadata.EditorialState != EditorialState.Sourced || metadata.IsPlaceholder)
-                    violations.Add("TOUCAN005 review asset must be Sourced and non-placeholder.");
+                if (metadata.EditorialState != EditorialState.Approved || metadata.IsPlaceholder)
+                    violations.Add("TOUCAN005 reviewed asset must be Approved and non-placeholder.");
                 if (metadata.VisualReviewState != "APPROVED" ||
                     metadata.VisualApprovedBy != "Ismael Bojórquez — Creador/Propietario" ||
                     metadata.VisualApprovalDate != "2026-08-16" ||
                     metadata.VisualApprovalReference != ToucanFixtureSetup.VisualApprovalReference)
                     violations.Add("TOUCAN017 asset-specific visual approval H-008 is missing or inconsistent.");
-                if (metadata.FactualReviewState != "PENDING_SPECIALIST_SIGNOFF")
-                    violations.Add("TOUCAN006 factual specialist signoff must remain pending.");
+                if (metadata.FactualReviewState != "APPROVED" ||
+                    metadata.FactualReviewedBy != "Ismael Bojórquez — Investigador" ||
+                    metadata.FactualReviewerCompetence != "Experiencia en búsqueda ampliada de información" ||
+                    metadata.FactualReviewDate != "2026-08-16" ||
+                    metadata.FactualApprovalReference != ToucanFixtureSetup.FactualApprovalReference)
+                    violations.Add("TOUCAN006 factual approval H-009 is missing or inconsistent.");
                 if (metadata.VisualRoot == null || metadata.InteractionPoint == null ||
                     metadata.TouchCollider == null || !metadata.TouchCollider.isTrigger)
                     violations.Add("TOUCAN007 visual root, interaction point and broad trigger collider are required.");
@@ -61,9 +63,6 @@ namespace PequenoExplorador.Editor.BuildTools
                 violations.Add("TOUCAN012 provenance ledger is missing.");
             ValidateScene(violations);
 
-            if (mode == ContentValidationMode.Release)
-                violations.Add(ReleaseBlockCode +
-                    " toucan visual is asset-specific approved but remains Sourced; factual specialist signoff is required for Release.");
             return violations;
         }
 

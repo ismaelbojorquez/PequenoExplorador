@@ -21,6 +21,10 @@ namespace PequenoExplorador.Content.Visuals
         [SerializeField] private string _visualApprovalDate;
         [SerializeField] private string _visualApprovalReference;
         [SerializeField] private string _factualReviewState;
+        [SerializeField] private string _factualReviewedBy;
+        [SerializeField] private string _factualReviewerCompetence;
+        [SerializeField] private string _factualReviewDate;
+        [SerializeField] private string _factualApprovalReference;
         [SerializeField] private Bounds _candidatePhotoBounds;
         [SerializeField] private Transform _visualRoot;
         [SerializeField] private Transform _interactionPoint;
@@ -41,6 +45,10 @@ namespace PequenoExplorador.Content.Visuals
         public string VisualApprovalDate => _visualApprovalDate;
         public string VisualApprovalReference => _visualApprovalReference;
         public string FactualReviewState => _factualReviewState;
+        public string FactualReviewedBy => _factualReviewedBy;
+        public string FactualReviewerCompetence => _factualReviewerCompetence;
+        public string FactualReviewDate => _factualReviewDate;
+        public string FactualApprovalReference => _factualApprovalReference;
         public Bounds CandidatePhotoBounds => _candidatePhotoBounds;
         public Transform VisualRoot => _visualRoot;
         public Transform InteractionPoint => _interactionPoint;

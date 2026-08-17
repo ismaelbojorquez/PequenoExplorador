@@ -47,9 +47,9 @@ Cambiar especie, claim, ilustración que comunica rasgos, voz o actividad despu�
 
 ## Vertical Slice
 
-[`VS-D-A01`](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md) reserva `Ramphastos sulfuratus` y tiene expediente Sourced por claim. Ismael Bojórquez, competencia declarada `Creador`, aprobó Product/Education, copy y Localization el 2026-08-16 y declaró arte/audio/rights propios; el gate factual especializado y la evidencia por asset siguen pendientes. El conflicto temporal de conservación queda excluido del slice y bloqueado para uso. Esto no cambia los assets runtime: representación y media permanecen `Draft`/`PH_`.
+[`VS-D-A01`](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md) reserva `Ramphastos sulfuratus`. Ismael Bojórquez aprobó Product/Education/copy/Localization en `H-007`, el asset visual/rights/QA en `H-008` y la revisión factual humana en `H-009`, con competencia declarada `Investigador — experiencia en búsqueda ampliada de información`. No se atribuye credencial ornitológica externa. El conflicto temporal de conservación queda excluido y bloqueado. El prefab visual es `Approved`; las definitions runtime continúan `Draft`/`PH_` hasta adopción técnica trazable.
 
-Product/Localization eligió `Tucán pico canoa` y aprobó `Keel-billed Toucan` para EN. La variante `pico iris` permanece registrada como contexto regional, no como nombre del locale actual. El slice puede usar el placeholder neutral sin afirmaciones; no puede declarar content asset `Approved` ni Release hasta completar especialista, asset ledger y QA efectivo.
+Product/Localization eligió `Tucán pico canoa` y aprobó `Keel-billed Toucan` para EN. La variante `pico iris` permanece registrada como contexto regional, no como nombre del locale actual. La adopción debe crear records/facts/discovery/interacción no-`PH_` y conservar conservación fuera del runtime. `Approved` no equivale a `ReleaseLocked`: audio final, matriz efectiva y QA de la integración siguen separados.
 
 ## Responsabilidades humanas
 

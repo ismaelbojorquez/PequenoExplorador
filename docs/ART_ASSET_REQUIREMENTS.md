@@ -49,11 +49,11 @@ Los tres fixtures comparten el mismo núcleo y no representan especies/hechos. M
 
 ## Revisión visual VS-D-A01
 
-El [expediente factual](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md) documenta un pico verde/naranja/rojo/azul, pero no autoriza copiar fotografías ni fija paleta, patrón, sexo, edad o subespecie. Antes de reemplazar `PH_FIXTURE_ANIMAL`, Art y especialista factual deben aprobar silhouette, pico, coloración, escala y PhotoTarget; Legal/Rights debe aprobar source files y runtime exports.
+El [expediente factual](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md) documenta un pico verde/naranja/rojo/azul, pero no autoriza copiar fotografías ni fija sexo, edad o subespecie. H-008 aprobó Art/Rights/QA del asset y H-009 su fidelidad factual humana; cualquier cambio material de silhouette, pico, coloración, escala o PhotoTarget exige nueva revisión.
 
 Ismael Bojórquez declaró `Arte: APPROVED`, `Rights: APPROVED` y referencia `Propia` en `H-007-IB-2026-08-16`. Después revisó el asset no-`PH_` concreto y sus seis renders y cerró Art, Rights y QA visual mediante `H-008-IB-2026-08-16`, con cambios solicitados: ninguno.
 
-El incremento visual crea `visual.discovery.jungle.keel-billed-toucan` como obra propia reproducible con primitives Unity y siete materiales URP compartidos. El prefab `VS_ToucanPicoCanoa.prefab` tiene root estable, `VisualRoot`, trigger amplio, `VS_InteractionPoint`, `VS_PhotoAnchor` y bounds candidatos sin dependencia de fotografía. Estado real: visual asset-specific `APPROVED`, `EditorialState.Sourced`, `isPlaceholder=false`; especialista factual pendiente y Release devuelve `TOUCAN019`.
+El incremento visual crea `visual.discovery.jungle.keel-billed-toucan` como obra propia reproducible con primitives Unity y siete materiales URP compartidos. El prefab `VS_ToucanPicoCanoa.prefab` tiene root estable, `VisualRoot`, trigger amplio, `VS_InteractionPoint`, `VS_PhotoAnchor` y bounds candidatos sin dependencia de fotografía. Estado real: visual/factual humano `APPROVED`, `EditorialState.Approved`, `isPlaceholder=false`; H-009 acepta fidelidad factual y que bounds/collider no comunican tamaño zoológico exacto.
 
 | Entregable | Estado / evidencia |
 |---|---|
@@ -64,7 +64,8 @@ El incremento visual crea `visual.discovery.jungle.keel-billed-toucan` como obra
 | Provenance | JSON versionado con autor, tooling, licencia declarada, hashes y `externalMedia=false` |
 | Renders de review | `artifacts/review/toucan/`: frontal, lateral, tres cuartos, Jungle 20:9 y siluetas clara/oscura |
 | Aprobación visual | `H-008-IB-2026-08-16`: Art, Rights y QA del asset concreto `APPROVED`; commit revisado `427c09b0b48b0b8ec7348971db5eddbafc5d3707` |
-| Pendiente | Especialista factual, animación/audio final y profiling Android físico |
+| Aprobación factual | `H-009-IB-2026-08-16`: revisión humana por Ismael Bojórquez — Investigador; competencia declarada en búsqueda ampliada, sin atribuir credencial ornitológica |
+| Pendiente | Definitions/mapping runtime, animación/audio final, validación ornitológica externa recomendada y profiling Android físico |
 
 Cambiar especie/subespecie devuelve a revisión todo el modelo/ilustración, collider/bounds fotográficos, icono y thumbnail canónico. Cambiar rasgo visual o paleta devuelve esos assets y cualquier actividad de reconocimiento a `Reviewed`; no invalida dieta/sonido salvo que también cambie la especie.
 

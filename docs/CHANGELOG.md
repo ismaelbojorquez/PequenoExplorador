@@ -1,5 +1,24 @@
 # Changelog
 
+## Human factual review H-009 — 2026-08-16
+
+### Recorded
+
+- Ismael Bojórquez, área declarada `Investigador` y competencia `experiencia en búsqueda ampliada de información`, aprobó identidad, nombres, distribución, hábitat, dieta, pico, descripción del llamado y fidelidad factual del prefab/bounds de `VS-D-A01`.
+- Conservación continúa excluida y `BLOCKED`; “Investigaciones oficiales” no añadió una referencia concreta nueva, por lo que el dossier conserva sus seis fuentes trazables.
+- El registro no atribuye credencial ornitológica externa, derechos de audio ni autorización de publicación.
+
+### Changed
+
+- Prefab/ledger/metadata pasan a `EditorialState.Approved`, generator `1.2.0` y referencia `H-009-IB-2026-08-16`; el validator deja de emitir `TOUCAN019` cuando ambas firmas son consistentes.
+- `STATUS` dirige ahora a la adopción técnica de definitions/IDs/aliases/migración antes de Prompt 19. El catálogo neutral `PH_` sigue bloqueado por `DATA025`.
+
+### Verified
+
+- `scripts/validate` pasó repository/shell checks, compile, Addressables local, EditMode `106/106`, PlayMode `18/18` y APK Development.
+- APK final `105,937,888` bytes, SHA-256 `974ffbafc807947cbed6e42a2f1db6d48f570d32ad317b9239f53b9f20e99465`, API 26/36 e IL2CPP/ARM64; manifest sin `CAMERA`, micrófono, ubicación, contactos ni `AD_ID`.
+- Ledger hashes `PASS`. Release termina con código esperado `2` por `DATA025`/`WORLD018` y ya no contiene `TOUCAN019`.
+
 ## Human visual approval H-008 — 2026-08-16
 
 ### Recorded

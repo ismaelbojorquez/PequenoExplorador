@@ -1624,15 +1624,19 @@ MonoBehaviour:
   _author: "Ismael Boj\xF3rquez"
   _sourceType: "Creaci\xF3n propia mediante primitives y tooling Unity"
   _licenseDeclaration: "Propia \u2014 asset-specific approved H-008-IB-2026-08-16"
-  _generatorVersion: 1.1.0
+  _generatorVersion: 1.2.0
   _generatedDate: 2026-08-16
-  _editorialState: 1
+  _editorialState: 3
   _isPlaceholder: 0
   _visualReviewState: APPROVED
   _visualApprovedBy: "Ismael Boj\xF3rquez \u2014 Creador/Propietario"
   _visualApprovalDate: 2026-08-16
   _visualApprovalReference: H-008-IB-2026-08-16
-  _factualReviewState: PENDING_SPECIALIST_SIGNOFF
+  _factualReviewState: APPROVED
+  _factualReviewedBy: "Ismael Boj\xF3rquez \u2014 Investigador"
+  _factualReviewerCompetence: "Experiencia en b\xFAsqueda ampliada de informaci\xF3n"
+  _factualReviewDate: 2026-08-16
+  _factualApprovalReference: H-009-IB-2026-08-16
   _candidatePhotoBounds:
     m_Center: {x: 0.43829906, y: 1.2983035, z: 0}
     m_Extent: {x: 1.4864793, y: 1.2127318, z: 0.55}
