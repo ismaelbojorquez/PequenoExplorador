@@ -45,6 +45,9 @@ namespace PequenoExplorador.Tests.PlayMode
             yield return LoadExpedition();
             DiagnosticBootstrap bootstrap = Object.FindFirstObjectByType<DiagnosticBootstrap>();
             WorldInteractableView animal = Target(bootstrap, "interaction.fixture.animal");
+            Assert.That(animal.transform.Find("VS_ToucanPicoCanoa"), Is.Not.Null);
+            Assert.That(animal.GetComponentsInChildren<Renderer>(true).Length, Is.GreaterThanOrEqualTo(8));
+            Assert.That(animal.transform.Find("PH_FIXTURE_ANIMAL_VISUAL"), Is.Null);
             Vector3 screen = Camera.main.WorldToScreenPoint(animal.transform.position + Vector3.up * 0.7f);
             _inputFixture.Set(mouse.position, new Vector2(screen.x, screen.y));
             _inputFixture.Press(mouse.leftButton);

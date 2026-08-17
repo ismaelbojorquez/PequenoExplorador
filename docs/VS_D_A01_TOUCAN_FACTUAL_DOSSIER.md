@@ -1,6 +1,6 @@
 # VS-D-A01 — Expediente factual del tucán candidato
 
-Estado editorial: **Sourced + Owner/Product Approved — pending factual specialist and assets**. Consulta de fuentes: 2026-08-16 (`America/Mexico_City`). Ismael Bojórquez registró aprobación humana como Creador el 2026-08-16 para claims, copy, nombres y especificaciones; no declaró competencia de especialista factual y todavía no existen assets no-`PH_` identificables. Este expediente no constituye asesoría científica o legal ni `ReleaseLocked`.
+Estado editorial: **Sourced + Owner/Product Approved — pending factual specialist and asset-specific signoff**. Consulta de fuentes: 2026-08-16 (`America/Mexico_City`). Ismael Bojórquez registró aprobación humana como Creador el 2026-08-16 para claims, copy, nombres y especificaciones; no declaró competencia de especialista factual. Existe el candidato visual propio no-`PH_` `visual.discovery.jungle.keel-billed-toucan`, pero su firma visual específica sigue pendiente. Este expediente no constituye asesoría científica o legal ni `ReleaseLocked`.
 
 ## Identidad y límites
 
@@ -9,14 +9,16 @@ Estado editorial: **Sourced + Owner/Product Approved — pending factual special
 | Expediente | `content-review.vs-d-a01` |
 | Especie candidata | `Ramphastos sulfuratus` R. Lesson, 1830 |
 | Discovery ID reservado | `discovery.jungle.keel-billed-toucan` |
+| Visual ID implementado | `visual.discovery.jungle.keel-billed-toucan` — candidato `Sourced`, no `Approved` |
+| Interaction ID reservado | `interaction.jungle.keel-billed-toucan` |
 | Fact IDs reservados | `fact.jungle.keel-billed-toucan.*` según la matriz de claims |
 | Nombre ES elegido por Product/Localization | `Tucán pico canoa` |
 | Nombre EN aprobado por Product/Localization | `Keel-billed Toucan` |
-| Runtime actual | Continúa `discovery.jungle.placeholder` + `fact.jungle.placeholder.pending`, `Draft`, `PH_` y `ReleaseBlocked`. |
+| Runtime actual | Continúa `interaction.fixture.animal → discovery.jungle.placeholder`, Draft y `ReleaseBlocked`; Development sustituye solo la cápsula visual por `VS_ToucanPicoCanoa.prefab` `Sourced`. |
 | Uso permitido ahora | Usar claims/copy/nombres aprobados por el Creador para preparar el único contenido del Vertical Slice, conservando el gate factual y de assets. |
 | Uso prohibido ahora | Marcar assets runtime `Approved`, eliminar watermark, declarar revisión de especialista factual o reutilizar imágenes/audio de las fuentes. |
 
-Los IDs quedan reservados documentalmente, pero no se crean ni enlazan assets runtime en este incremento. Adoptarlos después exige validator, localización, aliases/migración si corresponde y diff explícito de contenido.
+Los IDs de discovery/interacción quedan reservados documentalmente y no se adoptan todavía como identidad runtime. Adoptarlos después exige validator, localización, aliases/migración si corresponde y diff explícito de contenido. El ID visual sí está materializado en el prefab candidato y no concede hechos, rewards ni comportamiento.
 
 ## Registro de fuentes
 
@@ -62,7 +64,7 @@ Esta sección registra la declaración proporcionada directamente por la persona
 | Nombre ES / EN | `Tucán pico canoa` / `Keel-billed Toucan` |
 | Product/Education | `APPROVED` |
 | Localization | `APPROVED` |
-| Art / Audio / Rights / QA | Declarados `APPROVED`; arte y audio de referencia declarados `Propia`. La efectividad por asset queda pendiente porque no se proporcionó ID, source file, export, autoría técnica o ledger de un asset no-`PH_`. |
+| Art / Audio / Rights / QA | Declarados `APPROVED`; arte y audio de referencia declarados `Propia`. El visual con ID/ledger fue creado después de esta declaración y exige signoff asset-specific; audio sigue sin asset final. |
 | Cambios solicitados | Ninguno. |
 
 La aprobación del Creador resuelve intención de producto, copy y nombre regional. No satisface por sí sola el paso `Reviewed` factual definido en [`CONTENT_SOURCES.md`](CONTENT_SOURCES.md), cuyo gate exige competencia de especialista factual declarada. Tampoco convierte el fixture cápsula ni los tonos `PH_` en representación aprobada de la especie.
@@ -90,10 +92,25 @@ Los campos vacíos son bloqueos intencionales; no deben completarse por automati
 | Especialista factual |  | Competencia factual sobre Aves/Ramphastidae o fuente institucional equivalente. | `PENDING` |  |  |
 | Product/Education — copy 4–9 | Ismael Bojórquez — Creador | Intención de producto y copy infantil. | `APPROVED` | 2026-08-16 | `H-007-IB-2026-08-16` |
 | Localization — nombre regional ES/EN | Ismael Bojórquez — Creador | Selecciona `Tucán pico canoa` / `Keel-billed Toucan`. | `APPROVED` | 2026-08-16 | `H-007-IB-2026-08-16` |
-| Art — fidelidad visual | Ismael Bojórquez — Creador | Declara arte `Propia`; no hay asset no-`PH_` ni ledger que inspeccionar. | `DECLARED APPROVED — ASSET PENDING` | 2026-08-16 | `H-007-IB-2026-08-16` |
+| Art — fidelidad visual | Ismael Bojórquez — Creador | Declaró arte `Propia` antes del candidato; revisar ahora prefab y seis renders concretos. | `DECLARED APPROVED — ASSET-SPECIFIC SIGNOFF PENDING` | 2026-08-16 | `H-007-IB-2026-08-16` |
 | Audio — vocalización/pronunciación | Ismael Bojórquez — Creador | Declara audio `Propia`; no hay cue/clip no-`PH_` ni ledger que inspeccionar. | `DECLARED APPROVED — ASSET PENDING` | 2026-08-16 | `H-007-IB-2026-08-16` |
-| Legal/Rights — assets y territorios | Ismael Bojórquez — Creador | Declara referencias propias; faltan archivos concretos, titularidad por asset y alcance territorial/plataforma. | `OWNER DECLARATION — EVIDENCE PENDING` | 2026-08-16 | `H-007-IB-2026-08-16` |
-| QA/Release — matriz asset/claim | Ismael Bojórquez — Creador | Declara aprobación; no existe matriz sobre assets finales. | `DECLARED APPROVED — RELEASE BLOCKED` | 2026-08-16 | `H-007-IB-2026-08-16` |
+| Legal/Rights — assets y territorios | Ismael Bojórquez — Creador | Ledger declara tooling/materiales propios y cero media externa; confirmar titularidad/alcance del asset concreto. | `OWNER DECLARATION — ASSET-SPECIFIC SIGNOFF PENDING` | 2026-08-16 | `H-007-IB-2026-08-16` |
+| QA/Release — matriz asset/claim | Ismael Bojórquez — Creador | Validator/evidencia existen; specialist/signoff faltan y Release devuelve `TOUCAN019`. | `DECLARED APPROVED — RELEASE BLOCKED` | 2026-08-16 | `H-007-IB-2026-08-16` |
+
+### Revisión visual asset-specific pendiente
+
+Revisar los seis PNG ignorados en `artifacts/review/toucan/` y registrar una nueva referencia humana; la declaración previa no se extiende automáticamente a un asset que aún no existía. Todos los checks deben resolverse explícitamente:
+
+- [ ] La silueta se reconoce como tucán en teléfono landscape y no como otra ave.
+- [ ] El pico grande y los bloques verde, naranja, rojo y azul son adecuados sin copiar una referencia concreta.
+- [ ] Cuerpo oscuro, garganta amarilla, ojo y expresión resultan amables para 4–9, sin realismo inquietante.
+- [ ] Proporción, patas y cola funcionan como estilización y no afirman sexo, edad, subespecie ni tamaño zoológico.
+- [ ] Collider táctil, punto de interacción y bounds candidatos cubren la figura sin volumen engañoso.
+- [ ] Front, lateral, tres cuartos, 16:9, 20:9 y siluetas clara/oscura conservan lectura.
+- [ ] Autoría `Ismael Bojórquez`, creación propia por tooling Unity y ausencia de media externa son correctas.
+- [ ] Se acepta como candidato del Vertical Slice o se registran cambios concretos; aprobar arte no aprueba claims factuales.
+
+Ledger versionado: `Assets/_Game/Content/Discoveries/Jungle/KeelBilledToucan/VS_ToucanPicoCanoa.provenance.json`. Métricas actuales: 16 meshes/renderers, 4,931 vértices, 7,132 triángulos, 7 materiales compartidos, bounds `2.973 × 2.425 × 1.100` y estimación Editor de 89,484 bytes para meshes/materiales. Esta cifra no es memoria pico en dispositivo.
 
 Campos editoriales requeridos tras las firmas:
 
@@ -108,4 +125,4 @@ Campos editoriales requeridos tras las firmas:
 
 ## Condición para desbloquear Prompt 19
 
-Product/Education y Localization quedaron aprobados por Ismael Bojórquez. Prompt 19 continúa bloqueado hasta que un especialista factual identificado declare competencia y revise los claims que fotografía mostrará, y hasta que exista una representación no-`PH_` con ID/source/export/rights ledger verificables. Después se crean definitions separadas y se valida su mapping; este expediente por sí solo no autoriza cambiar `EditorialState.Approved` ni `ReleaseLocked`.
+Product/Education y Localization quedaron aprobados por Ismael Bojórquez. Ya existe una representación propia no-`PH_` con ID, prefab, materiales, generator, hashes y ledger verificables, pero su aprobación asset-specific continúa pendiente. Prompt 19 permanece bloqueado hasta que un especialista factual identificado declare competencia y revise los claims que fotografía mostrará, y hasta que Ismael firme la checklist visual concreta. Después se crean definitions separadas y se valida su mapping; este expediente por sí solo no autoriza cambiar `EditorialState.Approved` ni `ReleaseLocked`.

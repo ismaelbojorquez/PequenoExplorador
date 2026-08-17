@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "${SCRIPT_DIR}/lib/common.sh"
+
+prepare_artifacts
+UNITY_EDITOR_PATH="$(find_unity_editor)"
+RAW_LOG="${ARTIFACTS_DIR}/logs/.apply-toucan-fixture.raw.log"
+FINAL_LOG="${ARTIFACTS_DIR}/logs/apply-toucan-fixture.log"
+
+set +e
+"${UNITY_EDITOR_PATH}" -batchmode -projectPath "${PROJECT_ROOT}" -logFile "${RAW_LOG}" \
+  -artifactsPath "${ARTIFACTS_DIR}" \
+  -executeMethod PequenoExplorador.Editor.ToucanFixtureSetup.Apply
+EXIT_CODE=$?
+set -e
+
+if [[ -f "${RAW_LOG}" ]]; then
+  sanitize_log "${RAW_LOG}" "${FINAL_LOG}"
+  rm -f "${RAW_LOG}"
+fi
+if [[ ${EXIT_CODE} -ne 0 ]]; then
+  printf 'apply-toucan-fixture failed with exit code %s. See %s\n' "${EXIT_CODE}" "${FINAL_LOG}" >&2
+  exit "${EXIT_CODE}"
+fi
+printf 'apply-toucan-fixture succeeded. Log: %s\n' "${FINAL_LOG}"

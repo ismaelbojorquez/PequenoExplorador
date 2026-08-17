@@ -39,6 +39,12 @@ scripts/build-addressables-local
 
 El comando valida configuración, cambia el target de contenido a Android, selecciona `LocalDevelopment`, construye el catálogo y escribe `artifacts/reports/addressables-local.json`. El APK Development repite ese build antes del player. Runtime output y `addressables_content_state.bin` se fuerzan bajo `Library/com.unity.addressables/`; reportes/builds viven en `artifacts/`. Todo ello es generado/ignorado; `Assets/AddressableAssetsData/`, escenas y metadata sí se versionan.
 
+### Fixture visual del tucán
+
+`scripts/apply-toucan-fixture` invoca tooling Editor gráfico, genera materiales/prefab deterministas, integra solo el hijo visual del interactable animal neutral y escribe evidencia ignorada. No descarga, no usa `Resources`, no crea paquetes ni activa endpoints. Sus outputs versionados están bajo `Assets/_Game/Content/Discoveries/Jungle/KeelBilledToucan`; métricas y renders quedan bajo `artifacts/`.
+
+El generator es idempotente: conserva el GUID del prefab y, si la instancia correcta ya existe, no reconstruye Jungle. Release permanece fail-closed porque `Sourced` no equivale a `Approved`. Adoptar los IDs futuros exige una fase separada con aliases/save/localización y firmas; no se cambia el catálogo factual desde este tooling.
+
 ## Guardrails
 
 - No crear `Remote*`, URL, Hosting Services, CCD, CDN o profile remoto.

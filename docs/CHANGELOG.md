@@ -1,5 +1,29 @@
 # Changelog
 
+## Toucan visual review fixture — 2026-08-16
+
+### Added
+
+- Prefab propio reproducible `VS_ToucanPicoCanoa` con 16 primitives, siete materiales URP compartidos, collider amplio, interaction point, photo anchor/bounds candidatos y metadata `Sourced`.
+- Generator Editor idempotente, ledger de provenance con hashes, validator Development/Release, wrapper local y tres tests EditMode adicionales.
+- Seis renders ignorados para revisión humana en 16:9/20:9 y métricas de geometría/memoria Editor.
+
+### Changed
+
+- Jungle sustituye solo la cápsula visual del interactable `interaction.fixture.animal`; conserva discovery neutral, planta, objeto, comportamiento y save sin migración.
+- Pipeline/documentación distinguen el asset visual propio de las definitions Draft y mantienen Prompt 19 bloqueado.
+
+### Verified
+
+- Baseline previa completa: repository/compile/Addressables, EditMode `103/103`, PlayMode `18/18` y APK Development.
+- `scripts/validate` final pasó en `1:27.92`: compile/validators, Addressables, EditMode `106/106`, PlayMode `18/18` y APK Development.
+- APK `105,939,602` bytes, SHA-256 `7ee333517ecbff71bf3a47a74eab189460c87bacb7f0f709171326b6b06bbdd3`, API 26/36, IL2CPP/ARM64 y zipalign 16 KB; manifest sin `CAMERA`/micrófono/ubicación/contactos/`AD_ID`.
+- `scripts/build-android-release` terminó con código esperado `2`; el log contiene `TOUCAN019` y no produjo Release.
+
+### Still blocked
+
+- Especialista factual y firma visual asset-specific de Ismael Bojórquez. No se añadió fotografía, audio/animación final, fact/discovery aprobado, permiso sensible, paquete, red, signing, push ni publicación.
+
 ## Human review record H-007 — 2026-08-16
 
 ### Recorded
@@ -9,7 +33,7 @@
 
 ### Still blocked
 
-- Especialista factual identificado y asset ledger no-`PH_` siguen pendientes; los runtime assets permanecen Draft/placeholder y Prompt 19 no se desbloquea todavía.
+- Especialista factual y aprobación asset-specific siguen pendientes. El visual no-`PH_`/ledger se añadió después; discovery e interacción permanecen Draft neutrales y Prompt 19 no se desbloquea todavía.
 
 ## Content sourcing H-007 — 2026-08-16
 

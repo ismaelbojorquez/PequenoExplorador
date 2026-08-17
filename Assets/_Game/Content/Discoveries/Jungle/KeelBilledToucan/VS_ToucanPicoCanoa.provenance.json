@@ -1,0 +1,81 @@
+{
+    "assetId": "visual.discovery.jungle.keel-billed-toucan",
+    "author": "Ismael Bojórquez",
+    "sourceType": "Creación propia mediante primitives y tooling Unity",
+    "generator": "PequenoExplorador.Editor.ToucanFixtureSetup",
+    "generatorVersion": "1.0.0",
+    "generatedDate": "2026-08-16",
+    "sourceComponents": "Unity built-in Sphere/Cube/Cylinder meshes; project-authored URP materials",
+    "runtimePrefab": "Assets/_Game/Content/Discoveries/Jungle/KeelBilledToucan/VS_ToucanPicoCanoa.prefab",
+    "runtimeMaterials": [
+        "Assets/_Game/Content/Discoveries/Jungle/KeelBilledToucan/Materials/Toucan_Dark.mat",
+        "Assets/_Game/Content/Discoveries/Jungle/KeelBilledToucan/Materials/Toucan_Yellow.mat",
+        "Assets/_Game/Content/Discoveries/Jungle/KeelBilledToucan/Materials/Toucan_BillGreen.mat",
+        "Assets/_Game/Content/Discoveries/Jungle/KeelBilledToucan/Materials/Toucan_BillOrange.mat",
+        "Assets/_Game/Content/Discoveries/Jungle/KeelBilledToucan/Materials/Toucan_BillRed.mat",
+        "Assets/_Game/Content/Discoveries/Jungle/KeelBilledToucan/Materials/Toucan_BillBlue.mat",
+        "Assets/_Game/Content/Discoveries/Jungle/KeelBilledToucan/Materials/Toucan_EyeWhite.mat"
+    ],
+    "licenseDeclaration": "Propia — pendiente de confirmación asset-specific",
+    "externalMedia": false,
+    "editorialState": "Sourced",
+    "factualReview": "PENDING_SPECIALIST_SIGNOFF",
+    "legalNotice": "Registro técnico de procedencia; no es un dictamen legal definitivo.",
+    "files": [
+        {
+            "path": "Assets/_Game/Content/Discoveries/Jungle/KeelBilledToucan/VS_ToucanPicoCanoa.prefab",
+            "sha256": "1d87d717d49f925f6eb5bf5cc766d2ced0ec90336e7e04656b599891aef4957b"
+        },
+        {
+            "path": "Assets/_Game/Content/Discoveries/Jungle/KeelBilledToucan/Materials/Toucan_Dark.mat",
+            "sha256": "6c2195ab1849d92f168802b8dd62371737bf8b2cad5082e014a621cf5746e224"
+        },
+        {
+            "path": "Assets/_Game/Content/Discoveries/Jungle/KeelBilledToucan/Materials/Toucan_Yellow.mat",
+            "sha256": "0ea90fffda98d48dbb71b63695c506c480e3049fa07fcf670e022d7cbe9364c2"
+        },
+        {
+            "path": "Assets/_Game/Content/Discoveries/Jungle/KeelBilledToucan/Materials/Toucan_BillGreen.mat",
+            "sha256": "0b374f7e06e1262f7388e46987bfc2133208d4d8995aa712b1290bc3adbbb22e"
+        },
+        {
+            "path": "Assets/_Game/Content/Discoveries/Jungle/KeelBilledToucan/Materials/Toucan_BillOrange.mat",
+            "sha256": "0b220b810d9b4258500fa23ac6a3dfa67e799c443b824c7a46854e2ae67072e7"
+        },
+        {
+            "path": "Assets/_Game/Content/Discoveries/Jungle/KeelBilledToucan/Materials/Toucan_BillRed.mat",
+            "sha256": "da81b5341ef7291ae6147c1ad580e82ce7bfcc9816e1b0af9835113989a9046c"
+        },
+        {
+            "path": "Assets/_Game/Content/Discoveries/Jungle/KeelBilledToucan/Materials/Toucan_BillBlue.mat",
+            "sha256": "64516fd5b48827580a77883c4e0cd05132b58f2434215bbf59b65da143ba3b22"
+        },
+        {
+            "path": "Assets/_Game/Content/Discoveries/Jungle/KeelBilledToucan/Materials/Toucan_EyeWhite.mat",
+            "sha256": "1739e8ffff454a3f9e14ff49db7f6ab28b103d459449d6111a23afe1b7853079"
+        },
+        {
+            "path": "Assets/_Game/Editor/ToucanFixtureSetup.cs",
+            "sha256": "b9faed009126096de38fc5919a1e44086fe46414412d5e43ce029c456839959f"
+        }
+    ],
+    "metrics": {
+        "meshes": 16,
+        "vertices": 4931,
+        "triangles": 7132,
+        "materials": 7,
+        "renderers": 16,
+        "boundsCenter": {
+            "x": 0.4382990598678589,
+            "y": 1.298303484916687,
+            "z": 0.0
+        },
+        "boundsSize": {
+            "x": 2.972958564758301,
+            "y": 2.4254636764526369,
+            "z": 1.100000023841858
+        },
+        "approximateRuntimeBytes": 89484,
+        "memoryScope": "Unity Profiler estimate for distinct shared meshes/materials in Editor; not device peak memory"
+    }
+}

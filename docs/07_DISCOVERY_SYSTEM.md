@@ -62,7 +62,7 @@ Estos estados ricos siguen siendo contrato futuro. El schema v4 solo distingue e
 
 ## Vertical Slice
 
-Discovery candidato: **`Ramphastos sulfuratus`**, con expediente [`VS-D-A01`](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md) en estado `Sourced` y aprobación humana pendiente. `Tucán pico canoa` es el nombre documentado para México y `Tucán pico iris` para Costa Rica/Panamá; Product/Localization debe resolver el territorio visible. Debe poder detectarse, fotografiarse, asociarse visualmente en una actividad, aparecer en álbum y persistir. El nombre científico no se presenta obligatoriamente al niño.
+Discovery candidato: **`Ramphastos sulfuratus`**, con expediente [`VS-D-A01`](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md) en estado `Sourced + Owner/Product Approved`; especialista factual y firma asset-specific continúan pendientes. `Tucán pico canoa` es el nombre elegido para la baseline mexicana y `Tucán pico iris` permanece como variante regional documentada. Development muestra el prefab propio `visual.discovery.jungle.keel-billed-toucan` mediante el interactable neutral, pero todavía registra `discovery.jungle.placeholder`: no hay fotografía, fact runtime nuevo ni recompensa. Debe poder detectarse, fotografiarse, asociarse visualmente en una actividad, aparecer en álbum y persistir después de los gates. El nombre científico no se presenta obligatoriamente al niño.
 
 ## Aceptación del sistema
 

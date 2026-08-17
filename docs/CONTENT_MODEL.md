@@ -1,6 +1,6 @@
 # Modelo data-driven de contenido
 
-Contrato canónico de Prompt 14, ampliado por Prompt 15 con manifests de mundo, Prompt 17 con authoring de interacción y Prompt 18 con progresión discovery. El único discovery, el único mundo y las tres interacciones versionadas son neutrales, `Draft` y placeholder; no representan contenido factual final.
+Contrato canónico de Prompt 14, ampliado por Prompt 15 con manifests de mundo, Prompt 17 con authoring de interacción y Prompt 18 con progresión discovery. El único discovery, el único mundo y las tres interacciones versionadas son neutrales, `Draft` y placeholder; no representan contenido factual final. El candidato visual del tucán es un asset `Sourced` separado y no cambia ese estado.
 
 ## Flujo y autoridades
 
@@ -30,6 +30,12 @@ IDs usan minúsculas ASCII, dígitos, puntos y guiones; el primer segmento fija 
 | Visual | `visual.<owner>.<slug>` | `visual.discovery.jungle.placeholder` |
 | Interaction | `interaction.<owner>.<slug>` | `interaction.fixture.animal` |
 | Discovery grant | `grant.<origen>.<slug>` | `grant.interaction.<ticks>.discovery.jungle.placeholder` |
+
+`visual.discovery.jungle.keel-billed-toucan` es el primer ID visual concreto. Los IDs futuros `discovery.jungle.keel-billed-toucan` e `interaction.jungle.keel-billed-toucan` permanecen reservados: el mapping Development conserva `interaction.fixture.animal → discovery.jungle.placeholder` hasta migración y gates humanos.
+
+## Candidato visual reproducible
+
+`ToucanReviewFixtureMetadata` vive en Content y declara identidad, autoría, estado `Sourced`, bounds y referencias técnicas readonly. `ToucanFixtureSetup` compila primitives/materiales a un prefab determinista y lo conecta como hijo visual del interactable neutral; Application no conoce especie, path, prefab ni GameObject. El ledger JSON es la fuente de provenance del asset. `ToucanFixtureValidationService` permite Development y añade `TOUCAN019` en Release mientras falten especialista factual y aprobación asset-specific.
 
 Category/world/tag no son enums cerrados. El botón explícito `Generate stable ID if empty` crea un ID solo cuando el campo está vacío; nunca sobrescribe. Retirar un Discovery ID exige alias `previous → current` en el catálogo y migración de save cuando el ID ya se haya publicado. Un alias no puede colisionar con un ID vigente ni apuntar fuera del catálogo.
 
