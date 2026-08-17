@@ -48,6 +48,7 @@ Prompt 14 hace ejecutable la trazabilidad mínima: cada `EducationalFactDefiniti
 - Evidencia secundaria: transferencia dentro de otra situación del juego o explicación espontánea en playtest.
 - No se usan porcentajes, notas, “fallos”, comparaciones, cronómetros de presión ni dashboards de rendimiento infantil.
 - El área adulta resume experiencias realizadas y conceptos explorados; no etiqueta habilidad, inteligencia ni nivel del niño.
+- Las misiones usan cierre automático, no expiran y no premian velocidad ni ausencia de pistas. Su progreso orienta el loop; no es una calificación ni un registro conductual detallado.
 
 ## Hipótesis medibles
 

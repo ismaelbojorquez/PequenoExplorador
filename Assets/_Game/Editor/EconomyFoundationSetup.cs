@@ -37,7 +37,9 @@ namespace PequenoExplorador.Editor
             if (catalog == null) { catalog = ScriptableObject.CreateInstance<RewardCatalogAsset>(); AssetDatabase.CreateAsset(catalog, CatalogPath); }
             var catalogSerialized = new SerializedObject(catalog);
             SerializedProperty definitions = catalogSerialized.FindProperty("_definitions");
-            definitions.arraySize = 1; definitions.GetArrayElementAtIndex(0).objectReferenceValue = reward;
+            RewardDefinitionAsset[] retained = catalog.Definitions.Where(item => item != null && item != reward).ToArray();
+            definitions.arraySize = 1 + retained.Length; definitions.GetArrayElementAtIndex(0).objectReferenceValue = reward;
+            for (int index = 0; index < retained.Length; index++) definitions.GetArrayElementAtIndex(index + 1).objectReferenceValue = retained[index];
             catalogSerialized.ApplyModifiedPropertiesWithoutUndo();
             AssetDatabase.SaveAssets(); AssetDatabase.Refresh();
             catalog = AssetDatabase.LoadAssetAtPath<RewardCatalogAsset>(CatalogPath);
@@ -45,7 +47,7 @@ namespace PequenoExplorador.Editor
             LocalizationFoundationSetup.ApplyPhotographyEntries();
             ConfigureBootstrap(catalog);
             AssetDatabase.SaveAssets(); AssetDatabase.Refresh();
-            Debug.Log("PE_ECONOMY_SETUP_OK currency=explorer-stars rewards=1 premium=0 purchases=0 ledger=32");
+            Debug.Log($"PE_ECONOMY_SETUP_OK currency=explorer-stars rewards={catalog.Definitions.Count} premium=0 purchases=0 ledger=32");
             if (UnityEngine.Application.isBatchMode) EditorApplication.Exit(0);
         }
 

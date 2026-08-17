@@ -292,6 +292,35 @@ MonoBehaviour:
     m_Localized: A few more stars are needed. We can keep exploring.
     m_Metadata:
       m_Items: []
+  - m_Id: 229917819133952
+    m_Localized: The toucan photo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 229917835911168
+    m_Localized: Find the toucan and take a photo.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 229917835911169
+    m_Localized: Photograph the Keel-billed Toucan
+    m_Metadata:
+      m_Items: []
+  - m_Id: 229917835911170
+    m_Localized: Mission complete! The toucan is now in your album.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 229917835911171
+    m_Localized: Start mission
+    m_Metadata:
+      m_Items: []
+  - m_Id: 229917835911172
+    m_Localized: '{0}: {1} of {2}'
+    m_Metadata:
+      m_Items:
+      - rid: 6219209779658358820
+  - m_Id: 229917835911173
+    m_Localized: "Let\u2019s finish another mission first."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
@@ -305,3 +334,4 @@ MonoBehaviour:
         - id: 210606354325505
         - id: 210606354325506
         - id: 210606354325510
+        - id: 229917835911172

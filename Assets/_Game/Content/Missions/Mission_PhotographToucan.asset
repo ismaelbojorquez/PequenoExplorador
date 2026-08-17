@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f31a7b119b212474dbf1b3b34401076d, type: 3}
+  m_Name: Mission_PhotographToucan
+  m_EditorClassIdentifier: PequenoExplorador.Content::PequenoExplorador.Content.Missions.MissionDefinitionAsset
+  _id: mission.vertical-slice.photograph-toucan
+  _editorial:
+    _state: 3
+    _isPlaceholder: 0
+    _owner: Mission Design
+    _developmentWatermark: 
+  _titleTable: UI
+  _titleKey: ui.mission.photograph_toucan.title
+  _summaryTable: UI
+  _summaryKey: ui.mission.photograph_toucan.summary
+  _completionTable: UI
+  _completionKey: ui.mission.photograph_toucan.completion
+  _objectives:
+  - _id: mission-objective.photograph-toucan
+    _typeId: mission-objective-type.photograph-specific
+    _labelTable: UI
+    _labelKey: ui.mission.photograph_toucan.objective
+    _targetCount: 1
+    _subjectId: discovery.jungle.keel-billed-toucan
+    _requiredTagId: 
+  _prerequisiteIds: []
+  _rewardId: reward.mission.photograph-toucan.complete

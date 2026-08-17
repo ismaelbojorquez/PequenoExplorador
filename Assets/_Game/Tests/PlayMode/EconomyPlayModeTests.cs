@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
@@ -9,6 +10,7 @@ using PequenoExplorador.Application.Content;
 using PequenoExplorador.Application.Discovery;
 using PequenoExplorador.Application.Economy;
 using PequenoExplorador.Application.Localization;
+using PequenoExplorador.Application.Missions;
 using PequenoExplorador.Application.Photography;
 using PequenoExplorador.Application.Save;
 using PequenoExplorador.Application.Services;
@@ -26,7 +28,7 @@ namespace PequenoExplorador.Tests.PlayMode
         private static readonly DiscoveryId Toucan = DiscoveryId.Parse("discovery.jungle.keel-billed-toucan");
 
         [UnityTest]
-        public IEnumerator PhotoDiscoveryGrantsOncePersistsAndReduceMotionIsExplicit()
+        public IEnumerator PhotoDiscoveryAndMissionGrantOncePersistAndReduceMotionIsExplicit()
         {
             var store = new MemoryFileStore();
             LocalSaveService save = CreateSave(store);
@@ -36,13 +38,20 @@ namespace PequenoExplorador.Tests.PlayMode
             var photoRepository = new PlayerProgressPhotoRepository(save, autosave);
             var economyRepository = new PlayerProgressEconomyRepository(save, autosave);
             ContentCatalog content = Content();
-            var rewards = new RewardCatalog(new[] { new RewardDefinition(
-                RewardId.Parse("reward.discovery.keel-billed-toucan.first"), new ExplorerStars(1),
-                RewardSourceKind.Discovery, Toucan.Value) });
+            var rewards = new RewardCatalog(new[]
+            {
+                new RewardDefinition(RewardId.Parse("reward.discovery.keel-billed-toucan.first"), new ExplorerStars(1), RewardSourceKind.Discovery, Toucan.Value),
+                new RewardDefinition(RewardId.Parse("reward.mission.photograph-toucan.complete"), new ExplorerStars(2), RewardSourceKind.Mission, "mission.vertical-slice.photograph-toucan")
+            });
+            var missionRepository = new PlayerProgressMissionRepository(save, autosave);
+            var missions = new MissionCoordinator(Missions(), new MissionObjectiveStrategyRegistry(new IMissionObjectiveStrategy[]
+                { new DiscoverCountObjectiveStrategy(), new PhotographSpecificObjectiveStrategy(), new InteractTagObjectiveStrategy() }),
+                missionRepository, new GrantRewardUseCase(rewards, economyRepository));
+            Assert.That(missions.Activate(MissionId.Parse("mission.vertical-slice.photograph-toucan")).Outcome, Is.EqualTo(MissionActivationOutcome.Activated));
             var discover = new DiscoverUseCase(content, discoveryRepository,
                 new ManualClock(new DateTimeOffset(2026, 8, 17, 1, 0, 0, TimeSpan.Zero)), false, TimeSpan.Zero);
             var capture = new CapturePhotoUseCase(new PhotoTargetEvaluator(), new Renderer(), new PhotoStore(), photoRepository,
-                discover, rewards, new GrantRewardUseCase(rewards, economyRepository));
+                discover, rewards, new GrantRewardUseCase(rewards, economyRepository), missions);
             var target = new Photographable();
             Task<PhotoCaptureResult> first = capture.ExecuteAsync(target, "playmode-1", CancellationToken.None);
             yield return Wait(first);
@@ -50,16 +59,31 @@ namespace PequenoExplorador.Tests.PlayMode
             yield return Wait(retry);
             Assert.That(first.Result.Reward.Outcome, Is.EqualTo(GrantRewardOutcome.Granted));
             Assert.That(retry.Result.Reward.Outcome, Is.EqualTo(GrantRewardOutcome.AlreadyProcessed));
-            Assert.That(autosave.Latest.Stars, Is.EqualTo(1));
+            Assert.That(first.Result.Mission.Outcome, Is.EqualTo(MissionFactOutcome.Completed));
+            Assert.That(retry.Result.Mission.Outcome, Is.EqualTo(MissionFactOutcome.Ignored));
+            Assert.That(autosave.Latest.Stars, Is.EqualTo(3));
             yield return Wait(autosave.FlushAsync(CancellationToken.None));
 
             LocalSaveService reloaded = CreateSave(store);
             yield return Wait(reloaded.InitializeAsync(CancellationToken.None));
-            Assert.That(reloaded.Current.Stars, Is.EqualTo(1));
-            Assert.That(reloaded.Current.ProcessedEconomyTransactionIds.Count, Is.EqualTo(1));
+            Assert.That(reloaded.Current.Stars, Is.EqualTo(3));
+            Assert.That(reloaded.Current.ProcessedEconomyTransactionIds.Count, Is.EqualTo(2));
+            Assert.That(reloaded.Current.CompletedMissionIds, Does.Contain("mission.vertical-slice.photograph-toucan"));
+            Assert.That(reloaded.Current.Missions.Single().IsCompleted, Is.True);
             var go = new GameObject("EconomyViewReduceMotionTest");
             try { EconomyView view = go.AddComponent<EconomyView>(); view.SetReduceMotion(true); Assert.That(view.ReduceMotionEnabled, Is.True); }
             finally { UnityEngine.Object.DestroyImmediate(go); autosave.Dispose(); }
+        }
+
+        private static MissionCatalog Missions()
+        {
+            var objective = new MissionObjectiveDefinition(MissionObjectiveId.Parse("mission-objective.photograph-toucan"),
+                MissionObjectiveTypeIds.PhotographSpecific, LocalizationKeys.MissionPhotographToucanObjective, 1, Toucan.Value, default);
+            return new MissionCatalog(new[] { new MissionDefinition(MissionId.Parse("mission.vertical-slice.photograph-toucan"),
+                LocalizationKeys.MissionPhotographToucanTitle, LocalizationKeys.MissionPhotographToucanSummary,
+                LocalizationKeys.MissionPhotographToucanCompletion, new[] { objective }, Array.Empty<MissionId>(),
+                RewardId.Parse("reward.mission.photograph-toucan.complete"),
+                new EditorialMetadata(EditorialState.Approved, false, "Tests", string.Empty)) });
         }
 
         private static ContentCatalog Content()
@@ -74,7 +98,7 @@ namespace PequenoExplorador.Tests.PlayMode
         private static LocalSaveService CreateSave(IFileStore store) => new LocalSaveService(store, "0.1-test", new SilentLogger(),
             new ISaveMigration[] { new LegacyV0ToV1Migration(), new V1ToV2LocalizationMigration(), new V2ToV3AudioMigration(),
                 new V3ToV4DiscoveryMigration(), new V4ToV5ToucanDiscoveryMigration(), new V5ToV6PhotoProgressMigration(),
-                new V6ToV7EconomyMigration() });
+                new V6ToV7EconomyMigration(), new V7ToV8MissionMigration() });
         private static IEnumerator Wait(Task task)
         {
             float deadline = Time.realtimeSinceStartup + 15f;

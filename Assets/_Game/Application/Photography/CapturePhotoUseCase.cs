@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using PequenoExplorador.Application.Discovery;
 using PequenoExplorador.Application.Economy;
+using PequenoExplorador.Application.Missions;
 using PequenoExplorador.Domain.Economy;
 using PequenoExplorador.Domain.Content;
 using PequenoExplorador.Domain.Progress;
@@ -21,11 +22,13 @@ namespace PequenoExplorador.Application.Photography
         private readonly DiscoverUseCase _discover;
         private readonly IRewardCatalog _rewards;
         private readonly GrantRewardUseCase _grantRewards;
+        private readonly IMissionFactSink _missionFacts;
         private int _captureInProgress;
 
         public CapturePhotoUseCase(PhotoTargetEvaluator evaluator, IPhotoThumbnailRenderer renderer, IPhotoStore store,
             IPhotoProgressRepository photos, DiscoverUseCase discover,
-            IRewardCatalog rewards = null, GrantRewardUseCase grantRewards = null)
+            IRewardCatalog rewards = null, GrantRewardUseCase grantRewards = null,
+            IMissionFactSink missionFacts = null)
         {
             _evaluator = evaluator ?? throw new ArgumentNullException(nameof(evaluator));
             _renderer = renderer ?? throw new ArgumentNullException(nameof(renderer));
@@ -34,6 +37,7 @@ namespace PequenoExplorador.Application.Photography
             _discover = discover ?? throw new ArgumentNullException(nameof(discover));
             _rewards = rewards;
             _grantRewards = grantRewards;
+            _missionFacts = missionFacts;
         }
 
         public async Task<PhotoCaptureResult> ExecuteAsync(IPhotographable photographable, string captureId, CancellationToken cancellationToken)
@@ -53,9 +57,10 @@ namespace PequenoExplorador.Application.Photography
                 DiscoverResult discovery = _discover.Execute(discoveryId, DiscoveryGrantId.Parse(
                     string.Concat("grant.photo.", captureId, ".", discoveryId.Value)));
                 GrantRewardResult reward = GrantDiscoveryReward(discoveryId);
+                MissionFactResult mission = RecordMissionFacts(captureId, discovery);
                 PhotoProgress existing = _photos.Current.Photos.FirstOrDefault(item => item.DiscoveryId == discoveryId);
                 if (existing != null && existing.ScorePermille >= evaluation.ScorePermille)
-                    return new PhotoCaptureResult(PhotoCaptureOutcome.ExistingPhotoKept, evaluation, discovery, existing, reward);
+                    return new PhotoCaptureResult(PhotoCaptureOutcome.ExistingPhotoKept, evaluation, discovery, existing, reward, mission);
 
                 try
                 {
@@ -67,12 +72,12 @@ namespace PequenoExplorador.Application.Photography
                     if (!_photos.IsReadOnly) _photos.Commit(_photos.Current.WithPhotos(updated));
                     return new PhotoCaptureResult(
                         discovery.Outcome == DiscoverOutcome.First ? PhotoCaptureOutcome.CapturedNew : PhotoCaptureOutcome.CapturedRepeated,
-                        evaluation, discovery, photo, reward);
+                        evaluation, discovery, photo, reward, mission);
                 }
                 catch (OperationCanceledException) { throw; }
                 catch (Exception)
                 {
-                    return new PhotoCaptureResult(PhotoCaptureOutcome.CapturedWithoutThumbnail, evaluation, discovery, existing, reward);
+                    return new PhotoCaptureResult(PhotoCaptureOutcome.CapturedWithoutThumbnail, evaluation, discovery, existing, reward, mission);
                 }
             }
             catch (OperationCanceledException)
@@ -93,6 +98,26 @@ namespace PequenoExplorador.Application.Photography
                 EconomyTransactionId.Parse("economy-tx.discovery." + discoveryId.Value),
                 RewardSourceKind.Discovery,
                 discoveryId.Value);
+        }
+
+        private MissionFactResult RecordMissionFacts(string captureId, DiscoverResult discovery)
+        {
+            if (_missionFacts == null || !discovery.ChangedProgress) return default;
+            if (discovery.Outcome == DiscoverOutcome.First)
+            {
+                _missionFacts.Record(new GameplayFact(
+                    GameplayFactId.Parse("gameplay-fact.discovery." + captureId + "." + discovery.DiscoveryId.Value),
+                    GameplayFactTypes.Discovery,
+                    discovery.DiscoveryId.Value,
+                    Array.Empty<TagId>(),
+                    GameplayFactScope.Persistent));
+            }
+            return _missionFacts.Record(new GameplayFact(
+                GameplayFactId.Parse("gameplay-fact.photograph." + captureId + "." + discovery.DiscoveryId.Value),
+                GameplayFactTypes.Photograph,
+                discovery.DiscoveryId.Value,
+                Array.Empty<TagId>(),
+                GameplayFactScope.Persistent));
         }
 
         private static bool IsSafeCaptureId(string value)

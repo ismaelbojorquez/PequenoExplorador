@@ -119,6 +119,18 @@ namespace PequenoExplorador.Editor
             AssetDatabase.SaveAssets();
         }
 
+        public static void ApplyMissionEntries()
+        {
+            LocalizationSettings settings = AssetDatabase.LoadAssetAtPath<LocalizationSettings>(SettingsPath);
+            Locale spanish = AssetDatabase.LoadAssetAtPath<Locale>(SpanishLocalePath);
+            Locale english = AssetDatabase.LoadAssetAtPath<Locale>(EnglishLocalePath);
+            if (settings == null || spanish == null || english == null)
+                throw new InvalidOperationException("Localization foundation must exist before mission setup.");
+            LocalizationEditorSettings.ActiveLocalizationSettings = settings;
+            UpsertStringCollection(LocalizationKeys.UiTable, new[] { spanish, english }, UiEntries);
+            AssetDatabase.SaveAssets();
+        }
+
         private static readonly Entry[] SharedEntries =
         {
             new Entry("shared.product.name", "Pequeño Explorador: Aprende Jugando", "Little Explorer: Learning Through Play"),
@@ -161,6 +173,13 @@ namespace PequenoExplorador.Editor
             new Entry("ui.economy.virtual_notice", "Estrellas virtuales · se ganan jugando y no se compran", "Virtual stars · earned by playing and never purchased"),
             new Entry("ui.economy.debug_grant", "DEBUG +1 estrella", "DEBUG +1 star"),
             new Entry("ui.economy.insufficient", "Todavía faltan algunas estrellas. Podemos seguir explorando.", "A few more stars are needed. We can keep exploring."),
+            new Entry("ui.mission.photograph_toucan.title", "La foto del tucán", "The toucan photo"),
+            new Entry("ui.mission.photograph_toucan.summary", "Busca al tucán y toma una foto.", "Find the toucan and take a photo."),
+            new Entry("ui.mission.photograph_toucan.objective", "Fotografía al tucán pico canoa", "Photograph the Keel-billed Toucan"),
+            new Entry("ui.mission.photograph_toucan.completion", "¡Misión completa! El tucán quedó en tu álbum.", "Mission complete! The toucan is now in your album."),
+            new Entry("ui.mission.activate", "Comenzar misión", "Start mission"),
+            new Entry("ui.mission.progress", "{0}: {1} de {2}", "{0}: {1} of {2}", isSmart: true),
+            new Entry("ui.mission.prerequisites", "Primero terminemos otra misión.", "Let’s finish another mission first."),
             new Entry("ui.photography.open", "Vamos a tomar una foto.", "Let’s take a photo."),
             new Entry("ui.photography.move_closer", "Acércate un poquito.", "Move a little closer."),
             new Entry("ui.photography.center", "Pon al tucán dentro del marco.", "Place the toucan inside the frame."),

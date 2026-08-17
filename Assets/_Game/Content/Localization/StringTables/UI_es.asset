@@ -293,6 +293,35 @@ MonoBehaviour:
     m_Localized: "Todav\xEDa faltan algunas estrellas. Podemos seguir explorando."
     m_Metadata:
       m_Items: []
+  - m_Id: 229917819133952
+    m_Localized: "La foto del tuc\xE1n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 229917835911168
+    m_Localized: "Busca al tuc\xE1n y toma una foto."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 229917835911169
+    m_Localized: "Fotograf\xEDa al tuc\xE1n pico canoa"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 229917835911170
+    m_Localized: "\xA1Misi\xF3n completa! El tuc\xE1n qued\xF3 en tu \xE1lbum."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 229917835911171
+    m_Localized: "Comenzar misi\xF3n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 229917835911172
+    m_Localized: '{0}: {1} de {2}'
+    m_Metadata:
+      m_Items:
+      - rid: 6219209779658358817
+  - m_Id: 229917835911173
+    m_Localized: "Primero terminemos otra misi\xF3n."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
@@ -306,3 +335,4 @@ MonoBehaviour:
         - id: 210606354325505
         - id: 210606354325506
         - id: 210606354325510
+        - id: 229917835911172

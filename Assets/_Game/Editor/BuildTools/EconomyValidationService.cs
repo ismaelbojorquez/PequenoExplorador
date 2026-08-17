@@ -27,11 +27,15 @@ namespace PequenoExplorador.Editor.BuildTools
                 errors.AddRange(catalogViolations);
             if (catalog != null)
             {
-                if (catalog.Definitions.Count != 1) errors.Add("ECONOMY101 Vertical Slice must contain exactly one runtime reward definition.");
-                RewardDefinition reward = catalog.Definitions.SingleOrDefault();
+                if (catalog.Definitions.Count != 2) errors.Add("ECONOMY101 Vertical Slice must contain discovery and mission reward definitions only.");
+                RewardDefinition reward = catalog.Definitions.SingleOrDefault(item => item.SourceKind == RewardSourceKind.Discovery);
                 if (reward == null || reward.Id.Value != "reward.discovery.keel-billed-toucan.first" || reward.Amount.Value != 1 ||
                     reward.SourceKind != RewardSourceKind.Discovery || reward.SourceId != PhotographyFoundationSetup.DiscoveryId)
                     errors.Add("ECONOMY102 canonical discovery reward must grant exactly one provisional Explorer Star.");
+                RewardDefinition mission = catalog.Definitions.SingleOrDefault(item => item.SourceKind == RewardSourceKind.Mission);
+                if (mission == null || mission.Id.Value != "reward.mission.photograph-toucan.complete" || mission.Amount.Value != 2 ||
+                    mission.SourceId != "mission.vertical-slice.photograph-toucan")
+                    errors.Add("ECONOMY109 canonical mission reward must grant exactly two provisional Explorer Stars.");
             }
             Scene scene = EditorSceneManager.OpenScene(ProjectFoundationSetup.BootstrapScenePath, OpenSceneMode.Single);
             EconomyView[] views = scene.GetRootGameObjects().SelectMany(root => root.GetComponentsInChildren<EconomyView>(true)).ToArray();

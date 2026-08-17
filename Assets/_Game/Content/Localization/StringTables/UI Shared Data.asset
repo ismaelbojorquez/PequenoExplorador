@@ -347,6 +347,34 @@ MonoBehaviour:
     m_Key: ui.economy.insufficient
     m_Metadata:
       m_Items: []
+  - m_Id: 229917819133952
+    m_Key: ui.mission.photograph_toucan.title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 229917835911168
+    m_Key: ui.mission.photograph_toucan.summary
+    m_Metadata:
+      m_Items: []
+  - m_Id: 229917835911169
+    m_Key: ui.mission.photograph_toucan.objective
+    m_Metadata:
+      m_Items: []
+  - m_Id: 229917835911170
+    m_Key: ui.mission.photograph_toucan.completion
+    m_Metadata:
+      m_Items: []
+  - m_Id: 229917835911171
+    m_Key: ui.mission.activate
+    m_Metadata:
+      m_Items: []
+  - m_Id: 229917835911172
+    m_Key: ui.mission.progress
+    m_Metadata:
+      m_Items: []
+  - m_Id: 229917835911173
+    m_Key: ui.mission.prerequisites
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

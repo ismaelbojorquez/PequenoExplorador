@@ -15,6 +15,13 @@ namespace PequenoExplorador.Application.Localization
         public static readonly LocalizedKey EconomyVirtualNotice = new LocalizedKey(UiTable, "ui.economy.virtual_notice");
         public static readonly LocalizedKey EconomyDebugGrant = new LocalizedKey(UiTable, "ui.economy.debug_grant");
         public static readonly LocalizedKey EconomyInsufficient = new LocalizedKey(UiTable, "ui.economy.insufficient");
+        public static readonly LocalizedKey MissionPhotographToucanTitle = new LocalizedKey(UiTable, "ui.mission.photograph_toucan.title");
+        public static readonly LocalizedKey MissionPhotographToucanSummary = new LocalizedKey(UiTable, "ui.mission.photograph_toucan.summary");
+        public static readonly LocalizedKey MissionPhotographToucanObjective = new LocalizedKey(UiTable, "ui.mission.photograph_toucan.objective");
+        public static readonly LocalizedKey MissionPhotographToucanCompletion = new LocalizedKey(UiTable, "ui.mission.photograph_toucan.completion");
+        public static readonly LocalizedKey MissionActivate = new LocalizedKey(UiTable, "ui.mission.activate");
+        public static readonly LocalizedKey MissionProgress = new LocalizedKey(UiTable, "ui.mission.progress");
+        public static readonly LocalizedKey MissionPrerequisites = new LocalizedKey(UiTable, "ui.mission.prerequisites");
 
         public static readonly LocalizedKey DiagnosticNotice = new LocalizedKey(UiTable, "ui.diagnostic.notice");
         public static readonly LocalizedKey StatusInitializing = new LocalizedKey(UiTable, "ui.status.initializing");

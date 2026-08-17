@@ -25,7 +25,7 @@ namespace PequenoExplorador.Infrastructure.Save
             }
 
             PlayerPreferences preferences = progress.Preferences;
-            PlayerProgressV7Dto payload = PlayerProgressV7Dto.Create(
+            PlayerProgressV8Dto payload = PlayerProgressV8Dto.Create(
                 appVersion,
                 progress.Stars,
                 progress.WorldIds.ToArray(),
@@ -51,6 +51,12 @@ namespace PequenoExplorador.Infrastructure.Save
                 progress.EconomyLedger.Select(item => EconomyLedgerEntryV7Dto.Create(
                     item.TransactionId.Value, (int)item.Kind, item.RewardId.Value,
                     item.Amount.Value, item.BalanceAfter.Value)).ToArray(),
+                progress.Missions.Select(item => MissionProgressV8Dto.Create(
+                    item.Id.Value, (int)item.Status, item.ActivationSequence,
+                    item.Objectives.Select(objective => MissionObjectiveProgressV8Dto.Create(
+                        objective.Id.Value, objective.Count)).ToArray())).ToArray(),
+                progress.ProcessedMissionFactIds.ToArray(),
+                progress.LastMissionFactSequence,
                 SaveMetadataV1Dto.Create(saveSequence));
             string payloadJson = JsonUtility.ToJson(payload, false);
             return SerializeEnvelope(LocalSaveService.CurrentSchemaVersion, payloadJson);
@@ -107,10 +113,10 @@ namespace PequenoExplorador.Infrastructure.Save
 
         public DecodedSaveData DeserializeCurrentPayload(string payload)
         {
-            PlayerProgressV7Dto dto;
+            PlayerProgressV8Dto dto;
             try
             {
-                dto = JsonUtility.FromJson<PlayerProgressV7Dto>(payload);
+                dto = JsonUtility.FromJson<PlayerProgressV8Dto>(payload);
             }
             catch (Exception exception)
             {
@@ -120,6 +126,7 @@ namespace PequenoExplorador.Infrastructure.Save
             if (dto == null || string.IsNullOrWhiteSpace(dto.AppVersion) || dto.Stars < 0 ||
                 dto.WorldIds == null || dto.Discoveries == null || dto.ProcessedDiscoveryGrantIds == null || dto.Photos == null ||
                 dto.CompletedMissionIds == null || dto.ProcessedEconomyTransactionIds == null || dto.EconomyLedger == null ||
+                dto.Missions == null || dto.ProcessedMissionFactIds == null || dto.LastMissionFactSequence < 0 ||
                 dto.Settings == null || dto.Metadata == null || dto.Metadata.SaveSequence < 0 ||
                 !Enum.IsDefined(typeof(GuidanceMode), dto.Settings.GuidanceMode) ||
                 !LocaleCode.IsSupported(dto.Settings.LocaleCode, includePseudo: false) ||
@@ -172,6 +179,18 @@ namespace PequenoExplorador.Infrastructure.Save
                         (EconomyTransactionKind)item.Kind, RewardId.Parse(item.RewardId),
                         new ExplorerStars(item.Amount), new ExplorerStars(item.BalanceAfter));
                 }).ToArray();
+                var missions = dto.Missions.Select(item =>
+                {
+                    if (item == null || item.Objectives == null || item.ActivationSequence < 0 ||
+                        !Enum.IsDefined(typeof(MissionProgressStatus), item.Status))
+                        throw new SaveDataException("SavePayloadInvalid");
+                    return new MissionProgress(MissionId.Parse(item.Id), (MissionProgressStatus)item.Status,
+                        item.ActivationSequence, item.Objectives.Select(objective =>
+                        {
+                            if (objective == null || objective.Count < 0) throw new SaveDataException("SavePayloadInvalid");
+                            return new MissionObjectiveProgress(MissionObjectiveId.Parse(objective.Id), objective.Count);
+                        }));
+                }).ToArray();
                 var progress = new PlayerProgress(
                     dto.Stars,
                     dto.WorldIds,
@@ -181,7 +200,10 @@ namespace PequenoExplorador.Infrastructure.Save
                     dto.CompletedMissionIds,
                     preferences,
                     dto.ProcessedEconomyTransactionIds,
-                    ledger);
+                    ledger,
+                    missions,
+                    dto.ProcessedMissionFactIds,
+                    dto.LastMissionFactSequence);
                 return new DecodedSaveData(progress, dto.Metadata.SaveSequence);
             }
             catch (Exception exception)

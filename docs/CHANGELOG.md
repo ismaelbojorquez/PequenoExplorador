@@ -1,5 +1,26 @@
 # Changelog
 
+## Prompt 22 — data-driven mission framework — 2026-08-17
+
+### Added
+
+- `MissionDefinition`, objectives tipados, `GameplayFact`, registry de tres strategies (`discover-count`, `photograph-specific`, `interact-tag`), prerequisites, auto-completion y auto-reward.
+- Catálogo/authoring/validator de misiones, panel `PH_UI_MISSIONS` ES/EN y fixture Approved “Fotografía al tucán pico canoa” con reward provisional de 2 estrellas.
+- Save schema v8 y migración pura v7→v8; progreso, activation sequence, objective counts y fact IDs idempotentes quedan separados de DTO/JSON.
+
+### Changed
+
+- Fotografía/interacción entregan hechos semánticos mediante `IMissionFactSink`; no se añadió un segundo bus global ni un switch central.
+- La prueba PlayMode integra foto→discovery reward + mission reward→flush/reload y segunda captura sin duplicado.
+
+### Limits
+
+- Solo existe una misión; no se produjo catálogo MVP, learning, daily quests, expiración o manual claim. Panel/copy siguen baseline y requieren playtest/arte final. Android físico continúa `NOT RUN`; Gate B permanece `FAIL` hasta Prompts 23–29 y re-auditoría.
+
+### Verified
+
+- Baseline previa integral PASS: EditMode `122/122`, PlayMode `22/22` y APK Development. `scripts/validate` final PASS: validator misión, Addressables, EditMode `129/129`, PlayMode `22/22` y APK Development `106,573,659` bytes / SHA-256 `4549b2b3dd3e50399b5325f1686a688032fa9f62794f56110cc35f00b576017e`.
+
 ## Prompt 21 — Explorer Stars economy — 2026-08-17
 
 ### Added

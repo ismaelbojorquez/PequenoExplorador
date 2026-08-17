@@ -15,7 +15,7 @@ namespace PequenoExplorador.Tests.EditMode
     public sealed class SaveServiceTests
     {
         [Test]
-        public async Task FirstRunCreatesDefaultSchemaV6()
+        public async Task FirstRunCreatesDefaultCurrentSchema()
         {
             var store = new InMemoryFileStore();
             LocalSaveService service = CreateService(store);
@@ -28,7 +28,7 @@ namespace PequenoExplorador.Tests.EditMode
             Assert.That(service.Current.WorldIds, Is.Empty);
             Assert.That(service.Current.DiscoveryIds, Is.Empty);
             Assert.That(service.Current.CompletedMissionIds, Is.Empty);
-            Assert.That(envelope.SchemaVersion, Is.EqualTo(7));
+            Assert.That(envelope.SchemaVersion, Is.EqualTo(LocalSaveService.CurrentSchemaVersion));
             Assert.That(service.Current.Photos, Is.Empty);
             Assert.That(service.Current.Preferences.Language, Is.EqualTo(LanguagePreference.Spanish));
         }
@@ -148,7 +148,7 @@ namespace PequenoExplorador.Tests.EditMode
             Assert.That(service.LastLoadResult.Status, Is.EqualTo(SaveLoadStatus.Migrated));
             Assert.That(service.LastLoadResult.SourceSchemaVersion, Is.Zero);
             Assert.That(service.Current.Stars, Is.EqualTo(9));
-            Assert.That(current.SchemaVersion, Is.EqualTo(7));
+            Assert.That(current.SchemaVersion, Is.EqualTo(LocalSaveService.CurrentSchemaVersion));
             Assert.That(store.Backup, Is.EqualTo(legacy));
         }
 
@@ -194,7 +194,7 @@ namespace PequenoExplorador.Tests.EditMode
             Assert.That(service.Current.Preferences.EffectsVolume, Is.EqualTo(.75f));
             Assert.That(service.Current.Preferences.VoiceVolume, Is.Zero);
             Assert.That(service.Current.Preferences.SubtitlesEnabled, Is.True);
-            Assert.That(serializer.DeserializeEnvelope(store.Primary).SchemaVersion, Is.EqualTo(7));
+            Assert.That(serializer.DeserializeEnvelope(store.Primary).SchemaVersion, Is.EqualTo(LocalSaveService.CurrentSchemaVersion));
         }
 
         [Test]
@@ -231,7 +231,7 @@ namespace PequenoExplorador.Tests.EditMode
             Assert.That(service.Current.Discoveries[0].Count, Is.EqualTo(1));
             Assert.That(service.Current.Discoveries[0].FirstObservedLocalDate, Is.Empty);
             Assert.That(service.Current.ProcessedDiscoveryGrantIds, Is.Empty);
-            Assert.That(serializer.DeserializeEnvelope(store.Primary).SchemaVersion, Is.EqualTo(7));
+            Assert.That(serializer.DeserializeEnvelope(store.Primary).SchemaVersion, Is.EqualTo(LocalSaveService.CurrentSchemaVersion));
             Assert.That(store.Backup, Is.EqualTo(original));
         }
 
@@ -276,7 +276,7 @@ namespace PequenoExplorador.Tests.EditMode
             Assert.That(service.Current.ProcessedDiscoveryGrantIds.Count(value => value.EndsWith(
                 V4ToV5ToucanDiscoveryMigration.CurrentDiscoveryId, StringComparison.Ordinal)), Is.EqualTo(1));
             Assert.That(service.Current.ProcessedDiscoveryGrantIds, Does.Contain("grant.interaction.11.discovery.jungle.unrelated"));
-            Assert.That(serializer.DeserializeEnvelope(store.Primary).SchemaVersion, Is.EqualTo(7));
+            Assert.That(serializer.DeserializeEnvelope(store.Primary).SchemaVersion, Is.EqualTo(LocalSaveService.CurrentSchemaVersion));
             Assert.That(store.Backup, Is.EqualTo(original));
         }
 
@@ -305,7 +305,7 @@ namespace PequenoExplorador.Tests.EditMode
             Assert.That(service.Current.Stars, Is.EqualTo(4));
             Assert.That(service.Current.Discoveries.Single().Count, Is.EqualTo(2));
             Assert.That(service.Current.Photos, Is.Empty, "Migration cannot invent a rendered thumbnail.");
-            Assert.That(serializer.DeserializeEnvelope(store.Primary).SchemaVersion, Is.EqualTo(7));
+            Assert.That(serializer.DeserializeEnvelope(store.Primary).SchemaVersion, Is.EqualTo(LocalSaveService.CurrentSchemaVersion));
             Assert.That(store.Backup, Is.EqualTo(original));
         }
 
@@ -427,7 +427,8 @@ namespace PequenoExplorador.Tests.EditMode
                     new V3ToV4DiscoveryMigration(),
                     new V4ToV5ToucanDiscoveryMigration(),
                     new V5ToV6PhotoProgressMigration(),
-                    new V6ToV7EconomyMigration()
+                    new V6ToV7EconomyMigration(),
+                    new V7ToV8MissionMigration()
                 });
         }
 

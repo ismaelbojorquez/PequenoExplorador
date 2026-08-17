@@ -9,7 +9,7 @@ Estado: Prompt 21 implementado. Una sola moneda virtual ganable, local y sin rel
 | Fuente permitida | Regla |
 |---|---|
 | Discovery | Una reward única por discovery/condición definida; VS-D-A01 concede 1 estrella provisional. |
-| Misión | Una vez al completar una misión no expirable; se implementará en Prompt 22. |
+| Misión | Una vez al completar automáticamente una misión no expirable; la fixture del tucán concede 2 estrellas provisionales. |
 | Actividad educativa | Una vez según definition; no reduce por intentos/pistas; se implementará después. |
 | Colección | Hito data-driven explícito, sin temporizador/FOMO; no implementado todavía. |
 
@@ -30,7 +30,7 @@ Application.GrantRewardUseCase / SpendStarsUseCase
                 ↓
 Domain.ExplorerStars + PlayerProgress
                 ↓
-IEconomyRepository → AutosaveCoordinator.Latest → Save v7
+IEconomyRepository → AutosaveCoordinator.Latest → Save v8
 ```
 
 - `ExplorerStars` impide negativos y detecta overflow.
@@ -40,7 +40,7 @@ IEconomyRepository → AutosaveCoordinator.Latest → Save v7
 - Spend y unlock futuro deberán construir un único `PlayerProgress` antes de un checkpoint; este prompt implementa el spend wallet, no una compra de Camp.
 - Economy no referencia UI, IAP, ads, analytics, red ni UnityEngine.
 
-Fotografía intenta la reward determinista `economy-tx.discovery.discovery.jungle.keel-billed-toucan` después de registrar el discovery. Si el proceso cae entre ambas operaciones, cualquier repetición intenta la misma transaction key: aplica la reward faltante o devuelve `AlreadyProcessed`, nunca duplica.
+Fotografía intenta la reward determinista `economy-tx.discovery.discovery.jungle.keel-billed-toucan` después de registrar el discovery. La misión usa `economy-tx.mission.mission.vertical-slice.photograph-toucan`. Si el proceso cae entre estado y grant, cualquier repetición intenta la misma transaction key: aplica la reward faltante o devuelve `AlreadyProcessed`, nunca duplica.
 
 ## UI, Development y Release
 
@@ -48,11 +48,11 @@ Fotografía intenta la reward determinista `economy-tx.discovery.discovery.jungl
 
 ## Persistencia y privacidad
 
-Schema v7 conserva el campo histórico `stars`, añade `processedEconomyTransactionIds[]` y `economyLedger[]`. `v6→v7` preserva el saldo previo y crea ambos arrays vacíos; no inventa rewards históricas. Son IDs técnicos y cantidades agregadas locales, sin PII ni red. El checksum detecta corrupción, no es cifrado.
+Schema v8 conserva el wallet/keys/ledger de v7 sin reinterpretarlos y añade progreso de misión por migración `v7→v8`. Son IDs técnicos y cantidades agregadas locales, sin PII ni red. El checksum detecta corrupción, no es cifrado.
 
 ## Validación
 
 - EditMode: invariantes, grant, spend, insuficiente, overflow, source mismatch, idempotencia, retry tras commit fallido, ledger 32 y migración v6→v7.
-- PlayMode: fotografía→discovery→1 estrella→retry sin duplicado→flush→recrear servicio; reduce-motion explícito.
+- PlayMode: fotografía→discovery (1) + misión (2) → 3 estrellas→segunda captura sin duplicado→flush→recrear servicio; reduce-motion explícito.
 - `scripts/validate-economy`: catálogo, reward fixture, safe area/targets y límites de dependencias.
 - `scripts/validate`: compile, Addressables, suites y APK Android Development.

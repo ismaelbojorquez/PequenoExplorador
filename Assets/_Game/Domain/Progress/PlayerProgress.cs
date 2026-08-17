@@ -17,6 +17,8 @@ namespace PequenoExplorador.Domain.Progress
         private readonly string[] _completedMissionIds;
         private readonly string[] _processedEconomyTransactionIds;
         private readonly EconomyLedgerEntry[] _economyLedger;
+        private readonly MissionProgress[] _missions;
+        private readonly string[] _processedMissionFactIds;
 
         public PlayerProgress(
             int stars,
@@ -68,7 +70,10 @@ namespace PequenoExplorador.Domain.Progress
             IEnumerable<string> completedMissionIds,
             PlayerPreferences preferences,
             IEnumerable<string> processedEconomyTransactionIds,
-            IEnumerable<EconomyLedgerEntry> economyLedger)
+            IEnumerable<EconomyLedgerEntry> economyLedger,
+            IEnumerable<MissionProgress> missions = null,
+            IEnumerable<string> processedMissionFactIds = null,
+            long lastMissionFactSequence = 0)
         {
             if (stars < 0)
             {
@@ -87,6 +92,12 @@ namespace PequenoExplorador.Domain.Progress
             if (_economyLedger.Any(item => !_processedEconomyTransactionIds.Contains(item.TransactionId.Value, StringComparer.Ordinal)))
                 throw new ArgumentException("Economy ledger entries must reference processed transaction IDs.", nameof(economyLedger));
             Preferences = preferences ?? throw new ArgumentNullException(nameof(preferences));
+            _missions = CopyAndValidateMissions(missions ?? Array.Empty<MissionProgress>());
+            _processedMissionFactIds = CopyAndValidateMissionFactIds(processedMissionFactIds ?? Array.Empty<string>());
+            if (lastMissionFactSequence < 0) throw new ArgumentOutOfRangeException(nameof(lastMissionFactSequence));
+            LastMissionFactSequence = lastMissionFactSequence;
+            if (_missions.Where(item => item.IsCompleted).Any(item => !_completedMissionIds.Contains(item.Id.Value, StringComparer.Ordinal)))
+                throw new ArgumentException("Completed mission progress must appear in completed mission IDs.", nameof(missions));
         }
 
         public int Stars { get; }
@@ -100,6 +111,9 @@ namespace PequenoExplorador.Domain.Progress
         public ExplorerStars Wallet => new ExplorerStars(Stars);
         public IReadOnlyList<string> ProcessedEconomyTransactionIds => _processedEconomyTransactionIds;
         public IReadOnlyList<EconomyLedgerEntry> EconomyLedger => _economyLedger;
+        public IReadOnlyList<MissionProgress> Missions => _missions;
+        public IReadOnlyList<string> ProcessedMissionFactIds => _processedMissionFactIds;
+        public long LastMissionFactSequence { get; }
 
         public static PlayerProgress CreateDefault()
         {
@@ -122,7 +136,10 @@ namespace PequenoExplorador.Domain.Progress
                 _completedMissionIds,
                 Preferences,
                 _processedEconomyTransactionIds,
-                _economyLedger);
+                _economyLedger,
+                _missions,
+                _processedMissionFactIds,
+                LastMissionFactSequence);
         }
 
         public PlayerProgress WithPreferences(PlayerPreferences preferences)
@@ -136,7 +153,10 @@ namespace PequenoExplorador.Domain.Progress
                 _completedMissionIds,
                 preferences,
                 _processedEconomyTransactionIds,
-                _economyLedger);
+                _economyLedger,
+                _missions,
+                _processedMissionFactIds,
+                LastMissionFactSequence);
         }
 
         public PlayerProgress WithDiscoveryState(
@@ -152,7 +172,10 @@ namespace PequenoExplorador.Domain.Progress
                 _completedMissionIds,
                 Preferences,
                 _processedEconomyTransactionIds,
-                _economyLedger);
+                _economyLedger,
+                _missions,
+                _processedMissionFactIds,
+                LastMissionFactSequence);
         }
 
         public PlayerProgress WithPhotos(IEnumerable<PhotoProgress> photos)
@@ -166,13 +189,40 @@ namespace PequenoExplorador.Domain.Progress
                 _completedMissionIds,
                 Preferences,
                 _processedEconomyTransactionIds,
-                _economyLedger);
+                _economyLedger,
+                _missions,
+                _processedMissionFactIds,
+                LastMissionFactSequence);
         }
 
         public PlayerProgress WithEconomy(ExplorerStars balance, IEnumerable<string> processedTransactionIds,
             IEnumerable<EconomyLedgerEntry> ledger) => new PlayerProgress(
             balance.Value, _worldIds, _discoveries, _processedDiscoveryGrantIds, _photos,
-            _completedMissionIds, Preferences, processedTransactionIds, ledger);
+            _completedMissionIds, Preferences, processedTransactionIds, ledger,
+            _missions, _processedMissionFactIds, LastMissionFactSequence);
+
+        public PlayerProgress WithMissionState(IEnumerable<MissionProgress> missions,
+            IEnumerable<string> completedMissionIds, IEnumerable<string> processedFactIds, long lastFactSequence) =>
+            new PlayerProgress(Stars, _worldIds, _discoveries, _processedDiscoveryGrantIds, _photos,
+                completedMissionIds, Preferences, _processedEconomyTransactionIds, _economyLedger,
+                missions, processedFactIds, lastFactSequence);
+
+        private static MissionProgress[] CopyAndValidateMissions(IEnumerable<MissionProgress> values)
+        {
+            MissionProgress[] result = (values ?? throw new ArgumentNullException(nameof(values))).ToArray();
+            if (result.Any(item => item == null)) throw new ArgumentException("Mission progress cannot contain null.", nameof(values));
+            if (result.Select(item => item.Id).Distinct().Count() != result.Length)
+                throw new ArgumentException("Mission progress IDs must be unique.", nameof(values));
+            return result.OrderBy(item => item.Id.Value, StringComparer.Ordinal).ToArray();
+        }
+
+        private static string[] CopyAndValidateMissionFactIds(IEnumerable<string> values)
+        {
+            string[] result = CopyAndValidateIds(values, nameof(values));
+            if (result.Any(value => !GameplayFactId.TryParse(value, out _)))
+                throw new ArgumentException("Mission fact IDs are invalid.", nameof(values));
+            return result.OrderBy(value => value, StringComparer.Ordinal).ToArray();
+        }
 
         private static string[] CopyAndValidateEconomyTransactionIds(IEnumerable<string> values)
         {

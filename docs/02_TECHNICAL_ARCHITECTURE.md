@@ -1,6 +1,6 @@
 # Arquitectura técnica — fronteras modulares
 
-Estado: foundation, catálogo data-driven, manifiesto Selva, scene flow, save v7, localización, audio, input, locomoción, interacción, discovery, fotografía, álbum y economía simple implementados para `VS-D-A01`. No existen misiones runtime ni contenido masivo. `Bootstrap` persiste y entra a Camp placeholder.
+Estado: foundation, catálogo data-driven, manifiesto Selva, scene flow, save v8, localización, audio, input, locomoción, interacción, discovery, fotografía, álbum, economía y misiones implementados para `VS-D-A01`. No existe learning ni contenido masivo. `Bootstrap` persiste y entra a Camp placeholder.
 
 ## Grafo real de assemblies
 
@@ -126,14 +126,14 @@ Domain.PlayerProgress
 Application.ISaveService / AutosaveCoordinator / IFileStore
           ↓
 Infrastructure.LocalSaveService
-  ├─ UnityJsonSaveSerializer → envelope/DTO v1…v7 + SHA-256
+  ├─ UnityJsonSaveSerializer → envelope/DTO v1…v8 + SHA-256
   ├─ ISaveMigration[] → pasos n→n+1
   └─ LocalFileStore → persistentDataPath/Save
 ```
 
 Application y features no conocen JSON ni paths. Infrastructure referencia Domain directamente porque implementa firmas públicas que mapean `PlayerProgress`; la dirección sigue hacia adentro y el grafo permanece acíclico. Bootstrap es el único lugar que resuelve `Application.persistentDataPath`. Presentation solo consume `SaveUserNotice` para copy recuperable. Contrato, archivos, downgrade y recovery: [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md).
 
-Las thumbnails no entran al envelope: `IPhotoStore` posee `persistentDataPath/Photos`, PNG/manifest/temp; `PlayerProgress` v7 guarda solo metadata y referencia relativa. El store inicia después de Save y se inyecta al caso de uso desde Bootstrap.
+Las thumbnails no entran al envelope: `IPhotoStore` posee `persistentDataPath/Photos`, PNG/manifest/temp; `PlayerProgress` v8 guarda solo metadata y referencia relativa. El store inicia después de Save y se inyecta al caso de uso desde Bootstrap.
 
 ### Localización
 
@@ -199,12 +199,12 @@ Content DiscoveryDefinition ──→ DiscoverUseCase ←── IClock + grant.*
                                       ↓
                          IDiscoveryProgressRepository
                                       ↓
-               PlayerProgress v7 → AutosaveCoordinator.Latest
+               PlayerProgress v8 → AutosaveCoordinator.Latest
                                       ↓
                     Infrastructure Save DTO/migration/file
 ```
 
-Domain posee `DiscoveryProgress` y value IDs; Application decide first/repeat/idempotencia/aprobación y calcula queries contra el catálogo; Infrastructure serializa DTO v7 y conserva las migraciones; Bootstrap compone. `DiscoverResult` no conoce Economy, UI ni Audio. El día local se reduce a `yyyy-MM-dd`; no se guarda hora/zona/identidad. Los denominadores se derivan de definitions Approved vigentes.
+Domain posee `DiscoveryProgress` y value IDs; Application decide first/repeat/idempotencia/aprobación y calcula queries contra el catálogo; Infrastructure serializa DTO v8 y conserva las migraciones; Bootstrap compone. `DiscoverResult` no conoce Economy, UI ni Audio. El día local se reduce a `yyyy-MM-dd`; no se guarda hora/zona/identidad. Los denominadores se derivan de definitions Approved vigentes.
 
 ### Fotografía asistida
 
@@ -223,7 +223,19 @@ Application combina catálogo, progreso y metadata sin conocer Unity. Una entry 
 
 ### Economía simple
 
-Features producen IDs semánticos; `GrantRewardUseCase`/`SpendStarsUseCase` operan sobre `ExplorerStars` y un `IEconomyRepository` explícito. Content compila `RewardDefinitionAsset` a catálogo readonly. `PlayerProgress` v7 persiste transaction keys durables y ledger diagnóstico de 32; Bootstrap es el único composition root. Presentation solo observa saldo/resultados y no conoce Save, IAP o Ads. Contrato: [`ECONOMY_REWARDS.md`](ECONOMY_REWARDS.md).
+Features producen IDs semánticos; `GrantRewardUseCase`/`SpendStarsUseCase` operan sobre `ExplorerStars` y un `IEconomyRepository` explícito. Content compila `RewardDefinitionAsset` a catálogo readonly. `PlayerProgress` v8 persiste transaction keys durables y ledger diagnóstico de 32; Bootstrap es el único composition root. Presentation solo observa saldo/resultados y no conoce Save, IAP o Ads. Contrato: [`ECONOMY_REWARDS.md`](ECONOMY_REWARDS.md).
+
+### Misiones data-driven
+
+```text
+Photography/Interaction → GameplayFact → IMissionFactSink
+                                        ↓
+Content MissionCatalog → MissionCoordinator → strategy registry
+                                        ├─ IMissionRepository → PlayerProgress v8
+                                        └─ GrantRewardUseCase → Economy
+```
+
+Domain posee IDs y estado/contadores puros. Application posee facts, definitions, strategies y coordinación; Content mapea ScriptableObjects y valida referencias/grafo; Bootstrap registra las tres strategies y enlaza catálogo/repositorio/economy; Presentation solo observa view models y activa misiones. No hay bus paralelo, reflection, switch central por tipo, timer, claim manual ni referencia Unity en reglas. Facts anteriores a `activationSequence` no cuentan y dos barreras idempotentes protegen fact y reward. Contrato: [`09_MISSION_SYSTEM.md`](09_MISSION_SYSTEM.md).
 
 ## Scene flow y contenido local
 
@@ -256,7 +268,7 @@ El bus en memoria solo cubre fan-out acotado. `Subscribe<T>` devuelve `IDisposab
 | Analytics | `NullAnalyticsService` | `NullAnalyticsService` |
 | Ads | `MockAdsService` si flag local ON; default ON | `NoAdsService`; `MockAds` prohibido |
 | Purchases | `MockPurchaseService` si flag local ON; default ON | `UnavailablePurchaseService`; `MockPurchases` prohibido |
-| Save/Photos/Economy | Local schema v7 + photo store + debug grant compilado | Igual; debug grant/simuladores/tooling excluidos |
+| Save/Photos/Economy/Missions | Local schema v8 + photo store + debug grant compilado | Igual; debug grant/simuladores/tooling excluidos |
 | Localization | ES/EN + pseudo y selector diagnóstico | ES/EN; pseudo/selector diagnóstico excluidos |
 | Audio | Mixer/cues PH_, panel y replay diagnóstico | Servicio local; panel oculto y placeholders bloquean Release de contenido |
 | Input/safe area | 5 mapas; Debug overlay local; presets de ratio | Mapas de producto, Debug deshabilitado; safe area local |
@@ -299,4 +311,4 @@ Subdividir un assembly requiere evidencia de tiempos de compilación, ownership,
 - Unity `6000.3.22f1`, Addressables `4.0.1`, AI Navigation `2.0.9`, URP `17.3.0`, Input System `1.20.0`, Test Framework `1.6.0`, uGUI `2.0.0`.
 - Bootstrap es la única escena habilitada en Build Settings; Camp/Jungle son locales Addressable. Development muestra navegación/fallo simulado; Release oculta controles Development.
 - Android sigue min API 26, target/compile 36, IL2CPP y ARM64; sin manifest/Gradle custom ni permiso sensible nuevo.
-- Existen locomoción, interacción, discovery, fotografía, álbum y economía simple para `VS-D-A01`; no existen misiones/UI final, contenido remoto ni SDKs comerciales. Save schema v7 no guarda PII/cuentas/pixels; ads/IAP/analytics son únicamente Null/Mock/Unavailable locales sin red.
+- Existen locomoción, interacción, discovery, fotografía, álbum, economía y una misión para `VS-D-A01`; no existen learning/UI final, contenido remoto ni SDKs comerciales. Save schema v8 no guarda PII/cuentas/pixels; ads/IAP/analytics son únicamente Null/Mock/Unavailable locales sin red.

@@ -1,6 +1,6 @@
 # Índice documental
 
-Estado: foundation, scene flow local, persistencia schema v7, localización/audio/input, `VS-D-A01` runtime Approved, manifest Selva, locomoción, interacción, discovery, fotografía, álbum y economía simple disponibles; todavía no existen misiones runtime ni contenido masivo. Empezar siempre por [`../AGENTS.md`](../AGENTS.md) y [`STATUS.md`](STATUS.md).
+Estado: foundation, scene flow local, persistencia schema v8, localización/audio/input, `VS-D-A01` runtime Approved, manifest Selva, locomoción, interacción, discovery, fotografía, álbum, economía y una misión data-driven disponibles; todavía no existe learning ni contenido masivo. Empezar siempre por [`../AGENTS.md`](../AGENTS.md) y [`STATUS.md`](STATUS.md).
 
 ## Fuentes de verdad
 
@@ -17,6 +17,7 @@ Estado: foundation, scene flow local, persistencia schema v7, localización/audi
 | Persistencia | [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md) | Schema, archivos, migración, atomicidad, privacidad y recovery. |
 | Fotografía ficticia | [`PHOTOGRAPHY_SYSTEM.md`](PHOTOGRAPHY_SYSTEM.md) | Evaluación asistida, captura virtual, thumbnail/store, fallos, privacidad y budgets. |
 | Economía | [`ECONOMY_REWARDS.md`](ECONOMY_REWARDS.md) | Única moneda, rewards/spend idempotentes y prohibiciones no manipulativas. |
+| Misiones | [`09_MISSION_SYSTEM.md`](09_MISSION_SYSTEM.md) | Facts, strategies, progreso/prerrequisitos, auto-completion y reward. |
 | Configuración runtime | [`RUNTIME_CONFIGURATION.md`](RUNTIME_CONFIGURATION.md) | Perfiles/flags locales, autoridades, mapping y guardrails Release. |
 | Localización | [`17_LOCALIZATION.md`](17_LOCALIZATION.md) | Locales ES/EN, pseudo Development, keys/tablas, fallback, CSV y validación. |
 | Input y locomoción | [`INPUT_ACCESSIBILITY.md`](INPUT_ACCESSIBILITY.md) | Mapas semánticos, gestos, tap-to-move candidato, cámara asistida, safe area, Back, haptics y límites de hardware. |
@@ -59,7 +60,7 @@ Los saltos numéricos reservan espacio para documentos técnicos futuros; no imp
 - [`DEPENDENCY_REGISTER.md`](DEPENDENCY_REGISTER.md): intake y pins de paquetes directos/transitivos.
 - [`CONTENT_PIPELINE.md`](CONTENT_PIPELINE.md): Addressables local, addresses/labels, ownership, build y evolución.
 - [`CONTENT_MODEL.md`](CONTENT_MODEL.md): catálogo O(1), ScriptableObjects, IDs, reports y bloqueo Release de Draft.
-- [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md): schema v7, DTOs, checksum, backup, migraciones, autosave y recuperación.
+- [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md): schema v8, DTOs, checksum, backup, migraciones, autosave y recuperación.
 - [`ECONOMY_REWARDS.md`](ECONOMY_REWARDS.md): Estrellas de Explorador, fuentes/usos, idempotencia, ledger y límites infantiles.
 - [`PHOTOGRAPHY_SYSTEM.md`](PHOTOGRAPHY_SYSTEM.md): cámara del explorador sin cámara física, evaluator, thumbnail acotada y store local.
 - [`PRIVACY_ENGINEERING.md`](PRIVACY_ENGINEERING.md): inventario técnico de datos/permisos y controles offline; no es asesoría legal.

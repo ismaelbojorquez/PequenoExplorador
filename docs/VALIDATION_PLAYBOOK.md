@@ -37,6 +37,8 @@ scripts/compile
 scripts/validate-content
 scripts/validate-localization
 scripts/validate-album
+scripts/validate-economy
+scripts/validate-missions
 scripts/build-addressables-local
 scripts/test-editmode
 scripts/test-playmode
@@ -70,6 +72,7 @@ scripts/build-android-release  # fallo esperado: signing externo requerido
 | Locomoción/NavMesh | Validator de pin/prefab/surface/data/cámara/tuning, estados/allocations EditMode, tap válido/inválido/mapas/reduce-motion/unload x3 PlayMode y APK; touch/FPS físico si el Gate lo exige. |
 | Interacción contextual | Catálogo/IDs/copy/cues, collider/punto NavMesh/targets, prioridad-rango-cancel-idempotencia EditMode, tap/approach/spam/unavailable/UI/destroy/unload PlayMode y APK; touch físico si el Gate lo exige. |
 | Álbum/colección | `scripts/validate-album`, Approved/locked sin fuga, contadores/filtros, missing/removed, photo manifest/cancel/cache, navegación/detalle/Back, ES/EN/pseudo, 4:3–20:9 y APK; fuente grande/touch físico si el Gate lo exige. |
+| Misiones | `scripts/validate-missions`, tres strategies, pre-event/duplicate, prerequisites/ciclos, completion+reward idempotente, migración, removed content, PlayMode persistente y APK. |
 | Localización/copy | Validator de locales/tablas/keys/glifos, ES/EN no vacíos, Smart Strings, pseudo/layout, persistencia y APK por locale cuando cambie runtime. |
 | AppConfig/perfiles | Validar ambos assets, mapping/rangos/duplicados, flags Release, override Editor, PlayMode del perfil seleccionado y ambos paths de build/guard. |
 | Save/Infrastructure | Tests de round-trip, versión, migración, corrupción, cancelación/interrupción y PII. |
