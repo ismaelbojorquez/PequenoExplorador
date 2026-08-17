@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-08-17 — Gate B physical/Child UX audit
+
+- `GATE B: FAIL`: APK exacto `5c382e…` verificado byte a byte en HONOR DNY-NX9/Android 16; cinco logs entregados y cinco rechecks llegan Ready→Camp sin fatal, confirmando que el crash `level0` sigue cerrado.
+- Capturas físicas reproducen roots/paneles simultáneos y hitboxes solapados en Camp/Expedition; Selva queda oculta aunque SceneFlow complete. Un tap de locale activa Tutorial y el saldo pasó 4→6 con grants debug no intencionales.
+- Rotación landscape en caliente deja framebuffer negro al menos 12 s y no recupera sin reiniciar Activity. Back→pausa, background/resume y boot offline pasan parcialmente.
+- `journey-final.log` solo cubría Boot→Camp; actividad, foto, discovery, misión, álbum, mejora, segunda sesión, audio/EN/reduce-motion y playtest infantil/no lector quedan `NOT RUN/BLOCKED`, no PASS.
+- `scripts/validate` PASS técnico: EditMode `169/169`, PlayMode `29/29`, Addressables local y APK rebuild `34613b…`; no sustituye el FAIL físico. Prompt 31 permanece bloqueado y se exige ExecPlan de UI/lifecycle antes de reauditar.
+
 ## 2026-08-17 — Android Bootstrap serialization repair
 
 - Reproducido en HONOR DNY-NX9 el cierre tras splash: Unity abortaba con `SIGTRAP`, `CachedReader::OutOfBoundsError` y `level0 is corrupted` al deserializar Bootstrap; el APK instalado y local eran idénticos e íntegros.

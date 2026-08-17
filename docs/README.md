@@ -82,8 +82,9 @@ Los saltos numéricos reservan espacio para documentos técnicos futuros; no imp
 - [`16_AUDIO.md`](16_AUDIO.md) y [`AUDIO_REQUIREMENTS.md`](AUDIO_REQUIREMENTS.md): dirección, framework, buses, cues, ledger `PH_` y blockers humanos.
 - [`CHANGELOG.md`](CHANGELOG.md): cambios por fase.
 - [`audits/GATE_A_2026-08-15.md`](audits/GATE_A_2026-08-15.md): auditoría independiente de foundation, hallazgos y evidencia ejecutada.
-- [`audits/GATE_B_2026-08-17.md`](audits/GATE_B_2026-08-17.md): auditoría vigente del loop P29; `CONDITIONAL` por Android físico y playtest infantil/no lector `NOT RUN`, con integración técnica 5/5.
-- [`audits/GATE_B_2026-08-17_ANDROID_BOOTSTRAP_FIX.md`](audits/GATE_B_2026-08-17_ANDROID_BOOTSTRAP_FIX.md): adenda del crash tras splash; causa `MonoScript` incrustado reparada, validator fail-closed y arranque físico hasta Camp verificado. Gate B sigue `CONDITIONAL` por matriz touch/playtest.
+- [`audits/GATE_B_2026-08-17.md`](audits/GATE_B_2026-08-17.md): auditoría condicional histórica previa a la matriz física; integración técnica automatizada 5/5, Android físico y playtest infantil/no lector entonces `NOT RUN`.
+- [`audits/GATE_B_2026-08-17_ANDROID_BOOTSTRAP_FIX.md`](audits/GATE_B_2026-08-17_ANDROID_BOOTSTRAP_FIX.md): adenda histórica del crash tras splash; causa `MonoScript` incrustado reparada, validator fail-closed y arranque físico hasta Camp verificado. Gate B permanecía `CONDITIONAL` en ese punto.
+- [`audits/GATE_B_2026-08-17_PHYSICAL_AND_CHILD_UX.md`](audits/GATE_B_2026-08-17_PHYSICAL_AND_CHILD_UX.md): auditoría física vigente; `FAIL` por composición/hitboxes UI, Selva oculta, rotación negra y playtest no ejecutado. Sustituye el veredicto condicional para decidir la siguiente acción.
 - [`audits/GATE_B_2026-08-16.md`](audits/GATE_B_2026-08-16.md): auditoría histórica sobre Prompt 18; su `FAIL` documentó correctamente que el journey todavía no existía.
 
 ## Evidencia de preflight
