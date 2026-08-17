@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab1805ffd70a44484a4d099e65a5164b, type: 3}
+  m_Name: PH_Concept_ToucanDiet
+  m_EditorClassIdentifier: PequenoExplorador.Content::PequenoExplorador.Content.Learning.LearningConceptDefinitionAsset
+  _id: concept.nature.diet.fruit-primary
+  _editorial:
+    _state: 1
+    _isPlaceholder: 1
+    _owner: "Learning Design \u2014 revisi\xF3n humana pendiente"
+    _developmentWatermark: "FUENTE VERIFICADA \xB7 REPRESENTACI\xD3N PH_ PENDIENTE"
+  _labelTable: UI
+  _labelKey: ui.learning.concept.toucan_diet

@@ -381,6 +381,58 @@ MonoBehaviour:
     m_Localized: You can come back whenever you like.
     m_Metadata:
       m_Items: []
+  - m_Id: 251180197339136
+    m_Localized: "Let\u2019s discover what it likes to eat."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 251180218310656
+    m_Localized: What would the toucan choose?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 251180218310657
+    m_Localized: Tap what the toucan mostly eats.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 251180218310658
+    m_Localized: Great observation!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 251180218310659
+    m_Localized: "The toucan looks curious. Let\u2019s try another option."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 251180218310660
+    m_Localized: Look for something that grows on a plant.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 251180218310661
+    m_Localized: It is juicy and has seeds.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 251180218310662
+    m_Localized: You can try the fruit.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 251180218310663
+    m_Localized: Fruit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 251180218310664
+    m_Localized: Rock
+    m_Metadata:
+      m_Items: []
+  - m_Id: 251180218310665
+    m_Localized: Hat
+    m_Metadata:
+      m_Items: []
+  - m_Id: 251180218310666
+    m_Localized: Match animals with their main food
+    m_Metadata:
+      m_Items: []
+  - m_Id: 252953859448832
+    m_Localized: Discover what it eats
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

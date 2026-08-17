@@ -57,3 +57,5 @@ Contenido retirado conserva su estado en save y se ignora de forma segura. Schem
 ## Validación y aceptación
 
 `scripts/validate-missions` verifica catálogo, referencias, localization, reward, editorial, UI/safe area y ausencia de un switch central. EditMode cubre tres strategies, pre-eventos, duplicados, multi-completion, reconciliación de arranque, prerequisites/ciclos, contenido retirado y migración v7→v8. PlayMode cubre foto→misión→reward→flush→reload y segunda captura sin duplicación. La comprensión infantil y Android táctil físico siguen pendientes; no son sustituidos por suites automatizadas.
+
+Prompt 24 reutiliza `GameplayFactTypes.LearningCompleted`: completar `activity.jungle.keel-billed-toucan.choose-food` emite el subject Activity ID una vez y puede alimentar objetivos educativos futuros sin un segundo bus. No se añade una misión nueva ni se cambia la misión fotográfica Approved; la reward de actividad mantiene su propia transaction key.

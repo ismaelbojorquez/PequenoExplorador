@@ -8,6 +8,7 @@ using PequenoExplorador.Application.Localization;
 using PequenoExplorador.Bootstrap;
 using PequenoExplorador.Content.Audio;
 using PequenoExplorador.Presentation.Audio;
+using PequenoExplorador.Presentation.Accessibility;
 using UnityEditor;
 using UnityEditor.AddressableAssets;
 using UnityEditor.AddressableAssets.Settings;
@@ -36,7 +37,9 @@ namespace PequenoExplorador.Editor
             new CueSeed("audio.feedback.retry", AudioCueCategory.Feedback, AudioBus.Effects, AudioPriority.Normal, false, 0.08f, 0.24f, null, "PH_FEEDBACK_RETRY", "PH_Feedback_Retry", 392f, 392f, 0.18f),
             new CueSeed("audio.voice.instruction.explore", AudioCueCategory.VoiceInstruction, AudioBus.Voice, AudioPriority.High, false, 0f, 0.30f, "content.audio.instruction.explore", "PH_VOICE_INSTRUCTION_EXPLORE", "PH_Voice_Instruction_Explore", 294f, 330f, 0.55f),
             new CueSeed("audio.voice.name.jungle", AudioCueCategory.VoiceName, AudioBus.Voice, AudioPriority.Normal, false, 0f, 0.30f, "content.audio.name.jungle", "PH_VOICE_NAME_JUNGLE", "PH_Voice_Name_Jungle", 349f, 370f, 0.38f),
-            new CueSeed("audio.voice.narration.welcome", AudioCueCategory.Narration, AudioBus.Voice, AudioPriority.Critical, false, 0f, 0.30f, "content.audio.narration.welcome", "PH_VOICE_NARRATION_WELCOME", "PH_Voice_Narration_Welcome", 262f, 277f, 0.60f)
+            new CueSeed("audio.voice.narration.welcome", AudioCueCategory.Narration, AudioBus.Voice, AudioPriority.Critical, false, 0f, 0.30f, "content.audio.narration.welcome", "PH_VOICE_NARRATION_WELCOME", "PH_Voice_Narration_Welcome", 262f, 277f, 0.60f),
+            new CueSeed("audio.voice.instruction.toucan-food", AudioCueCategory.VoiceInstruction, AudioBus.Voice, AudioPriority.High, false, 0f, 0.28f, "content.audio.instruction.toucan-food", "PH_VOICE_INSTRUCTION_TOUCAN_FOOD", "PH_Voice_Instruction_ToucanFood", 330f, 349f, 0.62f),
+            new CueSeed("audio.voice.fact.toucan-fruit", AudioCueCategory.Narration, AudioBus.Voice, AudioPriority.Critical, false, 0f, 0.28f, "content.audio.fact.toucan-fruit", "PH_VOICE_FACT_TOUCAN_FRUIT", "PH_Voice_Fact_ToucanFruit", 392f, 415f, 0.52f)
         };
 
         [MenuItem("Pequeño Explorador/Development/Audio/Apply Foundation")]
@@ -61,7 +64,7 @@ namespace PequenoExplorador.Editor
                 ConfigureBootstrapScene(catalog);
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
-                Debug.Log("PE_AUDIO_SETUP_OK buses=5 cues=7 clips=10 placeholders=10 sampleRate=48000 remote=false");
+                Debug.Log("PE_AUDIO_SETUP_OK buses=5 cues=9 clips=14 placeholders=14 sampleRate=48000 remote=false");
                 if (UnityEngine.Application.isBatchMode) EditorApplication.Exit(0);
             }
             catch (Exception exception)
@@ -216,7 +219,7 @@ namespace PequenoExplorador.Editor
             GameObject old = GameObject.Find("PH_UI_AUDIO_DIAGNOSTIC");
             if (old != null) UnityEngine.Object.DestroyImmediate(old);
 
-            var canvasObject = new GameObject("PH_UI_AUDIO_DIAGNOSTIC", typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
+            var canvasObject = new GameObject("PH_UI_AUDIO_DIAGNOSTIC", typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster), typeof(SafeAreaFitter));
             Canvas canvas = canvasObject.GetComponent<Canvas>();
             canvas.renderMode = RenderMode.ScreenSpaceOverlay;
             canvas.sortingOrder = 120;
@@ -256,6 +259,15 @@ namespace PequenoExplorador.Editor
             var bootstrapSerialized = new SerializedObject(bootstrap);
             bootstrapSerialized.FindProperty("_audioView").objectReferenceValue = view;
             bootstrapSerialized.FindProperty("_audioCatalog").objectReferenceValue = catalog;
+            SerializedProperty fitters = bootstrapSerialized.FindProperty("_safeAreaFitters");
+            var existingFitters = new List<SafeAreaFitter>();
+            for (int index = 0; index < fitters.arraySize; index++)
+                if (fitters.GetArrayElementAtIndex(index).objectReferenceValue is SafeAreaFitter existing && existing != null)
+                    existingFitters.Add(existing);
+            existingFitters.Add(canvasObject.GetComponent<SafeAreaFitter>());
+            fitters.arraySize = existingFitters.Count;
+            for (int index = 0; index < existingFitters.Count; index++)
+                fitters.GetArrayElementAtIndex(index).objectReferenceValue = existingFitters[index];
             bootstrapSerialized.ApplyModifiedPropertiesWithoutUndo();
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene);

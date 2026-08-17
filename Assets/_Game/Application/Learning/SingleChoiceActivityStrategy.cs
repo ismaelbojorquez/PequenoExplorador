@@ -17,8 +17,14 @@ namespace PequenoExplorador.Application.Learning
         {
             if (definition == null) throw new ArgumentNullException(nameof(definition));
             if (session == null) throw new ArgumentNullException(nameof(session));
-            bool accepted = submission.OptionId.IsValid && definition.Options.Any(item => item.Id.Equals(submission.OptionId));
-            return new LearningEvaluation(accepted, accepted && definition.CorrectOptionId.Equals(submission.OptionId));
+            LearningOptionDefinition selected = submission.OptionId.IsValid
+                ? definition.Options.FirstOrDefault(item => item.Id.Equals(submission.OptionId))
+                : null;
+            bool accepted = selected != null;
+            bool correct = accepted && (definition.CorrectTagId.IsValid
+                ? selected.TagId == definition.CorrectTagId
+                : definition.CorrectOptionId.Equals(submission.OptionId));
+            return new LearningEvaluation(accepted, correct);
         }
     }
 }

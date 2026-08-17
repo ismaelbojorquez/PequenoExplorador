@@ -9,6 +9,8 @@ using PequenoExplorador.Application.Localization;
 using PequenoExplorador.Application.Missions;
 using PequenoExplorador.Application.Photography;
 using PequenoExplorador.Application.Services;
+using PequenoExplorador.Application.Interaction;
+using PequenoExplorador.Application.Learning;
 using PequenoExplorador.Domain.Content;
 using PequenoExplorador.Presentation.Explorer;
 using UnityEngine;
@@ -36,6 +38,8 @@ namespace PequenoExplorador.Presentation.Photography
         private PhotographableView _active;
         private int _captureSequence;
         private bool _captureRequestActive;
+        private LearningInteractionAction _learningEntry;
+        private IInteractionCatalog _interactions;
         public bool IsActive => _active != null;
         public PhotoEvaluation LastEvaluation { get; private set; }
         public PhotoCaptureResult LastCapture { get; private set; }
@@ -50,6 +54,16 @@ namespace PequenoExplorador.Presentation.Photography
             ExplorerLocomotionRoot explorer, Camera camera, IPhotoStore store, IPhotoProgressRepository photos,
             DiscoverUseCase discoveries, IRewardCatalog rewards, GrantRewardUseCase grantRewards,
             IMissionFactSink missionFacts, ILocalizationService localization, PhotographyView view, bool reduceMotion)
+        {
+            Bind(entryAction, input, clock, audio, explorer, camera, store, photos, discoveries, rewards,
+                grantRewards, missionFacts, localization, view, reduceMotion, null, null);
+        }
+
+        public void Bind(PhotographyInteractionAction entryAction, IInputService input, IClock clock, IAudioService audio,
+            ExplorerLocomotionRoot explorer, Camera camera, IPhotoStore store, IPhotoProgressRepository photos,
+            DiscoverUseCase discoveries, IRewardCatalog rewards, GrantRewardUseCase grantRewards,
+            IMissionFactSink missionFacts, ILocalizationService localization, PhotographyView view, bool reduceMotion,
+            LearningInteractionAction learningEntry, IInteractionCatalog interactions)
         {
             Unbind();
             _entryAction = entryAction ?? throw new ArgumentNullException(nameof(entryAction));
@@ -70,6 +84,9 @@ namespace PequenoExplorador.Presentation.Photography
             _view.Bind(localization, reduceMotion);
             _view.ShutterRequested += CaptureRequested;
             _view.ExitRequested += ExitRequested;
+            _learningEntry = learningEntry;
+            _interactions = interactions;
+            _view.LearnRequested += LearnRequested;
         }
 
         public void SetReduceMotion(bool enabled) { _explorer?.SetReduceMotion(enabled); _view?.SetReduceMotion(enabled); }
@@ -117,6 +134,16 @@ namespace PequenoExplorador.Presentation.Photography
             }
         }
         private void ExitRequested() => End(true);
+        private void LearnRequested()
+        {
+            if (_active == null || _learningEntry == null || _interactions == null) return;
+            DiscoveryId discoveryId = _active.Target.DiscoveryId;
+            InteractionDefinition definition = _interactions.Definitions.FirstOrDefault(item =>
+                item.HasLearningActivity && item.DirectDiscoveryId == discoveryId);
+            if (definition == null) return;
+            End(false);
+            _learningEntry.Request(definition.LearningActivityId, discoveryId);
+        }
         private void End(bool restoreExplorerMap)
         {
             _active = null; _pending = default;
@@ -132,12 +159,14 @@ namespace PequenoExplorador.Presentation.Photography
             {
                 _view.ShutterRequested -= CaptureRequested;
                 _view.ExitRequested -= ExitRequested;
+                _view.LearnRequested -= LearnRequested;
                 _view.Unbind();
             }
             _lifetime?.Cancel(); _lifetime?.Dispose(); _lifetime = null;
             _captureRequestActive = false;
             foreach (PhotographableView target in _targets ?? Array.Empty<PhotographableView>()) target?.Unbind();
             _entryAction = null; _input = null; _clock = null; _audio = null; _explorer = null; _view = null; _capture = null;
+            _learningEntry = null; _interactions = null;
         }
         private PhotographableView[] ResolveTargets()
         {

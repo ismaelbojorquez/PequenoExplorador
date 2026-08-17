@@ -36,7 +36,7 @@ Español (`es`) es locale de proyecto, startup y fallback humano. Inglés (`en`)
 | `Voice` | 5 slots conceptuales | Camp/Jungle más tres cues de voz ES/EN; clips finales pendientes. |
 | `Illustrations` | 2 slots conceptuales | Futuros fondos Camp/Jungle; sin assets finales. |
 
-El validador recorre 107 entradas runtime tras Prompt 23: la baseline previa más quince keys learning ES/EN para definición, opciones, pistas y controles. Todas son namespaced; `LocalizationKeys.cs` conserva las keys de uso común y las definitions data-driven aportan su copy. Voz y subtítulo comparten concepto. Las tablas permanecen locales, sin `Remote*`, URL ni update-on-start.
+El validador recorre 122 entradas runtime tras Prompt 24: la baseline previa más keys de actividad ES/EN para definición, opciones, pistas, controles, instrucción y fact de audio. Todas son namespaced; `LocalizationKeys.cs` conserva las keys de uso común y las definitions data-driven aportan su copy. Voz y subtítulo comparten concepto. Las tablas permanecen locales, sin `Remote*`, URL ni update-on-start.
 
 Variables, números y plurales usan Smart Strings de Unity Localization. Están cubiertos `shared.build.version`, `shared.progress.stars` y `ui.transition.preparing`; no se concatenan frases traducibles en Presentation.
 

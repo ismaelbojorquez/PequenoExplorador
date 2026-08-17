@@ -14,5 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: PequenoExplorador.Content::PequenoExplorador.Content.Learning.LearningCatalogAsset
   _concepts:
   - {fileID: 11400000, guid: 9ddc43f744a2e4c9db61fea71ef50213, type: 2}
+  - {fileID: 11400000, guid: d0b93d29dae6142ce80325a017f9b007, type: 2}
   _activities:
   - {fileID: 11400000, guid: 9097296bc7c07434ca3fea9f00899196, type: 2}
+  - {fileID: 11400000, guid: 79cf2e145cd2f440da273b2a61608967, type: 2}

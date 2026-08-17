@@ -37,8 +37,12 @@ Todos los WAV son PCM mono, 48 kHz/16-bit, `DecompressOnLoad`, generados por `Au
 | `audio.voice.instruction.explore` | VoiceInstruction/Voice | 0.55 s | ES/EN | guía cálida | `PH_Voice_Instruction_Explore_{es,en}.wav`; `PH_VOICE_INSTRUCTION_EXPLORE`; `ReleaseBlocked`. |
 | `audio.voice.name.jungle` | VoiceName/Voice | 0.38 s | ES/EN | nombre claro | `PH_Voice_Name_Jungle_{es,en}.wav`; `PH_VOICE_NAME_JUNGLE`; `ReleaseBlocked`. |
 | `audio.voice.narration.welcome` | Narration/Voice | 0.60 s | ES/EN | bienvenida tranquila | `PH_Voice_Narration_Welcome_{es,en}.wav`; `PH_VOICE_NARRATION_WELCOME`; `ReleaseBlocked`. |
+| `audio.voice.instruction.toucan-food` | VoiceInstruction/Voice | 0.62 s | ES/EN | instrucción cálida | `PH_Voice_Instruction_ToucanFood_{es,en}.wav`; tono técnico, `ReleaseBlocked`. |
+| `audio.voice.fact.toucan-fruit` | Narration/Voice | 0.52 s | ES/EN | fact breve/calmado | `PH_Voice_Fact_ToucanFruit_{es,en}.wav`; tono técnico, `ReleaseBlocked`. |
 
 Los tonos de voz no pretenden sonar humanos y nunca muestran al niño un mensaje técnico. Los keys de subtítulo son `content.audio.instruction.explore`, `content.audio.name.jungle` y `content.audio.narration.welcome`; los slots conceptuales `Voice` usan los IDs del cue.
+
+Prompt 24 añade dos tonos internos propios, mono/48 kHz, con subtítulos `content.audio.instruction.toucan-food` y `content.audio.fact.toucan-fruit`. Permiten probar prioridad/replay ES/EN sin fingir narración humana; no representan vocalización del tucán. El catálogo queda en 9 cues/14 WAV placeholders y `releaseFinal=0`.
 
 Prompt 19 reutiliza únicamente `audio.feedback.confirm` para toma aceptada y `audio.feedback.retry` para pista/resultado no listo. No inventa vocalización, shutter real ni narración de especie. Ambos son tonos `PH_` suaves y ReleaseBlocked; la experiencia conserva retícula/copy aun sin audio. Un cue final de shutter/guía deberá registrar ID, derechos, idioma/emoción/duración y prueba auditiva, sin copiar grabaciones científicas referenciadas.
 

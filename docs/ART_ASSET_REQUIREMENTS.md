@@ -90,6 +90,17 @@ Cambiar especie/subespecie devuelve a revisión todo el modelo/ilustración, col
 
 No se añadió fuente, ilustración, icono o media externa. La baseline reutiliza `LegacyRuntime.ttf` y primitives uGUI; la decisión T-006 de TMP queda por materializar dentro del design system de Prompt 27 con fuente licenciada/cobertura ES-EN-pseudo. Cambiar el visual Approved del tucán o su representación canónica reabre el alcance H-008/H-009 aplicable; cambiar solo el chrome `PH_` del álbum exige UI/Accessibility/QA, no aprobación zoológica.
 
+## Ledger temporal Prompt 24
+
+| ID/path | Tipo | Estado | Reemplazo/revisión humana requerida |
+|---|---|---|---|
+| `PH_Activity_ToucanChooseFood` | authoring de tres tarjetas coral/gris/amarilla | `Sourced`, `Placeholder`, `ReleaseBlocked` | Iconos propios inequívocos fruta/piedra/sombrero, contraste, targets y revisión Child UX/factual asset-specific. |
+| `PH_UI_LEARNING` | panel uGUI con watermark, pista/replay/salida | `Placeholder / ReleaseBlocked` | Design system/TMP, no-lector, fuente grande y revisión multiratio física. |
+| `learning-reaction.toucan.positive` | salto local suave del visual aprobado | `Placeholder / ReleaseBlocked` | Animación final, lectura positiva, clipping y revalidación si altera anatomía/rasgos. |
+| `learning-reaction.toucan.neutral` | giro curioso sin castigo | `Placeholder / ReleaseBlocked` | Animación final neutral y playtest; reduce motion debe conservar estado sin movimiento. |
+
+No se añadió media externa ni se modificó la geometría/material del prefab aprobado. El adapter anima temporalmente su transform y restaura posición/rotación; cualquier cambio visual material reabre H-008/H-009 y [`VS-A01`](VS_A01_TOUCAN_FEEDING_ACTIVITY.md).
+
 ## Git y organización futura
 
 - Fuentes grandes de formatos cubiertos irán a Git LFS; `.meta` siempre en Git normal.

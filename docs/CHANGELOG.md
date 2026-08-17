@@ -1,5 +1,23 @@
 # Changelog
 
+## Prompt 24 — integrated feeding/habitat activity — 2026-08-17
+
+### Added
+
+- Actividad `activity.jungle.keel-billed-toucan.choose-food`, concepto, tres opciones por tags, hints, reward idempotente y expediente [`VS-A01`](VS_A01_TOUCAN_FEEDING_ACTIVITY.md).
+- Entrada normal foto→actividad, presenter tap, reacción positiva/neutral cancelable con reduce motion, watermark y dos cues técnicos ES/EN propios.
+- Validación factual/editorial/audio/interacción, tests de solución por tag y journey PlayMode sin romper fotografía/álbum.
+
+### Limits
+
+- Fact dietario permanece Approved; opciones/pistas/reacción/UI/cues son `Sourced`/`PH_` y bloquean Release hasta firma humana asset-specific. Android físico, voz/arte final y playtest 4–9 siguen `NOT RUN`; Gate B continúa `FAIL`.
+
+### Verified
+
+- Baseline previa PASS: compile, Addressables, EditMode `139/139`, PlayMode `23/23` y APK Development.
+- `scripts/validate` final PASS: repository/shell, compile/validadores, Addressables `4.0.1` con 45 locations/1,143,428 bytes, EditMode `141/141`, PlayMode `24/24` y APK ES `106,754,166` bytes / SHA-256 `538545dafbdaa85d494e45ae7426f166205c56907587d172c9be01b77ccfb1d5` en `64.983 s`.
+- Android físico `NOT RUN`: `adb devices -l` no listó dispositivo. Gate B permanece `FAIL` hasta Prompts 25–29 y reauditoría.
+
 ## Prompt 23 — non-punitive learning activity engine — 2026-08-17
 
 ### Added

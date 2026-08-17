@@ -175,6 +175,7 @@ namespace PequenoExplorador.Bootstrap
             AlbumQueries = new AlbumQueryService(contentCatalog, discoveryRepository, PhotoRepository);
             DiscoveryInteraction = new DiscoveryInteractionAction(Discoveries);
             PhotographyInteraction = new PhotographyInteractionAction(Missions, contentCatalog);
+            LearningInteraction = new LearningInteractionAction(Missions, contentCatalog);
             ILocalizationService localization = new UnityLocalizationService(
                 save,
                 logger,
@@ -262,6 +263,7 @@ namespace PequenoExplorador.Bootstrap
         public AlbumQueryService AlbumQueries { get; }
         public DiscoveryInteractionAction DiscoveryInteraction { get; }
         public PhotographyInteractionAction PhotographyInteraction { get; }
+        public LearningInteractionAction LearningInteraction { get; }
         public IPhotoStore PhotoStore { get; }
         public IPhotoProgressRepository PhotoRepository { get; }
         public IEconomyRepository EconomyRepository { get; }

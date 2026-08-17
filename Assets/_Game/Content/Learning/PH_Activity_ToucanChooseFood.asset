@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d0f8c8519651459ebbb8bb133060c0a, type: 3}
+  m_Name: PH_Activity_ToucanChooseFood
+  m_EditorClassIdentifier: PequenoExplorador.Content::PequenoExplorador.Content.Learning.LearningActivityDefinitionAsset
+  _id: activity.jungle.keel-billed-toucan.choose-food
+  _editorial:
+    _state: 1
+    _isPlaceholder: 1
+    _owner: "Learning Design \u2014 revisi\xF3n humana pendiente"
+    _developmentWatermark: "FUENTE VERIFICADA \xB7 REPRESENTACI\xD3N PH_ PENDIENTE"
+  _typeId: activity-type.single-choice
+  _titleTable: UI
+  _titleKey: ui.learning.toucan_food.title
+  _instructionTable: UI
+  _instructionKey: ui.learning.toucan_food.instruction
+  _successTable: UI
+  _successKey: ui.learning.toucan_food.success
+  _tryAgainTable: UI
+  _tryAgainKey: ui.learning.toucan_food.try_again
+  _conceptIds:
+  - concept.nature.diet.fruit-primary
+  _options:
+  - _id: activity-option.jungle.toucan.fruit
+    _table: UI
+    _key: ui.learning.toucan_food.option.fruit
+    _tagId: tag.food.fruit
+    _color:
+      serializedVersion: 2
+      rgba: 4283202031
+  - _id: activity-option.jungle.toucan.rock
+    _table: UI
+    _key: ui.learning.toucan_food.option.rock
+    _tagId: tag.object.rock
+    _color:
+      serializedVersion: 2
+      rgba: 4288977545
+  - _id: activity-option.jungle.toucan.hat
+    _table: UI
+    _key: ui.learning.toucan_food.option.hat
+    _tagId: tag.object.hat
+    _color:
+      serializedVersion: 2
+      rgba: 4283090166
+  _correctOptionId: activity-option.jungle.toucan.fruit
+  _correctTagId: tag.food.fruit
+  _hintKeys:
+  - ui.learning.toucan_food.hint.1
+  - ui.learning.toucan_food.hint.2
+  - ui.learning.toucan_food.hint.3
+  _firstAutomaticHintAttempt: 2
+  _maximumHintLevel: 3
+  _resumable: 1
+  _rewardId: reward.activity.toucan-choose-food.complete
+  _factId: fact.jungle.keel-billed-toucan.diet
+  _factTable: Content
+  _factKey: content.fact.keel-billed-toucan.diet
+  _instructionCueId: audio.voice.instruction.toucan-food
+  _factCueId: audio.voice.fact.toucan-fruit
+  _retryCueId: audio.feedback.retry
+  _positiveReactionId: learning-reaction.toucan.positive
+  _neutralReactionId: learning-reaction.toucan.neutral

@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using PequenoExplorador.Application.Economy;
+using PequenoExplorador.Application.Audio;
+using PequenoExplorador.Application.Content;
 using PequenoExplorador.Application.Learning;
 using PequenoExplorador.Application.Localization;
 using PequenoExplorador.Content.Data;
 using PequenoExplorador.Content.Economy;
 using PequenoExplorador.Content.Learning;
+using PequenoExplorador.Content.Audio;
+using PequenoExplorador.Content.Interaction;
 using PequenoExplorador.Presentation.Accessibility;
 using PequenoExplorador.Presentation.Learning;
 using UnityEditor;
@@ -28,15 +32,27 @@ namespace PequenoExplorador.Editor.BuildTools
             LearningCatalogAsset asset = AssetDatabase.LoadAssetAtPath<LearningCatalogAsset>(LearningFoundationSetup.CatalogPath);
             RewardCatalogAsset rewardAsset = AssetDatabase.LoadAssetAtPath<RewardCatalogAsset>(EconomyFoundationSetup.CatalogPath);
             RewardCatalog rewards = null;
+            ContentCatalog content = null;
+            ContentCatalogAsset contentAsset = AssetDatabase.LoadAssetAtPath<ContentCatalogAsset>(ContentFoundationSetup.CatalogPath);
+            AudioCueCatalogAsset audio = AssetDatabase.LoadAssetAtPath<AudioCueCatalogAsset>(AudioFoundationSetup.CatalogPath);
             if (rewardAsset == null) errors.Add("LEARN100 reward catalog is missing.");
             else if (!rewardAsset.TryBuild(out rewards, out IReadOnlyList<string> rewardErrors)) errors.AddRange(rewardErrors);
+            if (contentAsset == null) errors.Add("LEARN108 content catalog is missing.");
+            else if (!contentAsset.TryBuildRuntimeCatalog(ContentValidationMode.Development, out content, out IReadOnlyList<string> contentErrors))
+                errors.AddRange(contentErrors);
+            if (audio == null) errors.Add("LEARN109 audio catalog is missing.");
+            InteractionDefinitionAsset toucanInteraction = AssetDatabase.LoadAssetAtPath<InteractionDefinitionAsset>(InteractionFoundationSetup.AnimalPath);
+            if (toucanInteraction == null || toucanInteraction.LearningActivityId != "activity.jungle.keel-billed-toucan.choose-food")
+                errors.Add("LEARN110 approved toucan interaction must reference the integrated activity ID.");
             if (asset == null) errors.Add("LEARN101 learning catalog is missing.");
-            else if (rewards != null)
+            else if (rewards != null && content != null && audio != null)
             {
-                bool built = asset.TryBuild(mode, rewards, HasLocalization, out LearningCatalog catalog, out IReadOnlyList<string> buildErrors);
+                bool built = asset.TryBuild(mode, rewards, content, HasLocalization,
+                    cue => audio.Cues.Any(item => item != null && item.CueId == cue),
+                    out LearningCatalog catalog, out IReadOnlyList<string> buildErrors);
                 if (!built) errors.AddRange(buildErrors);
-                else if (catalog.Activities.Count != 1 || catalog.Concepts.Count != 1 || catalog.Activities[0].Options.Count != 3)
-                    errors.Add("LEARN102 baseline requires one concept, one activity and three options.");
+                else if (catalog.Activities.Count != 2 || catalog.Concepts.Count != 2 || catalog.Activities.Any(item => item.Options.Count != 3))
+                    errors.Add("LEARN102 Prompt 24 requires two concepts, two activities and three options each.");
             }
             var registry = new LearningActivityStrategyRegistry(new ILearningActivityStrategy[] { new SingleChoiceActivityStrategy() });
             if (registry.TypeIds.Count != 1) errors.Add("LEARN103 exactly one baseline activity strategy must be registered.");

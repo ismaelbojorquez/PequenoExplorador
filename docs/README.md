@@ -12,6 +12,7 @@ Estado: foundation, scene flow local, persistencia schema v9, localización/audi
 | Secuencia de trabajo | [`ROADMAP.md`](ROADMAP.md) | Único orden de Gates A–F y Fases 00–57. |
 | Hechos educativos | [`CONTENT_SOURCES.md`](CONTENT_SOURCES.md) | Ningún claim llega a Release sin trazabilidad y aprobación humana. |
 | Expediente factual del slice | [`VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md`](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md) | Claims/firmas del único animal runtime Approved; conservación/audio final/publicación siguen excluidos. |
+| Expediente de actividad del slice | [`VS_A01_TOUCAN_FEEDING_ACTIVITY.md`](VS_A01_TOUCAN_FEEDING_ACTIVITY.md) | Mapea fact Approved a opciones/pistas/reacción/cues; representación Sourced/PH_ pendiente de firma humana. |
 | Contenido runtime | [`CONTENT_PIPELINE.md`](CONTENT_PIPELINE.md) | Define grupos/perfiles locales, ownership y prohibición de remoto. |
 | Modelo de datos | [`CONTENT_MODEL.md`](CONTENT_MODEL.md) | IDs tipados, definitions, authoring, catálogo, aliases y gate editorial. |
 | Persistencia | [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md) | Schema, archivos, migración, atomicidad, privacidad y recovery. |

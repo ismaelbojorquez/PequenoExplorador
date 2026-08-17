@@ -92,6 +92,7 @@ namespace PequenoExplorador.Bootstrap
         private ExplorerLocomotionRoot _explorerRoot;
         private InteractionSceneRoot _interactionRoot;
         private PhotographySceneRoot _photographyRoot;
+        private AnimalLearningReactionView _learningReactionRoot;
         private InteractionCatalog _runtimeInteractions;
         private RewardCatalog _runtimeRewards;
         private MissionCatalog _runtimeMissions;
@@ -179,7 +180,9 @@ namespace PequenoExplorador.Bootstrap
                     out MissionCatalog runtimeMissions, out var missionViolations))
                 throw new InvalidOperationException("Runtime mission catalog is invalid:\n" + string.Join("\n", missionViolations));
             _runtimeMissions = runtimeMissions;
-            if (!_learningCatalog.TryBuild(contentMode, runtimeRewards, null, out LearningCatalog runtimeLearning, out var learningViolations))
+            if (!_learningCatalog.TryBuild(contentMode, runtimeRewards, runtimeCatalog, null,
+                    cue => _audioCatalog.Cues.Any(item => item != null && item.CueId == cue),
+                    out LearningCatalog runtimeLearning, out var learningViolations))
                 throw new InvalidOperationException("Runtime learning catalog is invalid:\n" + string.Join("\n", learningViolations));
             _runtimeLearning = runtimeLearning;
             if (!_worldCatalog.TryBuildRuntimeCatalog(runtimeCatalog, contentMode, out WorldCatalog runtimeWorlds, out var worldViolations))
@@ -235,7 +238,8 @@ namespace PequenoExplorador.Bootstrap
             _missionView.Bind(_runtimeMissions, _services.MissionRepository, _services.Missions,
                 _services.Context.Localization);
             _learningView.Bind(_runtimeLearning, _services.LearningRepository, _services.Learning,
-                _services.Context.Localization, _services.Context.Audio);
+                _services.Context.Localization, _services.Context.Audio, _services.Context.Input,
+                _services.LearningInteraction, _services.PhotographyInteraction, reduceMotion: false);
         }
 
         private async void Start()
@@ -523,6 +527,7 @@ namespace PequenoExplorador.Bootstrap
             ExplorerLocomotionRoot found = null;
             InteractionSceneRoot interaction = null;
             PhotographySceneRoot photography = null;
+            AnimalLearningReactionView reaction = null;
             for (int sceneIndex = 0; sceneIndex < SceneManager.sceneCount; sceneIndex++)
             {
                 Scene scene = SceneManager.GetSceneAt(sceneIndex);
@@ -552,6 +557,14 @@ namespace PequenoExplorador.Bootstrap
                             throw new InvalidOperationException("Expedition contains more than one photography scene root.");
                         photography = scenePhotography;
                     }
+
+                    AnimalLearningReactionView sceneReaction = root.GetComponentInChildren<AnimalLearningReactionView>(true);
+                    if (sceneReaction != null)
+                    {
+                        if (reaction != null)
+                            throw new InvalidOperationException("Expedition contains more than one learning animal reaction root.");
+                        reaction = sceneReaction;
+                    }
                 }
             }
 
@@ -561,6 +574,8 @@ namespace PequenoExplorador.Bootstrap
                 throw new InvalidOperationException("Expedition scene is missing PH_ interaction scene root.");
             if (photography == null)
                 throw new InvalidOperationException("Expedition scene is missing photography scene root.");
+            if (reaction == null)
+                throw new InvalidOperationException("Expedition scene is missing learning animal reaction root.");
             try
             {
                 found.Bind(_services.Context.Input, _worldCamera);
@@ -570,7 +585,8 @@ namespace PequenoExplorador.Bootstrap
                     _services.Context.Clock,
                     _services.Context.Input,
                     _worldCamera,
-                    _services.PhotographyInteraction);
+                    _services.PhotographyInteraction,
+                    _services.LearningInteraction);
                 found.SetTapHandler(interaction);
                 _interactionPrompt.Bind(
                     interaction.Coordinator,
@@ -593,15 +609,20 @@ namespace PequenoExplorador.Bootstrap
                     _services.Missions,
                     _services.Context.Localization,
                     _photographyView,
-                    reduceMotion: false);
+                    reduceMotion: false,
+                    _services.LearningInteraction,
+                    _runtimeInteractions);
+                reaction.Bind(_learningView);
                 _explorerRoot = found;
                 _interactionRoot = interaction;
                 _photographyRoot = photography;
+                _learningReactionRoot = reaction;
             }
             catch
             {
                 _interactionPrompt.Unbind();
                 photography.Unbind();
+                reaction.Unbind();
                 interaction.Unbind();
                 found.Unbind();
                 throw;
@@ -610,13 +631,16 @@ namespace PequenoExplorador.Bootstrap
 
         private void UnbindExplorerScene()
         {
+            if (_learningView != null) _learningView.CloseForSceneUnload();
             _interactionPrompt?.Unbind();
+            _learningReactionRoot?.Unbind();
             _photographyRoot?.Unbind();
             _explorerRoot?.SetTapHandler(null);
             _interactionRoot?.Unbind();
             _explorerRoot?.Unbind();
             _interactionRoot = null;
             _photographyRoot = null;
+            _learningReactionRoot = null;
             _explorerRoot = null;
         }
 

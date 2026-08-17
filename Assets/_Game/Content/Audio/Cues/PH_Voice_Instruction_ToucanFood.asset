@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93d5b91751d247b78004e10d6080eb25, type: 3}
+  m_Name: PH_Voice_Instruction_ToucanFood
+  m_EditorClassIdentifier: PequenoExplorador.Content::PequenoExplorador.Content.Audio.AudioCueDefinition
+  _cueId: audio.voice.instruction.toucan-food
+  _category: 6
+  _bus: 4
+  _priority: 30
+  _cooldownSeconds: 0
+  _gain: 0.28
+  _loop: 0
+  _subtitleTable: Content
+  _subtitleKey: content.audio.instruction.toucan-food
+  _spanishClip: {fileID: 8300000, guid: 38c9cf31f584841e29b9857b42113581, type: 3}
+  _englishClip: {fileID: 8300000, guid: f0ee7aaf8fae94522951e537a447df04, type: 3}
+  _spanishAddress: audio/voice/instruction/toucan-food/es
+  _englishAddress: audio/voice/instruction/toucan-food/en
+  _placeholder: 1
+  _placeholderId: PH_VOICE_INSTRUCTION_TOUCAN_FOOD
+  _releaseState: ReleaseBlocked

@@ -18,6 +18,7 @@ namespace PequenoExplorador.Presentation.Photography
         [SerializeField] private Button _exit;
         [SerializeField] private GameObject _card;
         [SerializeField] private Text _cardText;
+        [SerializeField] private Button _learn;
         [SerializeField] private Image _flash;
         private ILocalizationService _localization;
         private Coroutine _flashRoutine;
@@ -29,13 +30,15 @@ namespace PequenoExplorador.Presentation.Photography
         private bool _hasCapture;
         public event Action ShutterRequested;
         public event Action ExitRequested;
+        public event Action LearnRequested;
         public bool IsVisible => _panel != null && _panel.activeSelf;
         public string GuidanceText => _guidance == null ? string.Empty : _guidance.text;
         public bool CardVisible => _card != null && _card.activeSelf;
         public Button ShutterButton => _shutter;
         public Button ExitButton => _exit;
+        public Button LearnButton => _learn;
 
-        private void Awake() { _shutter?.onClick.AddListener(HandleShutter); _exit?.onClick.AddListener(HandleExit); }
+        private void Awake() { _shutter?.onClick.AddListener(HandleShutter); _exit?.onClick.AddListener(HandleExit); _learn?.onClick.AddListener(HandleLearn); }
         public void Bind(ILocalizationService localization, bool reduceMotion)
         {
             Unbind();
@@ -62,6 +65,7 @@ namespace PequenoExplorador.Presentation.Photography
             _hasCapture = true;
             if (_card != null) _card.SetActive(true);
             if (_cardText != null) _cardText.text = Resolve(CaptureKey(result.Outcome));
+            if (_learn != null) _learn.gameObject.SetActive(result.ProgressCaptured);
             if (!_reduceMotion && _flash != null)
             {
                 if (_flashRoutine != null) StopCoroutine(_flashRoutine);
@@ -73,6 +77,7 @@ namespace PequenoExplorador.Presentation.Photography
             if (_flashRoutine != null) { StopCoroutine(_flashRoutine); _flashRoutine = null; }
             if (_panel != null) _panel.SetActive(false);
             if (_card != null) _card.SetActive(false);
+            if (_learn != null) _learn.gameObject.SetActive(false);
             if (_flash != null) _flash.gameObject.SetActive(false);
         }
         public void Unbind()
@@ -88,6 +93,7 @@ namespace PequenoExplorador.Presentation.Photography
             if (_shutter != null) _shutter.interactable = !_captureBusy;
             SetButtonLabel(_shutter, LocalizationKeys.PhotographyCapture);
             SetButtonLabel(_exit, LocalizationKeys.PhotographyExit);
+            SetButtonLabel(_learn, LocalizationKeys.LearningActivityContinue);
         }
         private IEnumerator FlashBriefly()
         {
@@ -103,6 +109,7 @@ namespace PequenoExplorador.Presentation.Photography
         }
         private void HandleShutter() => ShutterRequested?.Invoke();
         private void HandleExit() => ExitRequested?.Invoke();
+        private void HandleLearn() => LearnRequested?.Invoke();
         private string Resolve(LocalizedKey key) { try { return _localization?.Resolve(key) ?? string.Empty; } catch { return string.Empty; } }
         private void SetButtonLabel(Button button, LocalizedKey key) { Text label = button == null ? null : button.GetComponentInChildren<Text>(true); if (label != null) label.text = Resolve(key); }
         private static LocalizedKey GuidanceKey(PhotoGuidance guidance) => guidance == PhotoGuidance.MoveCloser
@@ -111,6 +118,6 @@ namespace PequenoExplorador.Presentation.Photography
             ? LocalizationKeys.PhotographyCapturedNew : outcome == PhotoCaptureOutcome.CapturedWithoutThumbnail
                 ? LocalizationKeys.PhotographyStorageFallback : outcome == PhotoCaptureOutcome.NotReady
                     ? LocalizationKeys.PhotographyPositiveHint : LocalizationKeys.PhotographyCapturedRepeated;
-        private void OnDestroy() { _shutter?.onClick.RemoveListener(HandleShutter); _exit?.onClick.RemoveListener(HandleExit); Unbind(); }
+        private void OnDestroy() { _shutter?.onClick.RemoveListener(HandleShutter); _exit?.onClick.RemoveListener(HandleExit); _learn?.onClick.RemoveListener(HandleLearn); Unbind(); }
     }
 }

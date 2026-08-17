@@ -53,6 +53,7 @@ namespace PequenoExplorador.Editor
                     70,
                     approved: true);
                 SetDirectDiscovery(animal, ContentFoundationSetup.DiscoveryId);
+                SetLearningActivity(animal, "activity.jungle.keel-billed-toucan.choose-food");
                 InteractionDefinitionAsset plant = EnsureDefinition(
                     PlantPath,
                     "interaction.fixture.plant",
@@ -120,6 +121,14 @@ namespace PequenoExplorador.Editor
         {
             var serialized = new SerializedObject(asset);
             serialized.FindProperty("_directDiscoveryId").stringValue = discoveryId;
+            serialized.ApplyModifiedPropertiesWithoutUndo();
+            EditorUtility.SetDirty(asset);
+        }
+
+        private static void SetLearningActivity(InteractionDefinitionAsset asset, string activityId)
+        {
+            var serialized = new SerializedObject(asset);
+            serialized.FindProperty("_learningActivityId").stringValue = activityId;
             serialized.ApplyModifiedPropertiesWithoutUndo();
             EditorUtility.SetDirty(asset);
         }

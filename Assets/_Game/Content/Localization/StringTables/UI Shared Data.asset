@@ -435,6 +435,58 @@ MonoBehaviour:
     m_Key: ui.learning.exit_safe
     m_Metadata:
       m_Items: []
+  - m_Id: 251180197339136
+    m_Key: ui.learning.activity.open
+    m_Metadata:
+      m_Items: []
+  - m_Id: 251180218310656
+    m_Key: ui.learning.toucan_food.title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 251180218310657
+    m_Key: ui.learning.toucan_food.instruction
+    m_Metadata:
+      m_Items: []
+  - m_Id: 251180218310658
+    m_Key: ui.learning.toucan_food.success
+    m_Metadata:
+      m_Items: []
+  - m_Id: 251180218310659
+    m_Key: ui.learning.toucan_food.try_again
+    m_Metadata:
+      m_Items: []
+  - m_Id: 251180218310660
+    m_Key: ui.learning.toucan_food.hint.1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 251180218310661
+    m_Key: ui.learning.toucan_food.hint.2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 251180218310662
+    m_Key: ui.learning.toucan_food.hint.3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 251180218310663
+    m_Key: ui.learning.toucan_food.option.fruit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 251180218310664
+    m_Key: ui.learning.toucan_food.option.rock
+    m_Metadata:
+      m_Items: []
+  - m_Id: 251180218310665
+    m_Key: ui.learning.toucan_food.option.hat
+    m_Metadata:
+      m_Items: []
+  - m_Id: 251180218310666
+    m_Key: ui.learning.concept.toucan_diet
+    m_Metadata:
+      m_Items: []
+  - m_Id: 252953859448832
+    m_Key: ui.learning.activity.continue
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

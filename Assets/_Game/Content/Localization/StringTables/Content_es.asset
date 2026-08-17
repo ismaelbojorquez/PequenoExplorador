@@ -104,6 +104,14 @@ MonoBehaviour:
     m_Localized: Animales
     m_Metadata:
       m_Items: []
+  - m_Id: 251180105064448
+    m_Localized: "Toca lo que el tuc\xE1n come sobre todo."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 251180105064449
+    m_Localized: Come sobre todo frutas.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

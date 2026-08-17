@@ -26,6 +26,8 @@ namespace PequenoExplorador.Application.Localization
         public static readonly LocalizedKey LearningReplay = new LocalizedKey(UiTable, "ui.learning.replay");
         public static readonly LocalizedKey LearningExit = new LocalizedKey(UiTable, "ui.learning.exit");
         public static readonly LocalizedKey LearningExitSafe = new LocalizedKey(UiTable, "ui.learning.exit_safe");
+        public static readonly LocalizedKey LearningActivityOpen = new LocalizedKey(UiTable, "ui.learning.activity.open");
+        public static readonly LocalizedKey LearningActivityContinue = new LocalizedKey(UiTable, "ui.learning.activity.continue");
 
         public static readonly LocalizedKey DiagnosticNotice = new LocalizedKey(UiTable, "ui.diagnostic.notice");
         public static readonly LocalizedKey StatusInitializing = new LocalizedKey(UiTable, "ui.status.initializing");

@@ -75,6 +75,9 @@ namespace PequenoExplorador.Content.Interaction
                     DiscoveryId directDiscovery = string.IsNullOrWhiteSpace(asset.DirectDiscoveryId)
                         ? default
                         : DiscoveryId.Parse(asset.DirectDiscoveryId);
+                    ActivityId learningActivity = string.IsNullOrWhiteSpace(asset.LearningActivityId)
+                        ? default
+                        : ActivityId.Parse(asset.LearningActivityId);
                     if (directDiscovery.IsValid && resolver != null && !resolver.HasDiscovery(directDiscovery))
                         errors.Add($"INTERACTION011 missing discovery '{directDiscovery}' referenced by {path}; add it to the canonical content catalog or clear the optional action.");
                     if (mode == ContentValidationMode.Release && !editorial.IsReleaseApproved)
@@ -90,7 +93,8 @@ namespace PequenoExplorador.Content.Interaction
                         asset.CooldownSeconds,
                         asset.Priority,
                         directDiscovery,
-                        editorial));
+                        editorial,
+                        learningActivity));
                 }
                 catch (Exception exception) when (
                     exception is FormatException ||

@@ -54,3 +54,11 @@ No existe analytics remoto. Los agregados son locales, por concepto/día, y no p
 - PlayMode: fixture real ES→EN, retry amable, hint, exit/resume, replay, completion, flush/reload y `AlreadyProcessed`.
 
 Android físico, comprensión infantil, audio final, pseudo visual humano y la actividad factual integrada siguen `NOT RUN`/pendientes; compile/tests/APK no sustituyen esas revisiones.
+
+## Actividad integrada Prompt 24
+
+`activity.jungle.keel-billed-toucan.choose-food` reutiliza la misma strategy single-choice con tags semánticos, no código por animal. El flujo normal es interacción→foto válida→tarjeta “Descubrir qué come”→tres opciones tap→`TryAgain/Hint` o success→fact/replay→reward/fact de misión idempotentes. `LearningActivityDefinition` enlaza `EducationalFactId`, copy canónica, cues y reaction IDs; cada opción aporta `TagId` y color de authoring. La solución es `tag.food.fruit`, independiente del orden de tarjetas.
+
+El fact `…diet` permanece Approved, pero la representación completa se registra en [`VS_A01_TOUCAN_FEEDING_ACTIVITY.md`](VS_A01_TOUCAN_FEEDING_ACTIVITY.md) como `Sourced`, `placeholder=true` y `ReleaseBlocked`. El presenter muestra watermark, la reacción correcta es positiva y la incorrecta neutral; reduce motion suprime movimiento. Los tonos ES/EN son técnicos, no narración humana final.
+
+EditMode cubre tags/orden, todos los outcomes, gate factual/editorial y Release. PlayMode cubre interacción→foto→actividad, opción incorrecta, pista, ES→EN, replay, reduce motion, completion/reward y retorno a fotografía. Safe area/targets se validan; comprensión 4–9 y Android físico siguen pendientes.

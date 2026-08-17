@@ -29,8 +29,22 @@ MonoBehaviour:
     - audio-local
     - audio-placeholder
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 38c9cf31f584841e29b9857b42113581
+    m_Address: audio/voice/instruction/toucan-food/es
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - audio-local
+    - audio-placeholder
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3bbc498de15c746b2a5e8fba9a99e2b3
     m_Address: audio/feedback/confirm
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - audio-local
+    - audio-placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5708a5f68e0e847fdacae40f0f72125d
+    m_Address: audio/voice/fact/toucan-fruit/es
     m_ReadOnly: 0
     m_SerializedLabels:
     - audio-local
@@ -78,8 +92,22 @@ MonoBehaviour:
     - audio-local
     - audio-placeholder
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: afeb02efa93e6446b92bd3c4681183a1
+    m_Address: audio/voice/fact/toucan-fruit/en
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - audio-local
+    - audio-placeholder
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b6298c5c66e644e67a1ec41b3a38289b
     m_Address: audio/voice/instruction/explore/en
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - audio-local
+    - audio-placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f0ee7aaf8fae94522951e537a447df04
+    m_Address: audio/voice/instruction/toucan-food/en
     m_ReadOnly: 0
     m_SerializedLabels:
     - audio-local

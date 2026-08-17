@@ -30,3 +30,4 @@ MonoBehaviour:
   _cooldownSeconds: 1.5
   _priority: 70
   _directDiscoveryId: discovery.jungle.keel-billed-toucan
+  _learningActivityId: activity.jungle.keel-billed-toucan.choose-food

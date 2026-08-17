@@ -4,13 +4,13 @@ Actualizado: 2026-08-17 (`America/Mexico_City`). Git, implementación y evidenci
 
 ## Fase y Gate
 
-- **Fase implementada más reciente:** Prompt 23 — motor data-driven de aprendizaje no punitivo y save v9.
+- **Fase implementada más reciente:** Prompt 24 — actividad integrada de alimentación del tucán, data-driven y no punitiva.
 - **Preparación editorial H-007/H-008/H-009:** [`VS-D-A01`](VS_D_A01_TOUCAN_FACTUAL_DOSSIER.md) con Product/Localization, visual/rights/QA y revisión factual humana aprobados. La competencia factual declarada es investigación/búsqueda ampliada, no credencial ornitológica externa. Conservación y audio final permanecen fuera del contenido adoptado.
 - **Auditoría actual:** Prompt 30 — [`Gate B`](audits/GATE_B_2026-08-16.md) ejecutado sobre HEAD real; `FAIL` por ausencia estructural de Fases 19–29 y del journey end-to-end.
 - **Gate actual:** B — `FAIL`; no ejecutar Prompt 31 hasta completar y volver a auditar el loop mínimo.
 - **Gate A:** [`audits/GATE_A_2026-08-15.md`](audits/GATE_A_2026-08-15.md) — `PASS`, sin Critical/Major abierto.
-- **Siguiente fase:** Prompt 24 — actividad integrada de alimentación/hábitat; debe reutilizar el motor y mantener cualquier claim nuevo en Draft hasta revisión humana.
-- **ExecPlan cerrado:** [`.agent/execplans/p23-non-punitive-learning.md`](../.agent/execplans/p23-non-punitive-learning.md). Crear otro solo si Prompt 24 excede un cambio autocontenido o revela integración transversal.
+- **Siguiente fase:** Prompt 25 — Camp hub/progreso visual y primera mejora atómica; no aprobar ni escalar contenido de Prompt 24 por arrastre.
+- **ExecPlan cerrado:** [`.agent/execplans/p24-integrated-feeding-activity.md`](../.agent/execplans/p24-integrated-feeding-activity.md). Conserva baseline, fallos encontrados, decisiones, recovery y evidencia.
 
 ## Capacidades verificadas
 
@@ -18,13 +18,13 @@ Actualizado: 2026-08-17 (`America/Mexico_City`). Git, implementación y evidenci
 |---|---|---|
 | Git/producto/contrato | Verificado | Fases 00–06 auditadas; visión/GDD/MVP Selva y AGENTS canónicos. Cada preflight debe volver a contrastarlos. |
 | Unity y assemblies | `PASS` | Unity `6000.3.22f1`, URP, nueve asmdefs, grafo acíclico; Domain/Application sin engine. |
-| Pipeline local | `PASS` | `scripts/validate` código `0`: repository/shell, compile/validadores incluido learning, Addressables, EditMode `139/139`, PlayMode `23/23` y APK Development. |
+| Pipeline local | `PASS` | `scripts/validate` final código `0`: repository/shell, compile/validadores, Addressables, EditMode `141/141`, PlayMode `24/24` y APK Development. |
 | Bootstrap/servicios | `PASS` | MessageBus→Input→SafeArea→Haptics→Save→Photos→Localization→Audio→Analytics→Ads→Purchases; shutdown inverso y perfiles fail-closed. |
-| Scene flow / Addressables | `PASS` | `4.0.1`; Boot→Camp↔Selva por `WorldManifest`, tres ciclos, sesión/handles controlados, 41 locations/934,891 bytes; sin endpoint/catálogo remoto. |
+| Scene flow / Addressables | `PASS` | `4.0.1`; Boot→Camp↔Selva por `WorldManifest`, tres ciclos, sesión/handles controlados, 45 locations/1,143,428 bytes; sin endpoint/catálogo remoto. |
 | Save local | `PASS` automatizado; dispositivo `NOT RUN` | Schema v9, JSON builtin, SHA-256, atomicidad/backup, v0→…→v9 y future read-only; v8→v9 conserva progreso y añade sesiones learning/agregados concepto+día vacíos. PNG/manifest viven separados; sin PII/red/pixels. |
 | Config runtime | `PASS` | Development/Release tipados, cero flags Release, sin remote config ni secretos. |
-| Localización | `PASS` local | Localization `1.5.12`; 107 `LocalizedKey` públicos ES/EN, pseudo Development; cámara, álbum, economía, misión y learning actualizan copy sin reinicio. Audio final sigue pendiente. |
-| Audio | `PASS` estructural; final/hardware `NOT RUN` | Audio builtin `1.0.0`; 5 buses, 7 cues, 7 sources, 10 WAV `PH_` mono/48 kHz, queue/cooldown/ducking/replay/pause. `releaseFinal=0`. |
+| Localización | `PASS` local | Localization `1.5.12`; 122 entries runtime ES/EN, pseudo Development; cámara, álbum, economía, misión y learning/actividad actualizan copy sin reinicio. Audio final sigue pendiente. |
+| Audio | `PASS` estructural; final/hardware `NOT RUN` | Audio builtin `1.0.0`; 5 buses, 9 cues, 7 sources, 14 WAV `PH_` mono/48 kHz, incluidos instrucción/fact de actividad; queue/cooldown/ducking/replay/pause. `releaseFinal=0`. |
 | Input/adaptación | `PASS` automatizado; hardware `NOT RUN` | Input System `1.20.0`; 5 mapas, safe area central, Back+checkpoint, no-op haptics, ratios 4:3/16:9/20:9/16:10 y supresión multitouch. Android físico requerido antes de Gate C. |
 | Locomoción candidata | `PASS` automatizado; UX/hardware pendiente | AI Navigation `2.0.9`; tap válido/inválido, spam, UI/Photography, cancelación, reduce-motion, camera bounds, unload y Selva x3. Sin joystick/root motion; P-006 sigue abierto. |
 | Interacción contextual | `PASS` automatizado; hardware pendiente | Foco único, auto-approach y prompt ES/EN; `interaction.jungle.keel-billed-toucan` es Approved y planta/objeto continúan `PH_`. Touch Android `NOT RUN`. |
@@ -32,17 +32,17 @@ Actualizado: 2026-08-17 (`America/Mexico_City`). Git, implementación y evidenci
 | Álbum | `PASS` automatizado; visual/hardware pendiente | Query Approved + discovery/photo, locked sin fuga, contadores/filtro, detalle/fallback, pool/caché 8, cancellation, ES/EN/pseudo y 4:3/16:9/20:9/16:10. Tamaño y audio usan fallback; UI `PH_`. |
 | Economía | `PASS` automatizado; tuning/playtest pendiente | Una moneda `ExplorerStars`, 3 rewards (discovery 1 y misión 2 Approved; learning fixture 1 Draft Development), grant/spend idempotente, transaction keys durables, ledger 32, debug solo Development y sin IAP/premium/azar. |
 | Misiones | `PASS` automatizado; UX/hardware pendiente | 1 misión Approved, 3 objective strategies sin switch, pre-event/duplicate/prerequisite/cycle/multi-completion, auto-reward y save v9 (misiones se introdujeron en v8). Foto→misión→2 estrellas→reload pasa; sin expiry/daily/manual claim. |
-| Learning engine | `PASS` automatizado; UX/hardware pendiente | State machine Start/Resume→TryAgain/Hint→Completed o Exited/Restarted; registry explícito, strategy single-choice BCL-only, reward/fact idempotentes y save v9 con agregados mínimos. Fixture visual abstracta Draft se bloquea en Release. |
+| Learning engine | `PASS` automatizado; UX/hardware pendiente | Motor + actividad del tucán: single-choice por tags, fact/cues/reactions enlazados, foto→actividad, retry/pistas/replay/exit, reduce motion y reward/fact idempotentes. Fact Approved; representación Sourced/PH_ se bloquea en Release. |
 | Contenido data-driven | Tucán Release `PASS`; proyecto Release `BLOCKED` | Catálogo O(1) contiene 1 discovery, 7 facts y 6 fuentes Approved; alias `discovery.jungle.placeholder → discovery.jungle.keel-billed-toucan`. Planta/objeto, mundo y audio final siguen bloqueando Release. |
 | Expediente factual VS-D-A01 | Runtime `APPROVED` | H-007/H-008/H-009 cubren claims/copy, nombres, visual/rights/QA y revisión factual humana. Conservación excluida; no se atribuye credencial ornitológica externa. |
 | Visual tucán VS-D-A01 | Runtime `APPROVED` | `visual.discovery.jungle.keel-billed-toucan`, prefab/materiales propios y ledger; discovery/interacción reales lo referencian sin `PH_`. |
 | Mundos data-driven | Development `PASS`; Release `BLOCKED` | `world.jungle` compila desde manifest con escena/labels/spawn/checkpoint/catálogos/cues/version/tamaño. Fixture `world.test-ocean` prueba expansión sin switch; Release devuelve `WORLD018` por Draft/PH_. |
-| Tests Unity | `PASS` | EditMode `139/139`; PlayMode `23/23`. Learning cubre correct/incorrect, hints, retry, exit/resume/restart, read-only, idempotencia, agregación, v8→v9, gate Draft Release y UI ES/EN/reload. |
-| Android | Development `PASS`; Release `BLOCKED` | APK ES `106,754,782` bytes, SHA-256 `8ba12595eb2be8eead9242bd9913f83f58d29bf280e25ba945147e52d1bcf323`, `195.594 s`, API 26/36, IL2CPP/ARM64. Solo `INTERNET` heredado + receiver interno; sin CAMERA/micrófono/ubicación/contactos/AD_ID/BILLING. |
+| Tests Unity | `PASS` | EditMode `141/141`; PlayMode `24/24`. Prompt 24 añade tags/orden, fact/editorial gate e interacción→foto→actividad ES/EN/reduce-motion sin romper regresiones. |
+| Android | Development `PASS`; Release `BLOCKED` | APK ES `106,754,166` bytes, SHA-256 `538545dafbdaa85d494e45ae7426f166205c56907587d172c9be01b77ccfb1d5`, `64.983 s`, API 26/36, IL2CPP/ARM64. Solo `INTERNET` heredado + receiver interno; sin CAMERA/micrófono/ubicación/contactos/AD_ID/BILLING. |
 | iOS/CI remota | `NOT RUN` | Sin Xcode/módulo iOS local. `origin` existe, pero runner/licencia/checks remotos no se ejecutaron; no hubo push. |
 | Paquetes | Verificado | AI Navigation `2.0.9`, Audio builtin `1.0.0`, Localization `1.5.12`, AndroidJNI `1.0.0`, Addressables `4.0.1`; exactos, sin preview/SDK comercial. |
 | Fotografía memory/storage | Editor `PASS`; dispositivo `NOT RUN` | Peak estimado `582,182` bytes, delta global orientativo `289,481`, cero temporales; store 512 KiB/archivo, 64/32 MiB. Falta presión real de memoria/disco Android. |
-| Gameplay/assets finales | Fotografía/álbum/economía/misión/learning funcionales con UI/cues `PH_` | No existen actividad animal integrada, Camp upgrade ni assets finales. Camp/Jungle/UI/audio/personaje/fixtures permanecen placeholders. |
+| Gameplay/assets finales | Foto/álbum/economía/misión/learning/actividad integrada funcionales con UI/cues `PH_` | No existe Camp upgrade ni assets finales. Actividad VS-A01 es Sourced/PH_ y requiere firma asset-specific; Camp/Jungle/UI/audio/personaje/fixtures restantes siguen placeholders. |
 | Gate B journey | `FAIL` | Prompts 19–23 existen; faltan Fases 24–29, journey, actividad factual integrada, mejora y FTUE. Cinco runs, primera/segunda sesión y UX no lectora: `NOT RUN`. |
 
 ## Lectura para reanudar
@@ -50,7 +50,7 @@ Actualizado: 2026-08-17 (`America/Mexico_City`). Git, implementación y evidenci
 1. [`../AGENTS.md`](../AGENTS.md), este archivo, [`README.md`](README.md), [`ROADMAP.md`](ROADMAP.md), [`DECISIONS.md`](DECISIONS.md) y [`RISK_REGISTER.md`](RISK_REGISTER.md).
 2. [`02_TECHNICAL_ARCHITECTURE.md`](02_TECHNICAL_ARCHITECTURE.md), [`ENGINEERING_STANDARDS.md`](ENGINEERING_STANDARDS.md), [`VALIDATION_PLAYBOOK.md`](VALIDATION_PLAYBOOK.md) y [`.agent/PLANS.md`](../.agent/PLANS.md).
 3. [`CONTENT_MODEL.md`](CONTENT_MODEL.md), [`CONTENT_PIPELINE.md`](CONTENT_PIPELINE.md), [`RUNTIME_CONFIGURATION.md`](RUNTIME_CONFIGURATION.md), [`10_SAVE_SYSTEM.md`](10_SAVE_SYSTEM.md), [`17_LOCALIZATION.md`](17_LOCALIZATION.md), [`16_AUDIO.md`](16_AUDIO.md) y [`18_TESTING.md`](18_TESTING.md).
-4. Prompt 24 del [catálogo](prompts/00_MASTER_CODEX_PROMPTS.md), [`08_LEARNING_SYSTEM.md`](08_LEARNING_SYSTEM.md), [`04_EDUCATIONAL_DESIGN.md`](04_EDUCATIONAL_DESIGN.md), [`CONTENT_SOURCES.md`](CONTENT_SOURCES.md), missions/economy/save/content/testing y arquitectura.
+4. Prompt 25 del [catálogo](prompts/00_MASTER_CODEX_PROMPTS.md), GDD/Camp, Economy, Save, UI, arte, testing y arquitectura. Para la actividad recién cerrada: [`VS_A01_TOUCAN_FEEDING_ACTIVITY.md`](VS_A01_TOUCAN_FEEDING_ACTIVITY.md).
 
 ## Bloqueos y decisiones humanas
 
@@ -61,7 +61,7 @@ Actualizado: 2026-08-17 (`America/Mexico_City`). Git, implementación y evidenci
 - Validación ornitológica externa independiente, traducción final, protocolo de playtests con menores, territorios y modelo comercial siguen pendientes; la primera no bloquea el Vertical Slice bajo la aprobación humana H-009, pero sí es mitigación recomendada antes de Release.
 - El tucán runtime ya no es placeholder. Manifest Selva, planta/objeto y audio final continúan Draft/`PH_`; no aprobarlos por arrastre.
 - Save v9 persiste grants/transaction/fact keys, sesiones learning mínimas y referencias de thumbnail; medir crecimiento/reconciliación. Todo retiro futuro sigue exigiendo alias + migración.
-- La actividad `activity.fixture.visual-matching`, su concepto, opciones, UI y reward son `PH_`/Draft: sirven para probar el motor en Development y bloquean Release. Prompt 24 no puede convertir un claim de dieta/hábitat en Approved sin fuente y firma humana.
+- La actividad `activity.fixture.visual-matching` sigue Draft. `activity.jungle.keel-billed-toucan.choose-food` usa fact Approved pero su representación/opciones/reacción/cues son `Sourced`/`PH_`; [`VS-A01`](VS_A01_TOUCAN_FEEDING_ACTIVITY.md) conserva seis firmas humanas pendientes y Release fail-closed.
 - Tap-to-move/cámara necesitan playtest comparativo P-006; reduce-motion existe runtime pero todavía no está conectado a preferencia adulta/Save.
 - Planta/objeto y UI/cues de interacción/fotografía son `PH_` Draft; no son contenido final. Target, framing, touch, audio, pause y storage necesitan Android físico/playtest infantil antes de Gate C.
 - La cámara es solo virtual y no solicita CAMERA; cualquier cámara física/galería/compartir/cloud requiere ADR y revisión de privacidad, no una extensión silenciosa.
@@ -70,4 +70,4 @@ Actualizado: 2026-08-17 (`America/Mexico_City`). Git, implementación y evidenci
 
 ## Reanudación inmediata
 
-Ejecutar Prompt 24 para crear una única actividad integrada de alimentación/hábitat reutilizando `LearningCoordinator` y `SingleChoiceActivityStrategy`. Investigar y registrar los claims antes de authoring; si no hay revisión humana, conservarlos Draft y no ampliar contenido. No introducir adaptación algorítmica, analytics remota, compra real, remote, signing, push o publicación.
+Ejecutar Prompt 25 para convertir Camp en hub funcional y agregar una única mejora atómica/persistente mediante estrellas. Reutilizar Economy/Save/Content, mantener el aprendizaje esencial sin paywall y no aprobar VS-A01 ni producir contenido masivo. No introducir compra real, remote, signing, push o publicación.

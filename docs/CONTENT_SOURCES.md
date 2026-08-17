@@ -51,6 +51,8 @@ Cambiar especie, claim, ilustración que comunica rasgos, voz o actividad despu�
 
 Product/Localization eligió `Tucán pico canoa` y aprobó `Keel-billed Toucan` para EN. La variante `pico iris` permanece como contexto regional. La adopción usa IDs no-`PH_`, alias/save v5 y mantiene conservación fuera del runtime. `Approved` no equivale a `ReleaseLocked`: audio final, matriz efectiva y QA de publicación siguen separados.
 
+Prompt 24 no agrega un claim zoológico: reutiliza `fact.jungle.keel-billed-toucan.diet` y vuelve a contrastar Remsen/Hyde/Chapman, Cornell BOW y taxonomía CONABIO el 2026-08-17. La representación nueva —opciones, pistas, reacción y narración— tiene expediente propio [`VS-A01`](VS_A01_TOUCAN_FEEDING_ACTIVITY.md), estado máximo `Sourced` y firma humana vacía. Por tanto funciona solo en Development y falla Release sin ser presentado como Approved.
+
 ## Responsabilidades humanas
 
 - **Product/Education:** intención pedagógica y lenguaje apropiado.

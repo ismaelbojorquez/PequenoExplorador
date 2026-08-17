@@ -9,5 +9,7 @@ namespace PequenoExplorador.Application.Audio
         public static readonly AudioCueId ExploreInstruction = new AudioCueId("audio.voice.instruction.explore");
         public static readonly AudioCueId JungleName = new AudioCueId("audio.voice.name.jungle");
         public static readonly AudioCueId WelcomeNarration = new AudioCueId("audio.voice.narration.welcome");
+        public static readonly AudioCueId ToucanFoodInstruction = new AudioCueId("audio.voice.instruction.toucan-food");
+        public static readonly AudioCueId ToucanFruitFact = new AudioCueId("audio.voice.fact.toucan-fruit");
     }
 }

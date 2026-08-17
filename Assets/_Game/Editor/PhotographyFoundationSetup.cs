@@ -125,7 +125,12 @@ namespace PequenoExplorador.Editor
             GameObject card = CreatePanel(panel.transform, "PH_DISCOVERY_CARD", new Color(0.03f, 0.18f, 0.18f, 0.94f));
             SetRect((RectTransform)card.transform, new Vector2(0.27f, 0.04f), new Vector2(0.73f, 0.18f));
             Text cardText = CreateText(card.transform, "PH_DISCOVERY_CARD_TEXT", 36, TextAnchor.MiddleCenter);
-            Stretch(cardText.rectTransform);
+            SetRect(cardText.rectTransform, new Vector2(0.02f, 0.05f), new Vector2(0.66f, 0.95f));
+            Button learn = CreateButton(card.transform, "PH_PHOTOGRAPHY_LEARN");
+            RectTransform learnRect = (RectTransform)learn.transform;
+            learnRect.anchorMin = learnRect.anchorMax = new Vector2(0.82f, 0.5f);
+            learnRect.sizeDelta = new Vector2(280f, 96f);
+            learnRect.anchoredPosition = Vector2.zero;
             Image flash = CreateImage(panel.transform, "PH_PHOTOGRAPHY_FLASH", new Color(1f, 1f, 1f, 0.18f));
             Stretch((RectTransform)flash.transform);
             flash.raycastTarget = false;
@@ -140,6 +145,7 @@ namespace PequenoExplorador.Editor
             viewSerialized.FindProperty("_exit").objectReferenceValue = exit;
             viewSerialized.FindProperty("_card").objectReferenceValue = card;
             viewSerialized.FindProperty("_cardText").objectReferenceValue = cardText;
+            viewSerialized.FindProperty("_learn").objectReferenceValue = learn;
             viewSerialized.FindProperty("_flash").objectReferenceValue = flash;
             viewSerialized.ApplyModifiedPropertiesWithoutUndo();
             panel.SetActive(false);

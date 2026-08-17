@@ -3,6 +3,7 @@ using System.Linq;
 using PequenoExplorador.Application.Input;
 using PequenoExplorador.Application.Interaction;
 using PequenoExplorador.Application.Services;
+using PequenoExplorador.Application.Learning;
 using UnityEngine;
 
 namespace PequenoExplorador.Presentation.Interaction
@@ -30,7 +31,8 @@ namespace PequenoExplorador.Presentation.Interaction
             IClock clock,
             IInputService input,
             Camera worldCamera,
-            IInteractionAction directDiscoveryAction = null)
+            IInteractionAction directDiscoveryAction = null,
+            LearningInteractionAction learningAction = null)
         {
             if (catalog == null) throw new ArgumentNullException(nameof(catalog));
             if (_detector == null || _targets == null || _targets.Length == 0 ||
@@ -45,7 +47,10 @@ namespace PequenoExplorador.Presentation.Interaction
                 if (definition.HasDirectDiscovery && directDiscoveryAction == null)
                     throw new InvalidOperationException(
                         $"Interaction '{definition.Id}' requires its explicit discovery action.");
-                target.Bind(definition, definition.HasDirectDiscovery ? directDiscoveryAction : null);
+                if (definition.HasLearningActivity && learningAction == null)
+                    throw new InvalidOperationException($"Interaction '{definition.Id}' requires its explicit learning action.");
+                target.Bind(definition, definition.HasDirectDiscovery ? directDiscoveryAction :
+                    definition.HasLearningActivity ? learningAction : null);
             }
             Coordinator = new InteractionCoordinator(approach, clock);
             Coordinator.Changed += HandleChanged;

@@ -207,6 +207,19 @@ namespace PequenoExplorador.Editor
             new Entry("ui.learning.replay", "Escuchar otra vez", "Listen again"),
             new Entry("ui.learning.exit", "Salir", "Exit"),
             new Entry("ui.learning.exit_safe", "Puedes volver cuando quieras.", "You can come back whenever you like."),
+            new Entry("ui.learning.activity.open", "Vamos a descubrir qué le gusta comer.", "Let’s discover what it likes to eat."),
+            new Entry("ui.learning.activity.continue", "Descubrir qué come", "Discover what it eats"),
+            new Entry("ui.learning.toucan_food.title", "¿Qué elegiría el tucán?", "What would the toucan choose?"),
+            new Entry("ui.learning.toucan_food.instruction", "Toca lo que el tucán come sobre todo.", "Tap what the toucan mostly eats."),
+            new Entry("ui.learning.toucan_food.success", "¡Buena observación!", "Great observation!"),
+            new Entry("ui.learning.toucan_food.try_again", "El tucán mira con curiosidad. Probemos otra opción.", "The toucan looks curious. Let’s try another option."),
+            new Entry("ui.learning.toucan_food.hint.1", "Busca algo que crece en una planta.", "Look for something that grows on a plant."),
+            new Entry("ui.learning.toucan_food.hint.2", "Es algo jugoso que tiene semillas.", "It is juicy and has seeds."),
+            new Entry("ui.learning.toucan_food.hint.3", "Puedes probar la fruta.", "You can try the fruit."),
+            new Entry("ui.learning.toucan_food.option.fruit", "Fruta", "Fruit"),
+            new Entry("ui.learning.toucan_food.option.rock", "Piedra", "Rock"),
+            new Entry("ui.learning.toucan_food.option.hat", "Sombrero", "Hat"),
+            new Entry("ui.learning.concept.toucan_diet", "Relacionar animales con su alimentación principal", "Match animals with their main food"),
             new Entry("ui.photography.open", "Vamos a tomar una foto.", "Let’s take a photo."),
             new Entry("ui.photography.move_closer", "Acércate un poquito.", "Move a little closer."),
             new Entry("ui.photography.center", "Pon al tucán dentro del marco.", "Place the toucan inside the frame."),
@@ -263,7 +276,9 @@ namespace PequenoExplorador.Editor
             new Entry("content.fact.keel-billed-toucan.voice", "Su llamado se parece a un croar que se repite.", "Its call sounds like a repeated croak."),
             new Entry("content.audio.instruction.explore", "Mira a tu alrededor. ¿Qué descubrimos?", "Look around. What can we discover?"),
             new Entry("content.audio.name.jungle", "Selva", "Jungle"),
-            new Entry("content.audio.narration.welcome", "Vamos a explorar con calma.", "Let’s explore at our own pace.")
+            new Entry("content.audio.narration.welcome", "Vamos a explorar con calma.", "Let’s explore at our own pace."),
+            new Entry("content.audio.instruction.toucan-food", "Toca lo que el tucán come sobre todo.", "Tap what the toucan mostly eats."),
+            new Entry("content.audio.fact.toucan-fruit", "Come sobre todo frutas.", "It mostly eats fruit.")
         };
 
         private static void EnsureFolders()

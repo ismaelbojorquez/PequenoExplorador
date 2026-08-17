@@ -17,12 +17,16 @@ namespace PequenoExplorador.Application.Photography
             _content = content;
         }
         public event Action<DiscoveryId> Requested;
+        public void Request(DiscoveryId discoveryId)
+        {
+            if (discoveryId.IsValid) Requested?.Invoke(discoveryId);
+        }
         public InteractionResult Execute(InteractionDefinition definition, InteractionContext context)
         {
             if (definition == null || !definition.HasDirectDiscovery)
                 return new InteractionResult(InteractionOutcome.Unavailable, definition?.Id ?? default,
                     LocalizationKeys.InteractionUnavailable, default);
-            Requested?.Invoke(definition.DirectDiscoveryId);
+            Request(definition.DirectDiscoveryId);
             if (_missionFacts != null)
             {
                 TagId[] tags = _content != null && _content.TryResolveDiscovery(definition.DirectDiscoveryId, out DiscoveryDefinition discovery)

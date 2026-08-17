@@ -20,6 +20,7 @@ namespace PequenoExplorador.Content.Interaction
         [SerializeField, Range(0f, 30f)] private float _cooldownSeconds = 1.5f;
         [SerializeField, Range(0, 100)] private int _priority = 50;
         [SerializeField] private string _directDiscoveryId;
+        [SerializeField] private string _learningActivityId;
 
         public string DisplayNameTable => _displayNameTable;
         public string DisplayNameKey => _displayNameKey;
@@ -33,5 +34,6 @@ namespace PequenoExplorador.Content.Interaction
         public float CooldownSeconds => _cooldownSeconds;
         public int Priority => _priority;
         public string DirectDiscoveryId => _directDiscoveryId;
+        public string LearningActivityId => _learningActivityId;
     }
 }

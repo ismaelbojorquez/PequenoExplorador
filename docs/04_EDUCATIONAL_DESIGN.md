@@ -60,3 +60,7 @@ Prompt 23 hace ejecutable el ciclo de actividad sin convertirlo en examen: `TryA
 - Bienestar: cero señales persistentes de angustia causadas por feedback; toda frustración observada debe tener acción correctiva antes de escalar contenido.
 
 Son criterios de diseño para playtest, no claims públicos ni evidencia científica. Véase [`PLAYTEST_PLAN.md`](PLAYTEST_PLAN.md).
+
+## Caso ejecutable del Vertical Slice
+
+Prompt 24 implementa selección visual por tap para el tucán: fruta, piedra y sombrero. La acción observable es reconocer la alimentación predominante; una respuesta distinta provoca reacción curiosa neutral, pista graduada y reintento ilimitado. La respuesta correcta muestra/narra mediante placeholder el copy canónico “Come sobre todo frutas”, conserva los complementos dietarios como límite editorial y concede una reward una sola vez. El diseño completo y firmas pendientes viven en [`VS_A01_TOUCAN_FEEDING_ACTIVITY.md`](VS_A01_TOUCAN_FEEDING_ACTIVITY.md).

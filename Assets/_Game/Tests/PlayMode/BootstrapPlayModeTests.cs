@@ -9,6 +9,8 @@ using PequenoExplorador.Application.Configuration;
 using PequenoExplorador.Application.Lifecycle;
 using PequenoExplorador.Application.Localization;
 using PequenoExplorador.Application.Learning;
+using PequenoExplorador.Application.Interaction;
+using PequenoExplorador.Application.Explorer;
 using PequenoExplorador.Application.SceneFlow;
 using PequenoExplorador.Application.Worlds;
 using PequenoExplorador.Bootstrap;
@@ -17,6 +19,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityEngine.UI;
+using PequenoExplorador.Presentation.Learning;
 
 namespace PequenoExplorador.Tests.PlayMode
 {
@@ -246,6 +249,62 @@ namespace PequenoExplorador.Tests.PlayMode
             LearningActivityResult completed = reloaded.LearningView.StartFixture();
             Assert.That(completed.Outcome, Is.EqualTo(ActivityOutcome.AlreadyCompleted));
             Assert.That(completed.Reward.Outcome, Is.EqualTo(PequenoExplorador.Application.Economy.GrantRewardOutcome.AlreadyProcessed));
+        }
+
+        [UnityTest]
+        public IEnumerator ToucanInteractionRunsFriendlyFeedingActivityThenContinuesToPhotography()
+        {
+            SceneManager.LoadScene("Bootstrap", LoadSceneMode.Single);
+            yield return null;
+            yield return WaitForReady();
+            DiagnosticBootstrap bootstrap = Object.FindFirstObjectByType<DiagnosticBootstrap>();
+            Task reset = bootstrap.ResetProgressForTestsAsync(CancellationToken.None);
+            yield return WaitForTask(reset);
+            Task<WorldLoadResult> enter = bootstrap.EnterWorldAsync(WorldId.Parse("world.jungle"), CancellationToken.None);
+            yield return WaitForTask(enter);
+            Assert.That(enter.Result.IsSuccess, Is.True);
+
+            var toucan = bootstrap.InteractionRoot.Targets.Single(item => item.RawInteractionId == "interaction.jungle.keel-billed-toucan");
+            InteractionResult opened = toucan.Interact(new InteractionContext(
+                new WorldPosition(0f, 0f, 0f), new WorldPosition(0f, 0f, 0f),
+                new System.DateTimeOffset(2026, 8, 17, 12, 0, 0, System.TimeSpan.Zero)));
+            Assert.That(opened.IsSuccess, Is.True);
+            yield return null;
+            Assert.That(bootstrap.PhotographyRoot.IsActive, Is.True);
+            bootstrap.PhotographyRoot.ActiveTarget.SetSampleOverrideForEditorAndTests(
+                new PequenoExplorador.Application.Photography.PhotoFrameSample(0.30f, 3f, true, 0.05f, 1f));
+            bootstrap.PhotographyView.ShutterButton.onClick.Invoke();
+            float deadline = Time.realtimeSinceStartup + 6f;
+            while (Time.realtimeSinceStartup < deadline && !bootstrap.PhotographyRoot.LastCapture.ProgressCaptured)
+                yield return null;
+            Assert.That(bootstrap.PhotographyRoot.LastCapture.ProgressCaptured, Is.True);
+            Assert.That(bootstrap.PhotographyView.LearnButton.gameObject.activeSelf, Is.True);
+            bootstrap.PhotographyView.LearnButton.onClick.Invoke();
+            yield return null;
+            Assert.That(bootstrap.LearningView.IsVisible, Is.True);
+            Assert.That(bootstrap.LearningView.ActiveActivityId, Is.EqualTo(LearningActivityView.ToucanActivityId));
+
+            bootstrap.LearningView.SetReduceMotion(true);
+            Assert.That(bootstrap.LearningView.Submit(1).Outcome, Is.EqualTo(ActivityOutcome.TryAgain));
+            AnimalLearningReactionView reaction = Object.FindFirstObjectByType<AnimalLearningReactionView>();
+            Assert.That(reaction.LastReaction.Value, Is.EqualTo("learning-reaction.toucan.neutral"));
+            Assert.That(reaction.LastUsedReducedMotion, Is.True);
+            Assert.That(bootstrap.LearningView.RequestHint().Outcome, Is.EqualTo(ActivityOutcome.Hint));
+
+            Task english = bootstrap.SetLocaleAsync(LocaleCode.English, persist: false, CancellationToken.None);
+            yield return WaitForTask(english); yield return null;
+            Assert.That(bootstrap.LearningView.TitleText, Is.EqualTo("What would the toucan choose?"));
+            LearningActivityResult complete = bootstrap.LearningView.Submit(0);
+            Assert.That(complete.Outcome, Is.EqualTo(ActivityOutcome.Completed));
+            Assert.That(complete.Reward.Outcome, Is.EqualTo(PequenoExplorador.Application.Economy.GrantRewardOutcome.Granted));
+            Assert.That(bootstrap.LearningView.FeedbackText, Is.EqualTo("It mostly eats fruit."));
+            bootstrap.LearningView.Replay();
+
+            Button exit = bootstrap.LearningView.GetComponentsInChildren<Button>(true).Single(button => button.name == "Exit");
+            exit.onClick.Invoke();
+            yield return null;
+            Assert.That(bootstrap.LearningView.IsVisible, Is.False);
+            Assert.That(bootstrap.PhotographyRoot.IsActive, Is.True);
         }
 
         private static IEnumerator WaitForReady()

@@ -382,6 +382,58 @@ MonoBehaviour:
     m_Localized: Puedes volver cuando quieras.
     m_Metadata:
       m_Items: []
+  - m_Id: 251180197339136
+    m_Localized: "Vamos a descubrir qu\xE9 le gusta comer."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 251180218310656
+    m_Localized: "\xBFQu\xE9 elegir\xEDa el tuc\xE1n?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 251180218310657
+    m_Localized: "Toca lo que el tuc\xE1n come sobre todo."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 251180218310658
+    m_Localized: "\xA1Buena observaci\xF3n!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 251180218310659
+    m_Localized: "El tuc\xE1n mira con curiosidad. Probemos otra opci\xF3n."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 251180218310660
+    m_Localized: Busca algo que crece en una planta.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 251180218310661
+    m_Localized: Es algo jugoso que tiene semillas.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 251180218310662
+    m_Localized: Puedes probar la fruta.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 251180218310663
+    m_Localized: Fruta
+    m_Metadata:
+      m_Items: []
+  - m_Id: 251180218310664
+    m_Localized: Piedra
+    m_Metadata:
+      m_Items: []
+  - m_Id: 251180218310665
+    m_Localized: Sombrero
+    m_Metadata:
+      m_Items: []
+  - m_Id: 251180218310666
+    m_Localized: "Relacionar animales con su alimentaci\xF3n principal"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 252953859448832
+    m_Localized: "Descubrir qu\xE9 come"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

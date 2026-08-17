@@ -146,6 +146,31 @@ namespace PequenoExplorador.Tests.EditMode
         }
 
         [Test]
+        public void TaggedSingleChoiceUsesSemanticTagRatherThanOptionOrder()
+        {
+            LearningActivityDefinition tagged = TaggedDefinition();
+            var strategy = new SingleChoiceActivityStrategy();
+            var session = new LearningSession(tagged.Id, LearningSessionStatus.Active, 0, 0);
+            Assert.That(strategy.Evaluate(tagged, session,
+                new LearningSubmission(LearningOptionId.Parse("activity-option.jungle.toucan.rock"))).Correct, Is.False);
+            Assert.That(strategy.Evaluate(tagged, session,
+                new LearningSubmission(LearningOptionId.Parse("activity-option.jungle.toucan.fruit"))).Correct, Is.True);
+        }
+
+        [Test]
+        public void IntegratedActivityIsSourcedPlaceholderAndReleaseBlocked()
+        {
+            var asset = UnityEditor.AssetDatabase.LoadAssetAtPath<PequenoExplorador.Content.Learning.LearningActivityDefinitionAsset>(
+                PequenoExplorador.Editor.LearningFoundationSetup.ToucanActivityPath);
+            Assert.That(asset, Is.Not.Null);
+            Assert.That(asset.Editorial.State, Is.EqualTo(EditorialState.Sourced));
+            Assert.That(asset.Editorial.IsPlaceholder, Is.True);
+            Assert.That(asset.FactId, Is.EqualTo("fact.jungle.keel-billed-toucan.diet"));
+            IReadOnlyList<string> errors = LearningValidationService.Validate(ContentValidationMode.Release);
+            Assert.That(errors.Any(error => error.Contains("activity.jungle.keel-billed-toucan.choose-food")), Is.True);
+        }
+
+        [Test]
         public void V8MigrationPreservesExistingStateAndStartsLearningEmpty()
         {
             PlayerProgressV8Dto source = PlayerProgressV8Dto.Create("0.1", 3, Array.Empty<string>(), Array.Empty<DiscoveryProgressV4Dto>(),
@@ -174,6 +199,20 @@ namespace PequenoExplorador.Tests.EditMode
             new[] { new LearningOptionDefinition(Correct, new LocalizedKey("UI", "ui.learning.option.circle")), new LearningOptionDefinition(Wrong, new LocalizedKey("UI", "ui.learning.option.triangle")), new LearningOptionDefinition(LearningOptionId.Parse("activity-option.fixture.square"), new LocalizedKey("UI", "ui.learning.option.square")) },
             Correct, new[] { new LocalizedKey("UI", "ui.learning.fixture.hint.1"), new LocalizedKey("UI", "ui.learning.fixture.hint.2"), new LocalizedKey("UI", "ui.learning.fixture.hint.3") },
             new HintPolicy(2, 3), true, RewardId.Parse("reward.activity.visual-matching.complete"), new EditorialMetadata(EditorialState.Draft, true, "Tests", "BORRADOR · PH_"));
+
+        private static LearningActivityDefinition TaggedDefinition() => new LearningActivityDefinition(
+            ActivityId.Parse("activity.jungle.keel-billed-toucan.choose-food"), LearningActivityTypeIds.SingleChoice,
+            new LocalizedKey("UI", "ui.test.title"), new LocalizedKey("UI", "ui.test.instruction"),
+            new LocalizedKey("UI", "ui.test.success"), new LocalizedKey("UI", "ui.test.retry"), new[] { Concept },
+            new[]
+            {
+                new LearningOptionDefinition(LearningOptionId.Parse("activity-option.jungle.toucan.rock"), new LocalizedKey("UI", "ui.test.rock"), TagId.Parse("tag.object.rock"), 100, 100, 100),
+                new LearningOptionDefinition(LearningOptionId.Parse("activity-option.jungle.toucan.fruit"), new LocalizedKey("UI", "ui.test.fruit"), TagId.Parse("tag.food.fruit"), 200, 100, 50),
+                new LearningOptionDefinition(LearningOptionId.Parse("activity-option.jungle.toucan.hat"), new LocalizedKey("UI", "ui.test.hat"), TagId.Parse("tag.object.hat"), 200, 200, 50)
+            },
+            LearningOptionId.Parse("activity-option.jungle.toucan.rock"), new[] { new LocalizedKey("UI", "ui.test.hint") },
+            new HintPolicy(2, 1), true, RewardId.Parse("reward.activity.toucan-choose-food.complete"),
+            new EditorialMetadata(EditorialState.Sourced, true, "Tests", "PH_"), TagId.Parse("tag.food.fruit"));
 
         private sealed class MemoryRepository : ILearningRepository, IEconomyRepository
         { public bool IsReadOnly { get; set; } public PlayerProgress Current { get; private set; } = PlayerProgress.CreateDefault(); public event Action<PlayerProgress> Changed; public void Commit(PlayerProgress progress) { Current = progress; Changed?.Invoke(progress); } }

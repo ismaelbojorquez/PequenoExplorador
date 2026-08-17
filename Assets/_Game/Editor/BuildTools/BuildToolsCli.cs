@@ -56,7 +56,7 @@ namespace PequenoExplorador.Editor.BuildTools
                         "Localization validation failed:\n" + string.Join("\n", violations));
                 }
 
-                Debug.Log("PE_LOCALIZATION_OK package=1.5.12 locales=es,en,pseudo keys=107 stringTables=3 assetTables=2");
+                Debug.Log("PE_LOCALIZATION_OK package=1.5.12 locales=es,en,pseudo keys=122 stringTables=3 assetTables=2");
             });
         }
 
@@ -70,7 +70,7 @@ namespace PequenoExplorador.Editor.BuildTools
                     throw new InvalidOperationException("Audio validation failed:\n" + string.Join("\n", violations));
                 }
 
-                Debug.Log("PE_AUDIO_OK buses=5 cues=7 clips=10 placeholders=10 sampleRate=48000 releaseFinal=0");
+                Debug.Log("PE_AUDIO_OK buses=5 cues=9 clips=14 placeholders=14 sampleRate=48000 releaseFinal=0");
                 Debug.LogWarning("PE_AUDIO_RELEASE_PENDING finalAssets=10 humanVoiceReview=required");
             });
         }
@@ -183,8 +183,8 @@ namespace PequenoExplorador.Editor.BuildTools
             Debug.Log($"PE_CONTENT_VALIDATION_OK mode={mode} discoveries=1 catalog=O1");
             Debug.Log("PE_TOUCAN_FIXTURE_OK visual=Approved visualReview=approved placeholder=false externalMedia=0 factualReview=approved");
             Debug.Log("PE_RUNTIME_CONFIG_OK profiles=2 remote=false releaseUnsafeFlags=0");
-            Debug.Log("PE_LOCALIZATION_OK package=1.5.12 locales=es,en,pseudo keys=107 stringTables=3 assetTables=2");
-            Debug.Log("PE_AUDIO_OK buses=5 cues=7 clips=10 placeholders=10 sampleRate=48000 releaseFinal=0");
+            Debug.Log("PE_LOCALIZATION_OK package=1.5.12 locales=es,en,pseudo keys=122 stringTables=3 assetTables=2");
+            Debug.Log("PE_AUDIO_OK buses=5 cues=9 clips=14 placeholders=14 sampleRate=48000 releaseFinal=0");
             Debug.LogWarning("PE_AUDIO_RELEASE_PENDING finalAssets=10 humanVoiceReview=required");
             Debug.Log("PE_ECONOMY_OK currency=explorer-stars rewards=3 ledger=32 premium=0 purchases=0 debugRelease=0");
             Debug.Log("PE_LEARNING_OK activities=1 concepts=1 strategies=1 rawEvents=0 fixture=Draft");
